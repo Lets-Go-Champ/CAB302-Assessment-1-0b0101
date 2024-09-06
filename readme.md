@@ -21,9 +21,20 @@
 - **Analytics Dashboard:** Report and visualize reading statistics and book data.
 - **User Interface and Experience:** Intuitive design, customizable views, and responsive layout.
 
-## Installation
+## Project Structure
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/librahome.git
+```scss
+cab302assessment10b0101/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── Book.java
+│   │   │   ├── BookDAO.java
+│   │   │   ├── DatabaseConnector.java
+│   │   │   ├── LibraHomeApp.java
+│   │   │   ├── BookManagerUI.java
+│   │   │   ├── WebScraper.java
+│   │   └── resources/   (for resource files like images)
+│   └── test/            (for unit tests)
+└── pom.xml  (for build management using Maven)
