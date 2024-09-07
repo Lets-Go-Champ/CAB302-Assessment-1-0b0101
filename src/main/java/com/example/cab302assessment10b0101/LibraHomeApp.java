@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LibraHomeApp extends Application {
@@ -42,6 +43,9 @@ public class LibraHomeApp extends Application {
         loginButton.setMaxWidth(150);
         createAccountButton.setMaxWidth(150);
 
+        // Add event handler for Create Account button to open pop-up
+        createAccountButton.setOnAction(e -> showCreateAccountPopup());
+
         // Arranging elements in a VBox
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
@@ -67,6 +71,46 @@ public class LibraHomeApp extends Application {
         primaryStage.setTitle("LibraHome - Home Library Catalogue");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    // Method to show a pop-up window for account creation
+    private void showCreateAccountPopup() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL); // Block input to other windows
+
+        // Fields for creating an account
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Enter Username");
+        TextField emailField = new TextField();
+        emailField.setPromptText("Enter Email");
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("Enter Password");
+
+        // Button to confirm account creation
+        Button submitButton = new Button("Submit");
+        submitButton.setOnAction(e -> {
+            // Here, you can handle the logic for account creation
+            String username = usernameField.getText();
+            String email = emailField.getText();
+            String password = passwordField.getText();
+
+            System.out.println("Username: " + username);
+            System.out.println("Email: " + email);
+            System.out.println("Password: " + password);
+
+            popupStage.close(); // Close the pop-up
+        });
+
+        // VBox to arrange the input fields and button
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().addAll(usernameField, emailField, passwordField, submitButton);
+
+        Scene popupScene = new Scene(vbox, 300, 200);
+        popupStage.setScene(popupScene);
+        popupStage.setTitle("Create Account");
+        popupStage.showAndWait(); // Wait for the pop-up to be closed before returning to main window
     }
 
     public static void main(String[] args) {
