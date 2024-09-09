@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,6 +26,10 @@ public class LibraHomeApp extends Application {
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(250); // Set to half the width of the screen
         imageView.setPreserveRatio(true);
+
+        // Login Label
+        Label loginLabel = new Label("Login"); // Added Login label
+        loginLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // Styling the Login label
 
         // Username and Password fields with placeholders
         TextField usernameField = new TextField();
@@ -50,7 +55,7 @@ public class LibraHomeApp extends Application {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(10));
-        vbox.getChildren().addAll(usernameField, passwordField, loginButton, createAccountButton);
+        vbox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton, createAccountButton); // Added Login label to VBox
 
         // HBox to divide the screen into left (image) and right (login)
         HBox hbox = new HBox(10);
@@ -58,7 +63,7 @@ public class LibraHomeApp extends Application {
         hbox.setAlignment(Pos.CENTER);
 
         // Background gradient
-        Stop[] stops = new Stop[] {
+        Stop[] stops = new Stop[]{
                 new Stop(0, Color.web("#dfe9f3")),
                 new Stop(1, Color.web("#ffffff"))
         };
@@ -78,34 +83,43 @@ public class LibraHomeApp extends Application {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // Block input to other windows
 
+        // Create Account Label
+        Label createAccountLabel = new Label("Create Account"); // Added Create Account label
+        createAccountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // Styling the Create Account label
+
         // Fields for creating an account
         TextField usernameField = new TextField();
         usernameField.setPromptText("Enter Username");
-        TextField emailField = new TextField();
-        emailField.setPromptText("Enter Email");
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter Password");
 
         // Button to confirm account creation
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(e -> {
-            // Here, you can handle the logic for account creation
+            // Handle logic for account creation
             String username = usernameField.getText();
-            String email = emailField.getText();
             String password = passwordField.getText();
 
             System.out.println("Username: " + username);
-            System.out.println("Email: " + email);
             System.out.println("Password: " + password);
 
             popupStage.close(); // Close the pop-up
         });
 
-        // VBox to arrange the input fields and button
+        // Button to cancel and close the pop-up without taking any action
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(e -> popupStage.close());
+
+        // HBox to arrange the Submit and Cancel buttons side by side
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(submitButton, cancelButton);
+
+        // VBox to arrange the input fields, Create Account label, and buttons
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(20));
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(usernameField, emailField, passwordField, submitButton);
+        vbox.getChildren().addAll(createAccountLabel, usernameField, passwordField, buttonBox);
 
         Scene popupScene = new Scene(vbox, 300, 200);
         popupStage.setScene(popupScene);
