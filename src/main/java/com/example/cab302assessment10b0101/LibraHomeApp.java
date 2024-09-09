@@ -28,8 +28,8 @@ public class LibraHomeApp extends Application {
         imageView.setPreserveRatio(true);
 
         // Login Label
-        Label loginLabel = new Label("Login"); // Added Login label
-        loginLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // Styling the Login label
+        Label loginLabel = new Label("Login");
+        loginLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
         // Username and Password fields with placeholders
         TextField usernameField = new TextField();
@@ -55,7 +55,7 @@ public class LibraHomeApp extends Application {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(10));
-        vbox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton, createAccountButton); // Added Login label to VBox
+        vbox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton, createAccountButton);
 
         // HBox to divide the screen into left (image) and right (login)
         HBox hbox = new HBox(10);
@@ -84,8 +84,8 @@ public class LibraHomeApp extends Application {
         popupStage.initModality(Modality.APPLICATION_MODAL); // Block input to other windows
 
         // Create Account Label
-        Label createAccountLabel = new Label("Create Account"); // Added Create Account label
-        createAccountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // Styling the Create Account label
+        Label createAccountLabel = new Label("Create Account");
+        createAccountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
         // Fields for creating an account
         TextField usernameField = new TextField();
