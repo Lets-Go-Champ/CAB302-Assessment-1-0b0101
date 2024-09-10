@@ -53,7 +53,7 @@ public class LibraHomeApp extends Application {
         hbox.getChildren().addAll(imageView, vbox);
         hbox.setAlignment(Pos.CENTER);
 
-        // Background gradient
+        // macOS-like background
         Stop[] stops = new Stop[] {
                 new Stop(0, Color.web("#dfe9f3")),
                 new Stop(1, Color.web("#ffffff"))
