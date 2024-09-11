@@ -11,16 +11,53 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.util.*;
+
 
 public class LibraHomeApp extends Application {
 
+    // Method to add a book via command line input ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    private void addBook() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Book Title:");
+        String title = scanner.nextLine();
+        System.out.println("Enter Author:");
+        String author = scanner.nextLine();
+        System.out.println("Enter Description:");
+        String description = scanner.nextLine();
+        System.out.println("Enter Publication Year:");
+        int publicationDate = Integer.parseInt(scanner.nextLine());
+        System.out.println("Enter Publisher:");
+        String publisher = scanner.nextLine();
+        System.out.println("Enter Number of Pages:");
+        int pages = Integer.parseInt(scanner.nextLine());
+        System.out.println("Enter Notes:");
+        String notes = scanner.nextLine();
+
+        Book book = new Book(0, title, author, description, publicationDate, publisher, pages, notes);
+        bookDAO.insert(book);
+        System.out.println("Book added successfully!");
+    }
+
+    // Method to view all books via command line output ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    private void viewBooks() {
+        System.out.println("Books in the Database:");
+        for (Book book : bookDAO.getAll()) {
+            System.out.println(book);
+        }
+    }
+
     private UserDAO userDAO;
+    private BookDAO bookDAO;
 
     @Override
     public void start(Stage primaryStage) {
         // Initialize UserDAO and create the Users table
         userDAO = new UserDAO();
         userDAO.createTable();
+
+        bookDAO = new BookDAO();
+        bookDAO.createTable();
 
         // Load image from resources
         Image image = new Image(getClass().getResource("/com/example/cab302assessment10b0101/download.png").toExternalForm());
@@ -97,6 +134,9 @@ public class LibraHomeApp extends Application {
         primaryStage.setTitle("LibraHome - Home Library Catalogue");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Start command handler in a separate thread ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+        handleConsoleCommands();
     }
 
     // Method to show a pop-up window for account creation
@@ -165,6 +205,30 @@ public class LibraHomeApp extends Application {
     private boolean isUsernameDuplicate(String username) {
         return userDAO.getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username));
+    }
+
+
+    // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    private void handleConsoleCommands() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter 'addbook' to add a new book, 'viewbooks' to see all books, or 'exit' to leave the console mode.");
+
+        while (true) {
+            String command = scanner.nextLine().trim().toLowerCase();
+            switch (command) {
+                case "addbook":
+                    addBook();
+                    break;
+                case "viewbooks":
+                    viewBooks();
+                    break;
+                case "exit":
+                    System.out.println("Exiting console mode.");
+                    return;  // Exit the method, allowing the JavaFX application to continue
+                default:
+                    System.out.println("Unknown command. Use 'addbook', 'viewbooks', or 'exit'.");
+            }
+        }
     }
 
     public static void main(String[] args) {
