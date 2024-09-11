@@ -5,6 +5,11 @@ public class Collection {
     private String collectionName;
     private String description;
 
+    public Collection(int id, String collectionName, String description) {
+        this.id = id;
+        this.collectionName = collectionName;
+        this.description = description;
+    }
     public Collection(String collectionName, String description) {
         this.collectionName = collectionName;
         this.description = description;
