@@ -16,9 +16,13 @@ import java.util.*;
 
 public class LibraHomeApp extends Application {
 
+    /*
+
     // Method to add a book via command line input ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
     private void addBook() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Book ID / ISBN:");
+        int id = Integer.parseInt(scanner.nextLine());
         System.out.println("Enter Book Title:");
         String title = scanner.nextLine();
         System.out.println("Enter Author:");
@@ -34,7 +38,7 @@ public class LibraHomeApp extends Application {
         System.out.println("Enter Notes:");
         String notes = scanner.nextLine();
 
-        Book book = new Book(0, title, author, description, publicationDate, publisher, pages, notes);
+        Book book = new Book(id, title, author, description, publicationDate, publisher, pages, notes);
         bookDAO.insert(book);
         System.out.println("Book added successfully!");
     }
@@ -46,6 +50,8 @@ public class LibraHomeApp extends Application {
             System.out.println(book);
         }
     }
+
+    */
 
     private UserDAO userDAO;
     private BookDAO bookDAO;
@@ -135,8 +141,12 @@ public class LibraHomeApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        /*
+
         // Start command handler in a separate thread ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
         handleConsoleCommands();
+
+        */
     }
 
     // Method to show a pop-up window for account creation
@@ -207,6 +217,7 @@ public class LibraHomeApp extends Application {
                 user.getUsername().equalsIgnoreCase(username));
     }
 
+    /*
 
     // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
     private void handleConsoleCommands() {
@@ -230,6 +241,8 @@ public class LibraHomeApp extends Application {
             }
         }
     }
+
+    */
 
     public static void main(String[] args) {
         launch(args);

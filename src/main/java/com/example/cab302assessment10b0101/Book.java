@@ -91,11 +91,11 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", description='" + title + '\'' +
-                ", publication date='" + author + '\'' +
-                ", publisher='" + title + '\'' +
-                ", pages='" + author + '\'' +
-                ", notes='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", publisher='" + publisher + '\'' +
+                ", pages=" + pages +
+                ", notes='" + notes + '\'' +
                 '}';
     }
 }
