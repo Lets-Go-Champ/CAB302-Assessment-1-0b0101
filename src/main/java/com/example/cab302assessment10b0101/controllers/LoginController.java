@@ -69,9 +69,6 @@ public class LoginController {
             dialogStage.initOwner(createAccountButton.getScene().getWindow());
             dialogStage.setScene(scene);
 
-            CreateAccountController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-
             dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
