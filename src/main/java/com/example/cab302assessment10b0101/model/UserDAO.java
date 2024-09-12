@@ -76,6 +76,7 @@ public class UserDAO {
                                 rs.getInt("id"),
                                 rs.getString("username"),
                                 rs.getString("password")
+
                         )
                 );
             }
