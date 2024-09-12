@@ -17,67 +17,12 @@ import java.util.*;
 
 public class LibraHomeApp extends Application {
 
-    /*
-
-    // Method to add a book via command line input ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
-    private void addBook() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Book ID / ISBN:");
-        int id = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter Book Title:");
-        String title = scanner.nextLine();
-        System.out.println("Enter Author:");
-        String author = scanner.nextLine();
-        System.out.println("Enter Description:");
-        String description = scanner.nextLine();
-        System.out.println("Enter Publication Year:");
-        int publicationDate = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter Publisher:");
-        String publisher = scanner.nextLine();
-        System.out.println("Enter Number of Pages:");
-        int pages = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter Notes:");
-        String notes = scanner.nextLine();
-
-        Book book = new Book(id, title, author, description, publicationDate, publisher, pages, notes);
-        bookDAO.insert(book);
-        System.out.println("Book added successfully!");
-    }
-
-    // Method to view all books via command line output ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
-    private void viewBooks() {
-        System.out.println("Books in the Database:");
-        for (Book book : bookDAO.getAll()) {
-            System.out.println(book);
-        }
-    }
-
-    // Method to add a collection via command line input ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
-    private void addCollection() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Collection Name:");
-        String collectionName = scanner.nextLine();
-        System.out.println("Enter Collection Description:");
-        String collectionDescription = scanner.nextLine();
-
-        Collection collection = new Collection(collectionName, collectionDescription);
-        collectionDAO.insert(collection);
-        System.out.println("Collection added successfully!");
-    }
-
-    // Method to view all collections via command line output ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
-    private void viewCollections() {
-        System.out.println("Collections in the Database:");
-        for (Collection collection : collectionDAO.getAll()) {
-            System.out.println(collection);
-        }
-    }
-
-    */
-
     private UserDAO userDAO;
     private BookDAO bookDAO;
     private CollectionDAO collectionDAO;
+
+    // Instantiate TestHandler ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    // private TestHandler testHandler;
 
     @Override
     public void start(Stage primaryStage) {
@@ -90,6 +35,9 @@ public class LibraHomeApp extends Application {
 
         collectionDAO = new CollectionDAO();
         collectionDAO.createTable();
+
+        // Initialize TestHandler ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+        // testHandler = new TestHandler(bookDAO, collectionDAO);
 
         // Load image from resources
         Image image = new Image(getClass().getResource("/com/example/cab302assessment10b0101/download.png").toExternalForm());
@@ -167,12 +115,8 @@ public class LibraHomeApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        /*
-
-        // Start command handler in a separate thread ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
-        handleConsoleCommands();
-
-        */
+        // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+        // testHandler.handleConsoleCommands();
     }
 
     // Method to show a pop-up window for account creation
@@ -242,39 +186,6 @@ public class LibraHomeApp extends Application {
         return userDAO.getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username));
     }
-
-    /*
-
-    // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
-    private void handleConsoleCommands() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter 'addbook' to add a new book and 'viewbooks' to see all books or enter 'addcollection' to add a new book and 'viewcollections' to see all books or 'exit' to leave the console mode.");
-
-        while (true) {
-            String command = scanner.nextLine().trim().toLowerCase();
-            switch (command) {
-                case "addbook":
-                    addBook();
-                    break;
-                case "viewbooks":
-                    viewBooks();
-                    break;
-                case "addcollection":
-                    addCollection();
-                    break;
-                case "viewcollections":
-                    viewCollections();
-                    break;
-                case "exit":
-                    System.out.println("Exiting console mode.");
-                    return;  // Exit the method, allowing the JavaFX application to continue
-                default:
-                    System.out.println("Unknown command. Use 'addbook', 'viewbooks', or 'exit'.");
-            }
-        }
-    }
-
-    */
 
     public static void main(String[] args) {
         launch(args);
