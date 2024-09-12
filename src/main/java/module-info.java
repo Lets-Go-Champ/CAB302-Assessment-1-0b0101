@@ -6,4 +6,6 @@ module com.example.cab302assessment10b0101 {
 
     opens com.example.cab302assessment10b0101 to javafx.fxml;
     exports com.example.cab302assessment10b0101;
+    exports com.example.cab302assessment10b0101.view;
+    opens com.example.cab302assessment10b0101.view to javafx.fxml;
 }

@@ -1,5 +1,6 @@
-package com.example.cab302assessment10b0101;
+package com.example.cab302assessment10b0101.view;
 
+import com.example.cab302assessment10b0101.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -73,7 +74,7 @@ public class LibraHomeApp extends Application {
             System.out.println("Successful login attempt with username: " + username);
 
             // Switch to the home page
-            switchToHomePage(primaryStage);
+            HomePage(primaryStage);
         });
 
         // Arranging elements in a VBox
@@ -102,7 +103,7 @@ public class LibraHomeApp extends Application {
         primaryStage.show();
     }
 
-    private void switchToHomePage(Stage primaryStage) {
+    private void HomePage(Stage primaryStage) {
         // Load logo image
         Image logoImage = new Image(getClass().getResource("/com/example/cab302assessment10b0101/logo.png").toExternalForm());
         ImageView logoImageView = new ImageView(logoImage);
@@ -114,12 +115,23 @@ public class LibraHomeApp extends Application {
         Button addCollectionButton = new Button("Add Collection");
         Button addBookButton = new Button("Add Book");
         Button lendingButton = new Button("Lending");
+        Button logoutButton = new Button("Log Out");
 
         // Styling navigation buttons
         myBooksButton.setMaxWidth(Double.MAX_VALUE);
         addCollectionButton.setMaxWidth(Double.MAX_VALUE);
         addBookButton.setMaxWidth(Double.MAX_VALUE);
         lendingButton.setMaxWidth(Double.MAX_VALUE);
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
+
+        // Add event handlers to switch pages
+        myBooksButton.setOnAction(e -> new MyBooksPage().show(primaryStage));
+        addCollectionButton.setOnAction(e -> new AddCollectionPage().show(primaryStage));
+        addBookButton.setOnAction(e -> new AddBookPage().show(primaryStage));
+        lendingButton.setOnAction(e -> new LendingPage().show(primaryStage));
+
+        // Add event handler for the logout button to show confirmation
+        logoutButton.setOnAction(e -> new LogoutConfirmation().show(primaryStage));
 
         // Arrange buttons in a VBox
         VBox navVBox = new VBox(10);
@@ -148,6 +160,9 @@ public class LibraHomeApp extends Application {
         };
         LinearGradient macBackground = new LinearGradient(0, 0, 1, 1, true, null, stops);
         mainHBox.setBackground(new Background(new BackgroundFill(macBackground, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        // Event handler for logout button to show the logout confirmation
+        logoutButton.setOnAction(e -> new LogoutConfirmation().show(primaryStage));  // Open the logout confirmation dialog
 
         // Setting up the scene and stage for home page
         Scene homeScene = new Scene(mainHBox, 600, 400);
