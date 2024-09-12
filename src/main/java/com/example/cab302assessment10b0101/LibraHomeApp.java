@@ -71,6 +71,9 @@ public class LibraHomeApp extends Application {
 
             // Perform additional login logic here if needed...
             System.out.println("Successful login attempt with username: " + username);
+
+            // Switch to the home page
+            switchToHomePage(primaryStage);
         });
 
         // Arranging elements in a VBox
@@ -86,7 +89,6 @@ public class LibraHomeApp extends Application {
 
         // Background gradient
         Stop[] stops = new Stop[]{
-
                 new Stop(0, Color.web("#dfe9f3")),
                 new Stop(1, Color.web("#ffffff"))
         };
@@ -94,95 +96,65 @@ public class LibraHomeApp extends Application {
         hbox.setBackground(new Background(new BackgroundFill(macBackground, CornerRadii.EMPTY, Insets.EMPTY)));
 
         // Setting up the scene and stage
-        Scene loginScene = new Scene(hbox, 600, 400);
+        Scene scene = new Scene(hbox, 600, 400);
         primaryStage.setTitle("LibraHome - Home Library Catalogue");
-        primaryStage.setScene(loginScene);
+        primaryStage.setScene(scene);
         primaryStage.show();
-
-        // Button Actions: Link the buttons to new pages
-        loginButton.setOnAction(e -> showLoggedInPage(primaryStage));
-        createAccountButton.setOnAction(e -> showCreateAccountPage(primaryStage));
     }
 
-    // Add the Logged-in Page
-    public void showLoggedInPage(Stage primaryStage) {
-        // Logo on top-left
-        Image logo = new Image(getClass().getResource("/com/example/cab302assessment10b0101/logo.png").toExternalForm());
-        ImageView logoView = new ImageView(logo);
-        logoView.setFitWidth(100);
-        logoView.setPreserveRatio(true);
+    private void switchToHomePage(Stage primaryStage) {
+        // Load logo image
+        Image logoImage = new Image(getClass().getResource("/com/example/cab302assessment10b0101/logo.png").toExternalForm());
+        ImageView logoImageView = new ImageView(logoImage);
+        logoImageView.setFitWidth(150);
+        logoImageView.setPreserveRatio(true);
 
-        // Buttons
+        // Create navigation buttons
         Button myBooksButton = new Button("My Books");
         Button addCollectionButton = new Button("Add Collection");
         Button addBookButton = new Button("Add Book");
         Button lendingButton = new Button("Lending");
-        Button logoutButton = new Button("Logout");
 
-        // Styling buttons
-        myBooksButton.setMaxWidth(150);
-        addCollectionButton.setMaxWidth(150);
-        addBookButton.setMaxWidth(150);
-        lendingButton.setMaxWidth(150);
-        logoutButton.setMaxWidth(150);
+        // Styling navigation buttons
+        myBooksButton.setMaxWidth(Double.MAX_VALUE);
+        addCollectionButton.setMaxWidth(Double.MAX_VALUE);
+        addBookButton.setMaxWidth(Double.MAX_VALUE);
+        lendingButton.setMaxWidth(Double.MAX_VALUE);
 
-        // VBox for buttons
-        VBox buttonBox = new VBox(15);
-        buttonBox.setAlignment(Pos.TOP_LEFT);
-        buttonBox.getChildren().addAll(logoView, myBooksButton, addCollectionButton, addBookButton, lendingButton, logoutButton);
-        buttonBox.setPadding(new Insets(20));
+        // Arrange buttons in a VBox
+        VBox navVBox = new VBox(10);
+        navVBox.setPadding(new Insets(20));
+        navVBox.getChildren().addAll(logoImageView, myBooksButton, addCollectionButton, addBookButton, lendingButton);
+        navVBox.setAlignment(Pos.TOP_LEFT);
 
-        // Create a border layout
-        BorderPane borderPane = new BorderPane();
-        borderPane.setLeft(buttonBox);
+        // Create content for the home page
+        Label homeLabel = new Label("Welcome to LibraHome!");
+        homeLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
-        // Set up the scene and stage
-        Scene loggedInScene = new Scene(borderPane, 600, 400);
-        primaryStage.setScene(loggedInScene);
-        primaryStage.setTitle("LibraHome - Dashboard");
-        primaryStage.show();
+        VBox homeContentVBox = new VBox(20);
+        homeContentVBox.setPadding(new Insets(20));
+        homeContentVBox.setAlignment(Pos.CENTER);
+        homeContentVBox.getChildren().add(homeLabel);
 
-        // Logout button action to go back to login page
-        logoutButton.setOnAction(event -> start(primaryStage)); // Call the start method to show login page
+        // Create main layout for home page
+        HBox mainHBox = new HBox(10);
+        mainHBox.getChildren().addAll(navVBox, homeContentVBox);
+        mainHBox.setAlignment(Pos.CENTER);
+
+        // Background gradient for home page
+        Stop[] stops = new Stop[]{
+                new Stop(0, Color.web("#dfe9f3")),
+                new Stop(1, Color.web("#ffffff"))
+        };
+        LinearGradient macBackground = new LinearGradient(0, 0, 1, 1, true, null, stops);
+        mainHBox.setBackground(new Background(new BackgroundFill(macBackground, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        // Setting up the scene and stage for home page
+        Scene homeScene = new Scene(mainHBox, 600, 400);
+        primaryStage.setScene(homeScene);
+        primaryStage.setTitle("LibraHome - Home Page");
     }
 
-    // Add the Create Account Page
-    public void showCreateAccountPage(Stage primaryStage) {
-        // Username field
-        TextField usernameField = new TextField();
-        usernameField.setPromptText("Enter Username");
-        usernameField.setMaxWidth(200);
-
-        // Password field
-        PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Enter Password");
-        passwordField.setMaxWidth(200);
-
-        // Buttons for saving and cancelling
-        Button saveButton = new Button("Save");
-        Button cancelButton = new Button("Cancel");
-
-        // Styling buttons
-        saveButton.setMaxWidth(100);
-        cancelButton.setMaxWidth(100);
-
-        // VBox for form layout
-        VBox formBox = new VBox(10);
-        formBox.setAlignment(Pos.CENTER);
-        formBox.getChildren().addAll(usernameField, passwordField, saveButton, cancelButton);
-        formBox.setPadding(new Insets(20));
-
-        // BorderPane for centering the form
-        BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(formBox);
-
-        // Set up the scene and stage
-        Scene createAccountScene = new Scene(borderPane, 600, 400);
-        primaryStage.setScene(createAccountScene);
-        primaryStage.setTitle("LibraHome - Create Account");
-        primaryStage.show();
-
-    }
 
     // Method to show a pop-up window for account creation
     private void showCreateAccountPopup() {
