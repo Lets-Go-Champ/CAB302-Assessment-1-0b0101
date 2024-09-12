@@ -1,4 +1,4 @@
-import com.example.library.model.Collection;
+import com.example.cab302assessment10b0101.model.Collection;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.*;
@@ -13,12 +13,12 @@ public class CollectionTest {
     }
 
     @Test
-    public void testGetName() {
+    public void testGetCollectionName() {
         assertEquals("Fantasy", collection.getName());
     }
 
     @Test
-    public void testSetName() {
+    public void testSetCollectionName() {
         collection.setName("Non-Fiction");
         assertEquals("Non-Fiction", collection.getName());
     }
