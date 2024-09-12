@@ -1,5 +1,7 @@
 package com.example.cab302assessment10b0101;
 
+import com.example.cab302assessment10b0101.model.Collection;
+import com.example.cab302assessment10b0101.model.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,16 +13,31 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.util.*;
 
 public class LibraHomeApp extends Application {
 
     private UserDAO userDAO;
+    private BookDAO bookDAO;
+    private CollectionDAO collectionDAO;
+
+    // Instantiate TestHandler ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    // private TestHandler testHandler;
 
     @Override
     public void start(Stage primaryStage) {
         // Initialize UserDAO and create the Users table
         userDAO = new UserDAO();
         userDAO.createTable();
+
+        bookDAO = new BookDAO();
+        bookDAO.createTable();
+
+        collectionDAO = new CollectionDAO();
+        collectionDAO.createTable();
+
+        // Initialize TestHandler ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+        // testHandler = new TestHandler(bookDAO, collectionDAO);
 
         // Load image from resources
         Image image = new Image(getClass().getResource("/com/example/cab302assessment10b0101/download.png").toExternalForm());
@@ -97,6 +114,9 @@ public class LibraHomeApp extends Application {
         primaryStage.setTitle("LibraHome - Home Library Catalogue");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+        // testHandler.handleConsoleCommands();
     }
 
     // Method to show a pop-up window for account creation

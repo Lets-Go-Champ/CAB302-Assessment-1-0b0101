@@ -3,16 +3,16 @@ package com.example.cab302assessment10b0101.model;
 public class Collection {
     private int id;
     private String collectionName;
-    private String description;
+    private String collectionDescription;
 
-    public Collection(int id, String collectionName, String description) {
+    public Collection(int id, String collectionName, String collectionDescription) {
         this.id = id;
         this.collectionName = collectionName;
-        this.description = description;
+        this.collectionDescription = collectionDescription;
     }
-    public Collection(String collectionName, String description) {
+    public Collection(String collectionName, String collectionDescription) {
         this.collectionName = collectionName;
-        this.description = description;
+        this.collectionDescription = collectionDescription;
     }
 
     public int getId() {return id; }
@@ -27,11 +27,20 @@ public class Collection {
         this.collectionName = collectionName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCollectionDescription() {
+        return collectionDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCollectionDescription(String description) {
+        this.collectionDescription = description;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", collectionName='" + collectionName + '\'' +
+                ", collectionDescription='" + collectionDescription + '\'' +
+                '}';
     }
 }
