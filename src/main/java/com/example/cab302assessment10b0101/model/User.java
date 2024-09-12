@@ -1,5 +1,7 @@
 package com.example.cab302assessment10b0101.model;
 
+// User Java!
+
 public class User {
     private int id;
     private String username;
