@@ -1,5 +1,7 @@
 package com.example.cab302assessment10b0101;
 
+import com.example.cab302assessment10b0101.model.Collection;
+import com.example.cab302assessment10b0101.model.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +14,6 @@ import javafx.scene.paint.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.*;
-
 
 public class LibraHomeApp extends Application {
 
@@ -51,10 +52,32 @@ public class LibraHomeApp extends Application {
         }
     }
 
+    // Method to add a collection via command line input ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    private void addCollection() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Collection Name:");
+        String collectionName = scanner.nextLine();
+        System.out.println("Enter Collection Description:");
+        String collectionDescription = scanner.nextLine();
+
+        Collection collection = new Collection(collectionName, collectionDescription);
+        collectionDAO.insert(collection);
+        System.out.println("Collection added successfully!");
+    }
+
+    // Method to view all collections via command line output ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
+    private void viewCollections() {
+        System.out.println("Collections in the Database:");
+        for (Collection collection : collectionDAO.getAll()) {
+            System.out.println(collection);
+        }
+    }
+
     */
 
     private UserDAO userDAO;
     private BookDAO bookDAO;
+    private CollectionDAO collectionDAO;
 
     @Override
     public void start(Stage primaryStage) {
@@ -64,6 +87,9 @@ public class LibraHomeApp extends Application {
 
         bookDAO = new BookDAO();
         bookDAO.createTable();
+
+        collectionDAO = new CollectionDAO();
+        collectionDAO.createTable();
 
         // Load image from resources
         Image image = new Image(getClass().getResource("/com/example/cab302assessment10b0101/download.png").toExternalForm());
@@ -222,7 +248,7 @@ public class LibraHomeApp extends Application {
     // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
     private void handleConsoleCommands() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter 'addbook' to add a new book, 'viewbooks' to see all books, or 'exit' to leave the console mode.");
+        System.out.println("Enter 'addbook' to add a new book and 'viewbooks' to see all books or enter 'addcollection' to add a new book and 'viewcollections' to see all books or 'exit' to leave the console mode.");
 
         while (true) {
             String command = scanner.nextLine().trim().toLowerCase();
@@ -232,6 +258,12 @@ public class LibraHomeApp extends Application {
                     break;
                 case "viewbooks":
                     viewBooks();
+                    break;
+                case "addcollection":
+                    addCollection();
+                    break;
+                case "viewcollections":
+                    viewCollections();
                     break;
                 case "exit":
                     System.out.println("Exiting console mode.");
