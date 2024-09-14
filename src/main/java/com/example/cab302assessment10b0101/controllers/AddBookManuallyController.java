@@ -38,7 +38,7 @@ public class AddBookManuallyController {
     }
 
     /**
-     * Manages adding the book if all values are valid
+     * Manages adding the book to a collection
      */
     @FXML
     private void handleAddBook() {
@@ -50,21 +50,64 @@ public class AddBookManuallyController {
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
 
-        // Ensure all fields have values
-        // if ( title.isEmpty() || isbn.isEmpty() || author.isEmpty() || collection.isEmpty() )
-        if ( title.isEmpty() || isbn.isEmpty() || author.isEmpty() ) {
-            showAlert("Error", "All fields must be filled out.", AlertType.ERROR);
-            return;
+        // Ensure all fields have values and that the book is valid
+        if ( validateFields(title, isbn, author) ) {
+            // TODO Ensure that the book does not already exist
+            // TODO Save the book
+            // saveBook(selectedCollection, title, isbn, author);
+
+            // Display a confirmation alert
+            showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+
+            // Clear fields after adding the book
+            // TODO clearFields();
+        }
+    }
+
+    /**
+     * Determines if all the fields entered by are valid
+     * @param title The title of the book
+     * @param isbn The ISBN of the book
+     * @param author The author of the book
+     * @return True if all fields are valid, False otherwise
+     */
+    private boolean validateFields(String title, String isbn, String author) {
+
+        // Determine if a title is given
+        if ( title.isEmpty() ) {
+            showAlert("Error: No Title", "Please enter a Title.", AlertType.ERROR);
+            return false;
         }
 
-        // TODO Save the book
-        //saveBook(selectedCollection, title, isbn, author);
+        // Determine if an ISBN is given
+        if ( isbn.isEmpty() ) {
+            showAlert("Error: No ISBN", "Please enter an ISBN.", AlertType.ERROR);
+            return false;
+        }
 
-        // Display a confirmation alert
-        showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+        // Determine if the ISBN is valid
+        if ( !validISBN(isbn) ) {
+            showAlert("Error: Invalid ISBN", "The ISBN must only contain digits 0-9", AlertType.ERROR);
+            return false;
+        }
 
-        // Clear fields after adding the book
-        // TODO clearFields();
+        // Determine if an author is given
+        if ( author.isEmpty() ) {
+            showAlert("Error: No Author", "Please enter an Author.", AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validISBN(String isbn) {
+        try {
+            int isbnToInt = Integer.parseInt(isbn);
+        }
+        catch (Exception e ) { return false; }
+
+        // TODO functionality for validating an ISBN
+        return true;
     }
 
     /**
