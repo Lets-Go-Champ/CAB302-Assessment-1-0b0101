@@ -32,12 +32,12 @@
                </font></Label>
             <VBox alignment="TOP_LEFT" spacing="5.0">
                <Label alignment="TOP_LEFT" text="Username:" />
-               <TextField fx:id="usernameField" styleClass="input_field">
+               <TextField fx:id="usernameTextField" styleClass="input_field">
                   <VBox.margin>
                      <Insets bottom="20.0" />
                   </VBox.margin></TextField>
                <Label text="Password:" />
-               <PasswordField fx:id="passwordField" styleClass="input_field">
+               <PasswordField fx:id="passwordTextField" styleClass="input_field">
                   <VBox.margin>
                      <Insets bottom="20.0" />
                   </VBox.margin></PasswordField>

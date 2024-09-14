@@ -23,8 +23,8 @@
     <PasswordField fx:id="confirmPasswordField"/>
 
     <HBox spacing="10" alignment="CENTER">
-        <Button text="Create" onAction="#handleCreate"/>
-        <Button text="Cancel" onAction="#handleCancel"/>
+        <Button fx:id="createButton" text="Create" onAction="#handleCreate"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"/>
     </HBox>
 
     <Label fx:id="messageLabel" style="-fx-text-fill: red;"/>
