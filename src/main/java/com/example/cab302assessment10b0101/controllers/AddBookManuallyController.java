@@ -1,16 +1,15 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.model.Collection;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 
 public class AddBookManuallyController {
-
-    @FXML
-    public ComboBox<String> collectionComboBox;
 
     @FXML
     public TextField titleTextField;
@@ -22,39 +21,50 @@ public class AddBookManuallyController {
     public TextField authorTextField;
 
     @FXML
+    public Button addBookButton;
+
+    @FXML
+    public ChoiceBox<Collection> collectionChoiceBox;
+
+    @FXML
     public void initialize() {
         // TODO add functionality here
         setupEventHandlers();
     }
 
     private void setupEventHandlers() {
-        // TODO add functionality here
+        // TODO add functionality for ChoiceBox
+        addBookButton.setOnAction(event -> handleAddBook());
     }
 
     /**
-     * Add the book
+     * Manages adding the book if all values are valid
      */
     @FXML
     private void handleAddBook() {
-        String selectedCollection = collectionComboBox.getValue();
+
+        // TODO implement functionality for the collection choice box
+
+        // String collection = collectionChoiceBox.getValue().getCollectionName();
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
 
         // Ensure all fields have values
-        if ( title.isEmpty() || isbn.isEmpty() || author.isEmpty() || selectedCollection == null ) {
+        // if ( title.isEmpty() || isbn.isEmpty() || author.isEmpty() || collection.isEmpty() )
+        if ( title.isEmpty() || isbn.isEmpty() || author.isEmpty() ) {
             showAlert("Error", "All fields must be filled out.", AlertType.ERROR);
             return;
         }
 
-        // Save the book
-        saveBook(selectedCollection, title, isbn, author);
+        // TODO Save the book
+        //saveBook(selectedCollection, title, isbn, author);
 
         // Display a confirmation alert
         showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
 
         // Clear fields after adding the book
-        clearFields();
+        // TODO clearFields();
     }
 
     /**
@@ -66,11 +76,11 @@ public class AddBookManuallyController {
      */
     private void saveBook(String collection, String title, String isbn, String author) {
 
-        // TODO: add functionality for populating the database with the book
+        // TODO add functionality for populating the database with the book
 
         // Output the details of the book save
         System.out.println("Saving Book: ");
-        System.out.println("Collection: " + collection);
+        // System.out.println("Collection: " + collection);
         System.out.println("Title: " + title);
         System.out.println("ISBN: " + isbn);
         System.out.println("Author: " + author);
@@ -94,7 +104,7 @@ public class AddBookManuallyController {
         titleTextField.clear();
         isbnTextField.clear();
         authorTextField.clear();
-        collectionComboBox.getSelectionModel().clearSelection();
-        collectionComboBox.getSelectionModel().selectFirst();
+        // collectionChoiceBox.getSelectionModel().clearSelection();
+        // collectionChoiceBox.getSelectionModel().selectFirst();
     }
 }
