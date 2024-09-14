@@ -1,4 +1,4 @@
-package com.example.cab302assessment10b0101;
+package com.example.cab302assessment10b0101.exceptions;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,4 +40,3 @@ public class ErrorMessage {
         warningStage.showAndWait();
     }
 }
-
