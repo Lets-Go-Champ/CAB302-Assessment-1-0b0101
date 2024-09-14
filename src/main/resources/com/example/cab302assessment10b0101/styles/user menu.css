@@ -1,0 +1,48 @@
+/* title container, text and icon */
+.menu_title_container {
+    -fx-alignment: top_center;
+     -fx-background-color: #FFFFFF;
+     -fx-background-radius: 20 20 0 0;
+     -fx-padding: 8;
+}
+
+.menu_title_container FontAwesomeIconView {
+    -fx-fill: black;
+}
+
+.menu_title_container Text {
+    -fx-font-size: 2em;
+}
+
+.menu_container {
+    -fx-alignment: center;
+    -fx-background-color: #EEEEEE;
+}
+
+.logo_container {
+    -fx-alignment: center;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+}
+
+
+/*Main Menu Buttons */
+
+.menu_container {
+    -fx-spacing: 20;
+    -fx-padding: 10 10 10 10;
+}
+
+.menu_container Button {
+    -fx-background-color: white;
+    -fx-pref-width: 140;
+    -fx-alignment: center;
+    -fx-font-size: 1.2em;
+    -fx-pref-height: 45;
+}
+
+
+
+.menu_container Button:hover {
+    -fx-cursor: hand;
+}
