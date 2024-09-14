@@ -14,31 +14,31 @@ public class CollectionTest {
 
     @Test
     public void testGetCollectionName() {
-        assertEquals("Fantasy", collection.getName());
+        assertEquals("Fantasy", collection.getCollectionName());
     }
 
     @Test
     public void testSetCollectionName() {
-        collection.setName("Non-Fiction");
-        assertEquals("Non-Fiction", collection.getName());
+        collection.setCollectionName("Non-Fiction");
+        assertEquals("Non-Fiction", collection.getCollectionName());
     }
 
     @Test
     public void testGetDescription() {
-        assertEquals("A collection of fantasy books", collection.getDescription());
+        assertEquals("A collection of fantasy books", collection.getCollectionDescription());
     }
 
     @Test
     public void testSetDescription() {
-        collection.setDescription("A collection of non-fiction books");
-        assertEquals("A collection of non-fiction books", collection.getDescription());
+        collection.setCollectionDescription("A collection of non-fiction books");
+        assertEquals("A collection of non-fiction books", collection.getCollectionDescription());
     }
 
     // Boundary test: Ensuring the collection name cannot be empty
     @Test
     public void testSetEmptyName() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            collection.setName("");
+            collection.setCollectionName("");
         });
         assertEquals("Collection name cannot be empty", exception.getMessage());
     }
