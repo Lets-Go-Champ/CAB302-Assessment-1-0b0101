@@ -1,5 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
+import com.example.cab302assessment10b0101.model.User;
+import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,6 +32,8 @@ public class LoginController {
     @FXML
     private Label errorLabel;
 
+    private UserDAO userDAO = new UserDAO();
+
     @FXML
     private void initialize() {
         // This method is called automatically after the FXML file has been loaded
@@ -45,8 +50,15 @@ public class LoginController {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
 
+        // Check if fields are empty
         if (username.isEmpty() || password.isEmpty()) {
-            //showError("Username and password cannot be empty.");
+            ErrorMessage.showError("Login Error", "Please enter both username and password.");
+            return;
+        }
+
+        // Validate login credentials
+        if (!isValidLogin(username, password)) {
+            ErrorMessage.showError("Login Error", "Username and password do not match any existing account.");
             return;
         }
 
@@ -60,26 +72,32 @@ public class LoginController {
 
     private void handleCreateAccount() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/CreateAccountPopup.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/CreateAccountPopup.fxml"));
             Scene scene = new Scene(loader.load());
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Create New Account");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initOwner(createAccountButton.getScene().getWindow());
             dialogStage.setScene(scene);
 
             dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
-            //showError("Could not load create account window.");
+            ErrorMessage.showError("Error", "Could not load the create account window.");
         }
     }
+
+    private boolean isValidLogin(String username, String password) {
+        return userDAO.getAll().stream().anyMatch(user ->
+                user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
     }
-/*
-    private void showError(String message) {
-        errorLabel.setText("Error: " + message);
-        errorLabel.setVisible(true);
+
+    // Method to check if the username already exists in the database
+    private boolean isUsernameDuplicate(String username) {
+        return userDAO.getAll().stream().anyMatch(user ->
+                user.getUsername().equalsIgnoreCase(username));
     }
-    /*
- */
+
+}
+

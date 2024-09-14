@@ -32,12 +32,12 @@
                </font></Label>
             <VBox alignment="TOP_LEFT" spacing="5.0">
                <Label alignment="TOP_LEFT" text="Username:" />
-               <TextField styleClass="input_field">
+               <TextField fx:id="usernameField" styleClass="input_field">
                   <VBox.margin>
                      <Insets bottom="20.0" />
                   </VBox.margin></TextField>
                <Label text="Password:" />
-               <PasswordField styleClass="input_field">
+               <PasswordField fx:id="passwordField" styleClass="input_field">
                   <VBox.margin>
                      <Insets bottom="20.0" />
                   </VBox.margin></PasswordField>
@@ -45,7 +45,8 @@
                   <Button fx:id="createAccountButton" mnemonicParsing="false" text="Create Account" />
                   <Button fx:id="loginButton" mnemonicParsing="false" text="Login" />
                </HBox>
-               <Label styleClass="error_label" text="Error: " />
+               <!-- The fx:id is added here to reference the Label in the controller -->
+               <Label fx:id="errorLabel" styleClass="error_label" text="Error: " visible="false" />
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>

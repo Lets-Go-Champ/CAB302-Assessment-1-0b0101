@@ -1,8 +1,9 @@
 package com.example.cab302assessment10b0101;
 
-import com.example.cab302assessment10b0101.model.Collection;
+import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,7 +14,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.util.*;
 
 public class LibraHomeApp extends Application {
 
@@ -36,8 +36,24 @@ public class LibraHomeApp extends Application {
         collectionDAO = new CollectionDAO();
         collectionDAO.createTable();
 
+        try {
+            // Load the login FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Set up the stage
+            primaryStage.setTitle("LibraHome - Home Library Catalogue");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Initialize TestHandler ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
         // testHandler = new TestHandler(bookDAO, collectionDAO);
+
+        /*
 
         // Load image from resources
         Image image = new Image(getClass().getResource("/com/example/cab302assessment10b0101/download.png").toExternalForm());
@@ -117,8 +133,10 @@ public class LibraHomeApp extends Application {
 
         // Method to handle console commands ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
         // testHandler.handleConsoleCommands();
-    }
 
+         */
+    }
+/*
     // Method to show a pop-up window for account creation
     private void showCreateAccountPopup() {
         Stage popupStage = new Stage();
@@ -186,8 +204,42 @@ public class LibraHomeApp extends Application {
         return userDAO.getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username));
     }
-
+ */
     public static void main(String[] args) {
         launch(args);
     }
+
+/*
+    public static class ErrorMessage {
+
+        // Method to display the error dialog with a specific message
+        public static void showError(String title, String message) {
+            Stage warningStage = new Stage();
+            warningStage.initModality(Modality.APPLICATION_MODAL);
+            warningStage.setTitle(title);
+
+            // Message label
+            Label messageLabel = new Label(message);
+            messageLabel.setWrapText(true);
+            messageLabel.setStyle("-fx-font-size: 14px;");
+
+            // OK button to close the dialog
+            Button okButton = new Button("OK");
+            okButton.setOnAction(e -> warningStage.close());
+
+            // Layout for the pop-up
+            VBox vbox = new VBox(10);
+            vbox.setPadding(new Insets(20));
+            vbox.setAlignment(Pos.CENTER);
+            vbox.getChildren().addAll(messageLabel, okButton);
+
+            Scene scene = new Scene(vbox);
+            warningStage.setScene(scene);
+
+            // Adjust the dialog size based on the message length
+            warningStage.sizeToScene();
+            warningStage.showAndWait();
+        }
+    }
+    */
 }
