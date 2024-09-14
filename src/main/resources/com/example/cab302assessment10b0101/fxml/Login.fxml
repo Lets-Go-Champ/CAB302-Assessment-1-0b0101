@@ -12,10 +12,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.LoginController">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" styleClass="login_container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="298.0" AnchorPane.topAnchor="0.0">
          <children>
+<!--            <ImageView>-->
+<!--               <image>-->
+<!--                  <Image url="@/com/example/cab302assessment10b0101/download.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--            <ImageView fx:id="loginImageView" fitWidth="100" fitHeight="100" />-->
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome">
                <font>
                   <Font size="50.0" />

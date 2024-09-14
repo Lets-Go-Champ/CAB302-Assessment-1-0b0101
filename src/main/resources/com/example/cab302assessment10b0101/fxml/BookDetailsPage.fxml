@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController">
+    <children>
+        <ImageView fx:id="coverImageView" fitHeight="200.0" fitWidth="150.0" />
+        <Label fx:id="titleLabel" font="Arial Bold 20"/>
+        <Label fx:id="authorLabel" font="Arial 16"/>
+        <Label fx:id="genreLabel" font="Arial 14"/>
+        <Label fx:id="pubDateLabel" font="Arial 14"/>
+        <Label fx:id="isbnLabel" font="Arial 14"/>
+        <Label fx:id="descriptionLabel" font="Arial 14"/>
+        <Label fx:id="notesLabel" font="Arial 14"/>
+    </children>
+</VBox>
