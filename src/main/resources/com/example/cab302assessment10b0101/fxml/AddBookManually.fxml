@@ -9,9 +9,11 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.geometry.Insets?>
+<!-- ?import javafx.geometry.Insets? -->
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="10">
+<VBox xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController"
+    spacing="10">
     <!-- Side Navigation -->
     <HBox>
         <VBox spacing="10" style="-fx-background-color: #D3D3D3;" prefWidth="150">
@@ -31,7 +33,7 @@
                 <!-- TabPane for Search and Manual Entry -->
                 <TabPane>
                     <Tab text="Search">
-                        <!-- Add search-specific fields here -->
+                        <!-- TODO: Add functionality here -->
                     </Tab>
                     <Tab text="Manual Entry">
                         <!-- Manual Entry Form -->
@@ -41,6 +43,7 @@
                                 <Label text="Add to Collection" />
                                 <ComboBox fx:id="collectionComboBox" prefWidth="150">
                                     <items>
+                                        <!-- TODO: Add functionality here -->
                                     </items>
                                 </ComboBox>
                             </HBox>
