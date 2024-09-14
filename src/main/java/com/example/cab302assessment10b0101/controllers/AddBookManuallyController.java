@@ -24,6 +24,11 @@ public class AddBookManuallyController {
     @FXML
     public void initialize() {
         // TODO add functionality here
+        setupEventHandlers();
+    }
+
+    private void setupEventHandlers() {
+        // TODO add functionality here
     }
 
     /**
