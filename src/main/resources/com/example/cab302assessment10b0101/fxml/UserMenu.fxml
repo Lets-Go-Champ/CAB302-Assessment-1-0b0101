@@ -9,34 +9,32 @@
 <?import javafx.scene.text.Text?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="180.0" stylesheets="@../styles/user%20menu.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane prefHeight="730.0" prefWidth="160.0">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0"
+      prefWidth="180.0" stylesheets="@../styles/user%20menu.css" xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1">
+   <AnchorPane prefHeight="730.0" prefWidth="160.0">
+      <VBox prefHeight="121.0" prefWidth="180.0" stylesheets="@../styles/user menu.css" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0">
          <children>
-            <VBox prefHeight="121.0" prefWidth="180.0" stylesheets="@../styles/user%20menu.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <FontAwesomeIconView glyphName="BOOK" size="30" text="" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome" />
-               </children>
-               <styleClass>
-                  <String fx:value="menu_title_container" />
-                  <String fx:value="logo_container" />
-               </styleClass>
-            </VBox>
-            <VBox prefHeight="526.0" prefWidth="180.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-               <children>
-                  <Button mnemonicParsing="false" text="My Books" />
-                  <Button mnemonicParsing="false" text="Add Collection" />
-                  <Button mnemonicParsing="false" text="Add Book" />
-                  <Button mnemonicParsing="false" text="Lending" />
-                  <Button mnemonicParsing="false" text="Logout">
-                     <VBox.margin>
-                        <Insets top="100.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
+            <FontAwesomeIconView glyphName="BOOK" size="30" text=""/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome"/>
          </children>
-      </AnchorPane>
-   </children>
+         <styleClass>
+            <String fx:value="menu_title_container"/>
+            <String fx:value="logo_container"/>
+         </styleClass>
+      </VBox>
+      <VBox prefHeight="526.0" prefWidth="180.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <Button mnemonicParsing="false" text="My Books"/>
+         <Button mnemonicParsing="false" text="Add Collection"/>
+         <Button mnemonicParsing="false" text="Add Book"/>
+         <Button mnemonicParsing="false" text="Lending"/>
+         <Button mnemonicParsing="false" text="Logout">
+            <VBox.margin>
+               <Insets top="100.0"/>
+            </VBox.margin>
+         </Button>
+      </VBox>
+   </AnchorPane>
 </VBox>

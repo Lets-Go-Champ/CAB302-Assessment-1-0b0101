@@ -1,19 +1,17 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
-import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
@@ -55,11 +53,11 @@ public class LoginController {
 
     private void setupEventHandlers() {
         // Attach event handlers to buttons
-        loginButton.setOnAction(event -> handleLogin());
+        loginButton.setOnAction(event -> handleLogin(event));
         createAccountButton.setOnAction(event -> handleCreateAccount());
     }
 
-    private void handleLogin() {
+    private void handleLogin(ActionEvent event) {
         // Get inputs
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
@@ -76,12 +74,22 @@ public class LoginController {
             return;
         }
 
-        // TODO: Implement actual login logic here
-        // For now print to console
-        System.out.println("Login attempted with username: " + username);
+        // If login is successful, load MyBooks.fxml and display it
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));
+            Scene myBooksScene = new Scene(loader.load());
 
-        // If login is successful, you might redirect to the main application scene - This is where you link to the My Books page
-        // If unsuccessful show an error message
+            // Get the stage from the event source (login button) and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(myBooksScene);
+            stage.setTitle("My Books");
+            stage.show();
+
+        } catch (IOException e) {
+            // Debugging Tool
+            e.printStackTrace();
+            ErrorMessage.showError("Error", "Could not load MyBooks page.");
+        }
     }
 
     private void handleCreateAccount() {
