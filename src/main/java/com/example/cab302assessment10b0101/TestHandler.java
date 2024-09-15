@@ -36,8 +36,9 @@ public class TestHandler {
         int pages = Integer.parseInt(scanner.nextLine());
         System.out.println("Enter Notes:");
         String notes = scanner.nextLine();
-
-        Book book = new Book(id, title, author, description, publicationDate, publisher, pages, notes);
+        System.out.println("Enter book cover image src");
+        String coverImage = scanner.nextLine();
+        Book book = new Book(id, title, author, description, publicationDate, publisher, pages, notes, coverImage);
         bookDAO.insert(book);
         System.out.println("Book added successfully!");
     }

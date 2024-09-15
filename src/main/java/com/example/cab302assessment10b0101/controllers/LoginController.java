@@ -45,7 +45,7 @@ public class LoginController {
         // This method is called automatically after the FXML file has been loaded
         // Not 100% what errorLabel is for in the current implementation, Error Message fills this role decently as it is
         errorLabel.setVisible(false);
-//        Image image = new Image(getClass().getResourceAsStream("/com/example/cab302assessment10b0101/download.png"));
+//        Image image = new Image(getClass().getResourceAsStream("/com/example/cab302assessment10b0101/The Fellowship of the Ring.png"));
 //        loginImageView.setImage(image);
         // Sets up event handlers for the buttons
         setupEventHandlers();
