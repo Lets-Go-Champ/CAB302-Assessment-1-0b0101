@@ -47,11 +47,17 @@ public class LoginController {
 
     private void setupEventHandlers() {
         // Attach event handlers to buttons
-        loginButton.setOnAction(event -> handleLogin());
+        loginButton.setOnAction(event -> {
+            try {
+                handleLogin();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         createAccountButton.setOnAction(event -> handleCreateAccount());
     }
 
-    private void handleLogin() {
+    private void handleLogin() throws IOException {
         // Get inputs
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
@@ -70,8 +76,21 @@ public class LoginController {
 
         // TODO: Implement actual login logic here
         // For now print to console
+
+
         System.out.println("Login attempted with username: " + username);
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));
+        Scene scene = new Scene(loader.load());
+
+        // Create a new dialog window for the create account form
+        Stage dialogStage = new Stage();
+        // Set the title of the dialog
+        dialogStage.setTitle("LibraHome");
+        // Make the dialog modal
+        // Set the scene (create account form)
+        dialogStage.setScene(scene);
+        dialogStage.show();
         // If login is successful, you might redirect to the main application scene - This is where you link to the My Books page
         // If unsuccessful show an error message
     }
