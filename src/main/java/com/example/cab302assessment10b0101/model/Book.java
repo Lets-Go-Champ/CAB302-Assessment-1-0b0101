@@ -11,6 +11,7 @@ public class Book {
     private String publisher;
     private int pages;
     private String notes;
+    private String coverImage;
 
     public Book(int id, String title, String author, String description, int publicationDate, String publisher, int pages, String notes) {
         this.id = id;
@@ -21,6 +22,22 @@ public class Book {
         this.publisher = publisher;
         this.pages = pages;
         this.notes = notes;
+    }
+
+    public Book(int id, String title, String author, String description, int publicationDate, String publisher, int pages, String notes, String coverImage) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.publicationDate = publicationDate;
+        this.publisher = publisher;
+        this.pages = pages;
+        this.notes = notes;
+        this.coverImage = coverImage;
+    }
+
+    public Book() {
+
     }
 
     public int getId() {
@@ -55,6 +72,8 @@ public class Book {
         return notes;
     }
 
+    public String getCoverImage () {return coverImage;}
+
     public void setId(int id) {
         this.id = id;
     }
@@ -87,6 +106,8 @@ public class Book {
         this.notes = notes;
     }
 
+    public void setCoverImage (String image) {this.coverImage = image;}
+
     @Override
     public String toString() {
         return "Book{" +
@@ -100,4 +121,5 @@ public class Book {
                 ", notes='" + notes + '\'' +
                 '}';
     }
+
 }
