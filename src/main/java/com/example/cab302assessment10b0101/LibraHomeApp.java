@@ -1,18 +1,9 @@
 package com.example.cab302assessment10b0101;
 
-import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LibraHomeApp extends Application {
