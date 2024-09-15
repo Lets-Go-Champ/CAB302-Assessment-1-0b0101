@@ -9,46 +9,29 @@ import javafx.scene.image.ImageView;
 public class BookDetailsController {
 
     @FXML
-    private ImageView coverImageView;
-
-    @FXML
     private Label titleLabel;
-
     @FXML
     private Label authorLabel;
-
     @FXML
     private Label genreLabel;
-
     @FXML
-    private Label pubDateLabel;
-
+    private Label publicationDateLabel;
     @FXML
     private Label isbnLabel;
-
     @FXML
     private Label descriptionLabel;
-
     @FXML
-    private Label notesLabel;
-
-    public void initialize() {
-        // Initialization code if needed
-    }
+    private ImageView coverImageView;
 
 //    public void setBook(Book book) {
-//        titleLabel.setText("Title: " + book.getTitle());
-//        authorLabel.setText("Author: " + book.getAuthor());
-//        genreLabel.setText("Genre: " + book.getGenre());
-//        pubDateLabel.setText("Publication Date: " + book.getPublicationDate());
-//        isbnLabel.setText("ISBN: " + book.getIsbn());
-//        descriptionLabel.setText("Description: " + book.getDescription());
-//        notesLabel.setText("Notes: " + book.getNotes());
-//
-//        if (book.getCoverImageUrl() != null) {
-//            Image coverImage = new Image(book.getCoverImageUrl());
-//            coverImageView.setImage(coverImage);
-//        }
+//        titleLabel.setText(book.getTitle());
+//        authorLabel.setText(book.getAuthor());
+//        genreLabel.setText(book.getGenre());
+//        publicationDateLabel.setText(book.getPublicationDate());
+//        isbnLabel.setText(book.getIsbn());
+//        descriptionLabel.setText(book.getDescription());
+//        coverImageView.setImage(new Image(book.getCoverImage()));
 //    }
 }
+
 

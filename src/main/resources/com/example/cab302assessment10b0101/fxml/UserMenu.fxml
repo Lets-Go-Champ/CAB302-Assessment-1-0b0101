@@ -30,11 +30,10 @@
          <Button mnemonicParsing="false" text="Add Collection"/>
          <Button mnemonicParsing="false" text="Add Book"/>
          <Button mnemonicParsing="false" text="Lending"/>
-         <Button mnemonicParsing="false" text="Logout">
+         <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout"/>
             <VBox.margin>
                <Insets top="100.0"/>
             </VBox.margin>
-         </Button>
       </VBox>
    </AnchorPane>
 </VBox>
