@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
+
+import javax.swing.text.Document;
 import java.io.IOException;
 
 public class WebScraper {
@@ -33,4 +35,18 @@ public class WebScraper {
             alert.showAndWait();
         }
     }
+
+//    public Book extractBookDetails(String html) {
+//        Document doc = Jsoup.parse(html);
+//
+//        String title = doc.select("h1.title").text();
+//        String author = doc.select("p.author").text();
+//        String genre = doc.select("p.genre").text();
+//        String publicationDate = doc.select("p.publication-date").text();
+//        String isbn = doc.select("p.isbn").text();
+//        String description = doc.select("p.description").text();
+//        String coverImage = doc.select("img.cover-image").attr("src");
+//
+//        return new Book(title, author, genre, publicationDate, isbn, description, coverImage);
+//    }
 }
