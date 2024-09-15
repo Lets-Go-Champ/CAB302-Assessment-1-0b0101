@@ -35,7 +35,7 @@ public class BookContainerController implements Initializable{
         try {
             for (Book book : books) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/book.fxml"));
                 VBox bookBox = fxmlLoader.load();
                 BookController bookController = fxmlLoader.getController();
                 bookController.setCard(book);
@@ -60,7 +60,7 @@ public class BookContainerController implements Initializable{
         Book book = new Book();
         book.setAuthor("John Ronald Reuel Tolkien");
         book.setTitle("The Fellowship of the Ring");
-        book.setCoverImage("src/main/resources/com/example/cab302assessment10b0101/images/The-Fellowship-Of-The-Ring-Book-Cover-by-JRR-Tolkien_1-480.jpg");
+        book.setCoverImage("/com/example/cab302assessment10b0101/images/The-Fellowship-Of-The-Ring-Book-Cover-by-JRR-Tolkien_1-480.jpg");
         list.add(book);
         return list;
     }
