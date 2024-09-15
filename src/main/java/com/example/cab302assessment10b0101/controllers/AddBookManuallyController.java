@@ -2,29 +2,33 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Collection;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 
 public class AddBookManuallyController {
 
     @FXML
-    public TextField titleTextField;
-
-    @FXML
+    public ChoiceBox<Collection> collectionChoiceBox;
     public TextField isbnTextField;
-
-    @FXML
+    public TextField titleTextField;
     public TextField authorTextField;
-
-    @FXML
+    public TextField descriptionTextField;
+    public TextField publisherTextField;
+    public DatePicker dateDatePicker;
+    public TextField pagesTextField;
     public Button addBookButton;
 
-    @FXML
-    public ChoiceBox<Collection> collectionChoiceBox;
+    // Define error messages
+    String noTitleErrorMessage = "Please enter a Title.";
+    String noISBNMessage = "Please enter an ISBN.";
+    String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    String noAuthorErrorMessage = "Please enter an Author.";
+    String noDescriptionMessage = "Please enter a description";
+    String noPublisherMessage = "Please enter a publisher.";
+    String noDateMessage = "Please enter a publication date (DD/MM/YYYY).";
+    String noPagesMessage = "Please enter a page count.";
+    String invalidPagesMessage = "Please enter a valid page count ( >0).";
 
     @FXML
     public void initialize() {
@@ -49,12 +53,26 @@ public class AddBookManuallyController {
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
+        String description = descriptionTextField.getText();
+        String publisher = publisherTextField.getText();
+        String pages = pagesTextField.getText();
+
+        // Ensure that a date is selected
+        try {
+            int publishDay = dateDatePicker.getValue().getDayOfMonth();
+            int publishMonth = dateDatePicker.getValue().getMonthValue();
+            int publishYear = dateDatePicker.getValue().getYear();
+        } catch (Exception e) {
+            showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
+
+        int publishDay = dateDatePicker.getValue().getDayOfMonth();
+        int publishMonth = dateDatePicker.getValue().getMonthValue();
+        int publishYear = dateDatePicker.getValue().getYear();
 
         // Ensure all fields have values and that the book is valid
-        if ( validateFields(title, isbn, author) ) {
+        if (validateFields(title, isbn, author, description, publisher, publishDay, publishMonth, publishYear, pages)) {
             // TODO Ensure that the book does not already exist
             // TODO Save the book
-            // saveBook(selectedCollection, title, isbn, author);
 
             // Display a confirmation alert
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
@@ -69,45 +87,39 @@ public class AddBookManuallyController {
      * @param title The title of the book
      * @param isbn The ISBN of the book
      * @param author The author of the book
+     * @param description The description of the book
+     * @param publisher The publisher of the book
+     * @param publishDay The day the book was published
+     * @param publisherMonth The month the book was published
+     * @param publishYear The year the book was published
+     * @param pages The book's page count
      * @return True if all fields are valid, False otherwise
      */
-    private boolean validateFields(String title, String isbn, String author) {
+    private boolean validateFields(String title, String isbn, String author, String description, String publisher,
+                                   int publishDay, int publisherMonth, int publishYear, String pages) {
 
-        // Determine if a title is given
-        if ( title.isEmpty() ) {
-            showAlert("Error: No Title", "Please enter a Title.", AlertType.ERROR);
-            return false;
-        }
-
-        // Determine if an ISBN is given
-        if ( isbn.isEmpty() ) {
-            showAlert("Error: No ISBN", "Please enter an ISBN.", AlertType.ERROR);
-            return false;
-        }
-
-        // Determine if the ISBN is valid
-        if ( !validISBN(isbn) ) {
-            showAlert("Error: Invalid ISBN", "The ISBN must only contain digits 0-9", AlertType.ERROR);
-            return false;
-        }
-
-        // Determine if an author is given
-        if ( author.isEmpty() ) {
-            showAlert("Error: No Author", "Please enter an Author.", AlertType.ERROR);
-            return false;
-        }
-
+        if (title.isEmpty()) {showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false;}
+        if (isbn.isEmpty()) {showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false;}
+        if (!isValidISBN(isbn)) {showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false;}
+        if (author.isEmpty()) {showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false;}
+        if (description.isEmpty()) {showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false;}
+        if (publisher.isEmpty()) {showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false;}
+        if (pages.isEmpty()) {showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false;}
+        if (!isPagesValid(pages)) {showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false;}
         return true;
     }
 
-    private boolean validISBN(String isbn) {
-        try {
-            int isbnToInt = Integer.parseInt(isbn);
-        }
+    private boolean isValidISBN(String isbn) {
+        try { int isbnToInt = Integer.parseInt(isbn); }
         catch (Exception e ) { return false; }
 
         // TODO functionality for validating an ISBN
         return true;
+    }
+
+    private boolean isPagesValid(String pages) {
+        try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 );}
+        catch (Exception e ) { return false; }
     }
 
     /**
@@ -119,6 +131,7 @@ public class AddBookManuallyController {
      */
     private void saveBook(String collection, String title, String isbn, String author) {
 
+        // TODO update to include new fields
         // TODO add functionality for populating the database with the book
 
         // Output the details of the book save
