@@ -5,6 +5,8 @@ import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,6 +33,10 @@ public class LoginController {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private ImageView loginImageView;
+
+
     // Declare DAO for interacting with User Database
     private UserDAO userDAO = new UserDAO();
 
@@ -39,6 +45,8 @@ public class LoginController {
         // This method is called automatically after the FXML file has been loaded
         // Not 100% what errorLabel is for in the current implementation, Error Message fills this role decently as it is
         errorLabel.setVisible(false);
+//        Image image = new Image(getClass().getResourceAsStream("/com/example/cab302assessment10b0101/download.png"));
+//        loginImageView.setImage(image);
         // Sets up event handlers for the buttons
         setupEventHandlers();
     }
