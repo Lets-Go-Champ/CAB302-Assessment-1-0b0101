@@ -30,6 +30,7 @@ public class AddBookManuallyController {
     String noDateMessage = "Please enter a publication date.";
     String noPagesMessage = "Please enter a page count.";
     String invalidPagesMessage = "Please enter a valid page count ( >0).";
+    String bookExistsMessage = "The book with the given ISBN already exists.";
 
     // Declare DAO for interacting with Book Database
     private final BookDAO bookDAO = new BookDAO();
@@ -40,7 +41,6 @@ public class AddBookManuallyController {
 
     // TODO include NOTES functionality.
     // TODO include IMAGE functionality.
-    // TODO Check if Book already exists
 
 
     @FXML
@@ -85,14 +85,17 @@ public class AddBookManuallyController {
 
         // Ensure all fields have values and that the book is valid
         if (validateFields(title, isbn, author, description, publisher, pages)) {
-            // TODO Ensure that the book does not already exist
-            saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages);
+            // Ensure that the book does not already exist
+            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); }
+            else {
+                saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages);
 
-            // Display a confirmation alert
-            showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+                // Display a confirmation alert
+                showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
 
-            // Clear fields after adding the book
-            // TODO clearFields();
+                // Clear fields after adding the book
+                // TODO clearFields();
+            }
         }
     }
 
@@ -133,6 +136,15 @@ public class AddBookManuallyController {
     }
 
     /**
+     * Determines if the book already exists in the Database.
+     * @param id The ISBN of the book
+     * @return True if the book exists, false otherwise.
+     */
+    private boolean bookExists(String id) {
+        return bookDAO.getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
+    }
+
+    /**
      * Save the book to the database
      * @param collection the collection the book will be saved to
      * @param title the title of the book
@@ -150,7 +162,7 @@ public class AddBookManuallyController {
 
         /** Test Code
         for (Book book : bookDAO.getAll() ) {
-           System.out.println(book.getId() + book.getTitle() + book.getPublicationDate());
+           System.out.println("ID: " + book.getId() + "Title: " + book.getTitle() + "PubDate: " + book.getPublicationDate());
         }*/
     }
 
