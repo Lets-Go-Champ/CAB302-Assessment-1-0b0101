@@ -27,11 +27,11 @@
       </VBox>
       <VBox prefHeight="526.0" prefWidth="180.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-         <Button fx:id="myBooksButton" text="My Books" onAction="#handleMyBooksButtonAction"/>
-         <Button mnemonicParsing="false" text="Add Collection"/>
-         <Button fx:id="addBookButton" text="Add Book" onAction="#handleAddBookButtonAction"/>
-         <Button mnemonicParsing="false" text="Lending"/>
-         <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout"/>
+         <Button fx:id="myBooksBtn" text="My Books" onAction="#handleMyBooksButtonAction"/>
+         <Button fx:id="addCollectionBtn" text="Add Collection"/>
+         <Button fx:id="addBookBtn" text="Add Book" onAction="#handleAddBookButtonAction"/>
+         <Button fx:id="lendingBtn" text="Lending"/>
+         <Button fx:id="logoutBtn" text="Logout"/>
          <VBox.margin>
             <Insets top="100"/>
          </VBox.margin>

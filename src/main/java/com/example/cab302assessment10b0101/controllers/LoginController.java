@@ -15,6 +15,8 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
+import com.example.cab302assessment10b0101.model.ViewManager;
+
 public class LoginController {
 
     // Declare FXML fields and buttons
@@ -74,8 +76,9 @@ public class LoginController {
             return;
         }
 
+        ViewManager.getInstance().getViewFactory().getMyBooksView();
         // If login is successful, load MyBooks.fxml and display it
-        try {
+        /*try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));
             Scene myBooksScene = new Scene(loader.load());
 
@@ -89,7 +92,7 @@ public class LoginController {
             // Debugging Tool
             e.printStackTrace();
             ErrorMessage.showError("Error", "Could not load MyBooks page.");
-        }
+        }*/
     }
 
     private void handleCreateAccount() {

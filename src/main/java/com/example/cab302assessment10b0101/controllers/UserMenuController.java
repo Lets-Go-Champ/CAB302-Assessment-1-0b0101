@@ -13,6 +13,13 @@ import java.net.URL;
 
 public class UserMenuController {
 
+    public Button myBooksBtn;
+    public Button addBookBtn;
+    public Button addCollectionBtn;
+    public Button lendingBtn;
+    public Button logoutBtn;
+
+
     @FXML
     private Button myBooksButton;
 
