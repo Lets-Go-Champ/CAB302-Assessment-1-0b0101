@@ -1,9 +1,15 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import java.io.File;
 import java.time.LocalDate;
 
 
@@ -20,6 +26,7 @@ public class AddBookManuallyController {
     public TextField pagesTextField;
     public TextField notesTextField;
     public Button addBookButton;
+    public Button addImageButton;
 
 
     // Define error messages
@@ -42,7 +49,8 @@ public class AddBookManuallyController {
     Collection testCollection = new Collection(1, "test", "test");
 
     // TODO include IMAGE functionality.
-
+    // FileChooser for uploading a book image.
+    FileChooser fileChooser = new FileChooser();
 
     @FXML
     public void initialize() {
@@ -53,6 +61,7 @@ public class AddBookManuallyController {
     private void setupEventHandlers() {
         // TODO add functionality for Collections ChoiceBox
         addBookButton.setOnAction(event -> handleAddBook());
+        addImageButton.setOnAction(e -> handleUploadImage());
     }
 
     /**
@@ -152,6 +161,37 @@ public class AddBookManuallyController {
         return bookDAO.getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
     }
 
+
+    private void handleUploadImage() {
+        try {
+
+            // Create a window to upload the image
+            Stage dialogStage = new Stage();
+
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG Files", "*.png")
+            );
+
+            File selectedFile = fileChooser.showOpenDialog(dialogStage);
+            System.out.println(selectedFile);
+
+            // Display the image that was uploaded
+            Image image = new Image(String.valueOf(selectedFile));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(300);
+            imageView.setFitHeight(400);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Image Loaded Successfully!");
+            alert.setHeaderText("The selected image was successfully loaded.");
+            alert.setGraphic(imageView);
+            alert.showAndWait();
+
+
+        } catch (Exception e) { ErrorMessage.showError("Error: ", "Could not load an image.");}
+    }
+
+
     /**
      * * Save the book to the database
      * @param collection The collection the book will be saved to
@@ -164,6 +204,8 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param note User defined note regarding the book
      */
+
+
     private void saveBook(Collection collection, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
@@ -173,18 +215,14 @@ public class AddBookManuallyController {
 
         // Print the results to console for testing:
         System.out.println("Book Saved Successfully! Details: " + "\n" +
-                            "ISBN: " + isbn + "\n" +
-                            "Title: " + title + "\n" +
-                            "Author: " + author + "\n" +
-                            "Description: " + description + "\n" +
-                            "Publication Date: " + publicationDate + "\n" +
-                            "Publisher: " + publisher + "\n" +
-                            "Pages: " + pages + "\n" +
-                            "Note: " + note + "\n");
-        /** Test Code
-        for (Book book : bookDAO.getAll() ) {
-           System.out.println("ID: " + book.getId() + "Title: " + book.getTitle() + "PubDate: " + book.getPublicationDate());
-        }*/
+                "ISBN: " + isbn + "\n" +
+                "Title: " + title + "\n" +
+                "Author: " + author + "\n" +
+                "Description: " + description + "\n" +
+                "Publication Date: " + publicationDate + "\n" +
+                "Publisher: " + publisher + "\n" +
+                "Pages: " + pages + "\n" +
+                "Note: " + note + "\n");
     }
 
     /**
