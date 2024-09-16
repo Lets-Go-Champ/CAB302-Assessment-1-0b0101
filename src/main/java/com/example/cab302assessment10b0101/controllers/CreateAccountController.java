@@ -1,14 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert.AlertType;
 
 public class CreateAccountController {
 
@@ -42,11 +39,11 @@ public class CreateAccountController {
 
         // Check if any of the fields are empty
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            ErrorMessage.showError("Input Error", "All fields must be filled.");
+            showAlert("Input Error", "All fields must be filled.", AlertType.ERROR);
         } else if (!password.equals(confirmPassword)) {
-            ErrorMessage.showError("Input Error", "Passwords do not match.");
+            showAlert("Input Error", "Passwords do not match.", AlertType.ERROR);
         } else if (isUsernameDuplicate(username)) {
-            ErrorMessage.showError("Warning", "Username already in use.");
+            showAlert("Warning", "Username already in use.", AlertType.WARNING);
         } else {
             // If everything is good, create a new user and insert it into the database
             User newUser = new User(username, password);
@@ -66,5 +63,13 @@ public class CreateAccountController {
         // Check if the username already exists in the database
         return userDAO.getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username));
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
