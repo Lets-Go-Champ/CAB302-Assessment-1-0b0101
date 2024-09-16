@@ -5,12 +5,10 @@ import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -75,8 +73,9 @@ public class LoginController {
             ErrorMessage.showError("Login Error", "Username and password do not match any existing account.");
             return;
         }
-
-        ViewManager.getInstance().getViewFactory().getMyBooksView();
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        ViewManager.getInstance().getViewFactory().closeStage(stage);
+        ViewManager.getInstance().getViewFactory().getClientScreen();
         // If login is successful, load MyBooks.fxml and display it
         /*try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));

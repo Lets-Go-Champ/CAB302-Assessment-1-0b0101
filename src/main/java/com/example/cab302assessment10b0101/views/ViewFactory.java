@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class ViewFactory {
 
     private AnchorPane myBooksView;
+    private AnchorPane addCollectinView;
 
     public ViewFactory(){}
 
@@ -23,12 +24,23 @@ public class ViewFactory {
         return myBooksView;
     }
 
+    public AnchorPane getAddCollectinView(){
+        if (myBooksView == null) {
+            try{
+                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/addCollections.fxml")).load();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return myBooksView;
+    }
+
     public void getLoginScreen() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
         createStage(loader);
     }
 
-    public void showClientScreen(){
+    public void getClientScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Client.fxml"));
         MyBooksController myBooksController = new MyBooksController();
         loader.setController(myBooksController);
@@ -46,5 +58,9 @@ public class ViewFactory {
         stage.setScene(scene);
         stage.setTitle("LibraHome");
         stage.show();
+    }
+
+    public void closeStage(Stage stage){
+        stage.close();
     }
 }
