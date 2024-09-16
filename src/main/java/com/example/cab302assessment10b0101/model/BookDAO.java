@@ -41,7 +41,7 @@ public class BookDAO {
     public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
-                    "INSERT INTO Books (id, title, author, description, publicationDate, publisher, pages, notes) " +
+                    "INSERT INTO Books (id, title, author, description, publicationDate, publisher, pages, notes, image) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
             );
             insertBook.setInt(1, book.getId());
@@ -97,7 +97,7 @@ public class BookDAO {
     }
 
     // Method to add a new book with an image to the database
-    public void addBookWithImage(int id, String title, String author, String description, int publicationDate,
+    public void addBookWithImage(int id, String title, String author, String description, String publicationDate,
                                  String publisher, int pages, String notes, String imagePath) {
         try {
             // Convert the image file to a byte array

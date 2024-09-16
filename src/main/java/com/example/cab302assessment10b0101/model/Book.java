@@ -39,7 +39,9 @@ public class Book {
         return description;
     }
 
-    public String getPublicationDate() { return publicationDate; }
+    public String getPublicationDate() {
+        return publicationDate;
+    }
 
     public String getPublisher() {
         return publisher;
@@ -53,7 +55,9 @@ public class Book {
         return notes;
     }
 
-    public byte[] getImage() { return image; }
+    public byte[] getImage() {
+        return image;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -71,7 +75,9 @@ public class Book {
         this.description = description;
     }
 
-    public void setPublicationDate(String publicationDate) { this.publicationDate = publicationDate; }
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
+    }
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
@@ -85,7 +91,9 @@ public class Book {
         this.notes = notes;
     }
 
-    public void setImage(byte[] image) { this.image = image; }
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {
