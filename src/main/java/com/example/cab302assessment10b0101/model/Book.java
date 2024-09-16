@@ -1,7 +1,5 @@
 package com.example.cab302assessment10b0101.model;
 
-// Book Java!
-
 public class Book {
     private int id;
     private String title;
@@ -11,8 +9,9 @@ public class Book {
     private String publisher;
     private int pages;
     private String notes;
+    private byte[] image; // New field for storing images
 
-    public Book(int id, String title, String author, String description, String publicationDate, String publisher, int pages, String notes) {
+    public Book(int id, String title, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -21,6 +20,7 @@ public class Book {
         this.publisher = publisher;
         this.pages = pages;
         this.notes = notes;
+        this.image = image;
     }
 
     public int getId() {
@@ -53,6 +53,8 @@ public class Book {
         return notes;
     }
 
+    public byte[] getImage() { return image; }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -83,6 +85,8 @@ public class Book {
         this.notes = notes;
     }
 
+    public void setImage(byte[] image) { this.image = image; }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -94,6 +98,7 @@ public class Book {
                 ", publisher='" + publisher + '\'' +
                 ", pages=" + pages +
                 ", notes='" + notes + '\'' +
+                ", An image may be attached, but it cannot be displayed here'" + '\'' +
                 '}';
     }
 }
