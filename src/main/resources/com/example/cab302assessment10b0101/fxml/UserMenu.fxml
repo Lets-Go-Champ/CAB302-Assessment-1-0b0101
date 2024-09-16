@@ -31,7 +31,7 @@
          <Button mnemonicParsing="false" text="Add Collection"/>
          <Button fx:id="addBookButton" text="Add Book" onAction="#handleAddBookButtonAction"/>
          <Button mnemonicParsing="false" text="Lending"/>
-         <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout"/>
+         <Button fx:id="logoutButton"  text="Logout"/>
          <VBox.margin>
             <Insets top="100"/>
          </VBox.margin>

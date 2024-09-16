@@ -16,6 +16,7 @@ public class LibraHomeApp extends Application {
     // Instantiate TestHandler, which is used for testing databases ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
     // private TestHandler testHandler;
 
+
     @Override
     public void start(Stage primaryStage) {
         // Initialize UserDAO and create the Users table

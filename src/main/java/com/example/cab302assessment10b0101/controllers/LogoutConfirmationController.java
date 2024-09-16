@@ -3,6 +3,8 @@ package com.example.cab302assessment10b0101.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
@@ -21,12 +23,13 @@ public class LogoutConfirmationController {
 
     @FXML
     private void handleYes() {
-        // Close the current stage (logout confirmation pop-up)
+        closeCurrentWindow();
+        showLogoutSuccess();
+    }
+
+    private void closeCurrentWindow() {
         Stage stage = (Stage) yesButton.getScene().getWindow();
         stage.close();
-
-        // Load the login window
-        loadLoginWindow();
     }
 
     @FXML
@@ -35,35 +38,35 @@ public class LogoutConfirmationController {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
 
-        // Return to the home page
-        loadHomePage();
+        // Load the home page in the current stage
+        loadHomePage(stage);
     }
 
-    private void loadLoginWindow() {
+    private void showLogoutSuccess() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/LogoutSuccess.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Login");
-            stage.show();
+            stage.setTitle("Logout Success");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the pop-up modal
+            stage.showAndWait(); // This waits for the pop-up to close before returning to the main window
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadHomePage() {
+    private void loadHomePage(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/UserMenu.fxml"));
             Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root)); // Set the scene on the current stage
             stage.setTitle("My Books");
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 }
 
