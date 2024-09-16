@@ -71,7 +71,7 @@ public class AddBookManuallyController {
 
         // TODO implement functionality for the collection choice box
 
-        // String collection = collectionChoiceBox.getValue().getCollectionName();
+        String collectionName = collectionChoiceBox.getValue().getCollectionName();
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -99,7 +99,7 @@ public class AddBookManuallyController {
             if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
             // Save the book and reset fields
-            saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            saveBook(collectionName, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
             // TODO clearFields();
 
@@ -190,7 +190,7 @@ public class AddBookManuallyController {
 
     /**
      * * Save the book to the database
-     * @param collection The collection the book will be saved to
+     * @param collectionName The collection the book will be saved to
      * @param title The title of the book
      * @param isbn The isbn of the book (ID)
      * @param author The author of the book
@@ -200,12 +200,12 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param note User defined note regarding the book
      */
-    private void saveBook(Collection collection, String title, String isbn, String author, String description,
+    private void saveBook(String collectionName, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
         //byte[] image = new byte[0]; // Fix this when implementing image grabbing.
         byte[] coverImage = new byte[image.hashCode()];
-        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, coverImage);
+        Book newBook = new Book(collectionName, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, coverImage);
         bookDAO.insert(newBook);
 
         // Print the results to console for testing:
