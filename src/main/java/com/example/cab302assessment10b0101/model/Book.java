@@ -1,19 +1,18 @@
 package com.example.cab302assessment10b0101.model;
 
-// Book Java!
-
 public class Book {
     private int id;
     private String title;
     private String author;
     private String description;
-    private int publicationDate;
+    private String publicationDate;
     private String publisher;
     private int pages;
     private String notes;
     private String coverImage;
+    private byte[] image; // New field for storing images
 
-    public Book(int id, String title, String author, String description, int publicationDate, String publisher, int pages, String notes) {
+    public Book(int id, String title, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image, String coverImage) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -22,22 +21,8 @@ public class Book {
         this.publisher = publisher;
         this.pages = pages;
         this.notes = notes;
-    }
-
-    public Book(int id, String title, String author, String description, int publicationDate, String publisher, int pages, String notes, String coverImage) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.publicationDate = publicationDate;
-        this.publisher = publisher;
-        this.pages = pages;
-        this.notes = notes;
+        this.image = image;
         this.coverImage = coverImage;
-    }
-
-    public Book() {
-
     }
 
     public int getId() {
@@ -56,9 +41,7 @@ public class Book {
         return description;
     }
 
-    public int getPublicationDate() {
-        return publicationDate;
-    }
+    public String getPublicationDate() { return publicationDate; }
 
     public String getPublisher() {
         return publisher;
@@ -72,7 +55,13 @@ public class Book {
         return notes;
     }
 
-    public String getCoverImage () {return coverImage;}
+    public byte[] getImage() { 
+      return image; 
+    }
+  
+    public String getCoverImage () {
+      return coverImage;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -90,8 +79,8 @@ public class Book {
         this.description = description;
     }
 
-    public void setPublicationDate(int publicationDate) {
-        this.publicationDate = publicationDate;
+    public void setPublicationDate(String publicationDate) { 
+      this.publicationDate = publicationDate; 
     }
 
     public void setPublisher(String publisher) {
@@ -106,7 +95,13 @@ public class Book {
         this.notes = notes;
     }
 
-    public void setCoverImage (String image) {this.coverImage = image;}
+    public void setImage(byte[] image) { 
+      this.image = image; 
+    }
+
+    public void setCoverImage (String image) {
+      this.coverImage = image;
+    }
 
     @Override
     public String toString() {
@@ -119,6 +114,7 @@ public class Book {
                 ", publisher='" + publisher + '\'' +
                 ", pages=" + pages +
                 ", notes='" + notes + '\'' +
+                ", An image may be attached, but it cannot be displayed here'" + '\'' +
                 '}';
     }
 
