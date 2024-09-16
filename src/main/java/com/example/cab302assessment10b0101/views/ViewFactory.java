@@ -12,7 +12,7 @@ public class ViewFactory {
     private final ObjectProperty<MenuOptions> userSelectedMenuItem;
     private AnchorPane myBooksView;
     private AnchorPane addCollectionView;
-    private AnchorPane addCBookView;
+    private AnchorPane addBookView;
 
     public ViewFactory(){
         this.userSelectedMenuItem = new SimpleObjectProperty<>();
@@ -36,12 +36,12 @@ public class ViewFactory {
     public AnchorPane getAddCollectinView(){
         if (myBooksView == null) {
             try{
-                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/addCollections.fxml")).load();
+                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddCollection.fxml")).load();
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
-        return myBooksView;
+        return addCollectionView;
     }
 
     public AnchorPane getAddBookView(){
@@ -52,7 +52,7 @@ public class ViewFactory {
                 e.printStackTrace();
             }
         }
-        return myBooksView;
+        return addBookView;
     }
 
     public void getLoginScreen() {
