@@ -25,7 +25,7 @@ public class BookDAO {
                             "title TEXT NOT NULL," +
                             "author TEXT NOT NULL," +
                             "description TEXT NOT NULL," +
-                            "publicationDate INTEGER," +
+                            "publicationDate TEXT NOT NULL," +
                             "publisher TEXT NOT NULL," +
                             "pages INTEGER," +
                             "notes TEXT NOT NULL," +
@@ -41,14 +41,14 @@ public class BookDAO {
     public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
-                    "INSERT INTO Books (id, title, author, description, publicationDate, publisher, pages, notes) " +
+                    "INSERT INTO Books (id, title, author, description, publicationDate, publisher, pages, notes, image) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
             );
             insertBook.setInt(1, book.getId());
             insertBook.setString(2, book.getTitle());
             insertBook.setString(3, book.getAuthor());
             insertBook.setString(4, book.getDescription());
-            insertBook.setInt(5, book.getPublicationDate());
+            insertBook.setString(5, book.getPublicationDate());
             insertBook.setString(6, book.getPublisher());
             insertBook.setInt(7, book.getPages());
             insertBook.setString(8, book.getNotes());
@@ -72,7 +72,7 @@ public class BookDAO {
                                 rs.getString("title"),
                                 rs.getString("author"),
                                 rs.getString("description"),
-                                rs.getInt("publicationDate"),
+                                rs.getString("publicationDate"),
                                 rs.getString("publisher"),
                                 rs.getInt("pages"),
                                 rs.getString("notes"),
@@ -97,7 +97,7 @@ public class BookDAO {
     }
 
     // Method to add a new book with an image to the database
-    public void addBookWithImage(int id, String title, String author, String description, int publicationDate,
+    public void addBookWithImage(int id, String title, String author, String description, String publicationDate,
                                  String publisher, int pages, String notes, String imagePath) {
         try {
             // Convert the image file to a byte array

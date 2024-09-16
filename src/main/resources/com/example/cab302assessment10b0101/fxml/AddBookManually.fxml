@@ -1,69 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController"
-      spacing="10">
-    <!-- Side Navigation -->
-    <HBox>
-        <VBox spacing="10" style="-fx-background-color: #D3D3D3;" prefWidth="150">
-            <Button text="LOGO" style="-fx-background-color: #D3D3D3; -fx-font-size: 18px;" />
-            <Button text="Collections" />
-            <Button text="Add Collection" />
-            <Button text="Books" />
-            <Button text="Add Book" />
-            <Button text="Lending" />
-        </VBox>
-        <Pane>
-            <VBox spacing="20" padding="20" style="-fx-background-color: #F5F5F5;">
-                <!-- Title -->
-                <Label text="Add Book" style="-fx-font-size: 24px;" />
-                <!-- TabPane for Search and Manual Entry -->
-                <TabPane>
-                    <Tab text="Search">
-                        <!-- TODO: Add functionality here -->
-                    </Tab>
-                    <Tab text="Manual Entry">
-                        <!-- Manual Entry Form -->
-                        <VBox spacing="10">
-                            <!-- Add to Collection -->
-                            <HBox spacing="10">
-                                <Label text="Add to Collection" />
-                                <ComboBox fx:id="collectionComboBox" prefWidth="150">
-                                    <items>
-                                        <!-- TODO: Add functionality here -->
-                                    </items>
-                                </ComboBox>
-                            </HBox>
-                            <!-- Title Field -->
-                            <HBox spacing="10">
-                                <Label text="Title" />
-                                <TextField fx:id="titleTextField" prefWidth="300" />
-                            </HBox>
-                            <!-- ID/ISBN Field -->
-                            <HBox spacing="10">
-                                <Label text="ID / ISBN" />
-                                <TextField fx:id="isbnTextField" prefWidth="300" />
-                            </HBox>
-                            <!-- Author Field -->
-                            <HBox spacing="10">
-                                <Label text="Author" />
-                                <TextField fx:id="authorTextField" prefWidth="300" />
-                            </HBox>
-                        </VBox>
-                    </Tab>
-                </TabPane>
-            </VBox>
-        </Pane>
-    </HBox>
-</VBox>
+
+<TabPane prefHeight="414.0" prefWidth="569.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
+    <tabs>
+        <Tab text="Search">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="170.0" prefWidth="434.0" />
+            </content>
+        </Tab>
+        <Tab text="Manual Entry">
+            <content>
+                <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="693.0">
+                            <children>
+                                <Label layoutX="216.0" layoutY="14.0" text="Add Book">
+                                    <font>
+                                        <Font name="System Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="43.0" layoutY="79.0" text="Collection">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="43.0" layoutY="155.0" text="Title">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="titleTextField" layoutX="43.0" layoutY="190.0" prefHeight="25.0" prefWidth="355.0" />
+                                <Label layoutX="42.0" layoutY="234.0" text="ID/ISBN">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="isbnTextField" layoutX="42.0" layoutY="269.0" prefHeight="25.0" prefWidth="356.0" />
+                                <Label layoutX="43.0" layoutY="308.0" text="Author">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="authorTextField" layoutX="42.0" layoutY="342.0" prefHeight="25.0" prefWidth="358.0" />
+                                <ChoiceBox fx:id="collectionChoiceBox" layoutX="42.0" layoutY="116.0" prefHeight="25.0" prefWidth="352.0" />
+                                <Button fx:id="addBookButton" layoutX="52.0" layoutY="919.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="72.0" text="ADD" textFill="#17cd26">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Button>
+                                <Label layoutX="45.0" layoutY="383.0" text="Description">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="descriptionTextField" layoutX="46.0" layoutY="417.0" prefHeight="168.0" prefWidth="354.0" />
+                                <Label layoutX="45.0" layoutY="603.0" text="Publisher">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="publisherTextField" layoutX="45.0" layoutY="639.0" prefHeight="25.0" prefWidth="355.0" />
+                                <Label layoutX="43.0" layoutY="685.0" prefHeight="35.0" prefWidth="153.0" text="Publish Date">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <DatePicker fx:id="dateDatePicker" layoutX="44.0" layoutY="722.0" prefHeight="25.0" prefWidth="358.0" />
+                                <Label layoutX="44.0" layoutY="768.0" prefHeight="35.0" prefWidth="153.0" text="Pages">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="pagesTextField" layoutX="44.0" layoutY="804.0" prefHeight="25.0" prefWidth="355.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>

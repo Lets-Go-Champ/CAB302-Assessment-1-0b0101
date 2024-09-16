@@ -5,13 +5,13 @@ public class Book {
     private String title;
     private String author;
     private String description;
-    private int publicationDate;
+    private String publicationDate;
     private String publisher;
     private int pages;
     private String notes;
     private byte[] image; // New field for storing images
 
-    public Book(int id, String title, String author, String description, int publicationDate, String publisher, int pages, String notes, byte[] image) {
+    public Book(int id, String title, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -39,7 +39,7 @@ public class Book {
         return description;
     }
 
-    public int getPublicationDate() {
+    public String getPublicationDate() {
         return publicationDate;
     }
 
@@ -55,7 +55,9 @@ public class Book {
         return notes;
     }
 
-    public byte[] getImage() { return image; }
+    public byte[] getImage() {
+        return image;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -73,7 +75,7 @@ public class Book {
         this.description = description;
     }
 
-    public void setPublicationDate(int publicationDate) {
+    public void setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
     }
 
@@ -89,7 +91,9 @@ public class Book {
         this.notes = notes;
     }
 
-    public void setImage(byte[] image) { this.image = image; }
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {
