@@ -1,7 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
-// BookDAO java!
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,8 @@ public class BookDAO {
                             "publicationDate INTEGER," +
                             "publisher TEXT NOT NULL," +
                             "pages INTEGER," +
-                            "notes TEXT NOT NULL" +
+                            "notes TEXT NOT NULL," +
+                            "image BLOB" +
                             ");"
             );
         } catch (SQLException ex) {
@@ -50,6 +52,7 @@ public class BookDAO {
             insertBook.setString(6, book.getPublisher());
             insertBook.setInt(7, book.getPages());
             insertBook.setString(8, book.getNotes());
+            insertBook.setBytes(9, book.getImage());
             insertBook.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -72,7 +75,8 @@ public class BookDAO {
                                 rs.getInt("publicationDate"),
                                 rs.getString("publisher"),
                                 rs.getInt("pages"),
-                                rs.getString("notes")
+                                rs.getString("notes"),
+                                rs.getBytes("image")
                         )
                 );
             }
@@ -81,4 +85,35 @@ public class BookDAO {
         }
         return books;
     }
+
+    // Read an image file and convert it to a byte array
+    public byte[] readImageFile(String imagePath) throws IOException {
+        File file = new File(imagePath);
+        FileInputStream fis = new FileInputStream(file);
+        byte[] imageBytes = new byte[(int) file.length()];
+        fis.read(imageBytes);
+        fis.close();
+        return imageBytes;
+    }
+
+    // Method to add a new book with an image to the database
+    public void addBookWithImage(int id, String title, String author, String description, int publicationDate,
+                                 String publisher, int pages, String notes, String imagePath) {
+        try {
+            // Convert the image file to a byte array
+            byte[] imageBytes = readImageFile(imagePath);
+
+            // Create a new Book object with the image
+            Book book = new Book(id, title, author, description, publicationDate, publisher, pages, notes, imageBytes);
+
+            // Insert the book into the database
+            insert(book);
+
+            System.out.println("Book with image added to the database.");
+
+        } catch (IOException e) {
+            System.err.println("Error reading image file: " + e.getMessage());
+        }
+    }
+
 }
