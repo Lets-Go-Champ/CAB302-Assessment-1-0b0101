@@ -1,9 +1,10 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.Collection;
+import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import java.time.LocalDate;
 
 
 public class AddBookManuallyController {
@@ -26,9 +27,21 @@ public class AddBookManuallyController {
     String noAuthorErrorMessage = "Please enter an Author.";
     String noDescriptionMessage = "Please enter a description";
     String noPublisherMessage = "Please enter a publisher.";
-    String noDateMessage = "Please enter a publication date (DD/MM/YYYY).";
+    String noDateMessage = "Please enter a publication date.";
     String noPagesMessage = "Please enter a page count.";
     String invalidPagesMessage = "Please enter a valid page count ( >0).";
+
+    // Declare DAO for interacting with Book Database
+    private final BookDAO bookDAO = new BookDAO();
+
+    // Collection for testing
+    Collection testCollection = new Collection(1, "test", "test");
+
+
+    // TODO include NOTES functionality.
+    // TODO include IMAGE functionality.
+    // TODO Check if Book already exists
+
 
     @FXML
     public void initialize() {
@@ -37,7 +50,7 @@ public class AddBookManuallyController {
     }
 
     private void setupEventHandlers() {
-        // TODO add functionality for ChoiceBox
+        // TODO add functionality for Collections ChoiceBox
         addBookButton.setOnAction(event -> handleAddBook());
     }
 
@@ -55,24 +68,25 @@ public class AddBookManuallyController {
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
         String publisher = publisherTextField.getText();
+        LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
 
-        // Ensure that a date is selected
-        try {
-            int publishDay = dateDatePicker.getValue().getDayOfMonth();
-            int publishMonth = dateDatePicker.getValue().getMonthValue();
-            int publishYear = dateDatePicker.getValue().getYear();
-        } catch (Exception e) {
-            showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
 
-        int publishDay = dateDatePicker.getValue().getDayOfMonth();
-        int publishMonth = dateDatePicker.getValue().getMonthValue();
-        int publishYear = dateDatePicker.getValue().getYear();
+        // Ensure that a date is selected
+        try { publicationDate.getDayOfMonth();}
+        catch (Exception e) { showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
+
+        // Format the publication Date as a string
+        String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
+        String publicationMonth = String.valueOf(dateDatePicker.getValue().getMonthValue());
+        String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
+        String formattedDate = publicationDay + "-" +publicationMonth + "-" + publicationYear;
+
 
         // Ensure all fields have values and that the book is valid
-        if (validateFields(title, isbn, author, description, publisher, publishDay, publishMonth, publishYear, pages)) {
+        if (validateFields(title, isbn, author, description, publisher, pages)) {
             // TODO Ensure that the book does not already exist
-            // TODO Save the book
+            saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages);
 
             // Display a confirmation alert
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
@@ -89,14 +103,10 @@ public class AddBookManuallyController {
      * @param author The author of the book
      * @param description The description of the book
      * @param publisher The publisher of the book
-     * @param publishDay The day the book was published
-     * @param publisherMonth The month the book was published
-     * @param publishYear The year the book was published
      * @param pages The book's page count
      * @return True if all fields are valid, False otherwise
      */
-    private boolean validateFields(String title, String isbn, String author, String description, String publisher,
-                                   int publishDay, int publisherMonth, int publishYear, String pages) {
+    private boolean validateFields(String title, String isbn, String author, String description, String publisher, String pages) {
 
         if (title.isEmpty()) {showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false;}
         if (isbn.isEmpty()) {showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false;}
@@ -110,7 +120,7 @@ public class AddBookManuallyController {
     }
 
     private boolean isValidISBN(String isbn) {
-        try { int isbnToInt = Integer.parseInt(isbn); }
+        try { Integer.parseInt(isbn); }
         catch (Exception e ) { return false; }
 
         // TODO functionality for validating an ISBN
@@ -129,17 +139,19 @@ public class AddBookManuallyController {
      * @param isbn the isbn of the book
      * @param author the author of the book
      */
-    private void saveBook(String collection, String title, String isbn, String author) {
+    private void saveBook(Collection collection, String title, String isbn, String author, String description,
+                          String publisher, String publicationDate, String pages) {
 
-        // TODO update to include new fields
-        // TODO add functionality for populating the database with the book
+        // TODO update to include new fields (collections)
+        String note = "TODO: add this";
 
-        // Output the details of the book save
-        System.out.println("Saving Book: ");
-        // System.out.println("Collection: " + collection);
-        System.out.println("Title: " + title);
-        System.out.println("ISBN: " + isbn);
-        System.out.println("Author: " + author);
+        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note);
+        bookDAO.insert(newBook);
+
+        /** Test Code
+        for (Book book : bookDAO.getAll() ) {
+           System.out.println(book.getId() + book.getTitle() + book.getPublicationDate());
+        }*/
     }
 
     /**

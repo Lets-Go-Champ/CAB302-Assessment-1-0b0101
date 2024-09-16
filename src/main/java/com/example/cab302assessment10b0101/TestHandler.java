@@ -7,6 +7,7 @@ import com.example.cab302assessment10b0101.model.CollectionDAO;
 
 import java.util.Scanner;
 
+
 public class TestHandler {
 
     private BookDAO bookDAO;
@@ -29,7 +30,7 @@ public class TestHandler {
         System.out.println("Enter Description:");
         String description = scanner.nextLine();
         System.out.println("Enter Publication Year:");
-        int publicationDate = Integer.parseInt(scanner.nextLine());
+        String publicationDate = scanner.nextLine();
         System.out.println("Enter Publisher:");
         String publisher = scanner.nextLine();
         System.out.println("Enter Number of Pages:");

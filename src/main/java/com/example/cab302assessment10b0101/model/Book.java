@@ -7,12 +7,12 @@ public class Book {
     private String title;
     private String author;
     private String description;
-    private int publicationDate;
+    private String publicationDate;
     private String publisher;
     private int pages;
     private String notes;
 
-    public Book(int id, String title, String author, String description, int publicationDate, String publisher, int pages, String notes) {
+    public Book(int id, String title, String author, String description, String publicationDate, String publisher, int pages, String notes) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -39,9 +39,7 @@ public class Book {
         return description;
     }
 
-    public int getPublicationDate() {
-        return publicationDate;
-    }
+    public String getPublicationDate() { return publicationDate; }
 
     public String getPublisher() {
         return publisher;
@@ -71,9 +69,7 @@ public class Book {
         this.description = description;
     }
 
-    public void setPublicationDate(int publicationDate) {
-        this.publicationDate = publicationDate;
-    }
+    public void setPublicationDate(String publicationDate) { this.publicationDate = publicationDate; }
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;

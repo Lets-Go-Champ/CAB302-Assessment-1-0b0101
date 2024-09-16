@@ -24,7 +24,7 @@ public class BookDAO {
                             "title TEXT NOT NULL," +
                             "author TEXT NOT NULL," +
                             "description TEXT NOT NULL," +
-                            "publicationDate INTEGER," +
+                            "publicationDate TEXT NOT NULL," +
                             "publisher TEXT NOT NULL," +
                             "pages INTEGER," +
                             "notes TEXT NOT NULL" +
@@ -46,7 +46,7 @@ public class BookDAO {
             insertBook.setString(2, book.getTitle());
             insertBook.setString(3, book.getAuthor());
             insertBook.setString(4, book.getDescription());
-            insertBook.setInt(5, book.getPublicationDate());
+            insertBook.setString(5, book.getPublicationDate());
             insertBook.setString(6, book.getPublisher());
             insertBook.setInt(7, book.getPages());
             insertBook.setString(8, book.getNotes());
@@ -69,7 +69,7 @@ public class BookDAO {
                                 rs.getString("title"),
                                 rs.getString("author"),
                                 rs.getString("description"),
-                                rs.getInt("publicationDate"),
+                                rs.getString("publicationDate"),
                                 rs.getString("publisher"),
                                 rs.getInt("pages"),
                                 rs.getString("notes")
