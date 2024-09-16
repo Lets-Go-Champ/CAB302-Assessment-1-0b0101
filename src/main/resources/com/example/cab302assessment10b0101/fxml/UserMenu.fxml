@@ -16,20 +16,18 @@
    <AnchorPane prefHeight="730.0" prefWidth="160.0">
       <VBox prefHeight="121.0" prefWidth="180.0" stylesheets="@../styles/userMenu.css" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0">
-         <children>
-            <FontAwesomeIconView glyphName="BOOK" size="30" text=""/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome"/>
-         </children>
          <styleClass>
             <String fx:value="menu_title_container"/>
             <String fx:value="logo_container"/>
          </styleClass>
+         <FontAwesomeIconView glyphName="BOOK" size="30" text=""/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome"/>
       </VBox>
       <VBox prefHeight="526.0" prefWidth="180.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-         <Button fx:id="myBooksBtn" text="My Books" onAction="#handleMyBooksButtonAction"/>
+         <Button fx:id="myBooksBtn" text="My Books" onAction="#onMyBooksClicked"/>
          <Button fx:id="addCollectionBtn" text="Add Collection"/>
-         <Button fx:id="addBookBtn" text="Add Book" onAction="#handleAddBookButtonAction"/>
+         <Button fx:id="addBookBtn" text="Add Book" onAction="#onAddBookClicked"/>
          <Button fx:id="lendingBtn" text="Lending"/>
          <Button fx:id="logoutBtn" text="Logout"/>
          <VBox.margin>

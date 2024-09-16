@@ -9,8 +9,8 @@
 <?import javafx.scene.control.Button?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.text.Font?>
-<AnchorPane>
-    <BorderPane fx:id="parentContainer" prefHeight="730" prefWidth="1120" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.ClientController">
+    <BorderPane fx:id="mainBorderPane" prefHeight="730" prefWidth="1120">
         <left>
             <fx:include source="UserMenu.fxml" />
         </left>
@@ -18,13 +18,6 @@
             <fx:include source="BooksDisplay.fxml" />
         </center>
     </BorderPane>
-    <HBox AnchorPane.topAnchor="10" AnchorPane.leftAnchor="200" alignment="CENTER">
-        <Label text="PAGE TITLE" HBox.hgrow="ALWAYS">
-            <font>
-                <Font size="40.0" />
-            </font>
-        </Label>
-    </HBox>
     <HBox alignment="CENTER_RIGHT" spacing="15" AnchorPane.topAnchor="15" AnchorPane.rightAnchor="20" >
         <Label text="USER" >
             <font>
