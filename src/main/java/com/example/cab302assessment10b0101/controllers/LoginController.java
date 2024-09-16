@@ -1,13 +1,12 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -53,7 +52,7 @@ public class LoginController {
 
     private void setupEventHandlers() {
         // Attach event handlers to buttons
-        loginButton.setOnAction(event -> handleLogin(event));
+        loginButton.setOnAction(this::handleLogin);
         createAccountButton.setOnAction(event -> handleCreateAccount());
     }
 
@@ -64,13 +63,13 @@ public class LoginController {
 
         // Check if fields are empty
         if (username.isEmpty() || password.isEmpty()) {
-            ErrorMessage.showError("Login Error", "Please enter both username and password.");
+            showAlert("Login Error", "Please enter both username and password.", AlertType.ERROR);
             return;
         }
 
         // Validate login credentials
         if (!isValidLogin(username, password)) {
-            ErrorMessage.showError("Login Error", "Username and password do not match any existing account.");
+            showAlert("Login Error", "Username and password do not match any existing account.", AlertType.ERROR);
             return;
         }
 
@@ -88,7 +87,7 @@ public class LoginController {
         } catch (IOException e) {
             // Debugging Tool
             e.printStackTrace();
-            ErrorMessage.showError("Error", "Could not load MyBooks page.");
+            showAlert("Error", "Could not load MyBooks page.", AlertType.ERROR);
         }
     }
 
@@ -114,7 +113,7 @@ public class LoginController {
         } catch (IOException e) {
             // Debugging Tool
             e.printStackTrace();
-            ErrorMessage.showError("Error", "Could not load the create account window.");
+            showAlert("Error", "Could not load the create account window.", AlertType.ERROR);
         }
     }
 
@@ -122,6 +121,14 @@ public class LoginController {
         // Validate login credentials by checking if the username and password match any user in the database
         return userDAO.getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
