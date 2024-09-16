@@ -1,9 +1,15 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import java.io.File;
 import java.time.LocalDate;
 
 
@@ -18,7 +24,11 @@ public class AddBookManuallyController {
     public TextField publisherTextField;
     public DatePicker dateDatePicker;
     public TextField pagesTextField;
+    public TextField notesTextField;
     public Button addBookButton;
+    public Button addImageButton;
+
+    private Image image;
 
     // Define error messages
     String noTitleErrorMessage = "Please enter a Title.";
@@ -30,6 +40,9 @@ public class AddBookManuallyController {
     String noDateMessage = "Please enter a publication date.";
     String noPagesMessage = "Please enter a page count.";
     String invalidPagesMessage = "Please enter a valid page count ( >0).";
+    String noNoteMessage = "Please eneter a note.";
+    String noImageMessage = "Please select a cover image.";
+    String noImageUploadMessage = "Could not load an image.";
     String bookExistsMessage = "The book with the given ISBN already exists.";
 
     // Declare DAO for interacting with Book Database
@@ -37,11 +50,6 @@ public class AddBookManuallyController {
 
     // Collection for testing
     Collection testCollection = new Collection(1, "test", "test");
-
-
-    // TODO include NOTES functionality.
-    // TODO include IMAGE functionality.
-
 
     @FXML
     public void initialize() {
@@ -52,6 +60,7 @@ public class AddBookManuallyController {
     private void setupEventHandlers() {
         // TODO add functionality for Collections ChoiceBox
         addBookButton.setOnAction(event -> handleAddBook());
+        addImageButton.setOnAction(e -> handleUploadImage());
     }
 
     /**
@@ -70,6 +79,7 @@ public class AddBookManuallyController {
         String publisher = publisherTextField.getText();
         LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
+        String notes = notesTextField.getText();
 
 
         // Ensure that a date is selected
@@ -84,32 +94,31 @@ public class AddBookManuallyController {
 
 
         // Ensure all fields have values and that the book is valid
-        if (validateFields(title, isbn, author, description, publisher, pages)) {
+        if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
             // Ensure that the book does not already exist
-            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); }
-            else {
-                saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages);
+            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
-                // Display a confirmation alert
-                showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+            // Save the book and reset fields
+            saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+            // TODO clearFields();
 
-                // Clear fields after adding the book
-                // TODO clearFields();
-            }
         }
     }
 
     /**
-     * Determines if all the fields entered by are valid
+     * Determines if all the fields entered for a book are valid
      * @param title The title of the book
      * @param isbn The ISBN of the book
      * @param author The author of the book
      * @param description The description of the book
      * @param publisher The publisher of the book
      * @param pages The book's page count
+     * @param notes The user added notes for the book
      * @return True if all fields are valid, False otherwise
      */
-    private boolean validateFields(String title, String isbn, String author, String description, String publisher, String pages) {
+    private boolean validateFields(String title, String isbn, String author, String description,
+                                   String publisher, String pages, String notes) {
 
         if (title.isEmpty()) {showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false;}
         if (isbn.isEmpty()) {showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false;}
@@ -119,14 +128,18 @@ public class AddBookManuallyController {
         if (publisher.isEmpty()) {showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false;}
         if (pages.isEmpty()) {showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false;}
         if (!isPagesValid(pages)) {showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false;}
+        if (notes.isEmpty()) {showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false;}
+        if (image == null) {showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false;}
         return true;
     }
+
 
     private boolean isValidISBN(String isbn) {
         try { Integer.parseInt(isbn); }
         catch (Exception e ) { return false; }
 
-        // TODO functionality for validating an ISBN
+        // Function assumes that an integer value is a valid ISBN
+        // Functionality for further validating and ISBN can be implemented in future
         return true;
     }
 
@@ -141,30 +154,72 @@ public class AddBookManuallyController {
      * @return True if the book exists, false otherwise.
      */
     private boolean bookExists(String id) {
+        // Double check this functionality - seems like it is not working as intended.
         return bookDAO.getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
     }
 
+
+    private void handleUploadImage() {
+        try {
+            // FileChooser for uploading a book image.
+            FileChooser fileChooser = new FileChooser();
+
+            // Create a window to upload the image
+            Stage dialogStage = new Stage();
+
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG Files", "*.png")
+            );
+            File selectedFile = fileChooser.showOpenDialog(dialogStage);
+
+            // Display the image that was uploaded
+            image = new Image(String.valueOf(selectedFile));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(300);
+            imageView.setFitHeight(400);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Image Loaded Successfully!");
+            alert.setHeaderText("The selected image was successfully loaded.");
+            alert.setGraphic(imageView);
+            alert.showAndWait();
+
+        } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
+    }
+
+
     /**
-     * Save the book to the database
-     * @param collection the collection the book will be saved to
-     * @param title the title of the book
-     * @param isbn the isbn of the book
-     * @param author the author of the book
+     * * Save the book to the database
+     * @param collection The collection the book will be saved to
+     * @param title The title of the book
+     * @param isbn The isbn of the book (ID)
+     * @param author The author of the book
+     * @param description The book's description
+     * @param publisher The book's publisher
+     * @param publicationDate The date the book was published
+     * @param pages The book's page count
+     * @param note User defined note regarding the book
      */
     private void saveBook(Collection collection, String title, String isbn, String author, String description,
-                          String publisher, String publicationDate, String pages) {
+                          String publisher, String publicationDate, String pages, String note) {
 
-        // TODO update to include new fields (collections)
-        String note = "TODO: add this";
-
-        byte[] image = new byte[0]; // Fix this when implementing image grabbing.
-        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, image);
+        //byte[] image = new byte[0]; // Fix this when implementing image grabbing.
+        byte[] coverImage = new byte[image.hashCode()];
+        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, coverImage);
         bookDAO.insert(newBook);
 
-        /** Test Code
-        for (Book book : bookDAO.getAll() ) {
-           System.out.println("ID: " + book.getId() + "Title: " + book.getTitle() + "PubDate: " + book.getPublicationDate());
-        }*/
+        // Print the results to console for testing:
+        System.out.println("Book Saved Successfully! Details: " + "\n" +
+                "ISBN: " + isbn + "\n" +
+                "Title: " + title + "\n" +
+                "Author: " + author + "\n" +
+                "Description: " + description + "\n" +
+                "Publication Date: " + publicationDate + "\n" +
+                "Publisher: " + publisher + "\n" +
+                "Pages: " + pages + "\n" +
+                "Note: " + note + "\n" +
+                "Image: " + image.getUrl()
+        );
     }
 
     /**
