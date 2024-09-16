@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.model;
 
 public class Book {
+    private String collectionName;
     private int id;
     private String title;
     private String author;
@@ -11,9 +12,10 @@ public class Book {
     private String notes;
     private byte[] image; // New field for storing images
 
-    public Book(int id, String title, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image) {
-        this.id = id;
+    public Book(String collectionName, String title, int id, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image) {
+        this.collectionName = collectionName;
         this.title = title;
+        this.id = id;
         this.author = author;
         this.description = description;
         this.publicationDate = publicationDate;
@@ -23,12 +25,16 @@ public class Book {
         this.image = image;
     }
 
-    public int getId() {
-        return id;
+    public String getCollectionName() {
+        return collectionName;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getAuthor() {
@@ -59,12 +65,16 @@ public class Book {
         return image;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setAuthor(String author) {
@@ -98,8 +108,9 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
+                "Collection=" + collectionName +
                 ", title='" + title + '\'' +
+                ", id / ISBN='" + id + '\'' +
                 ", author='" + author + '\'' +
                 ", description='" + description + '\'' +
                 ", publicationDate=" + publicationDate +
