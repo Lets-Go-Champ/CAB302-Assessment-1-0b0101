@@ -75,7 +75,7 @@
                                         <Font name="System Bold" size="24.0" />
                                     </font>
                                 </Label>
-                                <DatePicker fx:id="dateDatePicker" layoutX="44.0" layoutY="722.0" prefHeight="25.0" prefWidth="358.0" />
+                                <DatePicker fx:id="dateDatePicker" editable="false" layoutX="44.0" layoutY="722.0" prefHeight="25.0" prefWidth="358.0" />
                                 <Label layoutX="44.0" layoutY="768.0" prefHeight="35.0" prefWidth="153.0" text="Pages">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
@@ -87,7 +87,7 @@
                                         <Font name="System Bold" size="24.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="notesTextField" layoutX="43.0" layoutY="889.0" prefHeight="168.0" prefWidth="362.0" />
+                                <TextField fx:id="notesTextField" alignment="TOP_LEFT" layoutX="43.0" layoutY="889.0" prefHeight="168.0" prefWidth="362.0" />
                                 <Label layoutX="41.0" layoutY="1078.0" text="Cover Image">
                                     <font>
                                         <Font name="System Bold" size="24.0" />

@@ -28,6 +28,7 @@ public class AddBookManuallyController {
     public Button addBookButton;
     public Button addImageButton;
 
+    private Image image;
 
     // Define error messages
     String noTitleErrorMessage = "Please enter a Title.";
@@ -40,6 +41,8 @@ public class AddBookManuallyController {
     String noPagesMessage = "Please enter a page count.";
     String invalidPagesMessage = "Please enter a valid page count ( >0).";
     String noNoteMessage = "Please eneter a note.";
+    String noImageMessage = "Please select a cover image.";
+    String noImageUploadMessage = "Could not load an image.";
     String bookExistsMessage = "The book with the given ISBN already exists.";
 
     // Declare DAO for interacting with Book Database
@@ -47,10 +50,6 @@ public class AddBookManuallyController {
 
     // Collection for testing
     Collection testCollection = new Collection(1, "test", "test");
-
-    // TODO include IMAGE functionality.
-    // FileChooser for uploading a book image.
-    FileChooser fileChooser = new FileChooser();
 
     @FXML
     public void initialize() {
@@ -97,21 +96,18 @@ public class AddBookManuallyController {
         // Ensure all fields have values and that the book is valid
         if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
             // Ensure that the book does not already exist
-            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); }
-            else {
-                saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
-                // Display a confirmation alert
-                showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+            // Save the book and reset fields
+            saveBook(testCollection, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+            // TODO clearFields();
 
-                // Clear fields after adding the book
-                // TODO clearFields();
-            }
         }
     }
 
     /**
-     * Determines if all the fields entered by are valid
+     * Determines if all the fields entered for a book are valid
      * @param title The title of the book
      * @param isbn The ISBN of the book
      * @param author The author of the book
@@ -133,6 +129,7 @@ public class AddBookManuallyController {
         if (pages.isEmpty()) {showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false;}
         if (!isPagesValid(pages)) {showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false;}
         if (notes.isEmpty()) {showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false;}
+        if (image == null) {showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false;}
         return true;
     }
 
@@ -164,6 +161,8 @@ public class AddBookManuallyController {
 
     private void handleUploadImage() {
         try {
+            // FileChooser for uploading a book image.
+            FileChooser fileChooser = new FileChooser();
 
             // Create a window to upload the image
             Stage dialogStage = new Stage();
@@ -172,12 +171,10 @@ public class AddBookManuallyController {
                     new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
                     new FileChooser.ExtensionFilter("PNG Files", "*.png")
             );
-
             File selectedFile = fileChooser.showOpenDialog(dialogStage);
-            System.out.println(selectedFile);
 
             // Display the image that was uploaded
-            Image image = new Image(String.valueOf(selectedFile));
+            image = new Image(String.valueOf(selectedFile));
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(300);
             imageView.setFitHeight(400);
@@ -187,8 +184,7 @@ public class AddBookManuallyController {
             alert.setGraphic(imageView);
             alert.showAndWait();
 
-
-        } catch (Exception e) { ErrorMessage.showError("Error: ", "Could not load an image.");}
+        } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
     }
 
 
@@ -204,13 +200,12 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param note User defined note regarding the book
      */
-
-
     private void saveBook(Collection collection, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
-        byte[] image = new byte[0]; // Fix this when implementing image grabbing.
-        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, image);
+        //byte[] image = new byte[0]; // Fix this when implementing image grabbing.
+        byte[] coverImage = new byte[image.hashCode()];
+        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, coverImage);
         bookDAO.insert(newBook);
 
         // Print the results to console for testing:
@@ -222,7 +217,9 @@ public class AddBookManuallyController {
                 "Publication Date: " + publicationDate + "\n" +
                 "Publisher: " + publisher + "\n" +
                 "Pages: " + pages + "\n" +
-                "Note: " + note + "\n");
+                "Note: " + note + "\n" +
+                "Image: " + image.getUrl()
+        );
     }
 
     /**
