@@ -157,7 +157,8 @@ public class AddBookManuallyController {
         // TODO update to include new fields (collections)
         String note = "TODO: add this";
 
-        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note);
+        byte[] image = new byte[0]; // Fix this when implementing image grabbing.
+        Book newBook = new Book(Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, image);
         bookDAO.insert(newBook);
 
         /** Test Code
