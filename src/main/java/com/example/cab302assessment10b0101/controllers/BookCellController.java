@@ -36,4 +36,6 @@ public class BookCellController implements Initializable {
     public BookCellController(Book book){
         this.book = book;
     }
+
+
 }
