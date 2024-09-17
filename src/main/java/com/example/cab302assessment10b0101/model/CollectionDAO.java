@@ -18,9 +18,9 @@ public class CollectionDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
                             "collectionName TEXT NOT NULL," +
-                            "collectionDescription" +
+                            "collectionDescription TEXT" + // Description can now be optional
                             ");"
             );
         } catch (SQLException ex) {
@@ -28,23 +28,22 @@ public class CollectionDAO {
         }
     }
 
-    // Insert a new book into the Books table
+    // Insert a new collection into the Collections table
     public void insert(Collection collection) {
         try {
             PreparedStatement insertCollection = connection.prepareStatement(
-                    "INSERT INTO Collections (id, collectionName, collectionDescription) " +
-                            "VALUES (?, ?, ?);"
+                    "INSERT INTO Collections (collectionName, collectionDescription) " + // No need to insert the id
+                            "VALUES (?, ?);"
             );
-            insertCollection.setInt(1, collection.getId());
-            insertCollection.setString(2, collection.getCollectionName());
-            insertCollection.setString(3, collection.getCollectionDescription());
+            insertCollection.setString(1, collection.getCollectionName());
+            insertCollection.setString(2, collection.getCollectionDescription());
             insertCollection.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
         }
     }
 
-    // Retrieve all books from the Books table
+    // Retrieve all collections from the Collections table
     public List<Collection> getAll() {
         List<Collection> collections = new ArrayList<>();
         try {
