@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController"
-      spacing="10">
+<VBox spacing="10" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController">
     <!-- Side Navigation -->
     <HBox>
-        <VBox spacing="10" style="-fx-background-color: #D3D3D3;" prefWidth="150">
-            <Button text="LOGO" style="-fx-background-color: #D3D3D3; -fx-font-size: 18px;" />
-            <Button text="Collections" />
-            <Button text="Add Collection" />
-            <Button text="Books" />
-            <Button text="Add Book" />
-            <Button text="Lending" />
+        <VBox prefWidth="150" spacing="10" style="-fx-background-color: #D3D3D3;">
+            <ImageView fx:id="logoImageView" fitHeight="63.0" fitWidth="159.0" preserveRatio="true">
+                <image>
+                    <Image url="@/com/example/cab302assessment10b0101/logo.png" />
+                </image>
+            </ImageView>
+            <Button fx:id="myBooksBtn" onAction="#onMyBooksClicked" text="My Books" />
+            <Button fx:id="addCollectionBtn" onAction="#onAddCollectionClicked" text="Add Collection" />
+            <Button fx:id="addBookBtn" onAction="#onAddBookClicked" text="Add Book" />
+            <Button fx:id="lendingBtn" onAction="#onLendingClicked" text="Lending" />
+            <Button fx:id="logoutBtn" onAction="#onLogoutClicked" text="Logout" />
         </VBox>
 
         <Pane>
-            <VBox spacing="20" padding="20" style="-fx-background-color: #F5F5F5;">
+            <VBox spacing="20" style="-fx-background-color: #F5F5F5;">
+                <padding>
+                    <Insets bottom="20" left="20" right="20" top="20" />
+                </padding>
                 <!-- Title -->
-                <Label text="Book Details" style="-fx-font-size: 24px;" />
+                <Label style="-fx-font-size: 24px;" text="Book Details" />
+            <ButtonBar prefHeight="9.0" prefWidth="189.0">
+              <buttons>
+                  <Button mnemonicParsing="false" text="Edit" />
+                <Button mnemonicParsing="false" text="Delete" />
+              </buttons>
+            </ButtonBar>
 
                 <!-- Book Details -->
                 <HBox spacing="20">
                     <!-- Cover Image -->
-                    <ImageView fx:id="coverImageView" fitHeight="200.0" fitWidth="150.0" preserveRatio="true"/>
+                    <ImageView fx:id="coverImageView" fitHeight="200.0" fitWidth="154.0" preserveRatio="true" />
 
                     <!-- Book Info -->
-                    <VBox spacing="10">
+                    <VBox prefHeight="200.0" prefWidth="127.0" spacing="10">
                         <!-- Title -->
                         <HBox spacing="10">
                             <Label text="Title:" />
@@ -45,14 +57,9 @@
                             <Label text="Author:" />
                             <Label fx:id="authorLabel" />
                         </HBox>
-                        <!-- Genre -->
-                        <HBox spacing="10">
-                            <Label text="Genre:" />
-                            <Label fx:id="genreLabel" />
-                        </HBox>
                         <!-- Publication Date -->
                         <HBox spacing="10">
-                            <Label text="Publication Date:" />
+                            <Label prefHeight="25.0" prefWidth="117.0" text="Publication Date:" />
                             <Label fx:id="pubDateLabel" />
                         </HBox>
                         <!-- ISBN -->
@@ -63,12 +70,7 @@
                         <!-- Short Description -->
                         <HBox spacing="10">
                             <Label text="Description:" />
-                            <Label fx:id="descriptionLabel" wrapText="true" maxWidth="400"/>
-                        </HBox>
-                        <!-- Notes -->
-                        <HBox spacing="10">
-                            <Label text="Notes:" />
-                            <Label fx:id="notesLabel" wrapText="true" maxWidth="400"/>
+                            <Label fx:id="descriptionLabel" maxWidth="400" wrapText="true" />
                         </HBox>
                     </VBox>
                 </HBox>

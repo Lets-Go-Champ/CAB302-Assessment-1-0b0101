@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -22,6 +23,21 @@ public class BookDetailsController {
     private Label descriptionLabel;
     @FXML
     private ImageView coverImageView;
+
+    public void onMyBooksClicked(ActionEvent actionEvent) {
+    }
+
+    public void onAddCollectionClicked(ActionEvent actionEvent) {
+    }
+
+    public void onAddBookClicked(ActionEvent actionEvent) {
+    }
+
+    public void onLendingClicked(ActionEvent actionEvent) {
+    }
+
+    public void onLogoutClicked(ActionEvent actionEvent) {
+    }
 
 //    public void setBook(Book book) {
 //        titleLabel.setText(book.getTitle());
