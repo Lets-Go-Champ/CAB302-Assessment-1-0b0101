@@ -51,8 +51,7 @@ public class AddBookManuallyController {
 
     // Declare DAOs for interacting with Database
     //private final BookDAO bookDAO = new BookDAO();
-    CollectionDAO collectionDAO = new CollectionDAO();
-
+    //CollectionDAO collectionDAO = new CollectionDAO()
 
 
     @FXML
@@ -108,7 +107,7 @@ public class AddBookManuallyController {
     }
 
     private void populateCollections() {
-       for ( Collection collection : collectionDAO.getAll()) {
+       for ( Collection collection : CollectionDAO.getInstance().getAll()) {
             collectionChoiceBox.getItems().add(collection.getCollectionName());
        }
     }

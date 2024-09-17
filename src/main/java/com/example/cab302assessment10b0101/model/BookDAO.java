@@ -2,13 +2,11 @@ package com.example.cab302assessment10b0101.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class BookDAO {
     private static BookDAO instance;

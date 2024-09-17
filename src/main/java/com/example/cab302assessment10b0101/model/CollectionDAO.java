@@ -5,11 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionDAO {
+    private static CollectionDAO instance;
+    private static Connection connection;
 
-    private Connection connection;
-
-    public CollectionDAO() {
+    private CollectionDAO() {
         connection = DatabaseConnector.getInstance();
+    }
+
+    public static synchronized CollectionDAO getInstance(){
+        if(instance == null){
+            instance = new CollectionDAO();
+        }
+        return instance;
     }
 
     // Create the Collection table if it doesn't already exist

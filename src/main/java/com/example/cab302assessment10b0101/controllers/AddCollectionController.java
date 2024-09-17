@@ -28,8 +28,8 @@ public class AddCollectionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         // Initialize CollectionDAO to interact with the database
-        collectionDAO = new CollectionDAO();
-        collectionDAO.createTable(); // Ensure the table exists
+        //collectionDAO = new CollectionDAO();
+        CollectionDAO.getInstance().createTable(); // Ensure the table exists
 
         saveBtn.setOnAction(e -> saveCollection());
 
