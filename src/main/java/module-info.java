@@ -6,6 +6,10 @@ module com.example.cab302assessment10b0101 {
     requires java.compiler;
 
     opens com.example.cab302assessment10b0101.controllers to javafx.fxml;
+    opens com.example.cab302assessment10b0101.model to org.junit.jupiter.api;
+
     exports com.example.cab302assessment10b0101;
     exports com.example.cab302assessment10b0101.controllers;
+    exports com.example.cab302assessment10b0101.model;
+
 }
