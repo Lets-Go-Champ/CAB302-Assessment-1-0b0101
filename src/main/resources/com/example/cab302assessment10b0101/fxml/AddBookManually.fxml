@@ -76,15 +76,31 @@
                                               <Font name="System Bold" size="24.0" />
                                           </font>
                                       </Label>
-                                      <DatePicker fx:id="dateDatePicker" prefHeight="25.0" prefWidth="358.0" />
+                                      <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25.0" prefWidth="358.0" />
                                       <Label prefHeight="35.0" prefWidth="153.0" text="Pages">
                                           <font>
                                               <Font name="System Bold" size="24.0" />
                                           </font>
                                       </Label>
                                       <TextField fx:id="pagesTextField" prefHeight="25.0" prefWidth="355.0" />
+                                  <Label layoutX="43.0" layoutY="854.0" text="Notes">
+                                      <font>
+                                          <Font name="System Bold" size="24.0" />
+                                      </font>
+                                  </Label>
+                                  <TextField fx:id="notesTextField" layoutX="43.0" layoutY="889.0" prefHeight="168.0" prefWidth="362.0" />
+                                  <Label layoutX="41.0" layoutY="1078.0" text="Cover Image">
+                                      <font>
+                                          <Font name="System Bold" size="24.0" />
+                                      </font>
+                                  </Label>
                                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                                     <children>
+                                        <Button fx:id="addImageButton" layoutX="39.0" layoutY="1128.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="118.0" text="Add Image" textFill="#17cd26">
+                                            <font>
+                                                <Font name="System Bold" size="18.0" />
+                                            </font>
+                                        </Button>
                                             <Button fx:id="addBookButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" text="Add Book" textFill="#17cd26">
                                                 <font>
                                                     <Font name="System Bold" size="18.0" />
@@ -93,6 +109,7 @@
                                     </children>
                                  </HBox>
                               </children>
+
                            </VBox>
                             </AnchorPane>
                         </ScrollPane>
