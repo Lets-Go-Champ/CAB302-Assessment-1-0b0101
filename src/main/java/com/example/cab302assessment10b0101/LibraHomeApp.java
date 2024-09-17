@@ -21,8 +21,8 @@ public class LibraHomeApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Initialize UserDAO and create the Users table
-        userDAO = new UserDAO();
-        userDAO.createTable();
+        //userDAO = new UserDAO();
+        UserDAO.getInstance().createTable();
 
        // bookDAO = new BookDAO();
         BookDAO.getInstance().createTable();

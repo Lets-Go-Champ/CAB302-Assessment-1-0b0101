@@ -5,10 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private Connection connection;
 
-    public UserDAO() {
+    private static UserDAO instance;
+    private static Connection connection;
+
+    private UserDAO() {
         connection = DatabaseConnector.getInstance();
+    }
+
+    public static synchronized UserDAO getInstance(){
+        if(instance == null){
+            instance = new UserDAO();
+        }
+        return instance;
     }
 
     public void createTable() {

@@ -42,7 +42,7 @@ public class LoginController {
 
 
     // Declare DAO for interacting with User Database
-    private UserDAO userDAO = new UserDAO();
+    //private UserDAO userDAO = new UserDAO();
 
     @FXML
     private void initialize() {
@@ -130,7 +130,7 @@ public class LoginController {
 
     private boolean isValidLogin(String username, String password) {
         // Validate login credentials by checking if the username and password match any user in the database
-        return userDAO.getAll().stream().anyMatch(user ->
+        return UserDAO.getInstance().getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
     }
 
