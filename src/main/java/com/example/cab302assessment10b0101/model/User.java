@@ -1,9 +1,15 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.beans.property.ListProperty;
+
+import java.util.List;
+
 public class User {
     private int id;
     private String username;
     private String password;
+
+    private ListProperty<Collection> collections;
 
     public User(int id, String userName, String password) {
         this.id = id;

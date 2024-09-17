@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.UserDAO;
+import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -75,6 +77,9 @@ public class LoginController {
             showAlert("Login Error", "Username and password do not match any existing account.", AlertType.ERROR);
             return;
         }
+
+        User currentUser = new User(username, password);
+        UserManager.getInstance().setCurrentUser(currentUser);
         Stage stage = (Stage) loginButton.getScene().getWindow();
         ViewManager.getInstance().getViewFactory().closeStage(stage);
         ViewManager.getInstance().getViewFactory().getClientScreen();
