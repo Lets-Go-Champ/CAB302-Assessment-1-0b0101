@@ -20,7 +20,7 @@ public class ClientController implements Initializable {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().addListener((observableValue, oldVal, newVal) -> {
             switch (newVal) {
                 case ADDBOOK: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getAddBookView());
-                break;
+                    break;
                 case ADDCOLLECTION: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getAddCollectinView());
                     break;
                 default: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getMyBooksView());
