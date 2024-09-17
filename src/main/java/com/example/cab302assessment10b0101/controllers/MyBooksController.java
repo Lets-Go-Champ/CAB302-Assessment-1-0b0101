@@ -7,7 +7,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
+import com.example.cab302assessment10b0101.model.BookDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,8 +29,11 @@ public class MyBooksController implements Initializable {
     public TextField authorTextField;
 
 
+
     private void setUpData() {
-        // TODO add functionality here
+
+        //bookListView.setItems(bookDAO.getAll());
+
     }
 
     @FXML

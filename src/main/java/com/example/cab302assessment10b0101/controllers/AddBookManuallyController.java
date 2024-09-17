@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-
+import com.example.cab302assessment10b0101.model.BookDAO;
 
 public class AddBookManuallyController {
 
@@ -50,7 +50,7 @@ public class AddBookManuallyController {
     String bookExistsMessage = "The book with the given ISBN already exists.";
 
     // Declare DAOs for interacting with Database
-    private final BookDAO bookDAO = new BookDAO();
+    //private final BookDAO bookDAO = new BookDAO();
     CollectionDAO collectionDAO = new CollectionDAO();
 
 
@@ -162,8 +162,9 @@ public class AddBookManuallyController {
      */
     private boolean bookExists(String id) {
         // Double check this functionality - seems like it is not working as intended.
-        return bookDAO.getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
+        return BookDAO.getInstance().getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
     }
+
 
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
@@ -229,7 +230,7 @@ public class AddBookManuallyController {
 
         if (imageBytes.length != 0) {
             Book newBook = new Book(collectionName, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
-            bookDAO.insert(newBook);
+            BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
             System.out.println("Book Saved Successfully! Details: " + "\n" +

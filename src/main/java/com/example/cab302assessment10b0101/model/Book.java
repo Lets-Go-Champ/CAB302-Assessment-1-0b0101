@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Book {
@@ -15,53 +17,53 @@ public class Book {
     private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(StringProperty collectionName, StringProperty title, int id, StringProperty author, StringProperty description, StringProperty publicationDate, StringProperty publisher, IntegerProperty pages, StringProperty notes, byte[] image) {
-        this.collectionName = collectionName;
-        this.title = title;
+    public Book(String collectionName, String title, int id, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+        this.collectionName = new SimpleStringProperty(collectionName);
+        this.title = new SimpleStringProperty(title);
         this.id = id;
-        this.author = author;
-        this.description = description;
-        this.publicationDate = publicationDate;
-        this.publisher = publisher;
-        this.pages = pages;
-        this.notes = notes;
+        this.author = new SimpleStringProperty(author);
+        this.description = new SimpleStringProperty(description);
+        this.publicationDate = new SimpleStringProperty(publicationDate);
+        this.publisher = new SimpleStringProperty(publisher);
+        this.pages = new SimpleIntegerProperty(pages);
+        this.notes = new SimpleStringProperty(notes);
         this.image = image;
     }
 
-    public StringProperty getCollectionName() {
-        return collectionName;
+    public String getCollectionName() {
+        return collectionName.get();
     }
 
-    public  StringProperty getTitle() {
-        return title;
+    public String getTitle() {
+        return title.get();
     }
 
     public int getId() {
         return id;
     }
 
-    public  StringProperty getAuthor() {
-        return author;
+    public String getAuthor() {
+        return author.get();
     }
 
-    public  StringProperty getDescription() {
-        return description;
+    public String getDescription() {
+        return description.get();
     }
 
-    public  StringProperty getPublicationDate() {
-        return publicationDate;
+    public String getPublicationDate() {
+        return publicationDate.get();
     }
 
-    public  StringProperty getPublisher() {
-        return publisher;
+    public String getPublisher() {
+        return publisher.get();
     }
 
-    public IntegerProperty getPages() {
-        return pages;
+    public int getPages() {
+        return pages.get();
     }
 
-    public  StringProperty getNotes() {
-        return notes;
+    public String getNotes() {
+        return notes.get();
     }
 
     public byte[] getImage() {

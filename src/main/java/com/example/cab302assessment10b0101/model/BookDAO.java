@@ -1,5 +1,7 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.collections.ObservableList;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,11 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO {
+    private static BookDAO instance;
+    private static Connection connection;
 
-    private Connection connection;
-
-    public BookDAO() {
+    private BookDAO() {
         connection = DatabaseConnector.getInstance();
+    }
+
+    public static synchronized BookDAO getInstance(){
+        if(instance == null){
+            instance = new BookDAO();
+        }
+        return instance;
     }
 
     // Create the Books table if it doesn't already exist
