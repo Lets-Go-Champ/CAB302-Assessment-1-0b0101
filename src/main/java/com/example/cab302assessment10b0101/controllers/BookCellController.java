@@ -30,6 +30,10 @@ public class BookCellController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        System.out.println("Initializing BookCellController for book: " + book.getTitle());
+        bookTitle.setText(book.getTitle());
+        bookAuthor.setText(book.getAuthor());
+        bookCoverImage.setImage(book.getImage());
 
     }
 

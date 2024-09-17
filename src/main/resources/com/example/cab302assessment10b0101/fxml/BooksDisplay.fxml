@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-   <ListView layoutX="20.0" layoutY="185.0" prefHeight="530.0" prefWidth="916.0" />
+<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.MyBooksController">
+   <ListView fx:id="bookListView" layoutX="20.0" layoutY="185.0" prefHeight="530.0" prefWidth="916.0" />
     <Line endX="815.0" layoutX="121.0" layoutY="178.0" startX="-100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
     <ChoiceBox layoutX="20.0" layoutY="21.0" prefHeight="48.0" prefWidth="248.0" />
     <ChoiceBox layoutX="20.0" layoutY="93.0" prefHeight="48.0" prefWidth="248.0" />

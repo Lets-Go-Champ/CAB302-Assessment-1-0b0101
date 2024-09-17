@@ -43,6 +43,8 @@ public class User {
         this.password = password;
     }
 
+    //public ListProperty<Collection> getObservableCollections(){ return collections.get(); }
+
     @Override
     public String toString() {
         return "User{" +

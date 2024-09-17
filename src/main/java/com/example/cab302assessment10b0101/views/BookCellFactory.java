@@ -11,6 +11,9 @@ public class BookCellFactory extends ListCell<Book> {
     @Override
     protected void updateItem(Book book, boolean empty) {
         super.updateItem(book, empty);
+
+        System.out.println("updateItem called. Empty: " + empty + ", Book: " + (book != null ? book.getTitle() : "null"));
+
         if(empty){
             setText(null);
             setGraphic(null);

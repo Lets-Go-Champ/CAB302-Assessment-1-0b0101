@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
@@ -63,7 +64,7 @@ public class BookDAO {
             insertBook.setString(7, book.getPublisher());
             insertBook.setInt(8, book.getPages());
             insertBook.setString(9, book.getNotes());
-            insertBook.setBytes(10, book.getImage());
+            insertBook.setBytes(10, book.getBytes());
             insertBook.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -71,8 +72,8 @@ public class BookDAO {
     }
 
     // Retrieve all books from the Books table
-    public List<Book> getAll() {
-        List<Book> books = new ArrayList<>();
+    public ObservableList<Book> getAll() {
+        ObservableList<Book> books = FXCollections.observableArrayList();
         try {
             Statement getAll = connection.createStatement();
             ResultSet rs = getAll.executeQuery("SELECT * FROM Books");

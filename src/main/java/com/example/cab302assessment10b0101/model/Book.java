@@ -4,6 +4,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
+
+import java.io.ByteArrayInputStream;
 
 public class Book {
     private StringProperty collectionName;
@@ -66,8 +69,15 @@ public class Book {
         return notes.get();
     }
 
-    public byte[] getImage() {
+    public byte[] getBytes() {
         return image;
+    }
+
+    public Image getImage() {
+        if(image != null){
+            return new Image(new ByteArrayInputStream(image));
+        }
+        return null;
     }
 
     public void setCollectionName( StringProperty collectionName) {

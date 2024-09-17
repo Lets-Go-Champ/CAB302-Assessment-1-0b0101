@@ -14,7 +14,6 @@
         <VBox.margin>
             <Insets bottom="9.0" left="9.0" right="9.0" top="9.0"/>
         </VBox.margin>
-        <Image url="@../images/The-Fellowship-Of-The-Ring-Book-Cover-by-JRR-Tolkien_1-480.jpg"/>
     </ImageView>
     <VBox prefHeight="200.0" prefWidth="100.0">
         <Label fx:id="bookTitle" prefHeight="31.0" prefWidth="190.0" text="Title">
