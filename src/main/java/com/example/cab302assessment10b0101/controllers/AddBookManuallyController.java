@@ -25,7 +25,7 @@ public class AddBookManuallyController {
     public TextField pagesTextField;
     public TextField notesTextField;
     public Button addBookButton;
-    public Button addImageButton;
+    //public Button addImageButton;
 
     private Image image;
 
@@ -59,7 +59,7 @@ public class AddBookManuallyController {
     private void setupEventHandlers() {
         // TODO add functionality for Collections ChoiceBox
         addBookButton.setOnAction(event -> handleAddBook());
-        addImageButton.setOnAction(e -> handleUploadImage());
+        //addImageButton.setOnAction(e -> handleUploadImage());
     }
 
     /**
