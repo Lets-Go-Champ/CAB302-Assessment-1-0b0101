@@ -20,7 +20,7 @@ public class CollectionDAO {
                     "CREATE TABLE IF NOT EXISTS Collections (" +
                             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "collectionName TEXT NOT NULL," +
-                            "collectionDescription TEXT NOT NULL" +
+                            "collectionDescription" +
                             ");"
             );
         } catch (SQLException ex) {
