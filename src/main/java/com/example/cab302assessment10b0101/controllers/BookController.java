@@ -23,13 +23,13 @@ public class BookController {
     @FXML
     private Label bookAuthor;
 
-    /*
-    public void setCard(Book book){
-        Image image = new Image(getClass().getResourceAsStream((book.getCoverImage())));
-        bookCoverImage.setImage(image);
+
+    public void setData(Book book){
+        System.out.println("Initializing BookCellController for book: " + book.getTitle());
         bookTitle.setText(book.getTitle());
         bookAuthor.setText(book.getAuthor());
+        bookCoverImage.setImage(book.getImage());
     }
-    */
+
 
 }

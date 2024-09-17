@@ -1,21 +1,25 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
-import com.example.cab302assessment10b0101.views.BookCellFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import com.example.cab302assessment10b0101.model.BookDAO;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MyBooksController implements Initializable {
 
     @FXML
-    private ListView<Book> bookListView;
+    private ObservableList<Book> bookListView;
 
     @FXML
     private ChoiceBox<String> collectionChoiceBox;
@@ -29,14 +33,41 @@ public class MyBooksController implements Initializable {
     @FXML
     private TextField authorTextField;
 
+    @FXML
+    private GridPane bookContainer;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setUpData();
+        setData();
     }
 
-    private void setUpData() {
+    private void setData() {
         ObservableList<Book> books = BookDAO.getInstance().getAll();
         System.out.println("Number of books retrieved: " + books.size());
+
+
+        int columns = 0;
+        int rows = 1;
+        try {
+            for (Book book : books) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BookCell.fxml"));
+                VBox bookBox = fxmlLoader.load();
+                BookController bookController = fxmlLoader.getController();
+                bookController.setData(book);
+
+                if (columns == 4) {
+                    columns = 0;
+                    ++rows;
+                }
+                bookContainer.add(bookBox, columns++, rows);
+                GridPane.setMargin(bookBox, new Insets(10));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+/*
         for (Book book : books) {
             System.out.println("Book: " + book.getTitle() + " by " + book.getAuthor());
         }
@@ -55,5 +86,7 @@ public class MyBooksController implements Initializable {
     @FXML
     private void handleMyBooks() {
         // Your handling code here
+    }
+    */
     }
 }
