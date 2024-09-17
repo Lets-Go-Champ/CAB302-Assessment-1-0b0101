@@ -38,34 +38,40 @@ public class MyBooksController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setData();
-    }
-
-    private void setData() {
         ObservableList<Book> books = BookDAO.getInstance().getAll();
         System.out.println("Number of books retrieved: " + books.size());
 
 
         int columns = 0;
         int rows = 1;
+        int maxColumns = 4;
         try {
             for (Book book : books) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BookCell.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Book.fxml"));
                 VBox bookBox = fxmlLoader.load();
                 BookController bookController = fxmlLoader.getController();
                 bookController.setData(book);
 
-                if (columns == 4) {
-                    columns = 0;
-                    ++rows;
-                }
-                bookContainer.add(bookBox, columns++, rows);
+                bookContainer.add(bookBox, columns, rows);
                 GridPane.setMargin(bookBox, new Insets(10));
+
+
+                columns++;
+                if (columns == maxColumns) {
+                    columns = 0;  // Reset to the first column
+                    rows++;       // Move to the next row
+                }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+   // private void setData() {
+
 
 /*
         for (Book book : books) {
@@ -89,4 +95,3 @@ public class MyBooksController implements Initializable {
     }
     */
     }
-}
