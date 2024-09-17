@@ -21,14 +21,15 @@ public class BookDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Books (" +
-                            "id INTEGER," +
+                            "collectionName TEXT NOT NULL," +
                             "title TEXT NOT NULL," +
-                            "author TEXT NOT NULL," +
-                            "description TEXT NOT NULL," +
-                            "publicationDate TEXT NOT NULL," +
-                            "publisher TEXT NOT NULL," +
+                            "id TEXT," +
+                            "author TEXT," +
+                            "description TEXT," +
+                            "publicationDate TEXT," +
+                            "publisher TEXT," +
                             "pages INTEGER," +
-                            "notes TEXT NOT NULL," +
+                            "notes TEXT," +
                             "image BLOB" +
                             ");"
             );
@@ -41,18 +42,19 @@ public class BookDAO {
     public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
-                    "INSERT INTO Books (id, title, author, description, publicationDate, publisher, pages, notes) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+                    "INSERT INTO Books (collectionName, title, id, author, description, publicationDate, publisher, pages, notes, image) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
             );
-            insertBook.setInt(1, book.getId());
+            insertBook.setString(1, book.getCollectionName());
             insertBook.setString(2, book.getTitle());
-            insertBook.setString(3, book.getAuthor());
-            insertBook.setString(4, book.getDescription());
-            insertBook.setString(5, book.getPublicationDate());
-            insertBook.setString(6, book.getPublisher());
-            insertBook.setInt(7, book.getPages());
-            insertBook.setString(8, book.getNotes());
-            insertBook.setBytes(9, book.getImage());
+            insertBook.setInt(3, book.getId());
+            insertBook.setString(4, book.getAuthor());
+            insertBook.setString(5, book.getDescription());
+            insertBook.setString(6, book.getPublicationDate());
+            insertBook.setString(7, book.getPublisher());
+            insertBook.setInt(8, book.getPages());
+            insertBook.setString(9, book.getNotes());
+            insertBook.setBytes(10, book.getImage());
             insertBook.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -68,8 +70,9 @@ public class BookDAO {
             while (rs.next()) {
                 books.add(
                         new Book(
-                                rs.getInt("id"),
+                                rs.getString("collectionName"),
                                 rs.getString("title"),
+                                rs.getInt("id"),
                                 rs.getString("author"),
                                 rs.getString("description"),
                                 rs.getString("publicationDate"),
@@ -97,14 +100,14 @@ public class BookDAO {
     }
 
     // Method to add a new book with an image to the database
-    public void addBookWithImage(int id, String title, String author, String description, int publicationDate,
+    public void addBookWithImage(String collectionName, String title, int id, String author, String description, String publicationDate,
                                  String publisher, int pages, String notes, String imagePath) {
         try {
             // Convert the image file to a byte array
             byte[] imageBytes = readImageFile(imagePath);
 
             // Create a new Book object with the image
-            Book book = new Book(id, title, author, description, publicationDate, publisher, pages, notes, imageBytes);
+            Book book = new Book(collectionName, title, id, author, description, publicationDate, publisher, pages, notes, imageBytes);
 
             // Insert the book into the database
             insert(book);

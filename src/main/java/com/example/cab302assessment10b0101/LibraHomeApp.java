@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101;
 
 import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.ViewFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ public class LibraHomeApp extends Application {
     // Instantiate TestHandler, which is used for testing databases ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
     // private TestHandler testHandler;
 
+
     @Override
     public void start(Stage primaryStage) {
         // Initialize UserDAO and create the Users table
@@ -28,19 +30,7 @@ public class LibraHomeApp extends Application {
         collectionDAO = new CollectionDAO();
         collectionDAO.createTable();
 
-        try {
-            // Load the login.fxml file and set it as the main scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            // Set up the primary stage (main window)
-            primaryStage.setTitle("LibraHome - Home Library Catalogue");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ViewManager.getInstance().getViewFactory().getLoginScreen();
 
         // Initialize TestHandler, which is used for testing databases ------------ TEST CODE TO BE REMOVED UPON FUNCTIONING FRONT END
         // testHandler = new TestHandler(bookDAO, collectionDAO);

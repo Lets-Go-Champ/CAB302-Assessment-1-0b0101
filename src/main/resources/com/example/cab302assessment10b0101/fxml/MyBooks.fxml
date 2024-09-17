@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="730" prefWidth="1120">
-
+<BorderPane prefHeight="730" prefWidth="1120" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <fx:include source="UserMenu.fxml"/>
+        <fx:include source="UserMenu.fxml" />
     </left>
 
     <center>
-        <fx:include source="BooksDisplay.fxml"/>
+        <fx:include source="BooksDisplay.fxml" />
     </center>
 </BorderPane>

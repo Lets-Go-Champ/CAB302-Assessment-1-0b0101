@@ -10,30 +10,29 @@
 
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0"
-      prefWidth="180.0" stylesheets="@../styles/userMenu.css" xmlns="http://javafx.com/javafx/22"
-      xmlns:fx="http://javafx.com/fxml/1">
+      prefWidth="180.0" stylesheets="@../styles/userMenu.css" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.cab302assessment10b0101.controllers.UserMenuController">
    <AnchorPane prefHeight="730.0" prefWidth="160.0">
       <VBox prefHeight="121.0" prefWidth="180.0" stylesheets="@../styles/userMenu.css" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0">
-         <children>
-            <FontAwesomeIconView glyphName="BOOK" size="30" text=""/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome"/>
-         </children>
          <styleClass>
             <String fx:value="menu_title_container"/>
             <String fx:value="logo_container"/>
          </styleClass>
+         <FontAwesomeIconView glyphName="BOOK" size="30" text=""/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome"/>
       </VBox>
       <VBox prefHeight="526.0" prefWidth="180.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-         <Button mnemonicParsing="false" text="My Books"/>
-         <Button mnemonicParsing="false" text="Add Collection"/>
-         <Button mnemonicParsing="false" text="Add Book"/>
-         <Button mnemonicParsing="false" text="Lending"/>
-         <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout"/>
-            <VBox.margin>
-               <Insets top="100.0"/>
-            </VBox.margin>
+         <Button fx:id="myBooksBtn" text="My Books" onAction="#onMyBooksClicked"/>
+         <Button fx:id="addCollectionBtn" text="Add Collection" onAction="#onAddCollectionClicked"/>
+         <Button fx:id="addBookBtn" text="Add Book" onAction="#onAddBookClicked"/>
+         <Button fx:id="lendingBtn" text="Lending"/>
+         <Button fx:id="logoutBtn" text="Logout"/>
+         <VBox.margin>
+            <Insets top="100"/>
+         </VBox.margin>
       </VBox>
    </AnchorPane>
 </VBox>

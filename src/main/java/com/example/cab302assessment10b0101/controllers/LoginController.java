@@ -1,19 +1,21 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.exceptions.ErrorMessage;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+
+import com.example.cab302assessment10b0101.model.ViewManager;
 
 public class LoginController {
 
@@ -45,7 +47,7 @@ public class LoginController {
         // This method is called automatically after the FXML file has been loaded
         // Not 100% what errorLabel is for in the current implementation, Error Message fills this role decently as it is
         errorLabel.setVisible(false);
-//        Image image = new Image(getClass().getResourceAsStream("/com/example/cab302assessment10b0101/The Fellowship of the Ring.png"));
+//        Image image = new Image(getClass().getResourceAsStream("/com/example/cab302assessment10b0101/download.png"));
 //        loginImageView.setImage(image);
         // Sets up event handlers for the buttons
         setupEventHandlers();
@@ -53,7 +55,7 @@ public class LoginController {
 
     private void setupEventHandlers() {
         // Attach event handlers to buttons
-        loginButton.setOnAction(event -> handleLogin(event));
+        loginButton.setOnAction(this::handleLogin);
         createAccountButton.setOnAction(event -> handleCreateAccount());
     }
 
@@ -64,19 +66,22 @@ public class LoginController {
 
         // Check if fields are empty
         if (username.isEmpty() || password.isEmpty()) {
-            ErrorMessage.showError("Login Error", "Please enter both username and password.");
+            showAlert("Login Error", "Please enter both username and password.", AlertType.ERROR);
             return;
         }
 
         // Validate login credentials
         if (!isValidLogin(username, password)) {
-            ErrorMessage.showError("Login Error", "Username and password do not match any existing account.");
+            showAlert("Login Error", "Username and password do not match any existing account.", AlertType.ERROR);
             return;
         }
-
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        ViewManager.getInstance().getViewFactory().closeStage(stage);
+        ViewManager.getInstance().getViewFactory().getClientScreen();
         // If login is successful, load MyBooks.fxml and display it
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml"));
+
+        /*try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Client.fxml"));
             Scene myBooksScene = new Scene(loader.load());
 
             // Get the stage from the event source (login button) and set the new scene
@@ -88,10 +93,10 @@ public class LoginController {
         } catch (IOException e) {
             // Debugging Tool
             e.printStackTrace();
-            ErrorMessage.showError("Error", "Could not load MyBooks page.");
+            showAlert("Error", "Could not load MyBooks page.", AlertType.ERROR);
         }
-    }
-
+    }*/
+}
     private void handleCreateAccount() {
         try {
             // Load the CreateAccountPopup.fxml file for account creation
@@ -114,7 +119,7 @@ public class LoginController {
         } catch (IOException e) {
             // Debugging Tool
             e.printStackTrace();
-            ErrorMessage.showError("Error", "Could not load the create account window.");
+            showAlert("Error", "Could not load the create account window.", AlertType.ERROR);
         }
     }
 
@@ -122,6 +127,14 @@ public class LoginController {
         // Validate login credentials by checking if the username and password match any user in the database
         return userDAO.getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
