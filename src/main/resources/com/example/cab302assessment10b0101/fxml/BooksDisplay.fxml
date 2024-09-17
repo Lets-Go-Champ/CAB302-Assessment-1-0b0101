@@ -10,6 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ChoiceBox?>
 <AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane layoutX="18.0" layoutY="179.0" prefHeight="537.0" prefWidth="920.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="22.0">
         <GridPane fx:id="bookContainer">
@@ -19,8 +20,8 @@
         </GridPane>
     </ScrollPane>
     <Line endX="815.0" layoutX="121.0" layoutY="178.0" startX="-100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-    <ComboBox layoutX="20.0" layoutY="21.0" prefHeight="48.0" prefWidth="248.0" promptText="ALL" />
-    <ComboBox layoutX="20.0" layoutY="93.0" prefHeight="48.0" prefWidth="248.0" />
-    <ComboBox layoutX="632.0" layoutY="93.0" prefHeight="48.0" prefWidth="126.0" promptText="Cover" />
-    <ComboBox layoutX="809.0" layoutY="93.0" prefHeight="48.0" prefWidth="126.0" promptText="Sort By" />
+    <ChoiceBox layoutX="20.0" layoutY="21.0" prefHeight="48.0" prefWidth="248.0"/>
+    <ChoiceBox layoutX="20.0" layoutY="93.0" prefHeight="48.0" prefWidth="248.0" />
+    <ChoiceBox layoutX="632.0" layoutY="93.0" prefHeight="48.0" prefWidth="126.0"/>
+    <ChoiceBox layoutX="809.0" layoutY="93.0" prefHeight="48.0" prefWidth="126.0"/>
 </AnchorPane>
