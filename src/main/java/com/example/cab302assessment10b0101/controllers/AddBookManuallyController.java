@@ -9,13 +9,16 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 
 public class AddBookManuallyController {
 
     @FXML
-    public ChoiceBox<Collection> collectionChoiceBox;
+    public ChoiceBox<String> collectionChoiceBox;
     public TextField isbnTextField;
     public TextField titleTextField;
     public TextField authorTextField;
@@ -25,11 +28,12 @@ public class AddBookManuallyController {
     public TextField pagesTextField;
     public TextField notesTextField;
     public Button addBookButton;
-    //public Button addImageButton;
+    public Button addImageButton;
 
     private Image image;
 
     // Define error messages
+    String noCollectionMessage = "Please select a collection.";
     String noTitleErrorMessage = "Please enter a Title.";
     String noISBNMessage = "Please enter an ISBN.";
     String invalidISBNMessage = "The ISBN must only contain digits 0-9";
@@ -39,27 +43,28 @@ public class AddBookManuallyController {
     String noDateMessage = "Please enter a publication date.";
     String noPagesMessage = "Please enter a page count.";
     String invalidPagesMessage = "Please enter a valid page count ( >0).";
-    String noNoteMessage = "Please eneter a note.";
+    String noNoteMessage = "Please enter a note.";
     String noImageMessage = "Please select a cover image.";
     String noImageUploadMessage = "Could not load an image.";
+    String failedImageConversionMessage = "Could note convert the image to a byte array.";
     String bookExistsMessage = "The book with the given ISBN already exists.";
 
-    // Declare DAO for interacting with Book Database
+    // Declare DAOs for interacting with Database
     private final BookDAO bookDAO = new BookDAO();
+    CollectionDAO collectionDAO = new CollectionDAO();
 
-    // Collection for testing
-    Collection testCollection = new Collection(1, "test", "test");
+
 
     @FXML
     public void initialize() {
-        // TODO add functionality here
         setupEventHandlers();
+        populateCollections();
     }
 
+
     private void setupEventHandlers() {
-        // TODO add functionality for Collections ChoiceBox
+        addImageButton.setOnAction(e -> handleUploadImage());
         addBookButton.setOnAction(event -> handleAddBook());
-        //addImageButton.setOnAction(e -> handleUploadImage());
     }
 
     /**
@@ -67,10 +72,7 @@ public class AddBookManuallyController {
      */
     @FXML
     private void handleAddBook() {
-
-        // TODO implement functionality for the collection choice box
-
-        String collectionName = collectionChoiceBox.getValue().getCollectionName();
+        String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem();
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -79,6 +81,7 @@ public class AddBookManuallyController {
         LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
+
 
 
         // Ensure that a date is selected
@@ -101,8 +104,13 @@ public class AddBookManuallyController {
             saveBook(collectionName, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
             // TODO clearFields();
-
         }
+    }
+
+    private void populateCollections() {
+       for ( Collection collection : collectionDAO.getAll()) {
+            collectionChoiceBox.getItems().add(collection.getCollectionName());
+       }
     }
 
     /**
@@ -119,6 +127,7 @@ public class AddBookManuallyController {
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes) {
 
+        if (!collectionSelected()) {showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false;}
         if (title.isEmpty()) {showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false;}
         if (isbn.isEmpty()) {showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false;}
         if (!isValidISBN(isbn)) {showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false;}
@@ -131,7 +140,6 @@ public class AddBookManuallyController {
         if (image == null) {showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false;}
         return true;
     }
-
 
     private boolean isValidISBN(String isbn) {
         try { Integer.parseInt(isbn); }
@@ -157,9 +165,15 @@ public class AddBookManuallyController {
         return bookDAO.getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
     }
 
+    private boolean collectionSelected() {
+        return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
+    }
 
     private void handleUploadImage() {
         try {
+            // Takes a couple seconds to do this
+            // increase code efficiency in future
+
             // FileChooser for uploading a book image.
             FileChooser fileChooser = new FileChooser();
 
@@ -186,6 +200,13 @@ public class AddBookManuallyController {
         } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
     }
 
+    private byte[] imageToBytes(String imagePath) {
+        try {
+            Path path = Paths.get(imagePath);
+            return Files.readAllBytes(path);
+        } catch (Exception e) {showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];}
+    }
+
 
     /**
      * * Save the book to the database
@@ -202,23 +223,28 @@ public class AddBookManuallyController {
     private void saveBook(String collectionName, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
-        //byte[] image = new byte[0]; // Fix this when implementing image grabbing.
-        byte[] coverImage = new byte[image.hashCode()];
-        Book newBook = new Book(collectionName, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, coverImage);
-        bookDAO.insert(newBook);
 
-        // Print the results to console for testing:
-        System.out.println("Book Saved Successfully! Details: " + "\n" +
-                "ISBN: " + isbn + "\n" +
-                "Title: " + title + "\n" +
-                "Author: " + author + "\n" +
-                "Description: " + description + "\n" +
-                "Publication Date: " + publicationDate + "\n" +
-                "Publisher: " + publisher + "\n" +
-                "Pages: " + pages + "\n" +
-                "Note: " + note + "\n" +
-                "Image: " + image.getUrl()
-        );
+        String imagePath = image.getUrl();
+        byte[] imageBytes = imageToBytes(imagePath);
+
+        if (imageBytes.length != 0) {
+            Book newBook = new Book(collectionName, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+            bookDAO.insert(newBook);
+
+            // Print the results to console for testing:
+            System.out.println("Book Saved Successfully! Details: " + "\n" +
+                    "Collection: " + collectionName + "\n" +
+                    "ISBN: " + isbn + "\n" +
+                    "Title: " + title + "\n" +
+                    "Author: " + author + "\n" +
+                    "Description: " + description + "\n" +
+                    "Publication Date: " + publicationDate + "\n" +
+                    "Publisher: " + publisher + "\n" +
+                    "Pages: " + pages + "\n" +
+                    "Note: " + note + "\n" +
+                    "Image: " + imageBytes.toString()
+            );
+        }
     }
 
     /**
@@ -239,7 +265,9 @@ public class AddBookManuallyController {
         titleTextField.clear();
         isbnTextField.clear();
         authorTextField.clear();
-        // collectionChoiceBox.getSelectionModel().clearSelection();
-        // collectionChoiceBox.getSelectionModel().selectFirst();
+        descriptionTextField.clear();
+        publisherTextField.clear();
+        pagesTextField.clear();
+        notesTextField.clear();
     }
 }
