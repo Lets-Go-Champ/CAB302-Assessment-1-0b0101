@@ -11,85 +11,87 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
+    <TabPane prefHeight="414.0" prefWidth="569.0" tabClosingPolicy="UNAVAILABLE" >
+        <Tab text="Search">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="170.0" prefWidth="434.0"/>
+        </Tab>
+        <Tab text="Manual Entry">
+            <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="693.0">
+                    <Label layoutX="216.0" layoutY="14.0" text="Add Book">
+                        <font>
+                            <Font name="System Bold" size="36.0"/>
+                        </font>
+                    </Label>
+                    <Label layoutX="43.0" layoutY="79.0" text="Collection">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <Label layoutX="43.0" layoutY="155.0" text="Title">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="titleTextField" layoutX="43.0" layoutY="190.0" prefHeight="25.0"
+                               prefWidth="355.0"/>
+                    <Label layoutX="42.0" layoutY="234.0" text="ID/ISBN">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="isbnTextField" layoutX="42.0" layoutY="269.0" prefHeight="25.0"
+                               prefWidth="356.0"/>
+                    <Label layoutX="43.0" layoutY="308.0" text="Author">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="authorTextField" layoutX="42.0" layoutY="342.0" prefHeight="25.0"
+                               prefWidth="358.0"/>
+                    <ChoiceBox fx:id="collectionChoiceBox" layoutX="42.0" layoutY="116.0" prefHeight="25.0"
+                               prefWidth="352.0"/>
+                    <Button fx:id="addBookButton" layoutX="52.0" layoutY="919.0" mnemonicParsing="false"
+                            prefHeight="49.0" prefWidth="72.0" text="ADD" textFill="#17cd26">
+                        <font>
+                            <Font name="System Bold" size="18.0"/>
+                        </font>
+                    </Button>
+                    <Label layoutX="45.0" layoutY="383.0" text="Description">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="descriptionTextField" layoutX="46.0" layoutY="417.0" prefHeight="168.0"
+                               prefWidth="354.0"/>
+                    <Label layoutX="45.0" layoutY="603.0" text="Publisher">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="publisherTextField" layoutX="45.0" layoutY="639.0" prefHeight="25.0"
+                               prefWidth="355.0"/>
+                    <Label layoutX="43.0" layoutY="685.0" prefHeight="35.0" prefWidth="153.0"
+                           text="Publish Date">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <DatePicker fx:id="dateDatePicker" layoutX="44.0" layoutY="722.0" prefHeight="25.0"
+                                prefWidth="358.0"/>
+                    <Label layoutX="44.0" layoutY="768.0" prefHeight="35.0" prefWidth="153.0" text="Pages">
+                        <font>
+                            <Font name="System Bold" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="pagesTextField" layoutX="44.0" layoutY="804.0" prefHeight="25.0"
+                               prefWidth="355.0"/>
+                </AnchorPane>
+            </ScrollPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>
 
-<TabPane prefHeight="414.0" prefWidth="569.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17"
-         xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
-    <Tab text="Search">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="170.0" prefWidth="434.0"/>
-    </Tab>
-    <Tab text="Manual Entry">
-        <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="693.0">
-                <Label layoutX="216.0" layoutY="14.0" text="Add Book">
-                    <font>
-                        <Font name="System Bold" size="36.0"/>
-                    </font>
-                </Label>
-                <Label layoutX="43.0" layoutY="79.0" text="Collection">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <Label layoutX="43.0" layoutY="155.0" text="Title">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="titleTextField" layoutX="43.0" layoutY="190.0" prefHeight="25.0"
-                           prefWidth="355.0"/>
-                <Label layoutX="42.0" layoutY="234.0" text="ID/ISBN">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="isbnTextField" layoutX="42.0" layoutY="269.0" prefHeight="25.0"
-                           prefWidth="356.0"/>
-                <Label layoutX="43.0" layoutY="308.0" text="Author">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="authorTextField" layoutX="42.0" layoutY="342.0" prefHeight="25.0"
-                           prefWidth="358.0"/>
-                <ChoiceBox fx:id="collectionChoiceBox" layoutX="42.0" layoutY="116.0" prefHeight="25.0"
-                           prefWidth="352.0"/>
-                <Button fx:id="addBookButton" layoutX="52.0" layoutY="919.0" mnemonicParsing="false"
-                        prefHeight="49.0" prefWidth="72.0" text="ADD" textFill="#17cd26">
-                    <font>
-                        <Font name="System Bold" size="18.0"/>
-                    </font>
-                </Button>
-                <Label layoutX="45.0" layoutY="383.0" text="Description">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="descriptionTextField" layoutX="46.0" layoutY="417.0" prefHeight="168.0"
-                           prefWidth="354.0"/>
-                <Label layoutX="45.0" layoutY="603.0" text="Publisher">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="publisherTextField" layoutX="45.0" layoutY="639.0" prefHeight="25.0"
-                           prefWidth="355.0"/>
-                <Label layoutX="43.0" layoutY="685.0" prefHeight="35.0" prefWidth="153.0"
-                       text="Publish Date">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <DatePicker fx:id="dateDatePicker" layoutX="44.0" layoutY="722.0" prefHeight="25.0"
-                            prefWidth="358.0"/>
-                <Label layoutX="44.0" layoutY="768.0" prefHeight="35.0" prefWidth="153.0" text="Pages">
-                    <font>
-                        <Font name="System Bold" size="24.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="pagesTextField" layoutX="44.0" layoutY="804.0" prefHeight="25.0"
-                           prefWidth="355.0"/>
-            </AnchorPane>
-        </ScrollPane>
-    </Tab>
-</TabPane>
