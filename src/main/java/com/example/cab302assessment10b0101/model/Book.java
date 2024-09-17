@@ -1,18 +1,21 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+
 public class Book {
-    private String collectionName;
+    private StringProperty collectionName;
     private int id;
-    private String title;
-    private String author;
-    private String description;
-    private String publicationDate;
-    private String publisher;
-    private int pages;
-    private String notes;
+    private StringProperty title;
+    private StringProperty author;
+    private StringProperty description;
+    private StringProperty publicationDate;
+    private StringProperty publisher;
+    private IntegerProperty pages;
+    private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(String collectionName, String title, int id, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image) {
+    public Book(StringProperty collectionName, StringProperty title, int id, StringProperty author, StringProperty description, StringProperty publicationDate, StringProperty publisher, IntegerProperty pages, StringProperty notes, byte[] image) {
         this.collectionName = collectionName;
         this.title = title;
         this.id = id;
@@ -25,11 +28,11 @@ public class Book {
         this.image = image;
     }
 
-    public String getCollectionName() {
+    public StringProperty getCollectionName() {
         return collectionName;
     }
 
-    public String getTitle() {
+    public  StringProperty getTitle() {
         return title;
     }
 
@@ -37,27 +40,27 @@ public class Book {
         return id;
     }
 
-    public String getAuthor() {
+    public  StringProperty getAuthor() {
         return author;
     }
 
-    public String getDescription() {
+    public  StringProperty getDescription() {
         return description;
     }
 
-    public String getPublicationDate() {
+    public  StringProperty getPublicationDate() {
         return publicationDate;
     }
 
-    public String getPublisher() {
+    public  StringProperty getPublisher() {
         return publisher;
     }
 
-    public int getPages() {
+    public IntegerProperty getPages() {
         return pages;
     }
 
-    public String getNotes() {
+    public  StringProperty getNotes() {
         return notes;
     }
 
@@ -65,11 +68,11 @@ public class Book {
         return image;
     }
 
-    public void setCollectionName(String collectionName) {
+    public void setCollectionName( StringProperty collectionName) {
         this.collectionName = collectionName;
     }
 
-    public void setTitle(String title) {
+    public void setTitle( StringProperty title) {
         this.title = title;
     }
 
@@ -77,27 +80,27 @@ public class Book {
         this.id = id;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor( StringProperty author) {
         this.author = author;
     }
 
-    public void setDescription(String description) {
+    public void setDescription( StringProperty description) {
         this.description = description;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate( StringProperty publicationDate) {
         this.publicationDate = publicationDate;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher( StringProperty publisher) {
         this.publisher = publisher;
     }
 
-    public void setPages(int pages) {
+    public void setPages(IntegerProperty pages) {
         this.pages = pages;
     }
 
-    public void setNotes(String notes) {
+    public void setNotes(StringProperty notes) {
         this.notes = notes;
     }
 
@@ -105,6 +108,7 @@ public class Book {
         this.image = image;
     }
 
+    /*
     @Override
     public String toString() {
         return "Book{" +
@@ -120,4 +124,6 @@ public class Book {
                 ", An image may be attached, but it cannot be displayed here'" + '\'' +
                 '}';
     }
+    */
+
 }
