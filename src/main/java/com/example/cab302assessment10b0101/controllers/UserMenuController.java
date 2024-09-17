@@ -19,11 +19,14 @@ public class UserMenuController implements Initializable {
     @FXML
     private Button logoutBtn;
 
+    /*
     private void addListeners(){
         myBooksBtn.setOnAction(actionEvent -> onMyBooksClicked());
         addBookBtn.setOnAction(actionEvent -> onAddBookClicked());
         addCollectionBtn.setOnAction(actionEvent -> onAddCollectionClicked());
     }
+    */
+
     @FXML
     private void onMyBooksClicked(){
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
@@ -39,7 +42,7 @@ public class UserMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        addListeners();
+       // addListeners();
     }
 
 }

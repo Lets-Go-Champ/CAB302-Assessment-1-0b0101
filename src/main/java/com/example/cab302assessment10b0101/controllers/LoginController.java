@@ -75,11 +75,12 @@ public class LoginController {
             showAlert("Login Error", "Username and password do not match any existing account.", AlertType.ERROR);
             return;
         }
-        //Stage stage = (Stage) loginButton.getScene().getWindow();
-        //ViewManager.getInstance().getViewFactory().closeStage(stage);
-        //ViewManager.getInstance().getViewFactory().getClientScreen();
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        ViewManager.getInstance().getViewFactory().closeStage(stage);
+        ViewManager.getInstance().getViewFactory().getClientScreen();
         // If login is successful, load MyBooks.fxml and display it
-        try {
+
+        /*try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Client.fxml"));
             Scene myBooksScene = new Scene(loader.load());
 
@@ -94,8 +95,8 @@ public class LoginController {
             e.printStackTrace();
             showAlert("Error", "Could not load MyBooks page.", AlertType.ERROR);
         }
-    }
-
+    }*/
+}
     private void handleCreateAccount() {
         try {
             // Load the CreateAccountPopup.fxml file for account creation

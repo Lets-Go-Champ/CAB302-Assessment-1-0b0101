@@ -26,7 +26,7 @@
       <VBox prefHeight="526.0" prefWidth="180.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
          <Button fx:id="myBooksBtn" text="My Books" onAction="#onMyBooksClicked"/>
-         <Button fx:id="addCollectionBtn" text="Add Collection"/>
+         <Button fx:id="addCollectionBtn" text="Add Collection" onAction="#onAddCollectionClicked"/>
          <Button fx:id="addBookBtn" text="Add Book" onAction="#onAddBookClicked"/>
          <Button fx:id="lendingBtn" text="Lending"/>
          <Button fx:id="logoutBtn" text="Logout"/>

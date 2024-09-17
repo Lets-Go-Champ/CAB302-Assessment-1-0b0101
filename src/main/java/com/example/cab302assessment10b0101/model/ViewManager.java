@@ -11,7 +11,7 @@ public class ViewManager {
 
     }
 
-    public static ViewManager getInstance(){
+    public static synchronized ViewManager getInstance(){
         if(viewManager == null) {
             viewManager = new ViewManager();
         }
