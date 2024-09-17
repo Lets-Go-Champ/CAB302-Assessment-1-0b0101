@@ -1,4 +1,5 @@
 package com.example.cab302assessment10b0101.views;
+import com.example.cab302assessment10b0101.controllers.ClientController;
 import com.example.cab302assessment10b0101.controllers.MyBooksController;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -34,9 +35,9 @@ public class ViewFactory {
     }
 
     public AnchorPane getAddCollectinView(){
-        if (myBooksView == null) {
+        if (addCollectionView == null) {
             try{
-                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddCollection.fxml")).load();
+                addCollectionView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddCollection.fxml")).load();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -45,9 +46,9 @@ public class ViewFactory {
     }
 
     public AnchorPane getAddBookView(){
-        if (myBooksView == null) {
+        if (addBookView == null) {
             try{
-                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
+                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -62,8 +63,8 @@ public class ViewFactory {
 
     public void getClientScreen(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Client.fxml"));
-        MyBooksController myBooksController = new MyBooksController();
-        loader.setController(myBooksController);
+        ClientController clientController = new ClientController();
+        loader.setController(clientController);
         createStage(loader);
     }
 
