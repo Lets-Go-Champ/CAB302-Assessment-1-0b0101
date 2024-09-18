@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class BookDAO {
@@ -72,8 +73,8 @@ public class BookDAO {
 
 
     // Retrieve all books from the Books table
-    public ObservableList<Book> getAll() {
-        ObservableList<Book> books = FXCollections.observableArrayList();
+    public ArrayList<Book> getAll() {
+        ArrayList<Book> books = new ArrayList<Book>();
         try {
             Statement getAll = connection.createStatement();
             ResultSet rs = getAll.executeQuery("SELECT * FROM Books");

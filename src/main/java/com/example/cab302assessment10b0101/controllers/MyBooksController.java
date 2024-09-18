@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MyBooksController implements Initializable {
@@ -38,9 +39,8 @@ public class MyBooksController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    }/*
-        ObservableList<Book> books = BookDAO.getInstance().getAll();
-        System.out.println("Number of books retrieved: " + books.size());
+        ArrayList<Book> books = BookDAO.getInstance().getAll();
+        //System.out.println("Number of books retrieved: " + books.size());
 
 
         int columns = 0;
@@ -50,7 +50,9 @@ public class MyBooksController implements Initializable {
             for (Book book : books) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Book.fxml"));
-                VBox bookBox = fxmlLoader.load();
+                VBox bookBox = null;
+
+                bookBox = fxmlLoader.load();
                 BookController bookController = fxmlLoader.getController();
                 bookController.setData(book);
 
@@ -69,6 +71,8 @@ public class MyBooksController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
     }
 
    // private void setData() {
@@ -95,4 +99,4 @@ public class MyBooksController implements Initializable {
         // Your handling code here
     }
     */
-    }
+

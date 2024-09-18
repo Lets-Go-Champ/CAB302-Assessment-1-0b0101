@@ -1,8 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.User;
-import com.example.cab302assessment10b0101.model.UserDAO;
-import com.example.cab302assessment10b0101.model.UserManager;
+import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,8 +15,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
-
-import com.example.cab302assessment10b0101.model.ViewManager;
+import java.util.List;
 
 public class LoginController {
 
@@ -80,6 +78,9 @@ public class LoginController {
 
         UserDAO userDAO = UserDAO.getInstance();
         User currentUser = userDAO.validateCredentials(username, password);
+        List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+        currentUser.setCollections(FXCollections.observableArrayList(userCollections));
+
 
         if (currentUser != null) {
             // Set the logged-in user in UserManager

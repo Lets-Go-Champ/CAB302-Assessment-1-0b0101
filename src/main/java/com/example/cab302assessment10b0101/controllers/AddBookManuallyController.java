@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -106,9 +108,14 @@ public class AddBookManuallyController {
     }
 
     private void populateCollections() {
-       for ( Collection collection : CollectionDAO.getInstance().getCollectionsByUser(UserManager.getInstance().getCurrentUser())) {
-            collectionChoiceBox.getItems().add(collection);
-       }
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        ObservableList<Collection> collections = currentUser.getCollections();
+        collectionChoiceBox.setItems(collections);
+        //collectionChoiceBox.setItems(collections);
+        // Optionally set a default value
+        if (!collections.isEmpty()) {
+            collectionChoiceBox.getSelectionModel().selectFirst();
+        }
     }
 
     /*
