@@ -74,8 +74,8 @@ public class BookDAO {
 
 
     // Retrieve all books from the Books table
-    public ArrayList<Book> getAll() {
-        ArrayList<Book> books = new ArrayList<Book>();
+    public ObservableList<Book> getAll() {
+        ObservableList<Book> books = FXCollections.observableArrayList();
         try {
             Statement getAll = connection.createStatement();
             ResultSet rs = getAll.executeQuery("SELECT * FROM Books");
@@ -101,6 +101,36 @@ public class BookDAO {
         }
         return books;
     }
+
+    public ObservableList<Book> getAllByCollection(Collection collection) {
+        ObservableList<Book> books = FXCollections.observableArrayList();
+        try {
+            Statement getAll = connection.createStatement();
+            ResultSet rs = getAll.executeQuery("SELECT * FROM Books WHERE collectionId = " + collection.getId());
+            while (rs.next()) {
+                books.add(
+                        new Book(
+                                rs.getInt("collectionId"),
+                                rs.getInt("bookId"),
+                                rs.getString("title"),
+                                rs.getInt("isbn"),
+                                rs.getString("author"),
+                                rs.getString("description"),
+                                rs.getString("publicationDate"),
+                                rs.getString("publisher"),
+                                rs.getInt("pages"),
+                                rs.getString("notes"),
+                                rs.getBytes("image")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving books: " + e.getMessage());
+        }
+        return books;
+    }
+
+
 
 }
     /*
@@ -128,31 +158,7 @@ public class BookDAO {
     }
 
     // Retrieve all books from the Books table
-    public ObservableList<Book> getAll() {
-        ObservableList<Book> books = FXCollections.observableArrayList();
-        try {
-            Statement getAll = connection.createStatement();
-            ResultSet rs = getAll.executeQuery("SELECT * FROM Books");
-            while (rs.next()) {
-                books.add(
-                        new Book(
-                                rs.getString("collectionName"),
-                                rs.getString("title"),
-                                rs.getInt("id"),
-                                rs.getString("author"),
-                                rs.getString("description"),
-                                rs.getString("publicationDate"),
-                                rs.getString("publisher"),
-                                rs.getInt("pages"),
-                                rs.getString("notes"),
-                                rs.getBytes("image")
-                        )
-                );
-            }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving books: " + e.getMessage());
-        }
-        return books;
+    c
     }
 
     // Read an image file and convert it to a byte array
