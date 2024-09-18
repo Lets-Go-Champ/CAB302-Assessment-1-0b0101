@@ -2,6 +2,8 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Collection;
 import com.example.cab302assessment10b0101.model.CollectionDAO;
+import com.example.cab302assessment10b0101.model.User;
+import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -23,13 +25,13 @@ public class AddCollectionController implements Initializable {
     @FXML
     private Button cancelBtn;
 
-    private CollectionDAO collectionDAO;
+    //private CollectionDAO collectionDAO;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         // Initialize CollectionDAO to interact with the database
         //collectionDAO = new CollectionDAO();
-        CollectionDAO.getInstance().createTable(); // Ensure the table exists
+        //CollectionDAO.getInstance().createTable(); // Ensure the table exists
 
         saveBtn.setOnAction(e -> saveCollection());
 
@@ -49,8 +51,9 @@ public class AddCollectionController implements Initializable {
         }
 
         // Create a new collection and insert it into the database
-        Collection newCollection = new Collection(collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
-        collectionDAO.insert(newCollection);
+        int currentUserId = UserManager.getInstance().getCurrentUser().getId();
+        Collection newCollection = new Collection(collectionName, collectionDescription.isEmpty() ? "" : collectionDescription, currentUserId);
+        CollectionDAO.getInstance().insert(newCollection);
 
         // Clear fields and show success message
         clearFields();

@@ -1,8 +1,6 @@
 package com.example.cab302assessment10b0101.model;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CollectionDAO {
     private static CollectionDAO instance;
@@ -41,11 +39,12 @@ public class CollectionDAO {
     public void insert(Collection collection) {
         try {
             PreparedStatement insertCollection = connection.prepareStatement(
-                    "INSERT INTO Collections (collectionName, collectionDescription) " + // No need to insert the id
-                            "VALUES (?, ?);"
+                    "INSERT INTO Collections (collectionName, collectionDescription, userId) " + // No need to insert the id
+                            "VALUES (?, ?, ?);"
             );
             insertCollection.setString(1, collection.getCollectionName());
             insertCollection.setString(2, collection.getCollectionDescription());
+            insertCollection.setInt(3, UserManager.getInstance().getCurrentUser().getId());
             insertCollection.execute();
         } catch (SQLException ex) {
             System.err.println(ex);

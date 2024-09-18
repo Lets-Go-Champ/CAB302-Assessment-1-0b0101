@@ -80,7 +80,7 @@ public class UserDAO {
             while (rs.next()) {
                 user.add(
                         new User(
-                                rs.getInt("id"),
+                                rs.getInt("userId"),
                                 rs.getString("username"),
                                 rs.getString("password")
                         )
@@ -99,7 +99,7 @@ public class UserDAO {
             ResultSet rs = getUser.executeQuery();
             if (rs.next()) {
                 return new User(
-                        rs.getInt("id"),
+                        rs.getInt("userId"),
                         rs.getString("username"),
                         rs.getString("password")
                 );
@@ -109,6 +109,23 @@ public class UserDAO {
         }
         return null;
     }
+
+    public int getUserIdByUsername(String username) {
+        String query = "SELECT userId FROM Users WHERE username = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("userId");  // Return the user's ID
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;  // Return -1 if user not found or there was an error
+    }
+
+
 
     public void close() {
         try {
