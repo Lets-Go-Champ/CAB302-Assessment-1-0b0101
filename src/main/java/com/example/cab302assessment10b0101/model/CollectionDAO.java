@@ -26,8 +26,10 @@ public class CollectionDAO {
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
                             "id INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
+                            "userId INTEGER," +
                             "collectionName TEXT NOT NULL," +
                             "collectionDescription TEXT" + // Description can now be optional
+                            "FOREIGN KEY (userID) REFERENCES Users(id)" +
                             ");"
             );
         } catch (SQLException ex) {
@@ -50,6 +52,7 @@ public class CollectionDAO {
         }
     }
 
+    /*
     // Retrieve all collections from the Collections table
     public List<Collection> getAll() {
         List<Collection> collections = new ArrayList<>();
@@ -70,4 +73,6 @@ public class CollectionDAO {
         }
         return collections;
     }
+    */
+
 }

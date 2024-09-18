@@ -54,13 +54,14 @@ public class AddBookManuallyController {
     //CollectionDAO collectionDAO = new CollectionDAO()
 
 
+
     @FXML
     public void initialize() {
-        setupEventHandlers();
-        populateCollections();
+        //setupEventHandlers();
+        //populateCollections();
     }
 
-
+/*
     private void setupEventHandlers() {
         addImageButton.setOnAction(e -> handleUploadImage());
         addBookButton.setOnAction(event -> handleAddBook());
@@ -68,7 +69,7 @@ public class AddBookManuallyController {
 
     /**
      * Manages adding the book to a collection
-     */
+
     @FXML
     private void handleAddBook() {
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem();
@@ -122,7 +123,7 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param notes The user added notes for the book
      * @return True if all fields are valid, False otherwise
-     */
+
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes) {
 
@@ -158,7 +159,7 @@ public class AddBookManuallyController {
      * Determines if the book already exists in the Database.
      * @param id The ISBN of the book
      * @return True if the book exists, false otherwise.
-     */
+
     private boolean bookExists(String id) {
         // Double check this functionality - seems like it is not working as intended.
         return BookDAO.getInstance().getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
@@ -219,7 +220,7 @@ public class AddBookManuallyController {
      * @param publicationDate The date the book was published
      * @param pages The book's page count
      * @param note User defined note regarding the book
-     */
+
     private void saveBook(String collectionName, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
@@ -249,7 +250,7 @@ public class AddBookManuallyController {
 
     /**
      * Show an alert dialog for a given message
-     */
+
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -260,7 +261,7 @@ public class AddBookManuallyController {
 
     /**
      * Clears all input fields after adding a book
-     */
+
     private void clearFields() {
         titleTextField.clear();
         isbnTextField.clear();
@@ -270,4 +271,5 @@ public class AddBookManuallyController {
         pagesTextField.clear();
         notesTextField.clear();
     }
+    */
 }

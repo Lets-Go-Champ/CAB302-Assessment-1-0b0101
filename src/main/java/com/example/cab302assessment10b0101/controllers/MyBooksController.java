@@ -38,6 +38,7 @@ public class MyBooksController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }/*
         ObservableList<Book> books = BookDAO.getInstance().getAll();
         System.out.println("Number of books retrieved: " + books.size());
 

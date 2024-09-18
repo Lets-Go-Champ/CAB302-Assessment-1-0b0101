@@ -16,8 +16,8 @@ public class BookDAO {
         connection = DatabaseConnector.getInstance();
     }
 
-    public static synchronized BookDAO getInstance(){
-        if(instance == null){
+    public static synchronized BookDAO getInstance() {
+        if (instance == null) {
             instance = new BookDAO();
         }
         return instance;
@@ -29,9 +29,9 @@ public class BookDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Books (" +
-                            "collectionName TEXT NOT NULL," +
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "collectionId INTEGER," +
                             "title TEXT NOT NULL," +
-                            "id TEXT," +
                             "author TEXT," +
                             "description TEXT," +
                             "publicationDate TEXT," +
@@ -39,13 +39,15 @@ public class BookDAO {
                             "pages INTEGER," +
                             "notes TEXT," +
                             "image BLOB" +
+                            "FOREIGN KEY (collectionId) REFERENCES Collections(id)" +
                             ");"
             );
         } catch (SQLException ex) {
             System.err.println(ex);
         }
     }
-
+}
+    /*
     // Insert a new book into the Books table
     public void insert(Book book) {
         try {
@@ -126,5 +128,4 @@ public class BookDAO {
             System.err.println("Error reading image file: " + e.getMessage());
         }
     }
-
-}
+*/

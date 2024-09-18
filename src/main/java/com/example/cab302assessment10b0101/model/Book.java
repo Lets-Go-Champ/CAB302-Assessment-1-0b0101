@@ -9,8 +9,9 @@ import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
 
 public class Book {
-    private StringProperty collectionName;
+    //private IntegerProperty collectionName;
     private int id;
+    private int collectionId;
     private StringProperty title;
     private StringProperty author;
     private StringProperty description;
@@ -20,10 +21,11 @@ public class Book {
     private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(String collectionName, String title, int id, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
-        this.collectionName = new SimpleStringProperty(collectionName);
+    public Book(String title, int id, int collectionId, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+        //this.collectionName = new SimpleStringProperty(collectionName);
         this.title = new SimpleStringProperty(title);
         this.id = id;
+        this.collectionId = id;
         this.author = new SimpleStringProperty(author);
         this.description = new SimpleStringProperty(description);
         this.publicationDate = new SimpleStringProperty(publicationDate);
@@ -32,10 +34,12 @@ public class Book {
         this.notes = new SimpleStringProperty(notes);
         this.image = image;
     }
-
+/*
     public String getCollectionName() {
         return collectionName.get();
     }
+    */
+
 
     public String getTitle() {
         return title.get();
@@ -43,6 +47,10 @@ public class Book {
 
     public int getId() {
         return id;
+    }
+
+    public int getCollectionId() {
+        return collectionId;
     }
 
     public String getAuthor() {
@@ -79,17 +87,21 @@ public class Book {
         }
         return null;
     }
-
+/*
     public void setCollectionName( StringProperty collectionName) {
         this.collectionName = collectionName;
     }
-
+*/
     public void setTitle( StringProperty title) {
         this.title = title;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setCollectionId(int collectionId) {
+        this.collectionId = collectionId;
     }
 
     public void setAuthor( StringProperty author) {
