@@ -25,11 +25,11 @@ public class CollectionDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
+                            "collectionId INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
                             "userId INTEGER," +
                             "collectionName TEXT NOT NULL," +
-                            "collectionDescription TEXT" + // Description can now be optional
-                            "FOREIGN KEY (userID) REFERENCES Users(id)" +
+                            "collectionDescription TEXT," + // Description can now be optional
+                            "FOREIGN KEY (userID) REFERENCES Users(userId)" +
                             ");"
             );
         } catch (SQLException ex) {

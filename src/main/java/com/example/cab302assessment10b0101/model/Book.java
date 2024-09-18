@@ -10,7 +10,7 @@ import java.io.ByteArrayInputStream;
 
 public class Book {
     //private IntegerProperty collectionName;
-    private int id;
+    private int bookId;
     private int collectionId;
     private StringProperty title;
     private StringProperty author;
@@ -24,7 +24,7 @@ public class Book {
     public Book(String title, int id, int collectionId, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
         //this.collectionName = new SimpleStringProperty(collectionName);
         this.title = new SimpleStringProperty(title);
-        this.id = id;
+        this.bookId = id;
         this.collectionId = id;
         this.author = new SimpleStringProperty(author);
         this.description = new SimpleStringProperty(description);
@@ -46,7 +46,7 @@ public class Book {
     }
 
     public int getId() {
-        return id;
+        return bookId;
     }
 
     public int getCollectionId() {
@@ -97,7 +97,7 @@ public class Book {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.bookId = id;
     }
 
     public void setCollectionId(int collectionId) {

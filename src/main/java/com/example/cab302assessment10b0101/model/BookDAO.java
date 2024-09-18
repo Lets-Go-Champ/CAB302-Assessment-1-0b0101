@@ -29,7 +29,7 @@ public class BookDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Books (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "bookId INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "collectionId INTEGER," +
                             "title TEXT NOT NULL," +
                             "author TEXT," +
@@ -38,8 +38,8 @@ public class BookDAO {
                             "publisher TEXT," +
                             "pages INTEGER," +
                             "notes TEXT," +
-                            "image BLOB" +
-                            "FOREIGN KEY (collectionId) REFERENCES Collections(id)" +
+                            "image BLOB," +
+                            "FOREIGN KEY (collectionId) REFERENCES Collections(collectionId)" +
                             ");"
             );
         } catch (SQLException ex) {

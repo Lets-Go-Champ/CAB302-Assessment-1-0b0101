@@ -24,6 +24,7 @@ public class LibraHomeApp extends Application {
         //userDAO = new UserDAO();
         UserDAO.getInstance().createTable();
 
+
        // bookDAO = new BookDAO();
         BookDAO.getInstance().createTable();
 

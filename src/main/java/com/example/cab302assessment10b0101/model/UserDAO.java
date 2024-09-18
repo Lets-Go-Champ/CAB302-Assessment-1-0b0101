@@ -25,7 +25,7 @@ public class UserDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Users ("
-                            + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            + "userId INTEGER PRIMARY KEY AUTOINCREMENT, "
                             + "username VARCHAR NOT NULL, "
                             + "password VARCHAR NOT NULL "
                             + ")"
