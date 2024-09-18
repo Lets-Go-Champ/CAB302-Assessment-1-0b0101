@@ -10,8 +10,8 @@ import java.io.ByteArrayInputStream;
 
 public class Book {
     //private IntegerProperty collectionName;
-    private int bookId;
     private int collectionId;
+    private int bookId;
     private StringProperty title;
     private StringProperty author;
     private StringProperty description;
@@ -21,11 +21,11 @@ public class Book {
     private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(String title, int id, int collectionId, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+    public Book(int collectionId, int id, String title, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
         //this.collectionName = new SimpleStringProperty(collectionName);
-        this.title = new SimpleStringProperty(title);
-        this.bookId = id;
         this.collectionId = id;
+        this.bookId = id;
+        this.title = new SimpleStringProperty(title);
         this.author = new SimpleStringProperty(author);
         this.description = new SimpleStringProperty(description);
         this.publicationDate = new SimpleStringProperty(publicationDate);
@@ -131,23 +131,5 @@ public class Book {
     public void setImage(byte[] image) {
         this.image = image;
     }
-
-    /*
-    @Override
-    public String toString() {
-        return "Book{" +
-                "Collection=" + collectionName +
-                ", title='" + title + '\'' +
-                ", id / ISBN='" + id + '\'' +
-                ", author='" + author + '\'' +
-                ", description='" + description + '\'' +
-                ", publicationDate=" + publicationDate +
-                ", publisher='" + publisher + '\'' +
-                ", pages=" + pages +
-                ", notes='" + notes + '\'' +
-                ", An image may be attached, but it cannot be displayed here'" + '\'' +
-                '}';
-    }
-    */
 
 }

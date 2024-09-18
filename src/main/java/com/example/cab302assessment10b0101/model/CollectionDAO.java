@@ -24,10 +24,10 @@ public class CollectionDAO {
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
                             "collectionId INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
-                            "userId INTEGER," +
                             "collectionName TEXT NOT NULL," +
+                            "userId INTEGER," +
                             "collectionDescription TEXT," + // Description can now be optional
-                            "FOREIGN KEY (userID) REFERENCES Users(userId)" +
+                            "FOREIGN KEY (userId) REFERENCES Users(userId)" +
                             ");"
             );
         } catch (SQLException ex) {
@@ -42,9 +42,9 @@ public class CollectionDAO {
                     "INSERT INTO Collections (collectionName, collectionDescription, userId) " + // No need to insert the id
                             "VALUES (?, ?, ?);"
             );
-            insertCollection.setString(1, collection.getCollectionName());
-            insertCollection.setString(2, collection.getCollectionDescription());
-            insertCollection.setInt(3, UserManager.getInstance().getCurrentUser().getId());
+            insertCollection.setInt(1, UserManager.getInstance().getCurrentUser().getId());
+            insertCollection.setString(2, collection.getCollectionName());
+            insertCollection.setString(3, collection.getCollectionDescription());
             insertCollection.execute();
         } catch (SQLException ex) {
             System.err.println(ex);

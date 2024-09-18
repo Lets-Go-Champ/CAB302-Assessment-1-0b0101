@@ -29,8 +29,8 @@ public class BookDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Books (" +
-                            "bookId INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "collectionId INTEGER," +
+                            "bookId INTEGER," +
                             "title TEXT NOT NULL," +
                             "author TEXT," +
                             "description TEXT," +
@@ -46,6 +46,58 @@ public class BookDAO {
             System.err.println(ex);
         }
     }
+
+    // Insert a new book into the Books table
+    public void insert(Book book) {
+        try {
+            PreparedStatement insertBook = connection.prepareStatement(
+                    "INSERT INTO Books (collectionId, id, title, author, description, publicationDate, publisher, pages, notes, image) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+            );
+            insertBook.setInt(1, book.getCollectionId());
+            insertBook.setInt(2, book.getId());
+            insertBook.setString(3, book.getTitle());
+            insertBook.setString(4, book.getAuthor());
+            insertBook.setString(5, book.getDescription());
+            insertBook.setString(6, book.getPublicationDate());
+            insertBook.setString(7, book.getPublisher());
+            insertBook.setInt(8, book.getPages());
+            insertBook.setString(9, book.getNotes());
+            insertBook.setBytes(10, book.getBytes());
+            insertBook.execute();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    // Retrieve all books from the Books table
+    public ObservableList<Book> getAll() {
+        ObservableList<Book> books = FXCollections.observableArrayList();
+        try {
+            Statement getAll = connection.createStatement();
+            ResultSet rs = getAll.executeQuery("SELECT * FROM Books");
+            while (rs.next()) {
+                books.add(
+                        new Book(
+                                rs.getInt("collectionId"),
+                                rs.getInt("id"),
+                                rs.getString("title"),
+                                rs.getString("author"),
+                                rs.getString("description"),
+                                rs.getString("publicationDate"),
+                                rs.getString("publisher"),
+                                rs.getInt("pages"),
+                                rs.getString("notes"),
+                                rs.getBytes("image")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving books: " + e.getMessage());
+        }
+        return books;
+    }
+
 }
     /*
     // Insert a new book into the Books table

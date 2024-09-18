@@ -78,11 +78,20 @@ public class LoginController {
             return;
         }
 
-        User currentUser = new User(username, password);
-        UserManager.getInstance().setCurrentUser(currentUser);
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        ViewManager.getInstance().getViewFactory().closeStage(stage);
-        ViewManager.getInstance().getViewFactory().getClientScreen();
+        UserDAO userDAO = UserDAO.getInstance();
+        User currentUser = userDAO.validateCredentials(username, password);
+
+        if (currentUser != null) {
+            // Set the logged-in user in UserManager
+            UserManager.getInstance().setCurrentUser(currentUser);
+
+            // Close the login stage and open the main application
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            ViewManager.getInstance().getViewFactory().closeStage(stage);
+            ViewManager.getInstance().getViewFactory().getClientScreen();
+        } else {
+            showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
+        }
         // If login is successful, load MyBooks.fxml and display it
 
         /*try {

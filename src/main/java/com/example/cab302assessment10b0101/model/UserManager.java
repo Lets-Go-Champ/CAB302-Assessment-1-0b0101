@@ -1,11 +1,10 @@
 package com.example.cab302assessment10b0101.model;
 
-
 public class UserManager {
     private static UserManager instance;
     private User currentUser;
 
-    private UserManager() { }
+    private UserManager() {}
 
     public static synchronized UserManager getInstance() {
         if (instance == null) {
@@ -14,11 +13,18 @@ public class UserManager {
         return instance;
     }
 
+    // Set the current logged-in user
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
+    // Get the current logged-in user
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
+    // Log out the current user
+    public void logOut() {
+        this.currentUser = null;
     }
 }

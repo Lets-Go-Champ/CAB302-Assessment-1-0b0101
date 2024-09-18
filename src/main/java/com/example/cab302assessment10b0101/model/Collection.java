@@ -49,15 +49,4 @@ public class Collection {
         this.collectionDescription = description;
     }
 
-    /*
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", collectionName='" + collectionName + '\'' +
-                ", collectionDescription='" + collectionDescription + '\'' +
-                '}';
-    }
-    */
-
 }

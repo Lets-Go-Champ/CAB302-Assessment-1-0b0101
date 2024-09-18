@@ -48,6 +48,30 @@ public class UserDAO {
         }
     }
 
+    // Get user by username and password
+    public User validateCredentials(String username, String password) {
+        try {
+            String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("userId"),    // Assuming your table has a column 'userId'
+                        rs.getString("username"),
+                        rs.getString("password") // You might want to handle passwords more securely
+                );
+            } else {
+                return null; // No user found
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void update(User user) {
         try {
             PreparedStatement updateUser = connection.prepareStatement(
