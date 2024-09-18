@@ -252,6 +252,7 @@ public class AddBookManuallyController {
                     "Note: " + note + "\n" +
                     "Image: " + imageBytes.toString()
             );
+            clearFields();
         }
     }
 

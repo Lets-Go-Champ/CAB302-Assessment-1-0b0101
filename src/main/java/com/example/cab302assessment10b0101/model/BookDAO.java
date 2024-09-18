@@ -53,11 +53,12 @@ public class BookDAO {
     public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
-                    "INSERT INTO Books (collectionId, title, author, description, publicationDate, publisher, pages, notes, image) " +
+                    "INSERT INTO Books (collectionId, title, ISBN, author, description, publicationDate, publisher, pages, notes, image) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
             );
             insertBook.setInt(1, book.getCollectionId());
-            insertBook.setString(3, book.getTitle());
+            insertBook.setString(2, book.getTitle());
+            insertBook.setInt(3, book.getISBN());
             insertBook.setString(4, book.getAuthor());
             insertBook.setString(5, book.getDescription());
             insertBook.setString(6, book.getPublicationDate());

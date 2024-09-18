@@ -10,8 +10,8 @@ import java.io.ByteArrayInputStream;
 
 public class Book {
     //private IntegerProperty collectionName;
-    private int collectionId;
     private int bookId;
+    private int collectionId;
     private StringProperty title;
     private IntegerProperty isbn;
     private StringProperty author;
@@ -22,10 +22,9 @@ public class Book {
     private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(int collectionId, int bookId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
-        //this.collectionName = new SimpleStringProperty(collectionName);
-        this.collectionId = collectionId;
+    public Book(int bookId, int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
         this.bookId = bookId;
+        this.collectionId = collectionId;
         this.title = new SimpleStringProperty(title);
         this.isbn = new SimpleIntegerProperty(isbn);
         this.author = new SimpleStringProperty(author);
@@ -38,7 +37,6 @@ public class Book {
     }
 
     public Book(int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
-        //this.collectionName = new SimpleStringProperty(collectionName);
         this.collectionId = collectionId;
         this.title = new SimpleStringProperty(title);
         this.isbn = new SimpleIntegerProperty(isbn);
@@ -50,12 +48,6 @@ public class Book {
         this.notes = new SimpleStringProperty(notes);
         this.image = image;
     }
-/*
-    public String getCollectionName() {
-        return collectionName.get();
-    }
-    */
-
 
     public String getTitle() {
         return title.get();
@@ -107,11 +99,7 @@ public class Book {
         }
         return null;
     }
-/*
-    public void setCollectionName( StringProperty collectionName) {
-        this.collectionName = collectionName;
-    }
-*/
+
     public void setTitle( StringProperty title) {
         this.title = title;
     }
