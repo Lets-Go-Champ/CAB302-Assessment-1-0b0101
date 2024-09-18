@@ -4,12 +4,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserDAO implements UserDAOInterface {
     private Connection connection;
 
+    // Default database for production use
     public UserDAO() {
         connection = DatabaseConnector.getInstance();
     }
+
 
     public void createTable() {
         try {

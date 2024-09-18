@@ -21,6 +21,12 @@ public class User {
         return id;
     }
 
+    // Setter for ID (only used by MockUserDAO in testing)
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
     public String getUsername() {
         return username;
     }
