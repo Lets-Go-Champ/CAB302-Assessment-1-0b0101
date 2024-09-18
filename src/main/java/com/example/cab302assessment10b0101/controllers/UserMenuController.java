@@ -87,23 +87,6 @@ public class UserMenuController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    @FXML
-    public void handleLogoutAction() {
-        showLogoutConfirmation();
-    }
 
-    private void showLogoutConfirmation() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/LogoutConfirmation.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Logout Confirmation");
-            stage.initModality(Modality.APPLICATION_MODAL); // This makes the pop-up modal
-            stage.showAndWait(); // This waits for the pop-up to close before returning to the main window
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
 */

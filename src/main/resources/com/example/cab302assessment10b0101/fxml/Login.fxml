@@ -20,18 +20,17 @@
    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" styleClass="login_container"
          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="298.0"
          AnchorPane.topAnchor="0.0">
-      <!--            <ImageView>-->
-      <!--               <image>-->
-      <!--                  <Image url="@/com/example/cab302assessment10b0101/download.png" />-->
-      <!--               </image>-->
-      <!--            </ImageView>-->
-      <!--            <ImageView fx:id="loginImageView" fitWidth="100" fitHeight="100" />-->
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome">
          <font>
             <Font size="50.0"/>
          </font>
       </Text>
       <FontAwesomeIconView glyphName="BOOK" size="70" text=""/>
+<!--      <ImageView fitWidth="100" fitHeight="100">-->
+<!--         <image>-->
+<!--            <Image url="@/com/example/cab302assessment10b0101/download.png" />-->
+<!--         </image>-->
+<!--      </ImageView>-->
    </VBox>
    <VBox alignment="CENTER" layoutX="326.0" layoutY="-0.8" prefHeight="400.0" prefWidth="302.0"
          styleClass="login_form_container" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="-1.0"
