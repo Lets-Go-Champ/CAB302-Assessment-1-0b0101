@@ -41,7 +41,7 @@ public class CollectionDAO {
     public void insert(Collection collection) {
         try {
             PreparedStatement insertCollection = connection.prepareStatement(
-                    "INSERT INTO Collections (collectionName, collectionDescription, userId) " + // No need to insert the id
+                    "INSERT INTO Collections (userId, collectionName, collectionDescription) " + // No need to insert the id
                             "VALUES (?, ?, ?);"
             );
             insertCollection.setInt(1, UserManager.getInstance().getCurrentUser().getId());

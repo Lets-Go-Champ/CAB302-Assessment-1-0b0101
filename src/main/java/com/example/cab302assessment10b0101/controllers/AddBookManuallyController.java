@@ -99,7 +99,7 @@ public class AddBookManuallyController {
             if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
             // Save the book and reset fields
-            saveBook(collectionId NOT WORKING, collectionName, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            //saveBook(collectionId NOT WORKING, collectionName, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
             // TODO clearFields();
         }
@@ -229,8 +229,8 @@ public class AddBookManuallyController {
         byte[] imageBytes = imageToBytes(imagePath);
 
         if (imageBytes.length != 0) {
-            Book newBook = new Book(collectionId NOT WORKING, Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
-            BookDAO.getInstance().insert(newBook);
+            //Book newBook = new Book(collectionId NOT WORKING, Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+            //BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
             System.out.println("Book Saved Successfully! Details: " + "\n" +
