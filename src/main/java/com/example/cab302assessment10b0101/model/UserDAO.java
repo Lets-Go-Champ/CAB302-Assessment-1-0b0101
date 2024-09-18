@@ -4,21 +4,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO implements UserDAOInterface {
-    private Connection connection;
+public class UserDAO {
 
-    // Default database for production use
-    public UserDAO() {
+    private static UserDAO instance;
+    private static Connection connection;
+
+    private UserDAO() {
         connection = DatabaseConnector.getInstance();
     }
 
+    public static synchronized UserDAO getInstance(){
+        if(instance == null){
+            instance = new UserDAO();
+        }
+        return instance;
+    }
 
     public void createTable() {
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Users ("
-                            + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            + "userId INTEGER PRIMARY KEY AUTOINCREMENT, "
                             + "username VARCHAR NOT NULL, "
                             + "password VARCHAR NOT NULL "
                             + ")"
@@ -38,6 +45,30 @@ public class UserDAO implements UserDAOInterface {
             insertUser.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
+        }
+    }
+
+    // Get user by username and password
+    public User validateCredentials(String username, String password) {
+        try {
+            String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("userId"),    // Assuming your table has a column 'userId'
+                        rs.getString("username"),
+                        rs.getString("password") // You might want to handle passwords more securely
+                );
+            } else {
+                return null; // No user found
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -73,7 +104,7 @@ public class UserDAO implements UserDAOInterface {
             while (rs.next()) {
                 user.add(
                         new User(
-                                rs.getInt("id"),
+                                rs.getInt("userId"),
                                 rs.getString("username"),
                                 rs.getString("password")
                         )
@@ -92,7 +123,7 @@ public class UserDAO implements UserDAOInterface {
             ResultSet rs = getUser.executeQuery();
             if (rs.next()) {
                 return new User(
-                        rs.getInt("id"),
+                        rs.getInt("userId"),
                         rs.getString("username"),
                         rs.getString("password")
                 );
@@ -102,6 +133,23 @@ public class UserDAO implements UserDAOInterface {
         }
         return null;
     }
+
+    public int getUserIdByUsername(String username) {
+        String query = "SELECT userId FROM Users WHERE username = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("userId");  // Return the user's ID
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;  // Return -1 if user not found or there was an error
+    }
+
+
 
     public void close() {
         try {

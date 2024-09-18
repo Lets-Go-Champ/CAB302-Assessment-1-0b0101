@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.UserDAO;
+import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,8 +15,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
-
-import com.example.cab302assessment10b0101.model.ViewManager;
+import java.util.List;
 
 public class LoginController {
 
@@ -40,7 +40,7 @@ public class LoginController {
 
 
     // Declare DAO for interacting with User Database
-    private UserDAO userDAO = new UserDAO();
+    //private UserDAO userDAO = new UserDAO();
 
     @FXML
     private void initialize() {
@@ -75,9 +75,26 @@ public class LoginController {
             showAlert("Login Error", "Username and password do not match any existing account.", AlertType.ERROR);
             return;
         }
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        ViewManager.getInstance().getViewFactory().closeStage(stage);
-        ViewManager.getInstance().getViewFactory().getClientScreen();
+
+        UserDAO userDAO = UserDAO.getInstance();
+        User currentUser = userDAO.validateCredentials(username, password);
+        List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+        currentUser.setCollections(FXCollections.observableArrayList(userCollections));
+
+
+        if (currentUser != null) {
+            // Set the logged-in user in UserManager
+            UserManager.getInstance().setCurrentUser(currentUser);
+            System.out.println(currentUser);
+            System.out.println(currentUser.getId());
+
+            // Close the login stage and open the main application
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            ViewManager.getInstance().getViewFactory().closeStage(stage);
+            ViewManager.getInstance().getViewFactory().getClientScreen();
+        } else {
+            showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
+        }
         // If login is successful, load MyBooks.fxml and display it
 
         /*try {
@@ -125,7 +142,7 @@ public class LoginController {
 
     private boolean isValidLogin(String username, String password) {
         // Validate login credentials by checking if the username and password match any user in the database
-        return userDAO.getAll().stream().anyMatch(user ->
+        return UserDAO.getInstance().getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
     }
 

@@ -1,18 +1,27 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class BookDAO {
+    private static BookDAO instance;
+    private static Connection connection;
 
-    private Connection connection;
-
-    public BookDAO() {
+    private BookDAO() {
         connection = DatabaseConnector.getInstance();
+    }
+
+    public static synchronized BookDAO getInstance() {
+        if (instance == null) {
+            instance = new BookDAO();
+        }
+        return instance;
     }
 
     // Create the Books table if it doesn't already exist
@@ -21,16 +30,18 @@ public class BookDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Books (" +
-                            "collectionName TEXT NOT NULL," +
+                            "bookId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "collectionId INTEGER," +
                             "title TEXT NOT NULL," +
-                            "id TEXT," +
+                            "isbn INTEGER," +
                             "author TEXT," +
                             "description TEXT," +
                             "publicationDate TEXT," +
                             "publisher TEXT," +
                             "pages INTEGER," +
                             "notes TEXT," +
-                            "image BLOB" +
+                            "image BLOB," +
+                            "FOREIGN KEY (collectionId) REFERENCES Collections(collectionId)" +
                             ");"
             );
         } catch (SQLException ex) {
@@ -38,6 +49,61 @@ public class BookDAO {
         }
     }
 
+    // Insert a new book into the Books table
+    public void insert(Book book) {
+        try {
+            PreparedStatement insertBook = connection.prepareStatement(
+                    "INSERT INTO Books (collectionId, title, ISBN, author, description, publicationDate, publisher, pages, notes, image) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+            );
+            insertBook.setInt(1, book.getCollectionId());
+            insertBook.setString(2, book.getTitle());
+            insertBook.setInt(3, book.getISBN());
+            insertBook.setString(4, book.getAuthor());
+            insertBook.setString(5, book.getDescription());
+            insertBook.setString(6, book.getPublicationDate());
+            insertBook.setString(7, book.getPublisher());
+            insertBook.setInt(8, book.getPages());
+            insertBook.setString(9, book.getNotes());
+            insertBook.setBytes(10, book.getBytes());
+            insertBook.execute();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+
+    // Retrieve all books from the Books table
+    public ArrayList<Book> getAll() {
+        ArrayList<Book> books = new ArrayList<Book>();
+        try {
+            Statement getAll = connection.createStatement();
+            ResultSet rs = getAll.executeQuery("SELECT * FROM Books");
+            while (rs.next()) {
+                books.add(
+                        new Book(
+                                rs.getInt("collectionId"),
+                                rs.getInt("bookId"),
+                                rs.getString("title"),
+                                rs.getInt("isbn"),
+                                rs.getString("author"),
+                                rs.getString("description"),
+                                rs.getString("publicationDate"),
+                                rs.getString("publisher"),
+                                rs.getInt("pages"),
+                                rs.getString("notes"),
+                                rs.getBytes("image")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving books: " + e.getMessage());
+        }
+        return books;
+    }
+
+}
+    /*
     // Insert a new book into the Books table
     public void insert(Book book) {
         try {
@@ -54,7 +120,7 @@ public class BookDAO {
             insertBook.setString(7, book.getPublisher());
             insertBook.setInt(8, book.getPages());
             insertBook.setString(9, book.getNotes());
-            insertBook.setBytes(10, book.getImage());
+            insertBook.setBytes(10, book.getBytes());
             insertBook.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -62,8 +128,8 @@ public class BookDAO {
     }
 
     // Retrieve all books from the Books table
-    public List<Book> getAll() {
-        List<Book> books = new ArrayList<>();
+    public ObservableList<Book> getAll() {
+        ObservableList<Book> books = FXCollections.observableArrayList();
         try {
             Statement getAll = connection.createStatement();
             ResultSet rs = getAll.executeQuery("SELECT * FROM Books");
@@ -118,5 +184,4 @@ public class BookDAO {
             System.err.println("Error reading image file: " + e.getMessage());
         }
     }
-
-}
+*/

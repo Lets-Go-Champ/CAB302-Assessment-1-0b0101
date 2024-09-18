@@ -1,103 +1,142 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
+
+import java.io.ByteArrayInputStream;
+
 public class Book {
-    private String collectionName;
-    private int id;
-    private String title;
-    private String author;
-    private String description;
-    private String publicationDate;
-    private String publisher;
-    private int pages;
-    private String notes;
+    //private IntegerProperty collectionName;
+    private int bookId;
+    private int collectionId;
+    private StringProperty title;
+    private IntegerProperty isbn;
+    private StringProperty author;
+    private StringProperty description;
+    private StringProperty publicationDate;
+    private StringProperty publisher;
+    private IntegerProperty pages;
+    private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(String collectionName, String title, int id, String author, String description, String publicationDate, String publisher, int pages, String notes, byte[] image) {
-        this.collectionName = collectionName;
-        this.title = title;
-        this.id = id;
-        this.author = author;
-        this.description = description;
-        this.publicationDate = publicationDate;
-        this.publisher = publisher;
-        this.pages = pages;
-        this.notes = notes;
+    public Book(int bookId, int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+        this.bookId = bookId;
+        this.collectionId = collectionId;
+        this.title = new SimpleStringProperty(title);
+        this.isbn = new SimpleIntegerProperty(isbn);
+        this.author = new SimpleStringProperty(author);
+        this.description = new SimpleStringProperty(description);
+        this.publicationDate = new SimpleStringProperty(publicationDate);
+        this.publisher = new SimpleStringProperty(publisher);
+        this.pages = new SimpleIntegerProperty(pages);
+        this.notes = new SimpleStringProperty(notes);
         this.image = image;
     }
 
-    public String getCollectionName() {
-        return collectionName;
+    public Book(int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+        this.collectionId = collectionId;
+        this.title = new SimpleStringProperty(title);
+        this.isbn = new SimpleIntegerProperty(isbn);
+        this.author = new SimpleStringProperty(author);
+        this.description = new SimpleStringProperty(description);
+        this.publicationDate = new SimpleStringProperty(publicationDate);
+        this.publisher = new SimpleStringProperty(publisher);
+        this.pages = new SimpleIntegerProperty(pages);
+        this.notes = new SimpleStringProperty(notes);
+        this.image = image;
     }
 
     public String getTitle() {
-        return title;
+        return title.get();
     }
 
     public int getId() {
-        return id;
+        return bookId;
+    }
+
+    public int getISBN() {
+        return isbn.get();
+    }
+
+    public int getCollectionId() {
+        return collectionId;
     }
 
     public String getAuthor() {
-        return author;
+        return author.get();
     }
 
     public String getDescription() {
-        return description;
+        return description.get();
     }
 
     public String getPublicationDate() {
-        return publicationDate;
+        return publicationDate.get();
     }
 
     public String getPublisher() {
-        return publisher;
+        return publisher.get();
     }
 
     public int getPages() {
-        return pages;
+        return pages.get();
     }
 
     public String getNotes() {
-        return notes;
+        return notes.get();
     }
 
-    public byte[] getImage() {
+    public byte[] getBytes() {
         return image;
     }
 
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
+    public Image getImage() {
+        if(image != null){
+            return new Image(new ByteArrayInputStream(image));
+        }
+        return null;
     }
 
-    public void setTitle(String title) {
+    public void setTitle( StringProperty title) {
         this.title = title;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.bookId = id;
     }
 
-    public void setAuthor(String author) {
+    public void setISBN(IntegerProperty isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setCollectionId(int collectionId) {
+        this.collectionId = collectionId;
+    }
+
+    public void setAuthor( StringProperty author) {
         this.author = author;
     }
 
-    public void setDescription(String description) {
+    public void setDescription( StringProperty description) {
         this.description = description;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate( StringProperty publicationDate) {
         this.publicationDate = publicationDate;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher( StringProperty publisher) {
         this.publisher = publisher;
     }
 
-    public void setPages(int pages) {
+    public void setPages(IntegerProperty pages) {
         this.pages = pages;
     }
 
-    public void setNotes(String notes) {
+    public void setNotes(StringProperty notes) {
         this.notes = notes;
     }
 
@@ -105,19 +144,4 @@ public class Book {
         this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "Collection=" + collectionName +
-                ", title='" + title + '\'' +
-                ", id / ISBN='" + id + '\'' +
-                ", author='" + author + '\'' +
-                ", description='" + description + '\'' +
-                ", publicationDate=" + publicationDate +
-                ", publisher='" + publisher + '\'' +
-                ", pages=" + pages +
-                ", notes='" + notes + '\'' +
-                ", An image may be attached, but it cannot be displayed here'" + '\'' +
-                '}';
-    }
 }
