@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionDAO {
     private static CollectionDAO instance;
@@ -51,7 +53,6 @@ public class CollectionDAO {
         }
     }
 
-    /*
     // Retrieve all collections from the Collections table
     public List<Collection> getAll() {
         List<Collection> collections = new ArrayList<>();
@@ -61,7 +62,7 @@ public class CollectionDAO {
             while (rs.next()) {
                 collections.add(
                         new Collection(
-                                rs.getInt("id"),
+                                rs.getInt("userId"),
                                 rs.getString("collectionName"),
                                 rs.getString("collectionDescription")
                         )
@@ -72,6 +73,4 @@ public class CollectionDAO {
         }
         return collections;
     }
-    */
-
 }

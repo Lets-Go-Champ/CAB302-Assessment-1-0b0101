@@ -19,10 +19,10 @@ public class Collection {
         this.collectionDescription = collectionDescription;
     }
 
-    public Collection(String collectionName, String collectionDescription, Integer userId) {
+    public Collection(Integer userId, String collectionName, String collectionDescription) {
+        this.userId = userId;
         this.collectionName = collectionName;
         this.collectionDescription = collectionDescription;
-        this.userId = userId;
     }
 
     public int getId() {return collectionId; }
