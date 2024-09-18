@@ -24,8 +24,8 @@ public class CollectionDAO {
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
                             "collectionId INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
-                            "collectionName TEXT NOT NULL," +
                             "userId INTEGER," +
+                            "collectionName TEXT NOT NULL," +
                             "collectionDescription TEXT," + // Description can now be optional
                             "FOREIGN KEY (userId) REFERENCES Users(userId)" +
                             ");"
