@@ -1,6 +1,11 @@
 import com.example.cab302assessment10b0101.model.Book;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BookTest {
@@ -11,23 +16,10 @@ public class BookTest {
     // Sets up a book object with sample data.
     @BeforeEach
     public void setUp() {
-        byte[] image = new byte[0]; // Initializing an empty byte array for the image
-        book = new Book("Test Collection", "The Great Test", 12, "Jackson",
+        byte[] image = new byte[0];  // Initializing an empty byte array for the image
+        book = new Book(1, 1, "The Great Test", 123456, "Jackson",
                 "A thrilling adventure", "01-01-2020", "BestPublisher",
                 500, "My favourite book", image);
-    }
-
-    // Tests the getCollectionName method.
-    @Test
-    public void testGetCollectionName() {
-        assertEquals("Test Collection", book.getCollectionName());
-    }
-
-    // Tests the setCollectionName method.
-    @Test
-    public void testSetCollectionName() {
-        book.setCollectionName("Non-Fiction Collection");
-        assertEquals("Non-Fiction Collection", book.getCollectionName());
     }
 
     // Tests the getTitle method.
@@ -39,21 +31,36 @@ public class BookTest {
     // Tests the setTitle method.
     @Test
     public void testSetTitle() {
-        book.setTitle("Another Great Test");
+        StringProperty newTitle = new SimpleStringProperty("Another Great Test");
+        book.setTitle(newTitle);
         assertEquals("Another Great Test", book.getTitle());
     }
 
-    // Tests the getID method.
+    // Tests the GetID method.
     @Test
     public void testGetId() {
-        assertEquals(12, book.getId());
+        assertEquals(1, book.getId());
     }
 
-    // Tests the setID method.
+    // Tests the SetID method.
     @Test
     public void testSetId() {
-        book.setId(20);
-        assertEquals(20, book.getId());
+        book.setId(2);
+        assertEquals(2, book.getId());
+    }
+
+    // Tests the GetISBN method.
+    @Test
+    public void testGetISBN() {
+        assertEquals(123456, book.getISBN());
+    }
+
+    // Tests the setISBN method.
+    @Test
+    public void testSetISBN() {
+        SimpleIntegerProperty newISBN = new SimpleIntegerProperty(654321);
+        book.setISBN(newISBN);
+        assertEquals(654321, book.getISBN());
     }
 
     // Tests the getAuthor method.
@@ -65,7 +72,8 @@ public class BookTest {
     // Tests the setAuthor method.
     @Test
     public void testSetAuthor() {
-        book.setAuthor("John Doe");
+        StringProperty newAuthor = new SimpleStringProperty("John Doe");
+        book.setAuthor(newAuthor);
         assertEquals("John Doe", book.getAuthor());
     }
 
@@ -78,20 +86,22 @@ public class BookTest {
     // Tests the setDescription method.
     @Test
     public void testSetDescription() {
-        book.setDescription("A mystery novel");
+        StringProperty newDescription = new SimpleStringProperty("A mystery novel");
+        book.setDescription(newDescription);
         assertEquals("A mystery novel", book.getDescription());
     }
 
-    // Tests the getPublication method.
+    // Tests the getPublicationDate method.
     @Test
     public void testGetPublicationDate() {
         assertEquals("01-01-2020", book.getPublicationDate());
     }
 
-    // Tests the setPublication method.
+    // Tests the setPublicationDate method.
     @Test
     public void testSetPublicationDate() {
-        book.setPublicationDate("12-12-2022");
+        StringProperty newDate = new SimpleStringProperty("12-12-2022");
+        book.setPublicationDate(newDate);
         assertEquals("12-12-2022", book.getPublicationDate());
     }
 
@@ -104,7 +114,8 @@ public class BookTest {
     // Tests the setPublisher method.
     @Test
     public void testSetPublisher() {
-        book.setPublisher("AnotherPublisher");
+        StringProperty newPublisher = new SimpleStringProperty("AnotherPublisher");
+        book.setPublisher(newPublisher);
         assertEquals("AnotherPublisher", book.getPublisher());
     }
 
@@ -117,7 +128,8 @@ public class BookTest {
     // Tests the setPages method.
     @Test
     public void testSetPages() {
-        book.setPages(600);
+        SimpleIntegerProperty newPages = new SimpleIntegerProperty(600);
+        book.setPages(newPages);
         assertEquals(600, book.getPages());
     }
 
@@ -130,29 +142,31 @@ public class BookTest {
     // Tests the setNotes method.
     @Test
     public void testSetNotes() {
-        book.setNotes("Updated notes");
+        StringProperty newNotes = new SimpleStringProperty("Updated notes");
+        book.setNotes(newNotes);
         assertEquals("Updated notes", book.getNotes());
     }
 
     // Tests the getImage method.
     @Test
     public void testGetImage() {
-        assertNotNull(book.getImage()); // Ensure the image is not null
+        assertNotNull(book.getImage());  // Ensure the image is not null
     }
 
     // Tests the setImage method.
     @Test
     public void testSetImage() {
-        byte[] newImage = {1, 2, 3}; // Example of setting a new image
+        byte[] newImage = {1, 2, 3};
         book.setImage(newImage);
-        assertArrayEquals(newImage, book.getImage());
+        assertArrayEquals(newImage, book.getBytes());  // Compare byte arrays
     }
 
-    // Tests that the page numbers cannot be negative.
+    // Test that setting negative pages throws an exception
     @Test
     public void testSetNegativePages() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            book.setPages(-50);
+            SimpleIntegerProperty negativePages = new SimpleIntegerProperty(-50);
+            book.setPages(negativePages);
         });
         assertEquals("Number of pages cannot be negative", exception.getMessage());
     }
