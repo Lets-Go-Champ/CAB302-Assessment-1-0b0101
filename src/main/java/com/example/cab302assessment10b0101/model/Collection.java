@@ -1,23 +1,37 @@
 package com.example.cab302assessment10b0101.model;
 
 public class Collection {
-    private int id;
+    private int collectionId;
+    private int userId;
     private String collectionName;
     private String collectionDescription;
 
-    public Collection(int id, String collectionName, String collectionDescription) {
-        this.id = id;
+    public Collection(int collectionId, int userId, String collectionName, String collectionDescription) {
+        this.collectionId = collectionId;
+        this.userId = userId;
         this.collectionName = collectionName;
         this.collectionDescription = collectionDescription;
     }
+
+
     public Collection(String collectionName, String collectionDescription) {
         this.collectionName = collectionName;
         this.collectionDescription = collectionDescription;
     }
 
-    public int getId() {return id; }
+    public Collection(Integer userId, String collectionName, String collectionDescription) {
+        this.userId = userId;
+        this.collectionName = collectionName;
+        this.collectionDescription = collectionDescription;
+    }
 
-    public void setId(int id) {this.id = id;}
+    public int getId() {return collectionId; }
+
+    public void setId(int id) {this.collectionId = id;}
+
+    public int getUserId() {return userId; }
+
+    public void setUserId(int userId) {this.userId = userId; }
 
     public String getCollectionName() {
         return collectionName;
@@ -37,10 +51,6 @@ public class Collection {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", collectionName='" + collectionName + '\'' +
-                ", collectionDescription='" + collectionDescription + '\'' +
-                '}';
+        return collectionName;
     }
 }

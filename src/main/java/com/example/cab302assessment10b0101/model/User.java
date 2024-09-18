@@ -1,24 +1,38 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.beans.property.ListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
+
 public class User {
     private int id;
     private String username;
     private String password;
 
+    private ObservableList<Collection> collections;
+
     public User(int id, String userName, String password) {
         this.id = id;
         this.username = userName;
         this.password = password;
+        this.collections = FXCollections.observableArrayList();
     }
 
     public User(String userName, String password) {
         // Since the id is auto-incremented, it is nice to have a constructor without it
         this.username = userName;
         this.password = password;
+        this.collections = FXCollections.observableArrayList();
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -29,6 +43,14 @@ public class User {
         return password;
     }
 
+    public ObservableList<Collection> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(ObservableList<Collection> collections) {
+        this.collections = collections;
+    }
+
     public void setUserName(String userName) {
         this.username = userName;
     }
@@ -36,6 +58,16 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void addCollection(Collection collection) {
+        collections.add(collection);
+    }
+
+    public void removeCollection(Collection collection) {
+        collections.remove(collection);
+    }
+
+    //public ListProperty<Collection> getObservableCollections(){ return collections.get(); }
 
     @Override
     public String toString() {

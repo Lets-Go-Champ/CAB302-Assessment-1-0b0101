@@ -28,7 +28,7 @@ public class CreateAccountController {
     @FXML
     private Label messageLabel;
 
-    private UserDAO userDAO = new UserDAO();
+    //private UserDAO userDAO = new UserDAO();
 
     @FXML
     private void handleCreate() {
@@ -47,7 +47,7 @@ public class CreateAccountController {
         } else {
             // If everything is good, create a new user and insert it into the database
             User newUser = new User(username, password);
-            userDAO.insert(newUser);
+            UserDAO.getInstance().insert(newUser);
             System.out.println("User created: " + newUser);
             ((Stage) createButton.getScene().getWindow()).close();
         }
@@ -61,7 +61,7 @@ public class CreateAccountController {
 
     private boolean isUsernameDuplicate(String username) {
         // Check if the username already exists in the database
-        return userDAO.getAll().stream().anyMatch(user ->
+        return UserDAO.getInstance().getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username));
     }
 

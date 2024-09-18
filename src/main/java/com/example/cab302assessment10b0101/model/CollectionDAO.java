@@ -5,11 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionDAO {
+    private static CollectionDAO instance;
+    private static Connection connection;
 
-    private Connection connection;
-
-    public CollectionDAO() {
+    private CollectionDAO() {
         connection = DatabaseConnector.getInstance();
+    }
+
+    public static synchronized CollectionDAO getInstance(){
+        if(instance == null){
+            instance = new CollectionDAO();
+        }
+        return instance;
     }
 
     // Create the Collection table if it doesn't already exist
@@ -18,9 +25,11 @@ public class CollectionDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
+                            "collectionId INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
+                            "userId INTEGER," +
                             "collectionName TEXT NOT NULL," +
-                            "collectionDescription TEXT" + // Description can now be optional
+                            "collectionDescription TEXT," + // Description can now be optional
+                            "FOREIGN KEY (userId) REFERENCES Users(userId)" +
                             ");"
             );
         } catch (SQLException ex) {
@@ -32,11 +41,12 @@ public class CollectionDAO {
     public void insert(Collection collection) {
         try {
             PreparedStatement insertCollection = connection.prepareStatement(
-                    "INSERT INTO Collections (collectionName, collectionDescription) " + // No need to insert the id
-                            "VALUES (?, ?);"
+                    "INSERT INTO Collections (userId, collectionName, collectionDescription) " + // No need to insert the id
+                            "VALUES (?, ?, ?);"
             );
-            insertCollection.setString(1, collection.getCollectionName());
-            insertCollection.setString(2, collection.getCollectionDescription());
+            insertCollection.setInt(1, UserManager.getInstance().getCurrentUser().getId());
+            insertCollection.setString(2, collection.getCollectionName());
+            insertCollection.setString(3, collection.getCollectionDescription());
             insertCollection.execute();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -52,7 +62,29 @@ public class CollectionDAO {
             while (rs.next()) {
                 collections.add(
                         new Collection(
-                                rs.getInt("id"),
+                                rs.getInt("userId"),
+                                rs.getString("collectionName"),
+                                rs.getString("collectionDescription")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving collections: " + e.getMessage());
+        }
+        return collections;
+    }
+
+    public List<Collection> getCollectionsByUser(User user) {
+        List<Collection> collections = new ArrayList<>();
+        try {
+            Statement getAll = connection.createStatement();
+
+            ResultSet rs = getAll.executeQuery("SELECT * FROM Collections WHERE userId = " + user.getId());
+            while (rs.next()) {
+                collections.add(
+                        new Collection(
+                                rs.getInt("collectionId"),
+                                rs.getInt("userId"),
                                 rs.getString("collectionName"),
                                 rs.getString("collectionDescription")
                         )

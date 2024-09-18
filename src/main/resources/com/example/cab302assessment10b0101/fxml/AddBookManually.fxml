@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController" style="@../styles/manualEntry.css">
+<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
    <VBox prefHeight="730" prefWidth="960" >
       <children>
          <Label text="Add Book">

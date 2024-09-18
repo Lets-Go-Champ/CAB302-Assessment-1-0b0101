@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -13,12 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-
+import com.example.cab302assessment10b0101.model.BookDAO;
 
 public class AddBookManuallyController {
 
     @FXML
-    public ChoiceBox<String> collectionChoiceBox;
+    public ChoiceBox<Collection> collectionChoiceBox;
     public TextField isbnTextField;
     public TextField titleTextField;
     public TextField authorTextField;
@@ -50,8 +52,8 @@ public class AddBookManuallyController {
     String bookExistsMessage = "The book with the given ISBN already exists.";
 
     // Declare DAOs for interacting with Database
-    private final BookDAO bookDAO = new BookDAO();
-    CollectionDAO collectionDAO = new CollectionDAO();
+    //private final BookDAO bookDAO = new BookDAO();
+    //CollectionDAO collectionDAO = new CollectionDAO()
 
 
 
@@ -67,12 +69,13 @@ public class AddBookManuallyController {
         addBookButton.setOnAction(event -> handleAddBook());
     }
 
-    /**
+    /*
      * Manages adding the book to a collection
      */
+
     @FXML
     private void handleAddBook() {
-        String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem();
+        int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -81,8 +84,6 @@ public class AddBookManuallyController {
         LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
-
-
 
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
@@ -94,26 +95,30 @@ public class AddBookManuallyController {
         String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
         String formattedDate = publicationDay + "-" +publicationMonth + "-" + publicationYear;
 
-
         // Ensure all fields have values and that the book is valid
         if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
             // Ensure that the book does not already exist
-            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
+            //if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
             // Save the book and reset fields
-            saveBook(collectionName, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
             // TODO clearFields();
         }
     }
 
     private void populateCollections() {
-       for ( Collection collection : collectionDAO.getAll()) {
-            collectionChoiceBox.getItems().add(collection.getCollectionName());
-       }
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        ObservableList<Collection> collections = currentUser.getCollections();
+        collectionChoiceBox.setItems(collections);
+        //collectionChoiceBox.setItems(collections);
+        // Optionally set a default value
+        if (!collections.isEmpty()) {
+            collectionChoiceBox.getSelectionModel().selectFirst();
+        }
     }
 
-    /**
+    /*
      * Determines if all the fields entered for a book are valid
      * @param title The title of the book
      * @param isbn The ISBN of the book
@@ -124,6 +129,7 @@ public class AddBookManuallyController {
      * @param notes The user added notes for the book
      * @return True if all fields are valid, False otherwise
      */
+
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes) {
 
@@ -155,14 +161,15 @@ public class AddBookManuallyController {
         catch (Exception e ) { return false; }
     }
 
-    /**
+    /*
      * Determines if the book already exists in the Database.
      * @param id The ISBN of the book
      * @return True if the book exists, false otherwise.
      */
+
     private boolean bookExists(String id) {
         // Double check this functionality - seems like it is not working as intended.
-        return bookDAO.getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
+        return BookDAO.getInstance().getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
     }
 
     private boolean collectionSelected() {
@@ -208,7 +215,7 @@ public class AddBookManuallyController {
     }
 
 
-    /**
+    /*
      * * Save the book to the database
      * @param collectionName The collection the book will be saved to
      * @param title The title of the book
@@ -220,7 +227,8 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param note User defined note regarding the book
      */
-    private void saveBook(String collectionName, String title, String isbn, String author, String description,
+
+    private void saveBook(int collectionId, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
 
@@ -228,12 +236,12 @@ public class AddBookManuallyController {
         byte[] imageBytes = imageToBytes(imagePath);
 
         if (imageBytes.length != 0) {
-            Book newBook = new Book(collectionName, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
-            bookDAO.insert(newBook);
+            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+            BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
             System.out.println("Book Saved Successfully! Details: " + "\n" +
-                    "Collection: " + collectionName + "\n" +
+                    //"Collection: " + collectionName + "\n" +
                     "ISBN: " + isbn + "\n" +
                     "Title: " + title + "\n" +
                     "Author: " + author + "\n" +
@@ -244,12 +252,14 @@ public class AddBookManuallyController {
                     "Note: " + note + "\n" +
                     "Image: " + imageBytes.toString()
             );
+            clearFields();
         }
     }
 
-    /**
+    /*
      * Show an alert dialog for a given message
      */
+
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -258,9 +268,10 @@ public class AddBookManuallyController {
         alert.showAndWait();
     }
 
-    /**
+    /*
      * Clears all input fields after adding a book
      */
+
     private void clearFields() {
         titleTextField.clear();
         isbnTextField.clear();
@@ -270,4 +281,5 @@ public class AddBookManuallyController {
         pagesTextField.clear();
         notesTextField.clear();
     }
+
 }
