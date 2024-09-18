@@ -18,7 +18,7 @@ import com.example.cab302assessment10b0101.model.BookDAO;
 public class AddBookManuallyController {
 
     @FXML
-    public ChoiceBox<String> collectionChoiceBox;
+    public ChoiceBox<Collection> collectionChoiceBox;
     public TextField isbnTextField;
     public TextField titleTextField;
     public TextField authorTextField;
@@ -57,8 +57,8 @@ public class AddBookManuallyController {
 
     @FXML
     public void initialize() {
-        //setupEventHandlers();
-        //populateCollections();
+        setupEventHandlers();
+        populateCollections();
     }
 
 
@@ -73,7 +73,7 @@ public class AddBookManuallyController {
 
     @FXML
     private void handleAddBook() {
-        String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem();
+        int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -96,18 +96,18 @@ public class AddBookManuallyController {
         // Ensure all fields have values and that the book is valid
         if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
             // Ensure that the book does not already exist
-            if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
+            //if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
             // Save the book and reset fields
-            //saveBook(collectionId NOT WORKING, collectionName, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
             // TODO clearFields();
         }
     }
 
     private void populateCollections() {
-       for ( Collection collection : CollectionDAO.getInstance().getAll()) {
-            collectionChoiceBox.getItems().add(collection.getCollectionName());
+       for ( Collection collection : CollectionDAO.getInstance().getCollectionsByUser(UserManager.getInstance().getCurrentUser())) {
+            collectionChoiceBox.getItems().add(collection);
        }
     }
 
@@ -221,7 +221,7 @@ public class AddBookManuallyController {
      * @param note User defined note regarding the book
      */
 
-    private void saveBook(String collectionName, String title, String isbn, String author, String description,
+    private void saveBook(int collectionId, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
 
@@ -229,12 +229,12 @@ public class AddBookManuallyController {
         byte[] imageBytes = imageToBytes(imagePath);
 
         if (imageBytes.length != 0) {
-            //Book newBook = new Book(collectionId NOT WORKING, Integer.parseInt(isbn), title, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
-            //BookDAO.getInstance().insert(newBook);
+            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+            BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
             System.out.println("Book Saved Successfully! Details: " + "\n" +
-                    "Collection: " + collectionName + "\n" +
+                    //"Collection: " + collectionName + "\n" +
                     "ISBN: " + isbn + "\n" +
                     "Title: " + title + "\n" +
                     "Author: " + author + "\n" +

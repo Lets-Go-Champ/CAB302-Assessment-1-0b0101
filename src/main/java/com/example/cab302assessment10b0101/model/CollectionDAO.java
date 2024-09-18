@@ -73,4 +73,26 @@ public class CollectionDAO {
         }
         return collections;
     }
+
+    public List<Collection> getCollectionsByUser(User user) {
+        List<Collection> collections = new ArrayList<>();
+        try {
+            Statement getAll = connection.createStatement();
+
+            ResultSet rs = getAll.executeQuery("SELECT * FROM Collections WHERE userId = " + user.getId());
+            while (rs.next()) {
+                collections.add(
+                        new Collection(
+                                rs.getInt("collectionId"),
+                                rs.getInt("userId"),
+                                rs.getString("collectionName"),
+                                rs.getString("collectionDescription")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving collections: " + e.getMessage());
+        }
+        return collections;
+    }
 }

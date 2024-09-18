@@ -13,6 +13,7 @@ public class Book {
     private int collectionId;
     private int bookId;
     private StringProperty title;
+    private IntegerProperty isbn;
     private StringProperty author;
     private StringProperty description;
     private StringProperty publicationDate;
@@ -21,11 +22,26 @@ public class Book {
     private StringProperty notes;
     private byte[] image; // New field for storing images
 
-    public Book(int collectionId, int id, String title, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+    public Book(int collectionId, int bookId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
         //this.collectionName = new SimpleStringProperty(collectionName);
-        this.collectionId = id;
-        this.bookId = id;
+        this.collectionId = collectionId;
+        this.bookId = bookId;
         this.title = new SimpleStringProperty(title);
+        this.isbn = new SimpleIntegerProperty(isbn);
+        this.author = new SimpleStringProperty(author);
+        this.description = new SimpleStringProperty(description);
+        this.publicationDate = new SimpleStringProperty(publicationDate);
+        this.publisher = new SimpleStringProperty(publisher);
+        this.pages = new SimpleIntegerProperty(pages);
+        this.notes = new SimpleStringProperty(notes);
+        this.image = image;
+    }
+
+    public Book(int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+        //this.collectionName = new SimpleStringProperty(collectionName);
+        this.collectionId = collectionId;
+        this.title = new SimpleStringProperty(title);
+        this.isbn = new SimpleIntegerProperty(isbn);
         this.author = new SimpleStringProperty(author);
         this.description = new SimpleStringProperty(description);
         this.publicationDate = new SimpleStringProperty(publicationDate);
@@ -47,6 +63,10 @@ public class Book {
 
     public int getId() {
         return bookId;
+    }
+
+    public int getISBN() {
+        return isbn.get();
     }
 
     public int getCollectionId() {
@@ -98,6 +118,10 @@ public class Book {
 
     public void setId(int id) {
         this.bookId = id;
+    }
+
+    public void setISBN(IntegerProperty isbn) {
+        this.isbn = isbn;
     }
 
     public void setCollectionId(int collectionId) {

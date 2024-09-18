@@ -29,9 +29,10 @@ public class BookDAO {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Books (" +
+                            "bookId INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "collectionId INTEGER," +
-                            "bookId INTEGER," +
                             "title TEXT NOT NULL," +
+                            "isbn INTEGER," +
                             "author TEXT," +
                             "description TEXT," +
                             "publicationDate TEXT," +
@@ -51,11 +52,10 @@ public class BookDAO {
     public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
-                    "INSERT INTO Books (collectionId, id, title, author, description, publicationDate, publisher, pages, notes, image) " +
+                    "INSERT INTO Books (collectionId, title, author, description, publicationDate, publisher, pages, notes, image) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
             );
             insertBook.setInt(1, book.getCollectionId());
-            insertBook.setInt(2, book.getId());
             insertBook.setString(3, book.getTitle());
             insertBook.setString(4, book.getAuthor());
             insertBook.setString(5, book.getDescription());
@@ -70,6 +70,7 @@ public class BookDAO {
         }
     }
 
+
     // Retrieve all books from the Books table
     public ObservableList<Book> getAll() {
         ObservableList<Book> books = FXCollections.observableArrayList();
@@ -80,8 +81,9 @@ public class BookDAO {
                 books.add(
                         new Book(
                                 rs.getInt("collectionId"),
-                                rs.getInt("id"),
+                                rs.getInt("bookId"),
                                 rs.getString("title"),
+                                rs.getInt("isbn"),
                                 rs.getString("author"),
                                 rs.getString("description"),
                                 rs.getString("publicationDate"),

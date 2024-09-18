@@ -49,4 +49,8 @@ public class Collection {
         this.collectionDescription = description;
     }
 
+    @Override
+    public String toString() {
+        return collectionName;
+    }
 }

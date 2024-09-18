@@ -84,6 +84,8 @@ public class LoginController {
         if (currentUser != null) {
             // Set the logged-in user in UserManager
             UserManager.getInstance().setCurrentUser(currentUser);
+            System.out.println(currentUser);
+            System.out.println(currentUser.getId());
 
             // Close the login stage and open the main application
             Stage stage = (Stage) loginButton.getScene().getWindow();
