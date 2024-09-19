@@ -102,6 +102,33 @@ public class BookDAO {
         return books;
     }
 
+
+    public Book getBookById(int id) {
+        Book book = null;
+        String sql = "SELECT * FROM Books WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                book = new Book(
+                        rs.getInt("collectionId"),
+                        rs.getString("title"),
+                        rs.getInt("id"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("publicationDate"),
+                        rs.getString("publisher"),
+                        rs.getInt("pages"),
+                        rs.getString("notes"),
+                        rs.getBytes("image")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle SQL exceptions
+        }
+        return book;
+    }
+
     public ObservableList<Book> getAllByCollection(Collection collection) {
         ObservableList<Book> books = FXCollections.observableArrayList();
         try {

@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.BookDAO;
 import com.example.cab302assessment10b0101.model.ViewManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.event.ActionEvent;
@@ -16,7 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 
 public class BookDetailsController {
@@ -33,6 +36,29 @@ public class BookDetailsController {
     private Label descriptionLabel;
     @FXML
     private ImageView coverImageView;
+
+    private BookDAO bookDAO = BookDAO.getInstance();
+
+    // Method to set up book details on the UI
+    public void setBookDetails(int bookId) {
+        Book book = bookDAO.getBookById(bookId);
+        if (book != null) {
+            titleLabel.setText(book.getTitle());
+            authorLabel.setText(book.getAuthor());
+            isbnLabel.setText(String.valueOf(book.getId()));
+            descriptionLabel.setText(book.getDescription());
+            publicationDateLabel.setText(book.getPublicationDate());
+
+            if (book.getImage() != null) {
+                InputStream imageStream = new ByteArrayInputStream(book.getImage());
+                Image image = new Image(imageStream);
+                coverImageView.setImage(image);
+            } else {
+                coverImageView.setImage(null);
+            }
+        }
+    }
+
 
     @FXML
     private void onMyBooksClicked(){
