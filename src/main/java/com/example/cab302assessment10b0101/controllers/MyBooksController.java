@@ -1,7 +1,9 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
-        import javafx.application.Platform;
+import com.example.cab302assessment10b0101.views.MenuOptions;
+import com.example.cab302assessment10b0101.views.ViewFactory;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -58,6 +60,14 @@ public class MyBooksController implements Initializable {
         });
     }
 
+    private void handleBookClick(Book book){
+
+        ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS); // set flag for Book Detail page
+        System.out.println("Book " + book + "was clicked");
+    }
+
+
     private void loadBooks(Collection collection) {
         showLoadingIndicator();
 
@@ -100,6 +110,10 @@ public class MyBooksController implements Initializable {
 
                     // Debugging output
                     System.out.println("Adding book: " + book.getTitle() + " at column: " + columns + " row: " + rows);
+
+                    //BookDetailsController bookDetailsController = fxmlLoader.getController();
+                    //bookDetailsController.setData(book);
+                    bookBox.setOnMouseClicked(event -> handleBookClick(book));
 
                     bookContainer.add(bookBox, columns, rows);
                     GridPane.setMargin(bookBox, new Insets(10));

@@ -1,53 +1,42 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
-import javafx.event.ActionEvent;
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class BookDetailsController {
 
     @FXML
     private Label titleLabel;
+
     @FXML
     private Label authorLabel;
-    @FXML
-    private Label genreLabel;
-    @FXML
-    private Label publicationDateLabel;
-    @FXML
-    private Label isbnLabel;
+
     @FXML
     private Label descriptionLabel;
+
     @FXML
-    private ImageView coverImageView;
+    private ImageView bookCoverImage;
 
-    public void onMyBooksClicked(ActionEvent actionEvent) {
+    @FXML
+    private Label publicationDateLabel;
+
+    @FXML
+    private Label notesTextArea;
+
+    private ObjectProperty<Book> selectedBook;
+
+
+    public void setData(Book book){
+        titleLabel.setText(book.getTitle());
+        System.out.println(book.getTitle());
+        authorLabel.setText(book.getAuthor());
+        descriptionLabel.setText(book.getDescription());
+        bookCoverImage.setImage(book.getImage());
     }
-
-    public void onAddCollectionClicked(ActionEvent actionEvent) {
-    }
-
-    public void onAddBookClicked(ActionEvent actionEvent) {
-    }
-
-    public void onLendingClicked(ActionEvent actionEvent) {
-    }
-
-    public void onLogoutClicked(ActionEvent actionEvent) {
-    }
-
-//    public void setBook(Book book) {
-//        titleLabel.setText(book.getTitle());
-//        authorLabel.setText(book.getAuthor());
-//        genreLabel.setText(book.getGenre());
-//        publicationDateLabel.setText(book.getPublicationDate());
-//        isbnLabel.setText(book.getIsbn());
-//        descriptionLabel.setText(book.getDescription());
-//        coverImageView.setImage(new Image(book.getCoverImage()));
-//    }
 }
+
 
 

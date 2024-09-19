@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.views;
+import com.example.cab302assessment10b0101.controllers.BookDetailsController;
 import com.example.cab302assessment10b0101.controllers.ClientController;
-import com.example.cab302assessment10b0101.controllers.MyBooksController;
+import com.example.cab302assessment10b0101.model.Book;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
@@ -11,16 +12,24 @@ import javafx.stage.Stage;
 public class ViewFactory {
 
     private final ObjectProperty<MenuOptions> userSelectedMenuItem;
+    private final ObjectProperty<Book> userSelectedBook;
+
     private AnchorPane myBooksView;
     private AnchorPane addCollectionView;
     private AnchorPane addBookView;
+    private AnchorPane booksDetailsView;
 
     public ViewFactory(){
+
         this.userSelectedMenuItem = new SimpleObjectProperty<>();
+        this.userSelectedBook = new SimpleObjectProperty<>();
     }
 
     public ObjectProperty<MenuOptions> getUserSelectedMenuItem(){
         return userSelectedMenuItem;
+    }
+    public ObjectProperty<Book> getUserSelectedBook(){
+        return userSelectedBook;
     }
 
     public AnchorPane getMyBooksView(){
@@ -55,6 +64,27 @@ public class ViewFactory {
         }
         return addBookView;
     }
+
+
+    public AnchorPane getBookDetailsView() {
+        if (booksDetailsView == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BookDetailsPage.fxml"));
+                booksDetailsView = loader.load();
+
+                BookDetailsController controller = loader.getController();
+                userSelectedBook.addListener((observable, oldBook, newBook) -> {
+                    if (controller != null && newBook != null) {
+                        controller.setData(newBook); // Set the new book data in the controller
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return booksDetailsView;
+    }
+
 
     public void getLoginScreen() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
