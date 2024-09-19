@@ -69,41 +69,41 @@ public class MyBooksController implements Initializable {
 
 
     private void loadBooks(Collection collection) {
-        System.out.println("Starting to load books for collection: " + collection.getCollectionName());
-        //showLoadingIndicator();
+        System.out.println("Loading books for collection: " + collection.getCollectionName());
 
         Task<ObservableList<Book>> loadBooksTask = new Task<>() {
             @Override
             protected ObservableList<Book> call() throws Exception {
+                // Fetch books in a background thread
+                System.out.println("Fetching books from database for collection: " + collection.getCollectionName());
                 return FXCollections.observableArrayList(BookDAO.getInstance().getAllByCollection(collection));
             }
         };
 
         loadBooksTask.setOnSucceeded(event -> {
+            // Update the UI with the new book list
+            System.out.println("Books loaded successfully. Number of books: " + loadBooksTask.getValue().size());
             updateBookGrid(loadBooksTask.getValue());
-            System.out.println("loadBooksTask completed successfully on thread: " + Thread.currentThread().getName());  // Debugging the main JavaFX thread
-            hideLoadingIndicator();
         });
 
         loadBooksTask.setOnFailed(event -> {
-            // Handle errors if needed
+            // Handle errors if necessary
             System.err.println("Failed to load books: " + loadBooksTask.getException());
-            hideLoadingIndicator();
         });
 
         new Thread(loadBooksTask).start();
     }
 
-    private void updateBookGrid(ObservableList<Book> books) {
-        System.out.println("Running updateBookGrid on thread: " + Thread.currentThread().getName());  // Should be the JavaFX application thread
-        System.out.println("Updating grid with " + books.size() + " books.");
 
+    private void updateBookGrid(ObservableList<Book> books) {
         Platform.runLater(() -> {
+            System.out.println("Updating book grid with " + books.size() + " books.");
+
             int columns = 0;
             int rows = 1;
             int maxColumns = 4;
 
-            bookContainer.getChildren().clear();
+            bookContainer.getChildren().clear(); // Clear existing content
 
             try {
                 for (Book book : books) {
@@ -113,11 +113,6 @@ public class MyBooksController implements Initializable {
                     BookController bookController = fxmlLoader.getController();
                     bookController.setData(book);
 
-                    // Debugging output
-                    System.out.println("Adding book: " + book.getTitle() + " at column: " + columns + " row: " + rows);
-
-                    //BookDetailsController bookDetailsController = fxmlLoader.getController();
-                    //bookDetailsController.setData(book);
                     bookBox.setOnMouseClicked(event -> handleBookClick(book));
 
                     bookContainer.add(bookBox, columns, rows);
@@ -134,6 +129,8 @@ public class MyBooksController implements Initializable {
             }
         });
     }
+
+
 
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();

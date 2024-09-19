@@ -4,6 +4,7 @@ import com.example.cab302assessment10b0101.model.Collection;
 import com.example.cab302assessment10b0101.model.CollectionDAO;
 import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.UserManager;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -55,9 +56,13 @@ public class AddCollectionController implements Initializable {
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
         System.out.println("Current User ID = " + currentUserId + "\n");
         Collection newCollection = new Collection(currentUserId, collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
-
+        System.out.println("New collection = " + newCollection);
 
         CollectionDAO.getInstance().insert(newCollection);
+
+        ObservableList<Collection> collections = UserManager.getInstance().getCurrentUser().getCollections();
+        collections.forEach(c -> System.out.println("Collection: " + c.getCollectionName()));
+
         UserManager.getInstance().getCurrentUser().addCollection(newCollection);
 
         // Clear fields and show success message

@@ -97,6 +97,7 @@ public class AddBookManuallyController {
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
 
+
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
         catch (Exception e) { showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
