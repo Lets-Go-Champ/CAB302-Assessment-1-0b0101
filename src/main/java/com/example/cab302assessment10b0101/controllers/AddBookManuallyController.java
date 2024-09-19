@@ -75,7 +75,19 @@ public class AddBookManuallyController {
 
     @FXML
     private void handleAddBook() {
-        int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
+        System.out.println("\nAdding Book...");
+        String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
+        System.out.println("Collection Name = " + collectionName);
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
+
+        System.out.println("CollectionID = " + collectionId);
+        if(collectionId == -1){
+            System.out.println("No such collection Id");
+            return;
+        }
+
+        //int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
+        System.out.println("collection ID = " + collectionId);
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();

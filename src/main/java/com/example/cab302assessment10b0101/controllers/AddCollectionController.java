@@ -51,8 +51,12 @@ public class AddCollectionController implements Initializable {
         }
 
         // Create a new collection and insert it into the database
+        System.out.println("\nCreating Collection...");
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
+        System.out.println("Current User ID = " + currentUserId + "\n");
         Collection newCollection = new Collection(currentUserId, collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
+
+
         CollectionDAO.getInstance().insert(newCollection);
         UserManager.getInstance().getCurrentUser().addCollection(newCollection);
 
