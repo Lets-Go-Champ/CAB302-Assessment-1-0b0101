@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController">
+<VBox spacing="10" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController">
     <!-- Side Navigation -->
     <HBox>
         <VBox prefWidth="150" spacing="10" style="-fx-background-color: #D3D3D3;">
@@ -33,12 +33,12 @@
                 </padding>
                 <!-- Title -->
                 <Label style="-fx-font-size: 24px;" text="Book Details" />
-            <ButtonBar prefHeight="9.0" prefWidth="189.0">
-              <buttons>
-                  <Button mnemonicParsing="false" text="Edit" />
-                <Button mnemonicParsing="false" text="Delete" />
-              </buttons>
-            </ButtonBar>
+                <ButtonBar prefHeight="9.0" prefWidth="189.0">
+                    <buttons>
+                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit" onAction="#onEditClicked" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete" onAction="#onDeleteClicked" />
+                    </buttons>
+                </ButtonBar>
 
                 <!-- Book Details -->
                 <HBox spacing="20">

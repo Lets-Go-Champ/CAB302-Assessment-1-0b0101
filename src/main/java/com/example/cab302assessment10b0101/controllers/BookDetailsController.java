@@ -1,11 +1,23 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class BookDetailsController {
 
@@ -13,8 +25,6 @@ public class BookDetailsController {
     private Label titleLabel;
     @FXML
     private Label authorLabel;
-    @FXML
-    private Label genreLabel;
     @FXML
     private Label publicationDateLabel;
     @FXML
@@ -24,20 +34,75 @@ public class BookDetailsController {
     @FXML
     private ImageView coverImageView;
 
-    public void onMyBooksClicked(ActionEvent actionEvent) {
+    @FXML
+    private void onMyBooksClicked(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
     }
-
-    public void onAddCollectionClicked(ActionEvent actionEvent) {
+    @FXML
+    private void onAddBookClicked(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDBOOK);
     }
-
-    public void onAddBookClicked(ActionEvent actionEvent) {
+    @FXML
+    private void onAddCollectionClicked(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
     }
 
     public void onLendingClicked(ActionEvent actionEvent) {
     }
 
-    public void onLogoutClicked(ActionEvent actionEvent) {
+    @FXML
+    private void onLogoutClicked() {
+        showLogoutConfirmation();
     }
+
+    @FXML
+    private void onEditClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/EditBook.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Edit Book");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onDeleteClicked() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete this book?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Implement deletion logic here
+            System.out.println("Book deleted.");
+        }
+    }
+
+    @FXML
+    private void showLogoutConfirmation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/LogoutConfirmation.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Confirm Logout");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 
 //    public void setBook(Book book) {
 //        titleLabel.setText(book.getTitle());
