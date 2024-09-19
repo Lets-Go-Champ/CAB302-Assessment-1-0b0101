@@ -69,21 +69,35 @@ public class ViewFactory {
     public AnchorPane getBookDetailsView() {
         if (booksDetailsView == null) {
             try {
+                // Initialize FXMLLoader and the controller
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BookDetailsPage.fxml"));
                 booksDetailsView = loader.load();
 
                 BookDetailsController controller = loader.getController();
+
+                // Set listener on userSelectedBook to update the BookDetailsController when a new book is selected
                 userSelectedBook.addListener((observable, oldBook, newBook) -> {
-                    if (controller != null && newBook != null) {
-                        controller.setData(newBook); // Set the new book data in the controller
+                    System.out.println("Book changed: " + (newBook != null ? newBook.getTitle() : "null"));
+
+                    if (newBook != null && controller != null) {
+                        System.out.println("Setting data on BookDetailsController for book: " + newBook.getTitle());
+                        controller.setData(newBook);
                     }
                 });
+
+                // Manually trigger the listener logic for the current value of userSelectedBook
+                if (userSelectedBook.get() != null) {
+                    System.out.println("Manually setting data for the initially selected book: " + userSelectedBook.get().getTitle());
+                    controller.setData(userSelectedBook.get());
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return booksDetailsView;
     }
+
 
 
     public void getLoginScreen() {
