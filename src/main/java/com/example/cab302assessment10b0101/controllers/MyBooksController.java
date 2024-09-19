@@ -61,7 +61,7 @@ public class MyBooksController implements Initializable {
     }
 
     private void handleBookClick(Book book){
-
+        System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensu
         ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS); // set flag for Book Detail page
         System.out.println("Book " + book + "was clicked");
@@ -69,7 +69,8 @@ public class MyBooksController implements Initializable {
 
 
     private void loadBooks(Collection collection) {
-        showLoadingIndicator();
+        System.out.println("Starting to load books for collection: " + collection.getCollectionName());
+        //showLoadingIndicator();
 
         Task<ObservableList<Book>> loadBooksTask = new Task<>() {
             @Override
@@ -80,6 +81,7 @@ public class MyBooksController implements Initializable {
 
         loadBooksTask.setOnSucceeded(event -> {
             updateBookGrid(loadBooksTask.getValue());
+            System.out.println("loadBooksTask completed successfully on thread: " + Thread.currentThread().getName());  // Debugging the main JavaFX thread
             hideLoadingIndicator();
         });
 
@@ -93,6 +95,9 @@ public class MyBooksController implements Initializable {
     }
 
     private void updateBookGrid(ObservableList<Book> books) {
+        System.out.println("Running updateBookGrid on thread: " + Thread.currentThread().getName());  // Should be the JavaFX application thread
+        System.out.println("Updating grid with " + books.size() + " books.");
+
         Platform.runLater(() -> {
             int columns = 0;
             int rows = 1;
