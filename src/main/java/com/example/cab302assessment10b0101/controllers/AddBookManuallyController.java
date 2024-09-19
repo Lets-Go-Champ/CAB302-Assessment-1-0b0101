@@ -254,7 +254,7 @@ public class AddBookManuallyController {
 
             // Print the results to console for testing:
             System.out.println("Book Saved Successfully! Details: " + "\n" +
-                    //"Collection: " + collectionName + "\n" +
+                    "Collection ID: " + collectionId + "\n" +
                     "ISBN: " + isbn + "\n" +
                     "Title: " + title + "\n" +
                     "Author: " + author + "\n" +
