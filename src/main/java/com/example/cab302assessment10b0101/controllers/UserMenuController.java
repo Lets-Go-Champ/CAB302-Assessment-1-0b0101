@@ -47,7 +47,6 @@ public class UserMenuController implements Initializable {
         //ViewManager.getInstance().getViewFactory().getLoginScreen();
         //UserManager.getInstance().setCurrentUser(null);
         showLogoutSuccessAlert();
-
     }
     private void showLogoutSuccessAlert() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
