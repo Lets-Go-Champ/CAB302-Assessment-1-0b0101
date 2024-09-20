@@ -9,10 +9,20 @@ public class UserDAO {
     private static UserDAO instance;
     private static Connection connection;
 
+    /**
+     * Private constructor to prevent direct instantiation.
+     * Initializes the database connection.
+     */
     private UserDAO() {
         connection = DatabaseConnector.getInstance();
     }
 
+    /**
+     * Singleton pattern to get the single instance of UserDAO.
+     * Ensures that only one instance of this class is created throughout the application.
+     *
+     * @return The single instance of UserDAO.
+     */
     public static synchronized UserDAO getInstance(){
         if(instance == null){
             instance = new UserDAO();
@@ -20,6 +30,10 @@ public class UserDAO {
         return instance;
     }
 
+    /**
+     * Creates the User table in the database if it doesn't already exist.
+     * The table includes fields for the username, password, and the auto-incremented ID.
+     */
     public void createTable() {
         try {
             Statement createTable = connection.createStatement();
@@ -31,10 +45,15 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error creating Users table: " + ex.getMessage());
         }
     }
 
+    /**
+     * Inserts a new user record into the Users table.
+     *
+     * @param user The user object containing all details to be inserted.
+     */
     public void insert(User user) {
         try {
             PreparedStatement insertUser = connection.prepareStatement(
@@ -44,11 +63,17 @@ public class UserDAO {
             insertUser.setString(2, user.getPassword());
             insertUser.execute();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error inserting user: " + ex.getMessage());
         }
     }
 
-    // Get user by username and password
+    /**
+     * Validates the user's credentials against records in the Users table.
+     *
+     * @param username The username entered by the user.
+     * @param password The password entered by the user.
+     * @return A User object if credentials are valid; otherwise, null.
+     */
     public User validateCredentials(String username, String password) {
         try {
             String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
@@ -59,19 +84,24 @@ public class UserDAO {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return new User(
-                        rs.getInt("userId"),    // Assuming your table has a column 'userId'
+                        rs.getInt("userId"),
                         rs.getString("username"),
-                        rs.getString("password") // You might want to handle passwords more securely
+                        rs.getString("password")
                 );
             } else {
-                return null; // No user found
+                return null;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error validating credentials: " + e.getMessage());
             return null;
         }
     }
 
+    /**
+     * Retrieves all users from the Users table.
+     *
+     * @return A list of User objects representing all users in the database.
+     */
     public List<User> getAll() {
         List<User> user = new ArrayList<>();
         try {
@@ -87,7 +117,7 @@ public class UserDAO {
                 );
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error retrieving users: " + ex.getMessage());
         }
         return user;
     }
