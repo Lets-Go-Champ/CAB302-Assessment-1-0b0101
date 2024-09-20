@@ -9,6 +9,9 @@ import javafx.scene.image.ImageView;
 public class BookDetailsController {
 
     @FXML
+    private Label title;
+
+    @FXML
     private Label titleLabel;
 
     @FXML
@@ -24,15 +27,26 @@ public class BookDetailsController {
     private Label publicationDateLabel;
 
     @FXML
-    private Label notesTextArea;
+    private Label publisherLabel;
+
+    @FXML
+    private Label pagesLabel;
+
+    @FXML
+    private Label notesLabel;
 
     private ObjectProperty<Book> selectedBook;
 
 
     public void setData(Book book){
+        title.setText(book.getTitle());
+        publicationDateLabel.setText(book.getPublicationDate());
+        publisherLabel.setText(book.getPublisher());
         titleLabel.setText(book.getTitle());
-        System.out.println(book.getTitle());
+        //System.out.println(book.getTitle());
         authorLabel.setText(book.getAuthor());
+        //notesLabel.setI(book.getPages());
+
         descriptionLabel.setText(book.getDescription());
         bookCoverImage.setImage(book.getImage());
     }
