@@ -19,35 +19,45 @@ import com.example.cab302assessment10b0101.model.BookDAO;
 public class AddBookManuallyController {
 
     @FXML
-    public ChoiceBox<Collection> collectionChoiceBox;
-    public TextField isbnTextField;
-    public TextField titleTextField;
-    public TextField authorTextField;
-    public TextField descriptionTextField;
-    public TextField publisherTextField;
-    public DatePicker dateDatePicker;
-    public TextField pagesTextField;
-    public TextField notesTextField;
-    public Button addBookButton;
-    public Button addImageButton;
-
+    private ChoiceBox<Collection> collectionChoiceBox;
+    @FXML
+    private TextField isbnTextField;
+    @FXML
+    private TextField titleTextField;
+    @FXML
+    private TextField authorTextField;
+    @FXML
+    private TextField descriptionTextField;
+    @FXML
+    private TextField publisherTextField;
+    @FXML
+    private DatePicker dateDatePicker;
+    @FXML
+    private TextField pagesTextField;
+    @FXML
+    private TextField notesTextField;
+    @FXML
+    private Button addBookButton;
+    @FXML
+    private Button addImageButton;
+    @FXML
     private Image image;
 
     // Define error messages
-    String noCollectionMessage = "Please select a collection.";
-    String noTitleErrorMessage = "Please enter a Title.";
-    String noISBNMessage = "Please enter an ISBN.";
-    String invalidISBNMessage = "The ISBN must only contain digits 0-9";
-    String noAuthorErrorMessage = "Please enter an Author.";
-    String noDescriptionMessage = "Please enter a description";
-    String noPublisherMessage = "Please enter a publisher.";
-    String noDateMessage = "Please enter a publication date.";
-    String noPagesMessage = "Please enter a page count.";
-    String invalidPagesMessage = "Please enter a valid page count ( >0).";
-    String noNoteMessage = "Please enter a note.";
-    String noImageMessage = "Please select a cover image.";
-    String noImageUploadMessage = "Could not load an image.";
-    String failedImageConversionMessage = "Could note convert the image to a byte array.";
+    final String noCollectionMessage = "Please select a collection.";
+    final String noTitleErrorMessage = "Please enter a Title.";
+    final String noISBNMessage = "Please enter an ISBN.";
+    final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    final String noAuthorErrorMessage = "Please enter an Author.";
+    final String noDescriptionMessage = "Please enter a description";
+    final String noPublisherMessage = "Please enter a publisher.";
+    final String noDateMessage = "Please enter a publication date.";
+    final String noPagesMessage = "Please enter a page count.";
+    final String invalidPagesMessage = "Please enter a valid page count ( >0).";
+    final String noNoteMessage = "Please enter a note.";
+    final String noImageMessage = "Please select a cover image.";
+    final String noImageUploadMessage = "Could not load an image.";
+    final String failedImageConversionMessage = "Could note convert the image to a byte array.";
 
 
     @FXML
