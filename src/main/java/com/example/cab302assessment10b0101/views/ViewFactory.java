@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.views;
 import com.example.cab302assessment10b0101.controllers.BookDetailsController;
 import com.example.cab302assessment10b0101.controllers.ClientController;
+import com.example.cab302assessment10b0101.controllers.MyBooksController;
 import com.example.cab302assessment10b0101.model.Book;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -13,6 +14,8 @@ public class ViewFactory {
 
     private final ObjectProperty<MenuOptions> userSelectedMenuItem;
     private final ObjectProperty<Book> userSelectedBook;
+    private MyBooksController myBooksController;
+
 
     private AnchorPane myBooksView;
     private AnchorPane addCollectionView;
@@ -32,15 +35,20 @@ public class ViewFactory {
         return userSelectedBook;
     }
 
-    public AnchorPane getMyBooksView(){
+    public AnchorPane getMyBooksView() {
         if (myBooksView == null) {
-            try{
-                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BooksDisplay.fxml")).load();
-            } catch (Exception e){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BooksDisplay.fxml"));
+                myBooksView = loader.load();
+                myBooksController = loader.getController(); // Store the controller for later use
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            // Refresh the book list when returning to the view
+            myBooksController.reloadBooksForSelectedCollection();
         }
-        return myBooksView;
+        return myBooksView; // Return the AnchorPane directly
     }
 
     public AnchorPane getAddCollectinView(){
