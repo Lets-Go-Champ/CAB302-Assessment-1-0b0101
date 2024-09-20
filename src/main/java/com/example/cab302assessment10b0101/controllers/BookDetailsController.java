@@ -35,6 +35,9 @@ public class BookDetailsController {
     @FXML
     private Label notesLabel;
 
+    @FXML
+    private Label isbnLabel;
+
     private ObjectProperty<Book> selectedBook;
 
 
@@ -43,6 +46,7 @@ public class BookDetailsController {
         publicationDateLabel.setText(book.getPublicationDate());
         publisherLabel.setText(book.getPublisher());
         titleLabel.setText(book.getTitle());
+        isbnLabel.setText(book.getISBNAsString());
         //System.out.println(book.getTitle());
         authorLabel.setText(book.getAuthor());
         pagesLabel.setText(book.getPagesAsString());

@@ -90,7 +90,7 @@ public class Book {
     }
 
     public String getPagesAsString() {
-        return pages.toString();
+        return String.valueOf(pages.get());
     }
 
     public byte[] getBytes() {
@@ -148,4 +148,7 @@ public class Book {
         this.image = image;
     }
 
+    public String getISBNAsString() {
+        return String.valueOf(isbn.get());
+    }
 }
