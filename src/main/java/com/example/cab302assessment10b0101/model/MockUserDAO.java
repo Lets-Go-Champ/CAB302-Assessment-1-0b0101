@@ -41,5 +41,15 @@ public class MockUserDAO implements UserDAOInterface {
                 .findFirst()
                 .orElse(null);  // Find user by ID
     }
+
+    @Override
+    public User validateCredentials(String username, String password) {
+        // Simulate validating credentials by searching
+        // for the user with the provided username and password
+        return users.stream()
+                .filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+    }
 }
 

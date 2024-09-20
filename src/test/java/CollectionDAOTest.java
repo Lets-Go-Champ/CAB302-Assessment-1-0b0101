@@ -1,5 +1,7 @@
 import com.example.cab302assessment10b0101.model.Collection;
 import com.example.cab302assessment10b0101.model.MockCollectionDAO;
+import com.example.cab302assessment10b0101.model.User;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,11 +11,36 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CollectionDAOTest {
 
     private MockCollectionDAO mockCollectionDAO;
+    private User testUser;
 
     // Set up before each test.
     @BeforeEach
     public void setUp() {
         mockCollectionDAO = new MockCollectionDAO();  // Initialize the mock DAO for testing
+        testUser = new User(1, "testUser", "testPassword");  // Create a test user
+    }
+
+    // Test inserting and retrieving collections by user.
+    @Test
+    public void testGetCollectionsByUser() {
+        // Insert multiple collections
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Collection 1", "Description 1"));
+        mockCollectionDAO.insert(new Collection(2, "Collection 2", "Description 2"));  // Collection for another user
+
+        // Retrieve collections by user
+        List<Collection> userCollections = mockCollectionDAO.getCollectionsByUser(testUser);
+        assertEquals(1, userCollections.size());
+        assertEquals("Collection 1", userCollections.get(0).getCollectionName());
+    }
+
+    // Test retrieving collectionId by user and collection name.
+    @Test
+    public void testGetCollectionIdByUserAndCollectionName() {
+        Collection collection = new Collection(testUser.getId(), "My Collection", "My Description");
+        mockCollectionDAO.insert(collection);
+
+        int collectionId = mockCollectionDAO.getCollectionsIDByUserAndCollectionName(testUser, "My Collection");
+        assertEquals(collection.getId(), collectionId);
     }
 
     // Test insert new collection.

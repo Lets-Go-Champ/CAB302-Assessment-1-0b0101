@@ -5,4 +5,6 @@ import java.util.List;
 public interface CollectionDAOInterface {
     void insert(Collection collection);
     List<Collection> getAll();
+    List<Collection> getCollectionsByUser(User user);
+    int getCollectionsIDByUserAndCollectionName(User user, String collectionName);
 }

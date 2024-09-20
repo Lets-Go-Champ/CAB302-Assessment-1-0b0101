@@ -8,4 +8,5 @@ public interface UserDAOInterface {
     void delete(int id);
     List<User> getAll();
     User getById(int id);
+    User validateCredentials(String username, String password);
 }

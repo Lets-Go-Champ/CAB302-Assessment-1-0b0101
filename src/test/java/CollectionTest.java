@@ -34,6 +34,33 @@ public class CollectionTest {
         assertEquals("A collection of non-fiction books", collection.getCollectionDescription());
     }
 
+    // Test for getting the userId
+    @Test
+    public void testGetUserId() {
+        assertEquals(0, collection.getUserId());
+    }
+
+    // Test for setting the userId
+    @Test
+    public void testSetUserId() {
+        collection.setUserId(3);
+        assertEquals(3, collection.getUserId());
+    }
+
+    // Test for getting the collectionId
+    @Test
+    public void testGetCollectionId() {
+        assertEquals(0, collection.getId());
+    }
+
+    // Test for setting the collectionId
+    @Test
+    public void testSetCollectionId() {
+        collection.setId(10);
+        assertEquals(10, collection.getId());
+    }
+
+
     // Boundary test: Ensuring the collection name cannot be empty
     @Test
     public void testSetEmptyName() {

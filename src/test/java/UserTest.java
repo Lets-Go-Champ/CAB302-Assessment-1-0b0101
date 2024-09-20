@@ -1,4 +1,7 @@
 import com.example.cab302assessment10b0101.model.User;
+import com.example.cab302assessment10b0101.model.Collection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,5 +63,34 @@ public class UserTest {
     public void testToString() {
         String expectedString = "User{id=1, userName='testUser', password='testPassword'}";
         assertEquals(expectedString, user.toString());
+    }
+
+    // Test getCollections method.
+    @Test
+    public void testGetCollections() {
+        ObservableList<Collection> collections = user.getCollections();
+        assertNotNull(collections);  // Ensure the collection list is not null
+        assertEquals(0, collections.size());  // Initially, the collection list should be empty
+    }
+
+    // Test setCollections method.
+    @Test
+    public void testSetCollections() {
+        ObservableList<Collection> newCollections = FXCollections.observableArrayList();
+        newCollections.add(new Collection("Collection 1", "Description 1"));
+        user.setCollections(newCollections);
+
+        assertEquals(1, user.getCollections().size());
+        assertEquals("Collection 1", user.getCollections().get(0).getCollectionName());
+    }
+
+    // Test addCollection method.
+    @Test
+    public void testAddCollection() {
+        Collection collection = new Collection("Test Collection", "Test Description");
+        user.addCollection(collection);
+
+        assertEquals(1, user.getCollections().size());
+        assertEquals("Test Collection", user.getCollections().get(0).getCollectionName());
     }
 }
