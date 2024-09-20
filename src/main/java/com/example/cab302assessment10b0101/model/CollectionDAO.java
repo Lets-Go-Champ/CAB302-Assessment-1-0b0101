@@ -74,6 +74,32 @@ public class CollectionDAO {
         return collections;
     }
 
+    public int getCollectionsIDByUserAndCollectionName(User user, String collectionName) {
+        int collectionId = -1; // Default value in case no result is found
+
+        try {
+            // Use a PreparedStatement to prevent SQL injection and ensure safe parameter handling
+            String query = "SELECT collectionId FROM Collections WHERE collectionName = ? AND userId = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+
+
+            stmt.setString(1, collectionName);  // Set the collection name
+            stmt.setInt(2, user.getId());  // Set the user ID
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                collectionId = rs.getInt("collectionId"); // Get the collectionId from the result set
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving collections: " + e.getMessage());
+        }
+
+
+        return collectionId;
+    }
+
+
     public List<Collection> getCollectionsByUser(User user) {
         List<Collection> collections = new ArrayList<>();
         try {

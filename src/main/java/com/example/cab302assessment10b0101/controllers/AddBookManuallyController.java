@@ -75,7 +75,19 @@ public class AddBookManuallyController {
 
     @FXML
     private void handleAddBook() {
-        int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
+        System.out.println("\nAdding Book...");
+        String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
+        System.out.println("Collection Name = " + collectionName);
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
+
+        System.out.println("CollectionID = " + collectionId);
+        if(collectionId == -1){
+            System.out.println("No such collection Id");
+            return;
+        }
+
+        //int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
+        System.out.println("collection ID = " + collectionId);
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -84,6 +96,7 @@ public class AddBookManuallyController {
         LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
+
 
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
@@ -241,7 +254,7 @@ public class AddBookManuallyController {
 
             // Print the results to console for testing:
             System.out.println("Book Saved Successfully! Details: " + "\n" +
-                    //"Collection: " + collectionName + "\n" +
+                    "Collection ID: " + collectionId + "\n" +
                     "ISBN: " + isbn + "\n" +
                     "Title: " + title + "\n" +
                     "Author: " + author + "\n" +

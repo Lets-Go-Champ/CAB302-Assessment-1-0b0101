@@ -25,10 +25,14 @@ public class BookController {
 
 
     public void setData(Book book){
-        System.out.println("Initializing BookCellController for book: " + book.getTitle());
-        bookTitle.setText(book.getTitle());
-        bookAuthor.setText(book.getAuthor());
-        bookCoverImage.setImage(book.getImage());
+        if (book != null){
+            System.out.println("Populating book details for: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensure it's the JavaFX thread
+            //System.out.println("Initializing BookCellController for book: " + book.getTitle());
+            bookTitle.setText(book.getTitle());
+            bookAuthor.setText(book.getAuthor());
+            bookCoverImage.setImage(book.getImage());
+        }
+
     }
 
 

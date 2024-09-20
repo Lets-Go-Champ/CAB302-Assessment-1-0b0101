@@ -1,7 +1,9 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
-        import javafx.application.Platform;
+import com.example.cab302assessment10b0101.views.MenuOptions;
+import com.example.cab302assessment10b0101.views.ViewFactory;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -16,6 +18,10 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -39,6 +45,9 @@ public class MyBooksController implements Initializable {
     @FXML
     private GridPane bookContainer;
 
+
+    Connection connection = DatabaseConnector.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         populateCollections();
@@ -51,44 +60,113 @@ public class MyBooksController implements Initializable {
     }
 
     private void setupEventHandlers() {
+        reloadBooksForSelectedCollection();
         collectionsChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                System.out.println(newValue);
                 loadBooks(newValue);
             }
         });
     }
 
-    private void loadBooks(Collection collection) {
-        showLoadingIndicator();
+    private void handleBookClick(Book book){
+        System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensu
+        ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS); // set flag for Book Detail page
+        System.out.println("Book " + book + "was clicked");
+    }
 
-        Task<ObservableList<Book>> loadBooksTask = new Task<>() {
+    public void reloadBooksForSelectedCollection() {
+        Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
+        if (selectedCollection != null) {
+            System.out.println("Reloading books for collection: " + selectedCollection.getCollectionName());
+            loadBooks(selectedCollection); // Force reloading the books for the selected collection
+        } else {
+            System.out.println("No collection selected.");
+        }
+    }
+
+    private void loadBooks(Collection collection) {
+        System.out.println("Loading books for collection: " + collection.getCollectionName());
+        System.out.println("which has an ID of: " + collection.getId());
+
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collection.getCollectionName());
+        //System.out.println("Loading books for collection: " + collection.getCollectionName());
+
+        /*Task<ObservableList<Book>> loadBooksTask = new Task<>() {
             @Override
             protected ObservableList<Book> call() throws Exception {
+                // Fetch books in a background thread
+                System.out.println("Fetching books from database for collection: " + collection.getCollectionName());
                 return FXCollections.observableArrayList(BookDAO.getInstance().getAllByCollection(collection));
-            }
-        };
 
+
+
+            }
+        };*/
+        System.out.println("passing: " + collection);
+        ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
+        System.out.println(books);
+
+
+
+        updateBookGrid(books);
+
+/*
         loadBooksTask.setOnSucceeded(event -> {
+            // Update the UI with the new book list
+            System.out.println("Books loaded successfully. Number of books: " + loadBooksTask.getValue().size());
             updateBookGrid(loadBooksTask.getValue());
-            hideLoadingIndicator();
         });
 
         loadBooksTask.setOnFailed(event -> {
-            // Handle errors if needed
+            // Handle errors if necessary
             System.err.println("Failed to load books: " + loadBooksTask.getException());
-            hideLoadingIndicator();
         });
 
         new Thread(loadBooksTask).start();
     }
+    */
+
+    }
+
+    private ObservableList<Book> getData (Collection collection) {
+        ObservableList<Book> books = FXCollections.observableArrayList();
+        try {
+            Statement getAll = connection.createStatement();
+            ResultSet rs = getAll.executeQuery("SELECT * FROM Books WHERE collectionId = " + collection.getId());
+            while (rs.next()) {
+                books.add(
+                        new Book(
+                                rs.getInt("collectionId"),
+                                rs.getInt("bookId"),
+                                rs.getString("title"),
+                                rs.getInt("isbn"),
+                                rs.getString("author"),
+                                rs.getString("description"),
+                                rs.getString("publicationDate"),
+                                rs.getString("publisher"),
+                                rs.getInt("pages"),
+                                rs.getString("notes"),
+                                rs.getBytes("image")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving books: " + e.getMessage());
+        }
+        return books;
+    }
 
     private void updateBookGrid(ObservableList<Book> books) {
         Platform.runLater(() -> {
+            System.out.println("Updating book grid with " + books.size() + " books.");
+
             int columns = 0;
             int rows = 1;
             int maxColumns = 4;
 
-            bookContainer.getChildren().clear();
+            bookContainer.getChildren().clear(); // Clear existing content
 
             try {
                 for (Book book : books) {
@@ -98,8 +176,7 @@ public class MyBooksController implements Initializable {
                     BookController bookController = fxmlLoader.getController();
                     bookController.setData(book);
 
-                    // Debugging output
-                    System.out.println("Adding book: " + book.getTitle() + " at column: " + columns + " row: " + rows);
+                    bookBox.setOnMouseClicked(event -> handleBookClick(book));
 
                     bookContainer.add(bookBox, columns, rows);
                     GridPane.setMargin(bookBox, new Insets(10));
@@ -115,6 +192,8 @@ public class MyBooksController implements Initializable {
             }
         });
     }
+
+
 
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();

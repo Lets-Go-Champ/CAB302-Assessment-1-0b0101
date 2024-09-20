@@ -23,6 +23,8 @@ public class ClientController implements Initializable {
                     break;
                 case ADDCOLLECTION: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getAddCollectinView());
                     break;
+                case BOOKDETAILS: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getBookDetailsView());
+                    break;
                 default: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getMyBooksView());
                     break;
             }
