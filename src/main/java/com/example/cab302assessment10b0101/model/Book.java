@@ -88,6 +88,10 @@ public class Book {
         return notes.get();
     }
 
+    public String getPagesAsString() {
+        return String.valueOf(pages.get());
+    }
+
     public byte[] getBytes() {
         return image;
     }
@@ -139,4 +143,7 @@ public class Book {
         this.image = image;
     }
 
+    public String getISBNAsString() {
+        return String.valueOf(isbn.get());
+    }
 }
