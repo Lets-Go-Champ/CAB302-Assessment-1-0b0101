@@ -28,8 +28,6 @@ public class CreateAccountController {
     @FXML
     private Label messageLabel;
 
-    //private UserDAO userDAO = new UserDAO();
-
     @FXML
     private void handleCreate() {
         // Get inputs

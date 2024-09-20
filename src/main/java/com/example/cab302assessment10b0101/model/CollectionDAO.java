@@ -99,7 +99,6 @@ public class CollectionDAO {
         return collectionId;
     }
 
-
     public List<Collection> getCollectionsByUser(User user) {
         List<Collection> collections = new ArrayList<>();
         try {

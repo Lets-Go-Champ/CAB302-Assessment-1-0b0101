@@ -28,7 +28,6 @@ public class BookDetailsController {
 
     private ObjectProperty<Book> selectedBook;
 
-
     public void setData(Book book){
         titleLabel.setText(book.getTitle());
         System.out.println(book.getTitle());

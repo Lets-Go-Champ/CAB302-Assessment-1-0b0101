@@ -26,14 +26,6 @@ public class UserMenuController implements Initializable {
     @FXML
     private Button logoutBtn;
 
-    /*
-    private void addListeners(){
-        myBooksBtn.setOnAction(actionEvent -> onMyBooksClicked());
-        addBookBtn.setOnAction(actionEvent -> onAddBookClicked());
-        addCollectionBtn.setOnAction(actionEvent -> onAddCollectionClicked());
-    }
-    */
-
     @FXML
     private void onMyBooksClicked(){
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
@@ -70,50 +62,4 @@ public class UserMenuController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 }
-/*
-    @FXML
-    private Button myBooksButton;
-
-    @FXML
-    private Button addBookButton;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    public void initialize() {
-        // Add any necessary initialization logic here
-        logoutButton.setOnAction(event -> handleLogoutAction());
-    }
-
-    @FXML
-    public void handleMyBooksButtonAction() throws IOException {
-        switchScene("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml", myBooksButton);
-    }
-
-    @FXML
-    public void handleAddBookButtonAction() throws IOException {
-        switchScene("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml", addBookButton);
-    }
-
-    private void switchScene(String fxmlPath, Node eventSource) throws IOException {
-        // Get the resource using getClassLoader to ensure the path is found
-        URL resource = getClass().getResource(fxmlPath);
-
-        // Check if the resource is null (meaning it could not be found)
-        if (resource == null) {
-            throw new IOException("FXML file not found at: " + fxmlPath);
-        }
-
-        FXMLLoader loader = new FXMLLoader(resource);
-        Parent root = loader.load();  // Ensure the FXML file is loaded correctly
-        Stage stage = (Stage) eventSource.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-}
-*/

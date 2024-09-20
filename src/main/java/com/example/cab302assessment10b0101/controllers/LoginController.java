@@ -38,18 +38,10 @@ public class LoginController {
     @FXML
     private ImageView loginImageView;
 
-
-    // Declare DAO for interacting with User Database
-    //private UserDAO userDAO = new UserDAO();
-
     @FXML
     private void initialize() {
         // This method is called automatically after the FXML file has been loaded
-        // Not 100% what errorLabel is for in the current implementation, Error Message fills this role decently as it is
         errorLabel.setVisible(false);
-//        Image image = new Image(getClass().getResourceAsStream("/com/example/cab302assessment10b0101/download.png"));
-//        loginImageView.setImage(image);
-        // Sets up event handlers for the buttons
         setupEventHandlers();
     }
 
@@ -81,7 +73,6 @@ public class LoginController {
         List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
         currentUser.setCollections(FXCollections.observableArrayList(userCollections));
 
-
         if (currentUser != null) {
             // Set the logged-in user in UserManager
             UserManager.getInstance().setCurrentUser(currentUser);
@@ -95,24 +86,6 @@ public class LoginController {
         } else {
             showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
-        // If login is successful, load MyBooks.fxml and display it
-
-        /*try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Client.fxml"));
-            Scene myBooksScene = new Scene(loader.load());
-
-            // Get the stage from the event source (login button) and set the new scene
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(myBooksScene);
-            stage.setTitle("My Books");
-            stage.show();
-
-        } catch (IOException e) {
-            // Debugging Tool
-            e.printStackTrace();
-            showAlert("Error", "Could not load MyBooks page.", AlertType.ERROR);
-        }
-    }*/
 }
     private void handleCreateAccount() {
         try {
