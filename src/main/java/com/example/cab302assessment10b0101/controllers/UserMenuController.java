@@ -44,7 +44,7 @@ public class UserMenuController implements Initializable {
     private void onLogoutClicked(){
         Stage stage = (Stage) myBooksBtn.getScene().getWindow();
         ViewManager.getInstance().getViewFactory().closeStage(stage);
-        ViewManager.getInstance().getViewFactory().getLoginScreen();
+        //ViewManager.getInstance().getViewFactory().getLoginScreen();
         //UserManager.getInstance().setCurrentUser(null);
         showLogoutSuccessAlert();
 
