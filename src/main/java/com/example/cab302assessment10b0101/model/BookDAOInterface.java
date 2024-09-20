@@ -1,8 +1,10 @@
 package com.example.cab302assessment10b0101.model;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 
 public interface BookDAOInterface {
     void insert(Book book);
-    List<Book> getAll();
+    ObservableList<Book> getAll();
+    ObservableList<Book> getAllByCollection(int collectionId);
+    void update(Book book);  // Adding the update method to the interface
 }

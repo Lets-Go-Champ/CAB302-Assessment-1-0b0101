@@ -95,4 +95,19 @@ public class UserDAOTest {
             userDAO.insert(user2);
         });
     }
+
+    // Test validateCredentials method.
+    @Test
+    public void testValidateCredentials() {
+        User user = new User("validUser", "validPassword");
+        userDAO.insert(user);
+
+        User validUser = userDAO.validateCredentials("validUser", "validPassword");
+        assertNotNull(validUser);  // Ensure the user is found
+        assertEquals("validUser", validUser.getUsername());
+        assertEquals("validPassword", validUser.getPassword());
+
+        User invalidUser = userDAO.validateCredentials("invalidUser", "invalidPassword");
+        assertNull(invalidUser);  // Ensure no user is found with incorrect credentials
+    }
 }
