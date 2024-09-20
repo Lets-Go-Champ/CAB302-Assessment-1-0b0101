@@ -16,71 +16,85 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import com.example.cab302assessment10b0101.model.BookDAO;
 
-public class AddBookManuallyController {
+public class EditBookDetailsController {
+
+    // TODO: Changes to make ISBN an int?
+
 
     @FXML
-    private ChoiceBox<Collection> collectionChoiceBox;
-    @FXML
-    private TextField isbnTextField;
-    @FXML
-    private TextField titleTextField;
-    @FXML
-    private TextField authorTextField;
-    @FXML
-    private TextField descriptionTextField;
-    @FXML
-    private TextField publisherTextField;
-    @FXML
-    private DatePicker dateDatePicker;
-    @FXML
-    private TextField pagesTextField;
-    @FXML
-    private TextField notesTextField;
-    @FXML
-    private Button addBookButton;
-    @FXML
-    private Button addImageButton;
-    @FXML
+    public ChoiceBox<Collection> collectionChoiceBox;
+    public TextField isbnTextField;
+    public TextField titleTextField;
+    public TextField authorTextField;
+    public TextField descriptionTextField;
+    public TextField publisherTextField;
+    public DatePicker dateDatePicker;
+    public TextField pagesTextField;
+    public TextField notesTextField;
+    public Button updateBookButton;
+    public Button addImageButton;
+
     private Image image;
 
+    private void setCollectionChoiceBox(int collectionID) {
+        for ( Collection collection : CollectionDAO.getInstance().getAll() ) {
+            if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
+        }
+    }
+    private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
+    private void setTitleTextField(String title) { titleTextField.setText(title); }
+    private void setAuthorTextField(String author) { authorTextField.setText(author); }
+    private void setDescriptionTextField(String description) { descriptionTextField.setText(description); }
+    private void setPublisherTextField(String publisher) { publisherTextField.setText(publisher); }
+    private void setDateDatePicker(String date) { dateDatePicker.setValue(LocalDate.parse(date)); }
+    private void setPagesTextField(String pages) { pagesTextField.setText(pages); }
+    private void setNotesTextField(String notes) { notesTextField.setText(notes); }
+
+
+    // Book for testing - as if this book was parsed
+    // Test book will be whatever the first book in the DB is
+    Book book = BookDAO.getInstance().getAll().get(0);
+
+
     // Define error messages
-    final String noCollectionMessage = "Please select a collection.";
-    final String noTitleErrorMessage = "Please enter a Title.";
-    final String noISBNMessage = "Please enter an ISBN.";
-    final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
-    final String noAuthorErrorMessage = "Please enter an Author.";
-    final String noDescriptionMessage = "Please enter a description";
-    final String noPublisherMessage = "Please enter a publisher.";
-    final String noDateMessage = "Please enter a publication date.";
-    final String noPagesMessage = "Please enter a page count.";
-    final String invalidPagesMessage = "Please enter a valid page count ( >0).";
-    final String noNoteMessage = "Please enter a note.";
-    final String noImageMessage = "Please select a cover image.";
-    final String noImageUploadMessage = "Could not load an image.";
-    final String failedImageConversionMessage = "Could note convert the image to a byte array.";
+    String noCollectionMessage = "Please select a collection.";
+    String noTitleErrorMessage = "Please enter a Title.";
+    String noISBNMessage = "Please enter an ISBN.";
+    String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    String noAuthorErrorMessage = "Please enter an Author.";
+    String noDescriptionMessage = "Please enter a description";
+    String noPublisherMessage = "Please enter a publisher.";
+    String noDateMessage = "Please enter a publication date.";
+    String noPagesMessage = "Please enter a page count.";
+    String invalidPagesMessage = "Please enter a valid page count ( >0).";
+    String noNoteMessage = "Please enter a note.";
+    String noImageMessage = "Please select a cover image.";
+    String noImageUploadMessage = "Could not load an image.";
+    String failedImageConversionMessage = "Could note convert the image to a byte array.";
 
 
     @FXML
     public void initialize() {
         setupEventHandlers();
         populateCollections();
+        populateFields();
     }
 
 
     private void setupEventHandlers() {
         addImageButton.setOnAction(e -> handleUploadImage());
-        addBookButton.setOnAction(event -> handleAddBook());
+        updateBookButton.setOnAction(event -> handleEditBook());
     }
 
 
     @FXML
-    private void handleAddBook() {
-        //System.out.println("\nAdding Book...");
+    private void handleEditBook() {
+        System.out.println("\nUpdating Book...");
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
-        //System.out.println("Collection Name = " + collectionName);
+        System.out.println("Collection Name = " + collectionName);
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
-        //System.out.println("CollectionID = " + collectionId);
+        System.out.println("CollectionID = " + collectionId);
         if ( collectionId == -1 ) {
             System.out.println("No such collection Id"); return;
         }
@@ -95,6 +109,7 @@ public class AddBookManuallyController {
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
 
+        // This should become redundant, but will leave here for the meantime.
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
         catch (Exception e) { showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
@@ -108,9 +123,9 @@ public class AddBookManuallyController {
         // Ensure all fields have values
         if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
 
-            // Save the book
-            saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
-            showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+            // Update the book
+            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
         }
     }
 
@@ -121,6 +136,18 @@ public class AddBookManuallyController {
 
         // Optionally set a default value
         if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
+    }
+
+    private void populateFields() {
+        setCollectionChoiceBox(book.getCollectionId());
+        setIsbnTextField(Integer.toString(book.getId()));
+        setTitleTextField(book.getTitle());
+        setAuthorTextField(book.getAuthor());
+        setDescriptionTextField(book.getDescription());
+        setPublisherTextField(book.getPublisher());
+        setDateDatePicker(book.getPublicationDate());
+        setPagesTextField(Integer.toString(book.getPages()));
+        setNotesTextField(book.getNotes());
     }
 
     /**
@@ -171,7 +198,6 @@ public class AddBookManuallyController {
 
     private void handleUploadImage() {
         try {
-
             // FileChooser for uploading a book image.
             FileChooser fileChooser = new FileChooser();
 
@@ -207,7 +233,7 @@ public class AddBookManuallyController {
 
 
     /**
-     * Save the book to the database
+     * Updates the book in the database
      * @param title The title of the book
      * @param isbn The isbn of the book (ID)
      * @param author The author of the book
@@ -217,18 +243,18 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param note User defined note regarding the book
      */
-    private void saveBook(int collectionId, String title, String isbn, String author, String description,
-                          String publisher, String publicationDate, String pages, String note) {
+    private void updateBook(int collectionId, String title, String isbn, String author, String description,
+                            String publisher, String publicationDate, String pages, String note) {
 
         String imagePath = image.getUrl();
         byte[] imageBytes = imageToBytes(imagePath);
 
         if (imageBytes.length != 0) {
-            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
-            BookDAO.getInstance().insert(newBook);
+            Book newBook = new Book(book.getCollectionId(), title, Integer.parseInt(isbn), author, description, publisher, publicationDate, Integer.parseInt(pages), note, imageBytes);
+            BookDAO.getInstance().update(newBook);
 
             // Print the results to console for testing:
-            System.out.println("Book Saved Successfully! Details: " + "\n" +
+            System.out.println("Book Updated Successfully! Details: " + "\n" +
                     "Collection ID: " + collectionId + "\n" +
                     "ISBN: " + isbn + "\n" +
                     "Title: " + title + "\n" +

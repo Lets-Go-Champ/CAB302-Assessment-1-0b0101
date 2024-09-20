@@ -16,7 +16,6 @@ public class ViewFactory {
     private final ObjectProperty<Book> userSelectedBook;
     private MyBooksController myBooksController;
 
-
     private AnchorPane myBooksView;
     private AnchorPane addCollectionView;
     private AnchorPane addBookView;

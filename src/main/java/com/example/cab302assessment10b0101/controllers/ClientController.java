@@ -4,12 +4,9 @@ import com.example.cab302assessment10b0101.model.ViewManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
-import com.example.cab302assessment10b0101.views.MenuOptions;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ChangeListener;
+
 public class ClientController implements Initializable {
 
     @FXML

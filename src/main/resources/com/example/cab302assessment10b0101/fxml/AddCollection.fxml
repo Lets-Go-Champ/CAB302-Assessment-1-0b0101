@@ -47,11 +47,6 @@
             <Button fx:id="saveBtn" mnemonicParsing="false" prefHeight="33.0" prefWidth="75.0" text="Save"/>
             <Button fx:id="cancelBtn" mnemonicParsing="false" prefHeight="34.0" prefWidth="78.0" text="Cancel"/>
         </HBox>
-        <Label fx:id="errorLabel" text="Error:">
-            <VBox.margin>
-                <Insets top="10.0"/>
-            </VBox.margin>
-        </Label>
     </VBox>
     <Label layoutX="22.0" layoutY="37.0" text="Add Collection">
         <font>

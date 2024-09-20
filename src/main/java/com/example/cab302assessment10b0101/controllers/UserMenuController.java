@@ -1,9 +1,16 @@
 package com.example.cab302assessment10b0101.controllers;
+import com.example.cab302assessment10b0101.model.UserManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
+
 import javafx.fxml.Initializable;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import com.example.cab302assessment10b0101.model.ViewManager;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,14 +26,6 @@ public class UserMenuController implements Initializable {
     @FXML
     private Button logoutBtn;
 
-    /*
-    private void addListeners(){
-        myBooksBtn.setOnAction(actionEvent -> onMyBooksClicked());
-        addBookBtn.setOnAction(actionEvent -> onAddBookClicked());
-        addCollectionBtn.setOnAction(actionEvent -> onAddCollectionClicked());
-    }
-    */
-
     @FXML
     private void onMyBooksClicked(){
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
@@ -40,53 +39,26 @@ public class UserMenuController implements Initializable {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
     }
 
+
+    @FXML
+    private void onLogoutClicked(){
+        Stage stage = (Stage) myBooksBtn.getScene().getWindow();
+        ViewManager.getInstance().getViewFactory().closeStage(stage);
+        //ViewManager.getInstance().getViewFactory().getLoginScreen();
+        //UserManager.getInstance().setCurrentUser(null);
+        showLogoutSuccessAlert();
+    }
+    private void showLogoutSuccessAlert() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Logout Successful");
+        alert.setHeaderText(null);  // Optional: Set to null if you don't want a header
+        alert.setContentText("You have successfully logged out.");
+
+        // Display the alert and wait for the user to close it
+        alert.showAndWait();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-       // addListeners();
-    }
 
+    }
 }
-/*
-    @FXML
-    private Button myBooksButton;
-
-    @FXML
-    private Button addBookButton;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    public void initialize() {
-        // Add any necessary initialization logic here
-        logoutButton.setOnAction(event -> handleLogoutAction());
-    }
-
-    @FXML
-    public void handleMyBooksButtonAction() throws IOException {
-        switchScene("/com/example/cab302assessment10b0101/fxml/MyBooks.fxml", myBooksButton);
-    }
-
-    @FXML
-    public void handleAddBookButtonAction() throws IOException {
-        switchScene("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml", addBookButton);
-    }
-
-    private void switchScene(String fxmlPath, Node eventSource) throws IOException {
-        // Get the resource using getClassLoader to ensure the path is found
-        URL resource = getClass().getResource(fxmlPath);
-
-        // Check if the resource is null (meaning it could not be found)
-        if (resource == null) {
-            throw new IOException("FXML file not found at: " + fxmlPath);
-        }
-
-        FXMLLoader loader = new FXMLLoader(resource);
-        Parent root = loader.load();  // Ensure the FXML file is loaded correctly
-        Stage stage = (Stage) eventSource.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-}
-*/

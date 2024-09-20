@@ -13,7 +13,7 @@ public class LogoutSuccessController {
 
     FXMLLoader loader = new FXMLLoader(getClass().getResource("com/example/cab302assessment10b0101/fxml/LogoutSuccess.fxml"));
 
-
+    //Show log out confirmation
     @FXML
     private void handleOkAction() {
         if (okButton == null) {
@@ -21,8 +21,7 @@ public class LogoutSuccessController {
         }
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();
-
-        // Ensure that the application exits
+        // This makes the pop-up modal
         Platform.exit();
     }
 }
