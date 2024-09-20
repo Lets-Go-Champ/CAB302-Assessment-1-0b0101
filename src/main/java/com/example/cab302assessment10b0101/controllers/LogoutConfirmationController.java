@@ -33,15 +33,15 @@ public class LogoutConfirmationController {
     }
 
     @FXML
+    // Close the current stage (logout confirmation pop-up)
     private void handleCancel() {
-        // Close the current stage (logout confirmation pop-up)
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
-
         // Load the home page in the current stage
         loadHomePage(stage);
     }
 
+    // Show the pop-up modal
     private void showLogoutSuccess() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/LogoutSuccess.fxml"));
@@ -56,11 +56,12 @@ public class LogoutConfirmationController {
         }
     }
 
+    //Switch to home screen
     private void loadHomePage(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/UserMenu.fxml"));
             Parent root = loader.load();
-            stage.setScene(new Scene(root)); // Set the scene on the current stage
+            stage.setScene(new Scene(root));
             stage.setTitle("My Books");
         } catch (IOException e) {
             e.printStackTrace();
