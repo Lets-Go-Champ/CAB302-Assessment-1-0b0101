@@ -46,7 +46,7 @@ public class CreateAccountController {
             // If everything is good, create a new user and insert it into the database
             User newUser = new User(username, password);
             UserDAO.getInstance().insert(newUser);
-            System.out.println("User created: " + newUser);
+            //System.out.println("User created: " + newUser);
             ((Stage) createButton.getScene().getWindow()).close();
         }
     }
