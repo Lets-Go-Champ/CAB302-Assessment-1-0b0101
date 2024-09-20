@@ -67,6 +67,26 @@ public class BookDAO {
         }
     }
 
+    // Update the book details in a table
+    public void update(Book book) {
+        try {
+            PreparedStatement updateBook = connection.prepareStatement(
+                    "UPDATE Books SET collectionId=?, title=?, id=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=? WHERE id=?"
+            );
+            updateBook.setInt(1, book.getCollectionId());
+            updateBook.setString(2, book.getTitle());
+            updateBook.setInt(3, book.getId());
+            updateBook.setString(4, book.getAuthor());
+            updateBook.setString(5, book.getDescription());
+            updateBook.setString(6, book.getPublicationDate());
+            updateBook.setString(7, book.getPublisher());
+            updateBook.setInt(8, book.getPages());
+            updateBook.setString(9, book.getNotes());
+            updateBook.setBytes(10, book.getBytes());
+            updateBook.setInt(11, book.getId());
+            updateBook.execute();
+        } catch (SQLException ex) { System.err.println(ex); }
+    }
 
     // Retrieve all books from the Books table
     public ObservableList<Book> getAll() {
