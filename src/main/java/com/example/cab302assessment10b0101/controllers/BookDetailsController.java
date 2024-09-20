@@ -45,7 +45,8 @@ public class BookDetailsController {
         titleLabel.setText(book.getTitle());
         //System.out.println(book.getTitle());
         authorLabel.setText(book.getAuthor());
-        //notesLabel.setI(book.getPages());
+        pagesLabel.setText(book.getPagesAsString());
+        notesLabel.setText(book.getNotes());
 
         descriptionLabel.setText(book.getDescription());
         bookCoverImage.setImage(book.getImage());

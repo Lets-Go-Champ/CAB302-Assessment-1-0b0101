@@ -89,6 +89,10 @@ public class Book {
         return notes.get();
     }
 
+    public String getPagesAsString() {
+        return pages.toString();
+    }
+
     public byte[] getBytes() {
         return image;
     }

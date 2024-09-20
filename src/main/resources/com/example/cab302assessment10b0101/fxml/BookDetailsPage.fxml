@@ -46,7 +46,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="titleLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="titleLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- Author -->
@@ -55,7 +58,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="authorLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="authorLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- Publication Date -->
@@ -64,7 +70,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="publicationDateLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="publicationDateLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- ISBN -->
@@ -73,7 +82,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="isbnLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="isbnLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- Publisher -->
@@ -82,7 +94,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="publisherLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="publisherLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- Pages -->
@@ -91,7 +106,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="pagesLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="pagesLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- Short Description -->
@@ -100,7 +118,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="descriptionLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="descriptionLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
 
                 <!-- Notes -->
@@ -109,7 +130,10 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
-                    <Label fx:id="notesLabel" wrapText="true" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="notesLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font size="17.0" />
+                  </font></Label>
                 </HBox>
             </VBox>
         </HBox>
