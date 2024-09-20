@@ -119,17 +119,17 @@ public class BookDAO {
 
     public ObservableList<Book> getAllByCollection(int collectionId) {
         ObservableList<Book> books = FXCollections.observableArrayList();
-        System.out.println("calling getAllByCollection for collection: " + collectionId);
+        //System.out.println("calling getAllByCollection for collection: " + collectionId);
 
         String query = "SELECT * FROM Books WHERE collectionId = ?";
         try (PreparedStatement getAll = connection.prepareStatement(query)) {
             // Set the collectionId value
             getAll.setInt(1, collectionId);
-            System.out.println("PreparedStatement set with collectionId: " + collectionId);
+            //System.out.println("PreparedStatement set with collectionId: " + collectionId);
 
             // Execute the query
             ResultSet rs = getAll.executeQuery();
-            System.out.println("Query executed, processing results...");
+            //System.out.println("Query executed, processing results...");
 
             // Iterate over the result set and add books to the list
             int bookCount = 0;
@@ -149,16 +149,16 @@ public class BookDAO {
                 );
                 books.add(book);
                 bookCount++;
-                System.out.println("Added book to list: " + book.getTitle());
+                //System.out.println("Added book to list: " + book.getTitle());
             }
 
-            System.out.println("Books loaded successfully. Number of books: " + bookCount);
+           // System.out.println("Books loaded successfully. Number of books: " + bookCount);
 
         } catch (SQLException e) {
             System.err.println("Error retrieving books: " + e.getMessage());
         }
 
-        System.out.println("Final book list size: " + books.size());
+        //System.out.println("Final book list size: " + books.size());
         return books;
     }
 }

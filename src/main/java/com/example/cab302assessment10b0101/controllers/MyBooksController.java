@@ -12,7 +12,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ResourceBundle;
 
 public class MyBooksController implements Initializable {
@@ -22,9 +21,6 @@ public class MyBooksController implements Initializable {
 
     @FXML
     private GridPane bookContainer;
-
-
-    Connection connection = DatabaseConnector.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,16 +44,16 @@ public class MyBooksController implements Initializable {
     }
 
     private void handleBookClick(Book book){
-        System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensu
+        //System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensu
         ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS); // set flag for Book Detail page
-        System.out.println("Book " + book + "was clicked");
+        //System.out.println("Book " + book + "was clicked");
     }
 
     public void reloadBooksForSelectedCollection() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
         if (selectedCollection != null) {
-            System.out.println("Reloading books for collection: " + selectedCollection.getCollectionName());
+            //System.out.println("Reloading books for collection: " + selectedCollection.getCollectionName());
             loadBooks(selectedCollection); // Force reloading the books for the selected collection
         } else {
             System.out.println("No collection selected.");
@@ -65,48 +61,22 @@ public class MyBooksController implements Initializable {
     }
 
     private void loadBooks(Collection collection) {
-        System.out.println("Loading books for collection: " + collection.getCollectionName());
-        System.out.println("which has an ID of: " + collection.getId());
-
-        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collection.getCollectionName());
-        System.out.println("passing: " + collection);
+        //System.out.println("Loading books for collection: " + collection.getCollectionName());
+        //System.out.println("which has an ID of: " + collection.getId());
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = collection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
+        //System.out.println("passing: " + collection);
         ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
-        System.out.println(books);
+        //System.out.println(books);
 
         updateBookGrid(books);
     }
 
-    private ObservableList<Book> getData (Collection collection) {
-        ObservableList<Book> books = FXCollections.observableArrayList();
-        try {
-            Statement getAll = connection.createStatement();
-            ResultSet rs = getAll.executeQuery("SELECT * FROM Books WHERE collectionId = " + collection.getId());
-            while (rs.next()) {
-                books.add(
-                        new Book(
-                                rs.getInt("collectionId"),
-                                rs.getInt("bookId"),
-                                rs.getString("title"),
-                                rs.getInt("isbn"),
-                                rs.getString("author"),
-                                rs.getString("description"),
-                                rs.getString("publicationDate"),
-                                rs.getString("publisher"),
-                                rs.getInt("pages"),
-                                rs.getString("notes"),
-                                rs.getBytes("image")
-                        )
-                );
-            }
-        } catch (SQLException e) {
-            System.err.println("Error retrieving books: " + e.getMessage());
-        }
-        return books;
-    }
 
     private void updateBookGrid(ObservableList<Book> books) {
         Platform.runLater(() -> {
-            System.out.println("Updating book grid with " + books.size() + " books.");
+            //System.out.println("Updating book grid with " + books.size() + " books.");
 
             int columns = 0;
             int rows = 1;

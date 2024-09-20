@@ -44,8 +44,8 @@ public class UserMenuController implements Initializable {
     private void onLogoutClicked(){
         Stage stage = (Stage) myBooksBtn.getScene().getWindow();
         ViewManager.getInstance().getViewFactory().closeStage(stage);
-        ViewManager.getInstance().getViewFactory().getLoginScreen();
-        UserManager.getInstance().setCurrentUser(null);
+       // ViewManager.getInstance().getViewFactory().getLoginScreen();
+        //UserManager.getInstance().setCurrentUser(null);
         showLogoutSuccessAlert();
 
     }
@@ -62,25 +62,4 @@ public class UserMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
 
     }
-
-    //@FXML
-    //private void onLogoutClicked() {
-        //showLogoutConfirmation();
-    //}
-/*
-    private void showLogoutConfirmation() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/LogoutConfirmation.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Confirm Logout");
-            stage.initModality(Modality.APPLICATION_MODAL); // Makes this pop-up modal
-            stage.showAndWait(); // Waits for the pop-up to close before returning to the main window
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
-
 }

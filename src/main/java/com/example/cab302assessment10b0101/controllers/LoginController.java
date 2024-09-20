@@ -4,12 +4,10 @@ import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -76,8 +74,8 @@ public class LoginController {
         if (currentUser != null) {
             // Set the logged-in user in UserManager
             UserManager.getInstance().setCurrentUser(currentUser);
-            System.out.println(currentUser);
-            System.out.println(currentUser.getId());
+            //System.out.println(currentUser);
+            //System.out.println(currentUser.getId());
 
             // Close the login stage and open the main application
             Stage stage = (Stage) loginButton.getScene().getWindow();

@@ -75,12 +75,12 @@ public class AddBookManuallyController {
 
     @FXML
     private void handleAddBook() {
-        System.out.println("\nAdding Book...");
+        //System.out.println("\nAdding Book...");
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
-        System.out.println("Collection Name = " + collectionName);
+        //System.out.println("Collection Name = " + collectionName);
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
-        System.out.println("CollectionID = " + collectionId);
+        //System.out.println("CollectionID = " + collectionId);
         if ( collectionId == -1 ) {
             System.out.println("No such collection Id"); return;
         }

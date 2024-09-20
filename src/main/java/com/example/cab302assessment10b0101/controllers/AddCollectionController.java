@@ -42,16 +42,16 @@ public class AddCollectionController implements Initializable {
         }
 
         // Create a new collection and insert it into the database
-        System.out.println("\nCreating Collection...");
+        //System.out.println("\nCreating Collection...");
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
-        System.out.println("Current User ID = " + currentUserId + "\n");
+        //System.out.println("Current User ID = " + currentUserId + "\n");
         Collection newCollection = new Collection(currentUserId, collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
-        System.out.println("New collection = " + newCollection);
+        //System.out.println("New collection = " + newCollection);
 
         CollectionDAO.getInstance().insert(newCollection);
 
-        ObservableList<Collection> collections = UserManager.getInstance().getCurrentUser().getCollections();
-        collections.forEach(c -> System.out.println("Collection: " + c.getCollectionName()));
+        //ObservableList<Collection> collections = UserManager.getInstance().getCurrentUser().getCollections();
+        //collections.forEach(c -> System.out.println("Collection: " + c.getCollectionName()));
 
         UserManager.getInstance().getCurrentUser().addCollection(newCollection);
 
