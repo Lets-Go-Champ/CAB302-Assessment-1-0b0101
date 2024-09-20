@@ -1,10 +1,7 @@
 package com.example.cab302assessment10b0101.model;
 
-import javafx.beans.property.ListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.util.List;
 
 public class User {
     private int id;
@@ -62,12 +59,6 @@ public class User {
     public void addCollection(Collection collection) {
         collections.add(collection);
     }
-
-    public void removeCollection(Collection collection) {
-        collections.remove(collection);
-    }
-
-    //public ListProperty<Collection> getObservableCollections(){ return collections.get(); }
 
     @Override
     public String toString() {

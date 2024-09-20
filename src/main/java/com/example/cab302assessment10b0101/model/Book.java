@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
 
 public class Book {
-    //private IntegerProperty collectionName;
     private int bookId;
     private int collectionId;
     private StringProperty title;
@@ -110,10 +109,6 @@ public class Book {
 
     public void setISBN(IntegerProperty isbn) {
         this.isbn = isbn;
-    }
-
-    public void setCollectionId(int collectionId) {
-        this.collectionId = collectionId;
     }
 
     public void setAuthor( StringProperty author) {

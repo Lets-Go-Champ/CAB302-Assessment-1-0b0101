@@ -72,30 +72,6 @@ public class UserDAO {
         }
     }
 
-    public void update(User user) {
-        try {
-            PreparedStatement updateUser = connection.prepareStatement(
-                    "UPDATE users SET username = ?, password = ?, WHERE id = ?"
-            );
-            updateUser.setString(1, user.getUsername());
-            updateUser.setString(2, user.getPassword());
-            updateUser.setInt(3, user.getId());
-            updateUser.execute();
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-    }
-
-    public void delete(int id) {
-        try {
-            PreparedStatement deleteUser = connection.prepareStatement("DELETE FROM Users WHERE id = ?");
-            deleteUser.setInt(1, id);
-            deleteUser.execute();
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-    }
-
     public List<User> getAll() {
         List<User> user = new ArrayList<>();
         try {
@@ -114,48 +90,5 @@ public class UserDAO {
             System.err.println(ex);
         }
         return user;
-    }
-
-    public User getById(int id) {
-        try {
-            PreparedStatement getUser = connection.prepareStatement("SELECT * FROM Users WHERE id = ?");
-            getUser.setInt(1, id);
-            ResultSet rs = getUser.executeQuery();
-            if (rs.next()) {
-                return new User(
-                        rs.getInt("userId"),
-                        rs.getString("username"),
-                        rs.getString("password")
-                );
-            }
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-        return null;
-    }
-
-    public int getUserIdByUsername(String username) {
-        String query = "SELECT userId FROM Users WHERE username = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt("userId");  // Return the user's ID
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;  // Return -1 if user not found or there was an error
-    }
-
-
-
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
     }
 }

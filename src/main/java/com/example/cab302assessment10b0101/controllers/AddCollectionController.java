@@ -2,7 +2,6 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Collection;
 import com.example.cab302assessment10b0101.model.CollectionDAO;
-import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,19 +25,10 @@ public class AddCollectionController implements Initializable {
     @FXML
     private Button cancelBtn;
 
-    //private CollectionDAO collectionDAO;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        // Initialize CollectionDAO to interact with the database
-        //collectionDAO = new CollectionDAO();
-        //CollectionDAO.getInstance().createTable(); // Ensure the table exists
-
         saveBtn.setOnAction(e -> saveCollection());
-
-        // Leave the cancel button action empty for now
         cancelBtn.setOnAction(e -> {
-            // To be implemented later once we have got UserMenu working and it can switch to MyBooks seamlessly
         });
     }
 
