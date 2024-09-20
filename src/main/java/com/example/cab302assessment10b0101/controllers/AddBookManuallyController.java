@@ -1,7 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -49,12 +48,6 @@ public class AddBookManuallyController {
     String noImageMessage = "Please select a cover image.";
     String noImageUploadMessage = "Could not load an image.";
     String failedImageConversionMessage = "Could note convert the image to a byte array.";
-    String bookExistsMessage = "The book with the given ISBN already exists.";
-
-    // Declare DAOs for interacting with Database
-    //private final BookDAO bookDAO = new BookDAO();
-    //CollectionDAO collectionDAO = new CollectionDAO()
-
 
 
     @FXML
@@ -69,9 +62,6 @@ public class AddBookManuallyController {
         addBookButton.setOnAction(event -> handleAddBook());
     }
 
-    /*
-     * Manages adding the book to a collection
-     */
 
     @FXML
     private void handleAddBook() {
@@ -81,12 +71,10 @@ public class AddBookManuallyController {
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
         System.out.println("CollectionID = " + collectionId);
-        if(collectionId == -1){
-            System.out.println("No such collection Id");
-            return;
+        if ( collectionId == -1 ) {
+            System.out.println("No such collection Id"); return;
         }
 
-        //int collectionId = collectionChoiceBox.getSelectionModel().getSelectedItem().getId();
         System.out.println("collection ID = " + collectionId);
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
@@ -97,26 +85,22 @@ public class AddBookManuallyController {
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
 
-
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
         catch (Exception e) { showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
 
-        // Format the publication Date as a string
+        // Format the publication Date as a String
         String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
         String publicationMonth = String.valueOf(dateDatePicker.getValue().getMonthValue());
         String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
         String formattedDate = publicationDay + "-" +publicationMonth + "-" + publicationYear;
 
-        // Ensure all fields have values and that the book is valid
+        // Ensure all fields have values
         if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
-            // Ensure that the book does not already exist
-            //if (bookExists(isbn)) { showAlert("Error: Book Already Exists", bookExistsMessage, AlertType.ERROR); return;}
 
             // Save the book and reset fields
             saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
-            // TODO clearFields();
         }
     }
 
@@ -124,14 +108,12 @@ public class AddBookManuallyController {
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionChoiceBox.setItems(collections);
-        //collectionChoiceBox.setItems(collections);
+
         // Optionally set a default value
-        if (!collections.isEmpty()) {
-            collectionChoiceBox.getSelectionModel().selectFirst();
-        }
+        if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
     }
 
-    /*
+    /**
      * Determines if all the fields entered for a book are valid
      * @param title The title of the book
      * @param isbn The ISBN of the book
@@ -142,21 +124,20 @@ public class AddBookManuallyController {
      * @param notes The user added notes for the book
      * @return True if all fields are valid, False otherwise
      */
-
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes) {
 
-        if (!collectionSelected()) {showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false;}
-        if (title.isEmpty()) {showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false;}
-        if (isbn.isEmpty()) {showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false;}
-        if (!isValidISBN(isbn)) {showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false;}
-        if (author.isEmpty()) {showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false;}
-        if (description.isEmpty()) {showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false;}
-        if (publisher.isEmpty()) {showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false;}
-        if (pages.isEmpty()) {showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false;}
-        if (!isPagesValid(pages)) {showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false;}
-        if (notes.isEmpty()) {showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false;}
-        if (image == null) {showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false;}
+        if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
+        if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
+        if ( isbn.isEmpty() ) { showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
+        if ( !isValidISBN(isbn) ) { showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
+        if ( author.isEmpty() ) { showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
+        if ( description.isEmpty() ) { showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false; }
+        if ( publisher.isEmpty() ) { showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false; }
+        if ( pages.isEmpty() ) { showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false; }
+        if ( !isPagesValid(pages) ) { showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
+        if ( notes.isEmpty() ) { showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
+        if ( image == null ) { showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
         return true;
     }
 
@@ -174,25 +155,12 @@ public class AddBookManuallyController {
         catch (Exception e ) { return false; }
     }
 
-    /*
-     * Determines if the book already exists in the Database.
-     * @param id The ISBN of the book
-     * @return True if the book exists, false otherwise.
-     */
-
-    private boolean bookExists(String id) {
-        // Double check this functionality - seems like it is not working as intended.
-        return BookDAO.getInstance().getAll().stream().anyMatch(book -> String.valueOf(book.getId()).equalsIgnoreCase(id));
-    }
-
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
 
     private void handleUploadImage() {
         try {
-            // Takes a couple seconds to do this
-            // increase code efficiency in future
 
             // FileChooser for uploading a book image.
             FileChooser fileChooser = new FileChooser();
@@ -228,9 +196,8 @@ public class AddBookManuallyController {
     }
 
 
-    /*
-     * * Save the book to the database
-     * @param collectionName The collection the book will be saved to
+    /**
+     * Save the book to the database
      * @param title The title of the book
      * @param isbn The isbn of the book (ID)
      * @param author The author of the book
@@ -240,10 +207,8 @@ public class AddBookManuallyController {
      * @param pages The book's page count
      * @param note User defined note regarding the book
      */
-
     private void saveBook(int collectionId, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
-
 
         String imagePath = image.getUrl();
         byte[] imageBytes = imageToBytes(imagePath);
@@ -269,10 +234,6 @@ public class AddBookManuallyController {
         }
     }
 
-    /*
-     * Show an alert dialog for a given message
-     */
-
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -280,10 +241,6 @@ public class AddBookManuallyController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    /*
-     * Clears all input fields after adding a book
-     */
 
     private void clearFields() {
         titleTextField.clear();
@@ -294,5 +251,4 @@ public class AddBookManuallyController {
         pagesTextField.clear();
         notesTextField.clear();
     }
-
 }
