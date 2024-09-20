@@ -36,7 +36,7 @@
         <!-- Book Details -->
         <HBox prefHeight="463.0" prefWidth="920.0" spacing="20" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
             <!-- Cover Image -->
-            <ImageView fx:id="bookCoverImage" fitHeight="356.0" fitWidth="271.0" preserveRatio="true" />
+            <ImageView fx:id="bookCoverImage" fitHeight="487.0" fitWidth="362.0" preserveRatio="true" />
 
             <!-- Book Info -->
             <VBox spacing="10.0" VBox.vgrow="ALWAYS">
