@@ -23,14 +23,6 @@ import com.example.cab302assessment10b0101.model.BookDAO;
 /**
  * The AddBookManuallyController class handles the manual addition of a book in the system.
  * It retrieves data from the UI, validates it, and stores the book information in the database.
- * This controller interacts with the following UI components:
- * <ul>
- *   <li>ChoiceBox for collection selection</li>
- *   <li>TextFields for entering book details like ISBN, title, and author</li>
- *   <li>DatePicker for selecting the publication date</li>
- *   <li>Button for uploading an image</li>
- * </ul>
- * This class also manages error handling for incorrect user inputs.
  */
 public class AddBookManuallyController implements Initializable {
 
