@@ -3,6 +3,7 @@ package com.example.cab302assessment10b0101.controllers;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -10,37 +11,77 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 import com.example.cab302assessment10b0101.model.BookDAO;
 
-public class EditBookDetailsController {
+/**
+ * The EditBookDetailsController class manages the user interface for editing book details
+ * in the library management system. It handles user input, validates data, and updates
+ * book information in the database. The controller is linked to the corresponding FXML
+ * file for the edit book screen.
+ */
+public class EditBookDetailsController implements Initializable {
 
-    // TODO: Changes to make ISBN an int?
-
-
+    //FXML UI elements that are linked to the corresponding elements in the view
     @FXML
-    public ChoiceBox<Collection> collectionChoiceBox;
-    public TextField isbnTextField;
-    public TextField titleTextField;
-    public TextField authorTextField;
-    public TextField descriptionTextField;
-    public TextField publisherTextField;
-    public DatePicker dateDatePicker;
-    public TextField pagesTextField;
-    public TextField notesTextField;
-    public Button updateBookButton;
-    public Button addImageButton;
+    private ChoiceBox<Collection> collectionChoiceBox; //Dropdown for choosing a collection
+    @FXML
+    private TextField isbnTextField; //Input field for ISBN
+    @FXML
+    private TextField titleTextField; //Input field for book title
+    @FXML
+    private TextField authorTextField; //Input field for book author
+    @FXML
+    private TextField descriptionTextField; //Input field for book description
+    @FXML
+    private TextField publisherTextField; //Input field for publisher
+    @FXML
+    private DatePicker dateDatePicker; //Date picker for publication date
+    @FXML
+    private TextField pagesTextField; //Input field for page count
+    @FXML
+    private TextField notesTextField; //Input field for user notes
+    @FXML
+    private Button updateBookButton; //Button to add the book
+    @FXML
+    private Button addImageButton; //Button to upload a book cover image
+    @FXML
+    private Image image; //Image field for storing the uploaded book cover image
 
-    private Image image;
 
+    //Error messages for input validation
+    final String noCollectionMessage = "Please select a collection.";
+    final String noTitleErrorMessage = "Please enter a Title.";
+    final String noISBNMessage = "Please enter an ISBN.";
+    final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    final String noAuthorErrorMessage = "Please enter an Author.";
+    final String noDescriptionMessage = "Please enter a description";
+    final String noPublisherMessage = "Please enter a publisher.";
+    final String noDateMessage = "Please enter a publication date.";
+    final String noPagesMessage = "Please enter a page count.";
+    final String invalidPagesMessage = "Please enter a valid page count ( >0).";
+    final String noNoteMessage = "Please enter a note.";
+    final String noImageMessage = "Please select a cover image.";
+    final String noImageUploadMessage = "Could not load an image.";
+    final String failedImageConversionMessage = "Could note convert the image to a byte array.";
+
+    /**
+     * Sets the selected collection in the ChoiceBox based on the collection ID.
+     *
+     * @param collectionID The ID of the collection to set.
+     */
     private void setCollectionChoiceBox(int collectionID) {
         for ( Collection collection : CollectionDAO.getInstance().getAll() ) {
             if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
         }
     }
+    // Sets the TextFields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
     private void setTitleTextField(String title) { titleTextField.setText(title); }
     private void setAuthorTextField(String author) { authorTextField.setText(author); }
@@ -56,37 +97,29 @@ public class EditBookDetailsController {
     Book book = BookDAO.getInstance().getAll().get(0);
 
 
-    // Define error messages
-    String noCollectionMessage = "Please select a collection.";
-    String noTitleErrorMessage = "Please enter a Title.";
-    String noISBNMessage = "Please enter an ISBN.";
-    String invalidISBNMessage = "The ISBN must only contain digits 0-9";
-    String noAuthorErrorMessage = "Please enter an Author.";
-    String noDescriptionMessage = "Please enter a description";
-    String noPublisherMessage = "Please enter a publisher.";
-    String noDateMessage = "Please enter a publication date.";
-    String noPagesMessage = "Please enter a page count.";
-    String invalidPagesMessage = "Please enter a valid page count ( >0).";
-    String noNoteMessage = "Please enter a note.";
-    String noImageMessage = "Please select a cover image.";
-    String noImageUploadMessage = "Could not load an image.";
-    String failedImageConversionMessage = "Could note convert the image to a byte array.";
 
 
-    @FXML
-    public void initialize() {
+    /**
+     * Initializes the controller, setting up event handlers and populating the collections list.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
         populateFields();
     }
 
-
+    /**
+     * Sets up the event handlers for the buttons.
+     */
     private void setupEventHandlers() {
         addImageButton.setOnAction(e -> handleUploadImage());
         updateBookButton.setOnAction(event -> handleEditBook());
     }
 
-
+    /**
+     * Handles the edit book action when the update button is clicked.
+     */
     @FXML
     private void handleEditBook() {
         System.out.println("\nUpdating Book...");
@@ -129,6 +162,7 @@ public class EditBookDetailsController {
         }
     }
 
+    // Populates the collections for the current user
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
@@ -138,6 +172,7 @@ public class EditBookDetailsController {
         if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
     }
 
+    // Populates the fields with the book's existing details
     private void populateFields() {
         setCollectionChoiceBox(book.getCollectionId());
         setIsbnTextField(Integer.toString(book.getId()));
@@ -178,6 +213,12 @@ public class EditBookDetailsController {
         return true;
     }
 
+    /**
+     * Checks if the provided ISBN is valid (contains only digits)
+     *
+     * @param isbn The ISBN to validate
+     * @return True if the ISBN contains only digits, False otherwise
+     */
     private boolean isValidISBN(String isbn) {
         try { Integer.parseInt(isbn); }
         catch (Exception e ) { return false; }
@@ -187,15 +228,31 @@ public class EditBookDetailsController {
         return true;
     }
 
+    /**
+     * Checks if the provided pages value is valid (greater than zero)
+     *
+     * @param pages The page count to validate
+     * @return True if pages is a valid number greater than zero, False otherwise
+     */
     private boolean isPagesValid(String pages) {
         try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 );}
         catch (Exception e ) { return false; }
     }
 
+    /**
+     * Checks if a collection is selected in the ChoiceBox
+     *
+     * @return True if a collection is selected, False otherwise
+     */
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
 
+
+    /**
+     * Handles the upload of an image file and sets it as the book's cover image.
+     * If the upload fails, an alert is shown to the user.
+     */
     private void handleUploadImage() {
         try {
             // FileChooser for uploading a book image.
@@ -224,6 +281,10 @@ public class EditBookDetailsController {
         } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
     }
 
+    /**
+     * Handles turning an image into a BLOB for input into the database.
+     * If the upload fails, an alert is shown to the user.
+     */
     private byte[] imageToBytes(String imagePath) {
         try {
             Path path = Paths.get(imagePath);
@@ -270,6 +331,13 @@ public class EditBookDetailsController {
         }
     }
 
+    /**
+     * Shows an alert dialog with the specified type, title, and message.
+     *
+     * @param alertType The type of alert.
+     * @param title     The title of the alert dialog.
+     * @param message   The message content of the alert dialog.
+     */
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

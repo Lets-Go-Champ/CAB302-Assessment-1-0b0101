@@ -15,7 +15,7 @@
             <Insets bottom="20" left="20" right="20" top="20" />
         </padding>
         <!-- Title -->
-        <Label fx:id="title" style="-fx-font-size: 24px;" text="Book Title">
+        <Label fx:id="mainTitle" style="-fx-font-size: 24px;" text="Book Title">
             <font>
                 <Font size="30.0" />
             </font>

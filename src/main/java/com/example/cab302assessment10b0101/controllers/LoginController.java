@@ -15,40 +15,53 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The LoginController class handles the login functionality of the application.
+ * It manages user authentication, input validation, and allows users to create accounts.
+ */
 public class LoginController {
 
-    // Declare FXML fields and buttons
+    //FXML UI elements that are linked to the corresponding elements in the view
     @FXML
-    private TextField usernameTextField;
+    private TextField usernameTextField; //text field for entering a username
 
     @FXML
-    private PasswordField passwordTextField;
+    private PasswordField passwordTextField; //text field for entering a password
 
     @FXML
-    private Button createAccountButton;
+    private Button createAccountButton; //Button to create an account
 
     @FXML
-    private Button loginButton;
+    private Button loginButton; //Button to login
 
     @FXML
-    private Label errorLabel;
+    private Label errorLabel; //Label for error messages
 
-    @FXML
-    private ImageView loginImageView;
-
+    /**
+     * This method is automatically called when the FXML file is loaded.
+     * It initializes the error label to be hidden and sets up event handlers for buttons.
+     */
     @FXML
     private void initialize() {
-        // This method is called automatically after the FXML file has been loaded
-        errorLabel.setVisible(false);
+        errorLabel.setVisible(false); //hides error label
         setupEventHandlers();
     }
 
+    /**
+     * Sets up the event handlers for the login and create account buttons.
+     */
     private void setupEventHandlers() {
         // Attach event handlers to buttons
         loginButton.setOnAction(this::handleLogin);
         createAccountButton.setOnAction(event -> handleCreateAccount());
     }
 
+    /**
+     * Handles the login logic when the 'Login' button is clicked.
+     * Validates the user input and checks the credentials against the database.
+     *
+     * @param event The ActionEvent triggered by the login button click.
+     */
     private void handleLogin(ActionEvent event) {
         // Get inputs
         String username = usernameTextField.getText();
@@ -66,32 +79,40 @@ public class LoginController {
             return;
         }
 
+        //Validate user credentials
         UserDAO userDAO = UserDAO.getInstance();
         User currentUser = userDAO.validateCredentials(username, password);
+
+        //Get user's collections and set current user collections
         List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
         currentUser.setCollections(FXCollections.observableArrayList(userCollections));
 
+        //if login is successful
         if (currentUser != null) {
-            // Set the logged-in user in UserManager
+            // Set the current user in UserManager
             UserManager.getInstance().setCurrentUser(currentUser);
             //System.out.println(currentUser);
             //System.out.println(currentUser.getId());
 
-            // Close the login stage and open the main application
+            // Close the login stage and display the main application view
             Stage stage = (Stage) loginButton.getScene().getWindow();
             ViewManager.getInstance().getViewFactory().closeStage(stage);
             ViewManager.getInstance().getViewFactory().getClientScreen();
         } else {
+            //show error message if login credentials are invalid
             showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
 }
+    /**
+     * Handles the process of opening the account creation window when the create account button is clicked.
+     */
     private void handleCreateAccount() {
         try {
             // Load the CreateAccountPopup.fxml file for account creation
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/CreateAccountPopup.fxml"));
             Scene scene = new Scene(loader.load());
 
-            // Create a new dialog window for the create account form
+            // Create a new stage window for the create account form
             Stage dialogStage = new Stage();
             // Set the title of the dialog
             dialogStage.setTitle("Create New Account");
@@ -111,12 +132,26 @@ public class LoginController {
         }
     }
 
+    /**
+     * Validates the login credentials by checking if the username and password match a user in the database.
+     *
+     * @param username The entered username.
+     * @param password The entered password.
+     * @return True if the credentials are valid, false otherwise.
+     */
     private boolean isValidLogin(String username, String password) {
-        // Validate login credentials by checking if the username and password match any user in the database
+        //check all users in the database for a match
         return UserDAO.getInstance().getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
     }
 
+    /**
+     * Displays an alert dialog with the specified title, message, and alert type.
+     *
+     * @param title     The title of the alert dialog.
+     * @param message   The message to display in the alert dialog.
+     * @param alertType The type of alert.
+     */
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
