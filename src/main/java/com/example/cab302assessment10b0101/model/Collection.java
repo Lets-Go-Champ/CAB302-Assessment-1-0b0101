@@ -26,16 +26,6 @@ public class Collection {
         this.collectionDescription = collectionDescription;
     }
 
-    /**
-     * Constructs a new Collection object without specifying a user ID, typically used for new entries.
-     *
-     * @param collectionName       The name of the collection.
-     * @param collectionDescription The description of the collection.
-     */
-    public Collection(String collectionName, String collectionDescription) {
-        this.collectionName = collectionName;
-        this.collectionDescription = collectionDescription;
-    }
 
     /**
      * Constructs a new Collection object with a specified user ID, name, and description.
