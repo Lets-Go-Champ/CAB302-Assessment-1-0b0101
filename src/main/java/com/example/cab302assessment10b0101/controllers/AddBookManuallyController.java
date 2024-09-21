@@ -3,6 +3,7 @@ package com.example.cab302assessment10b0101.controllers;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -10,17 +11,20 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 import com.example.cab302assessment10b0101.model.BookDAO;
 
 /**
  * The AddBookManuallyController class handles the manual addition of a book in the system.
  * It retrieves data from the UI, validates it, and stores the book information in the database.
  */
-public class AddBookManuallyController {
+public class AddBookManuallyController implements Initializable {
 
     //FXML UI components used for adding book details
     @FXML
@@ -67,8 +71,8 @@ public class AddBookManuallyController {
     /**
      * Initializes the controller, setting up event handlers and populating the collections list.
      */
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
     }
