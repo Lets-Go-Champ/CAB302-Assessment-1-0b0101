@@ -24,13 +24,13 @@ public class LibraHomeApp extends Application {
         // Initialize UserDAO and create the Users table
         UserDAO.getInstance().createTable();
 
-        // Initialize BookDAO and create the Users table
-        BookDAO.getInstance().createTable();
-
-        // Initialize CollectionDAO and create the Users table
+        // Initialize CollectionDAO and create the Collections table
         CollectionDAO.getInstance().createTable();
 
-        // Initialize ViewFactor and create the Users table
+        // Initialize BookDAO and create the Book table
+        BookDAO.getInstance().createTable();
+
+        // Initialize ViewFactory and get the login screen view
         ViewManager.getInstance().getViewFactory().getLoginScreen();
     }
 }
