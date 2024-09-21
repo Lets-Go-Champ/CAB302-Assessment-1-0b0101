@@ -6,49 +6,69 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The UserTest class contains unit tests for the User class.
+ */
 public class UserTest {
 
+    // Instance variable for User
     private User user;
 
-    // Set up before each test.
+    /**
+     * Sets up the User object before each test.
+     * This method initializes the User instance used in the tests.
+     */
     @BeforeEach
     public void setUp() {
         // Initialize a User object before each test
         user = new User(1, "testUser", "testPassword");
     }
 
-    // Test getID method.
+    /**
+     * Tests the getId method to ensure it returns the correct user ID.
+     */
     @Test
     public void testGetId() {
         assertEquals(1, user.getId());
     }
 
-    // Test get username method.
+    /**
+     * Tests the getUsername method to ensure it returns the correct username.
+     */
     @Test
     public void testGetUsername() {
         assertEquals("testUser", user.getUsername());
     }
 
+    /**
+     * Tests the setUserName method by updating the username and checking the change.
+     */
     @Test
     public void testSetUsername() {
         user.setUserName("newUser");
         assertEquals("newUser", user.getUsername());
     }
 
-    // Test getpassword method.
+    /**
+     * Tests the getPassword method to ensure it returns the correct password.
+     */
     @Test
     public void testGetPassword() {
         assertEquals("testPassword", user.getPassword());
     }
 
-    // Test set password method.
+    /**
+     * Tests the setPassword method by updating the password and checking the change.
+     */
     @Test
     public void testSetPassword() {
         user.setPassword("newPassword");
         assertEquals("newPassword", user.getPassword());
     }
 
-    // Test for the constructor without id (auto-increment case)
+    /**
+     * Tests the constructor that does not take an ID (for auto-increment cases).
+     */
     @Test
     public void testConstructorWithoutId() {
         User userWithoutId = new User("newUser", "newPassword");
@@ -58,14 +78,18 @@ public class UserTest {
         assertEquals("newPassword", userWithoutId.getPassword());
     }
 
-    // Test to string method.
+    /**
+     * Tests the toString method to ensure it returns the correct string representation of the User.
+     */
     @Test
     public void testToString() {
         String expectedString = "User{id=1, userName='testUser', password='testPassword'}";
         assertEquals(expectedString, user.toString());
     }
 
-    // Test getCollections method.
+    /**
+     * Tests the getCollections method to ensure it returns the correct collection list.
+     */
     @Test
     public void testGetCollections() {
         ObservableList<Collection> collections = user.getCollections();
@@ -73,7 +97,9 @@ public class UserTest {
         assertEquals(0, collections.size());  // Initially, the collection list should be empty
     }
 
-    // Test setCollections method.
+    /**
+     * Tests the setCollections method to ensure it sets the collection list correctly.
+     */
     @Test
     public void testSetCollections() {
         ObservableList<Collection> newCollections = FXCollections.observableArrayList();
@@ -84,7 +110,9 @@ public class UserTest {
         assertEquals("Collection 1", user.getCollections().get(0).getCollectionName());
     }
 
-    // Test addCollection method.
+    /**
+     * Tests the addCollection method to ensure it adds a collection correctly.
+     */
     @Test
     public void testAddCollection() {
         Collection collection = new Collection("Test Collection", "Test Description");

@@ -4,34 +4,46 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The UserManagerTest class contains unit tests for the UserManager class.
+ */
 public class UserManagerTest {
 
     private UserManager userManager;
     private User testUser;
 
-
+    /**
+     * Sets up the UserManager and a test User object before each test.
+     * This method initializes the objects that will be used in the tests.
+     */
     @BeforeEach
     public void setUp() {
-        // Initialize the UserManager instance before each test
         userManager = UserManager.getInstance();
         testUser = new User(1, "testUser", "testPassword");
     }
 
-    // Test that the instance of UserManager is a singleton
+    /**
+     * Tests that the UserManager instance is a singleton.
+     * This ensures that only one instance of UserManager exists.
+     */
     @Test
     public void testSingletonInstance() {
         UserManager anotherInstance = UserManager.getInstance();
         assertSame(userManager, anotherInstance);  // Ensure both instances are the same
     }
 
-    // Test set current user method.
+    /**
+     * Tests the setCurrentUser method by setting a user and verifying the current user.
+     */
     @Test
     public void testSetCurrentUser() {
         userManager.setCurrentUser(testUser);
         assertEquals(testUser, userManager.getCurrentUser());
     }
 
-    // Test get current user method.
+    /**
+     * Tests the getCurrentUser method to ensure it returns the correct user.
+     */
     @Test
     public void testGetCurrentUser() {
         userManager.setCurrentUser(testUser);
@@ -39,7 +51,9 @@ public class UserManagerTest {
         assertEquals(testUser, retrievedUser);
     }
 
-    // Test logging out
+    /**
+     * Tests the logOut method to ensure it correctly logs out the user.
+     */
     @Test
     public void testLogOut() {
         userManager.setCurrentUser(testUser);  // Set the user first
@@ -47,7 +61,9 @@ public class UserManagerTest {
         assertNull(userManager.getCurrentUser());  // After logging out, current user should be null
     }
 
-    // Test setting and getting a different user
+    /**
+     * Tests switching between users using the setCurrentUser method.
+     */
     @Test
     public void testSwitchUser() {
         User anotherUser = new User(2, "anotherUser", "anotherPassword");

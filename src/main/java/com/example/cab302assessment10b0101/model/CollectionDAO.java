@@ -4,14 +4,30 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CollectionDAO class provides data access methods for managing
+ * Collection records in the database. It includes operations to create the
+ * Collections table, insert new collections, and retrieve collections.
+ * This class follows the Singleton pattern to ensure only one instance is used.
+ */
 public class CollectionDAO {
     private static CollectionDAO instance;
     private static Connection connection;
 
+    /**
+     * Private constructor to prevent direct instantiation.
+     * Initializes the database connection.
+     */
     private CollectionDAO() {
         connection = DatabaseConnector.getInstance();
     }
 
+    /**
+     * Returns the singleton instance of CollectionDAO.
+     * Ensures only one instance exists in the application.
+     *
+     * @return The single instance of CollectionDAO.
+     */
     public static synchronized CollectionDAO getInstance(){
         if(instance == null){
             instance = new CollectionDAO();
@@ -19,7 +35,10 @@ public class CollectionDAO {
         return instance;
     }
 
-    // Create the Collection table if it doesn't already exist
+    /**
+     * Creates the Collections table in the database if it doesn't already exist.
+     * The table includes fields for collectionId (auto-incremented), userId, collectionName, and collectionDescription.
+     */
     public void createTable() {
         try {
             Statement createTable = connection.createStatement();
@@ -37,7 +56,11 @@ public class CollectionDAO {
         }
     }
 
-    // Insert a new collection into the Collections table
+    /**
+     * Inserts a new collection into the Collections table.
+     *
+     * @param collection The Collection object to be inserted.
+     */
     public void insert(Collection collection) {
         try {
             PreparedStatement insertCollection = connection.prepareStatement(
@@ -53,7 +76,11 @@ public class CollectionDAO {
         }
     }
 
-    // Retrieve all collections from the Collections table
+    /**
+     * Retrieves all collections from the Collections table.
+     *
+     * @return A list of all Collection objects from the database.
+     */
     public List<Collection> getAll() {
         List<Collection> collections = new ArrayList<>();
         try {
@@ -74,6 +101,13 @@ public class CollectionDAO {
         return collections;
     }
 
+    /**
+     * Retrieves the ID of a collection by the user's ID and the collection name.
+     *
+     * @param user The user who owns the collection.
+     * @param collectionName The name of the collection.
+     * @return The collection ID if found, or -1 if not found.
+     */
     public int getCollectionsIDByUserAndCollectionName(User user, String collectionName) {
         int collectionId = -1; // Default value in case no result is found
 
@@ -99,6 +133,12 @@ public class CollectionDAO {
         return collectionId;
     }
 
+    /**
+     * Retrieves all collections for a specific user from the Collections table.
+     *
+     * @param user The user whose collections to retrieve.
+     * @return A list of collections owned by the specified user.
+     */
     public List<Collection> getCollectionsByUser(User user) {
         List<Collection> collections = new ArrayList<>();
         try {

@@ -8,19 +8,29 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The CollectionDAOTest class contains unit tests for the MockCollectionDAO,
+ * which imitates the behavior of the actual CollectionDAO. It verifies the correct
+ * functionality of collection operations such as inserting, retrieving collections,
+ * and getting collection IDs.
+ */
 public class CollectionDAOTest {
 
     private MockCollectionDAO mockCollectionDAO;
     private User testUser;
 
-    // Set up before each test.
+    /**
+     * Sets up the test environment by initializing the MockCollectionDAO and a test user.
+     */
     @BeforeEach
     public void setUp() {
         mockCollectionDAO = new MockCollectionDAO();  // Initialize the mock DAO for testing
         testUser = new User(1, "testUser", "testPassword");  // Create a test user
     }
 
-    // Test inserting and retrieving collections by user.
+    /**
+     * Tests inserting and retrieving collections by user.
+     */
     @Test
     public void testGetCollectionsByUser() {
         // Insert multiple collections
@@ -33,7 +43,9 @@ public class CollectionDAOTest {
         assertEquals("Collection 1", userCollections.get(0).getCollectionName());
     }
 
-    // Test retrieving collectionId by user and collection name.
+    /**
+     * Tests retrieving collectionId by user and collection name.
+     */
     @Test
     public void testGetCollectionIdByUserAndCollectionName() {
         Collection collection = new Collection(testUser.getId(), "My Collection", "My Description");
@@ -43,7 +55,9 @@ public class CollectionDAOTest {
         assertEquals(collection.getId(), collectionId);
     }
 
-    // Test insert new collection.
+    /**
+     * Tests inserting a new collection.
+     */
     @Test
     public void testInsertCollection() {
         Collection collection = new Collection("Test Collection", "Test Description");
@@ -56,7 +70,9 @@ public class CollectionDAOTest {
         assertEquals("Test Description", collections.get(0).getCollectionDescription());
     }
 
-    // Test get all collections.
+    /**
+     * Tests retrieving all collections.
+     */
     @Test
     public void testGetAllCollections() {
         // Insert multiple collections
@@ -72,7 +88,9 @@ public class CollectionDAOTest {
         assertEquals("Collection 2", collections.get(1).getCollectionName());
     }
 
-    // Test inserting collection with null description.
+    /**
+     * Tests inserting a collection with a null description.
+     */
     @Test
     public void testInsertCollectionWithNullDescription() {
         Collection collection = new Collection("Test Collection", null);
@@ -83,7 +101,9 @@ public class CollectionDAOTest {
         assertNull(collections.get(0).getCollectionDescription());
     }
 
-    // Test inserting multiple collections.
+    /**
+     * Tests inserting multiple collections.
+     */
     @Test
     public void testInsertMultipleCollections() {
         mockCollectionDAO.insert(new Collection("Test Collection 1", "Description 1"));
@@ -95,7 +115,9 @@ public class CollectionDAOTest {
         assertEquals("Test Collection 2", collections.get(1).getCollectionName());
     }
 
-    // Test inserting collection with an empty name.
+    /**
+     * Tests inserting a collection with an empty name.
+     */
     @Test
     public void testInsertCollectionWithEmptyName() {
         Collection collection = new Collection("", "Description with empty name");
@@ -106,7 +128,9 @@ public class CollectionDAOTest {
         assertEquals("", collections.get(0).getCollectionName());
     }
 
-    // Test inserting duplicate collection names.
+    /**
+     * Tests inserting collections with duplicate names.
+     */
     @Test
     public void testInsertDuplicateCollectionNames() {
         mockCollectionDAO.insert(new Collection("Duplicate Collection", "First Description"));
@@ -116,7 +140,9 @@ public class CollectionDAOTest {
         assertEquals(2, collections.size());
     }
 
-    // Test inserting collection with very long name.
+    /**
+     * Tests inserting a collection with a very long name.
+     */
     @Test
     public void testInsertCollectionWithLongName() {
         String longName = "This is a very long collection name that exceeds typical limits...";
