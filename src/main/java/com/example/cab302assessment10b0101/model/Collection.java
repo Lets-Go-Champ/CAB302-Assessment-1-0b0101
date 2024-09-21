@@ -50,41 +50,85 @@ public class Collection {
         this.collectionDescription = collectionDescription;
     }
 
-    // Getters for program functions
+    // Getters and setters for program functions
+
+    /**
+     * Gets the unique ID of the collection.
+     *
+     * @return The ID of the collection.
+     */
     public int getId() {
         return collectionId;
     }
 
+    /**
+     * Sets the unique ID of the collection.
+     *
+     * @param id The new ID of the collection.
+     */
     public void setId(int id) {
         this.collectionId = id;
     }
 
+    /**
+     * Gets the user ID associated with the collection.
+     *
+     * @return The ID of the user.
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * Sets the user ID associated with the collection.
+     *
+     * @param userId The new user ID.
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     * Gets the name of the collection.
+     *
+     * @return The name of the collection.
+     */
     public String getCollectionName() {
         return collectionName;
     }
 
-    // Setters for program functions
+    /**
+     * Sets the name of the collection.
+     *
+     * @param collectionName The new name of the collection.
+     */
     public void setCollectionName(String collectionName) {
         this.collectionName = collectionName;
     }
 
+    /**
+     * Gets the description of the collection.
+     *
+     * @return The description of the collection.
+     */
     public String getCollectionDescription() {
         return collectionDescription;
     }
 
+    /**
+     * Sets the description of the collection.
+     *
+     * @param description The new description of the collection.
+     */
     public void setCollectionDescription(String description) {
         this.collectionDescription = description;
     }
 
-    // toString for testing purposes
+    /**
+     * Returns a string representation of the collection for testing purposes.
+     *
+     * @return The name of the collection.
+     */
     @Override
     public String toString() {
         return collectionName;

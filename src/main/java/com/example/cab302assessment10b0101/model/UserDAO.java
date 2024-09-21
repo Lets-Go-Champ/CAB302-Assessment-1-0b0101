@@ -4,6 +4,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The UserDAO class provides data access methods for managing User records
+ * in the database. It supports operations such as creating the user table,
+ * inserting new users, validating user credentials, and retrieving all users.
+ * This class follows the Singleton design pattern to ensure only one instance
+ * exists throughout the application.
+ */
 public class UserDAO {
 
     private static UserDAO instance;

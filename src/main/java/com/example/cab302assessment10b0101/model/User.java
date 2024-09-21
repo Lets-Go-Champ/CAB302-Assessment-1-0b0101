@@ -43,44 +43,97 @@ public class User {
     }
 
     // Getters for program functions
+
+    /**
+     * Retrieves the user's ID.
+     *
+     * @return The ID of the user.
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * Retrieves the username of the user.
+     *
+     * @return The username of the user.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Retrieves the password of the user.
+     *
+     * @return The password of the user.
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Retrieves the collections associated with the user.
+     *
+     * @return An ObservableList of collections.
+     */
     public ObservableList<Collection> getCollections() {
         return collections;
     }
 
     // Setters for program functions
+
+    /**
+     * Sets the user's ID.
+     *
+     * @param id The new ID of the user.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the collections associated with the user.
+     *
+     * @param collections The new ObservableList of collections.
+     */
     public void setCollections(ObservableList<Collection> collections) {
         this.collections = collections;
     }
 
+    /**
+     * Sets the username of the user.
+     *
+     * @param userName The new username of the user.
+     */
     public void setUserName(String userName) {
         this.username = userName;
     }
 
+    /**
+     * Sets the password of the user.
+     *
+     * @param password The new password of the user.
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Adds a collection to the user's collections.
+     *
+     * @param collection The collection to be added.
+     */
     public void addCollection(Collection collection) {
         collections.add(collection);
     }
 
-    // toString for testing purposes
+    /**
+     * Returns a string representation of the User object.
+     * The string includes the user's ID, username, and password.
+     *
+     * @return A string formatted as "User{id=X, userName='Y', password='Z'}",
+     *         where X is the user's ID, Y is the username, and Z is the password.
+     */
     @Override
     public String toString() {
         return "User{" +

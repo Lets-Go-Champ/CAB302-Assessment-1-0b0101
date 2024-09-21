@@ -16,34 +16,39 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import com.example.cab302assessment10b0101.model.BookDAO;
 
+/**
+ * The AddBookManuallyController class handles the manual addition of a book in the system.
+ * It retrieves data from the UI, validates it, and stores the book information in the database.
+ */
 public class AddBookManuallyController {
 
+    //FXML UI components used for adding book details
     @FXML
-    private ChoiceBox<Collection> collectionChoiceBox;
+    private ChoiceBox<Collection> collectionChoiceBox; //Dropdown for choosing a collection
     @FXML
-    private TextField isbnTextField;
+    private TextField isbnTextField; //Input field for ISBN
     @FXML
-    private TextField titleTextField;
+    private TextField titleTextField; //Input field for book title
     @FXML
-    private TextField authorTextField;
+    private TextField authorTextField; //Input field for book author
     @FXML
-    private TextField descriptionTextField;
+    private TextField descriptionTextField; //Input field for book description
     @FXML
-    private TextField publisherTextField;
+    private TextField publisherTextField; //Input field for publisher
     @FXML
-    private DatePicker dateDatePicker;
+    private DatePicker dateDatePicker; //Date picker for publication date
     @FXML
-    private TextField pagesTextField;
+    private TextField pagesTextField; //Input field for page count
     @FXML
-    private TextField notesTextField;
+    private TextField notesTextField; //Input field for user notes
     @FXML
-    private Button addBookButton;
+    private Button addBookButton; //Button to add the book
     @FXML
-    private Button addImageButton;
+    private Button addImageButton; //Button to upload a book cover image
     @FXML
-    private Image image;
+    private Image image; //Image field for storing the uploaded book cover image
 
-    // Define error messages
+    //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
     final String noISBNMessage = "Please enter an ISBN.";
@@ -59,25 +64,34 @@ public class AddBookManuallyController {
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
 
-
+    /**
+     * Initializes the controller, setting up event handlers and populating the collections list.
+     */
     @FXML
     public void initialize() {
         setupEventHandlers();
         populateCollections();
     }
 
-
+    /**
+     * Sets up the event handlers for the buttons on the page.
+     */
     private void setupEventHandlers() {
-        addImageButton.setOnAction(e -> handleUploadImage());
-        addBookButton.setOnAction(event -> handleAddBook());
+        addImageButton.setOnAction(e -> handleUploadImage()); //Handles image upload
+        addBookButton.setOnAction(event -> handleAddBook()); //Handles adding the book
     }
 
-
+    /**
+     * Handles the logic when the "Add Book" button is clicked.
+     * Validates the user's input and saves the book to the database.
+     */
     @FXML
     private void handleAddBook() {
         //System.out.println("\nAdding Book...");
+        //Get the selected collection's name
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
         //System.out.println("Collection Name = " + collectionName);
+        //Get the selected collection's ID
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
         //System.out.println("CollectionID = " + collectionId);
@@ -85,7 +99,8 @@ public class AddBookManuallyController {
             System.out.println("No such collection Id"); return;
         }
 
-        System.out.println("collection ID = " + collectionId);
+        //Get the input values from the fields
+        //System.out.println("collection ID = " + collectionId);
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -105,15 +120,18 @@ public class AddBookManuallyController {
         String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
-        // Ensure all fields have values
+        // Validate all input fields
         if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
 
-            // Save the book
+            // Save the book to the database
             saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
         }
     }
 
+    /**
+     * Populates the collection dropdown with the current user's collections.
+     */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
@@ -124,7 +142,7 @@ public class AddBookManuallyController {
     }
 
     /**
-     * Determines if all the fields entered for a book are valid
+     * Validates if all the field values entered for a book are valid
      * @param title The title of the book
      * @param isbn The ISBN of the book
      * @param author The author of the book
@@ -151,6 +169,12 @@ public class AddBookManuallyController {
         return true;
     }
 
+    /**
+     * Validates if the ISBN consists of only digits.
+     *
+     * @param isbn The ISBN string.
+     * @return True if valid, otherwise false.
+     */
     private boolean isValidISBN(String isbn) {
         try { Integer.parseInt(isbn); }
         catch (Exception e ) { return false; }
@@ -160,15 +184,29 @@ public class AddBookManuallyController {
         return true;
     }
 
+    /**
+     * Validates if the pages count is a positive integer.
+     *
+     * @param pages The page count as a string.
+     * @return True if valid, otherwise false.
+     */
     private boolean isPagesValid(String pages) {
         try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 );}
         catch (Exception e ) { return false; }
     }
 
+    /**
+     * Checks if a collection is selected in the dropdown.
+     *
+     * @return True if a collection is selected, otherwise false.
+     */
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
 
+    /**
+     * Handles the image upload process.
+     */
     private void handleUploadImage() {
         try {
 
@@ -178,6 +216,7 @@ public class AddBookManuallyController {
             // Create a window to upload the image
             Stage dialogStage = new Stage();
 
+            //Set allowed file types
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
                     new FileChooser.ExtensionFilter("PNG Files", "*.png")
@@ -189,6 +228,8 @@ public class AddBookManuallyController {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(300);
             imageView.setFitHeight(400);
+
+            //Display success message with an image preview
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Image Loaded Successfully!");
             alert.setHeaderText("The selected image was successfully loaded.");
@@ -198,6 +239,12 @@ public class AddBookManuallyController {
         } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
     }
 
+    /**
+     * Converts the image file at the specified path to a byte array.
+     *
+     * @param imagePath The file path of the image.
+     * @return A byte array of the image or an empty array if conversion fails.
+     */
     private byte[] imageToBytes(String imagePath) {
         try {
             Path path = Paths.get(imagePath);
@@ -220,14 +267,17 @@ public class AddBookManuallyController {
     private void saveBook(int collectionId, String title, String isbn, String author, String description,
                           String publisher, String publicationDate, String pages, String note) {
 
+        //Convert image to byte array
         String imagePath = image.getUrl();
         byte[] imageBytes = imageToBytes(imagePath);
 
+        //If image conversion succeeds create a new book and insert it into the database
         if (imageBytes.length != 0) {
             Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
             BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
+            /*
             System.out.println("Book Saved Successfully! Details: " + "\n" +
                     "Collection ID: " + collectionId + "\n" +
                     "ISBN: " + isbn + "\n" +
@@ -240,10 +290,19 @@ public class AddBookManuallyController {
                     "Note: " + note + "\n" +
                     "Image: " + imageBytes.toString()
             );
+            */
+            //Clear fields after book is saved to the database
             clearFields();
         }
     }
 
+    /**
+     * Displays an alert dialog with the provided message.
+     *
+     * @param title     The title of the alert.
+     * @param message   The message of the alert.
+     * @param alertType The type of alert.
+     */
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -252,6 +311,9 @@ public class AddBookManuallyController {
         alert.showAndWait();
     }
 
+    /**
+     * Clears the input fields on the page after the book has saved.
+     */
     private void clearFields() {
         titleTextField.clear();
         isbnTextField.clear();

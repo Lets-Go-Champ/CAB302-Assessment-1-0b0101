@@ -4,6 +4,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CollectionDAO class provides data access methods for interacting with the
+ * Collections table in the database. It follows the singleton pattern to ensure
+ * that only one instance of this class is created throughout the application.
+ */
 public class CollectionDAO {
 
     private static CollectionDAO instance;

@@ -4,6 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 
+/**
+ * The BookDAO class provides data access methods for the Books table in the database.
+ * It allows for operations such as creating the table, inserting, updating,
+ * and retrieving book records. This class implements the Singleton design pattern
+ * to ensure that only one instance is used throughout the application.
+ */
 public class BookDAO {
 
     private static BookDAO instance;
