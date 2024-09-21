@@ -103,7 +103,7 @@ public class UserTest {
     @Test
     public void testSetCollections() {
         ObservableList<Collection> newCollections = FXCollections.observableArrayList();
-        newCollections.add(new Collection("Collection 1", "Description 1"));
+        newCollections.add(new Collection(user.getId(), "Collection 1", "Description 1"));
         user.setCollections(newCollections);
 
         assertEquals(1, user.getCollections().size());
@@ -115,7 +115,7 @@ public class UserTest {
      */
     @Test
     public void testAddCollection() {
-        Collection collection = new Collection("Test Collection", "Test Description");
+        Collection collection = new Collection(user.getId(), "Test Collection", "Test Description");
         user.addCollection(collection);
 
         assertEquals(1, user.getCollections().size());
