@@ -1,24 +1,35 @@
 import com.example.cab302assessment10b0101.model.Book;
 import com.example.cab302assessment10b0101.model.MockBookDAO;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The BookDAOTest class contains unit tests for the MockBookDAO, which is used to simulate
+ * the behavior of BookDAO in a controlled test environment. These tests validate the core
+ * operations of the DAO such as inserting, updating, and retrieving books from the mock data store.
+ */
 public class BookDAOTest {
 
     private MockBookDAO mockBookDAO;
 
-    // Set up before each test.
-    // Initialises Mock BookDAO.
+    /**
+     * Sets up the MockBookDAO instance before each test.
+     * This method initializes the mock DAO to ensure each test starts with a fresh instance.
+     */
     @BeforeEach
     public void setUp() {
         mockBookDAO = new MockBookDAO();  // Use mock DAO for testing
     }
 
-    // Tests Insert of a single book into Mock BookDAO.
+    /**
+     * Tests the insertion of a single book into the MockBookDAO and verifies that
+     * the book is correctly stored and retrievable from the mock data store.
+     */
     @Test
     public void testInsertBook() {
         Book book = new Book(3, "Test Title", 1, "Test Author", "Test Description",
@@ -26,12 +37,16 @@ public class BookDAOTest {
         mockBookDAO.insert(book);
 
         // Retrieve the inserted book
-        List<Book> books = mockBookDAO.getAll();
+        ObservableList<Book> books = mockBookDAO.getAll();
         assertEquals(1, books.size());
         assertEquals("Test Title", books.get(0).getTitle());
         assertEquals("Test Author", books.get(0).getAuthor());
     }
 
+    /**
+     * Tests the retrieval of all books from the MockBookDAO.
+     * Ensures that multiple inserted books are correctly stored and retrievable.
+     */
     @Test
     public void testGetAllBooks() {
         // Insert multiple books
@@ -41,7 +56,7 @@ public class BookDAOTest {
                 "2020-01-01", "Publisher 2", 500, "Notes 2", null));
 
         // Retrieve all books
-        List<Book> books = mockBookDAO.getAll();
+        ObservableList<Book> books = mockBookDAO.getAll();
         assertEquals(2, books.size());
 
         // Verify the books' data
@@ -49,21 +64,72 @@ public class BookDAOTest {
         assertEquals("Book 2", books.get(1).getTitle());
     }
 
-    // Tests insert with null fields.
+    /**
+     * Tests retrieving books from the MockBookDAO by collection ID.
+     * Ensures that books belonging to a specific collection can be filtered and retrieved correctly.
+     */
     @Test
+    public void testGetAllByCollection() {
+        // Insert books with the same collectionId
+        mockBookDAO.insert(new Book(1, "Book 1", 123, "Author 1", "Description 1",
+                "2020-01-01", "Publisher 1", 500, "Notes 1", null));
+        mockBookDAO.insert(new Book(1, "Book 2", 1234, "Author 2", "Description 2",
+                "2020-01-01", "Publisher 2", 500, "Notes 2", null));
+
+        // Retrieve all books by collectionId
+        ObservableList<Book> books = mockBookDAO.getAllByCollection(1);
+        assertEquals(2, books.size());
+
+        // Verify the books' data
+        assertEquals("Book 1", books.get(0).getTitle());
+        assertEquals("Book 2", books.get(1).getTitle());
+    }
+
+    /**
+     * Tests the insertion of a book with null fields (e.g., author, description, notes).
+     * Verifies that books with missing data can still be inserted and retrieved.
+     */    @Test
     public void testInsertBookWithNullFields() {
         Book book = new Book(7, "Test Title", 142, null, null,
                 "2020-01-01", "Test Publisher", 500, null, null);
         mockBookDAO.insert(book);
 
-        List<Book> books = mockBookDAO.getAll();
+        ObservableList<Book> books = mockBookDAO.getAll();
         assertEquals(1, books.size());
         assertNull(books.get(0).getAuthor());
         assertNull(books.get(0).getDescription());
         assertNull(books.get(0).getNotes());
     }
 
-    // Test's insert with long strings.
+    /**
+     * Tests updating the details of a book in the MockBookDAO.
+     * Ensures that book attributes like title and page count can be updated and retrieved correctly.
+     */
+    @Test
+    public void testUpdateBook() {
+        // Insert a book
+        Book book = new Book(1, "Book 1", 123, "Author 1", "Description 1",
+                "2020-01-01", "Publisher 1", 500, "Notes 1", null);
+        mockBookDAO.insert(book);
+
+        // Update the book's title and pages
+        book.setTitle(new SimpleStringProperty("Updated Title"));
+        book.setPages(new SimpleIntegerProperty(600));
+        mockBookDAO.update(book);
+
+        // Retrieve the updated book
+        ObservableList<Book> books = mockBookDAO.getAll();
+        assertEquals(1, books.size());
+        assertEquals("Updated Title", books.get(0).getTitle());
+        assertEquals(600, books.get(0).getPages());
+    }
+
+
+
+    /**
+     * Tests inserting a book with excessively long string fields.
+     * Verifies that the MockBookDAO can handle books with long titles and author names.
+     */
     @Test
     public void testInsertBookWithLongStrings() {
         String longTitle = "This is a very long title that exceeds the usual length...";
@@ -72,13 +138,16 @@ public class BookDAOTest {
                 "2020-01-01", "Test Publisher", 500, "Test Notes", null);
         mockBookDAO.insert(book);
 
-        List<Book> books = mockBookDAO.getAll();
+        ObservableList<Book> books = mockBookDAO.getAll();
         assertEquals(1, books.size());
         assertEquals(longTitle, books.get(0).getTitle());
         assertEquals(longAuthor, books.get(0).getAuthor());
     }
 
-    // Tests insert with negative pages.
+    /**
+     * Tests inserting a book with negative page count.
+     * Verifies that the MockBookDAO can handle books with invalid (negative) page numbers.
+     */
     @Test
     public void testInsertBookWithNegativePages() {
         Book book = new Book(1, "Test Title", 1, "Test Author",
@@ -86,12 +155,15 @@ public class BookDAOTest {
                 -100, "Test Notes", null);
         mockBookDAO.insert(book);
 
-        List<Book> books = mockBookDAO.getAll();
+        ObservableList<Book> books = mockBookDAO.getAll();
         assertEquals(1, books.size());
         assertTrue(books.get(0).getPages() < 0);
     }
 
-    // Tests insert of books with the same ID.
+    /**
+     * Tests inserting multiple books with the same ID into the MockBookDAO.
+     * Ensures that multiple books with the same ID can coexist in the mock data store.
+     */
     @Test
     public void testInsertBooksWithSameId() {
         Book book1 = new Book(1, "Test Title 1", 1, "Test Author",
@@ -102,7 +174,7 @@ public class BookDAOTest {
         mockBookDAO.insert(book1);
         mockBookDAO.insert(book2);
 
-        List<Book> books = mockBookDAO.getAll();
+        ObservableList<Book> books = mockBookDAO.getAll();
         assertEquals(2, books.size());
     }
 

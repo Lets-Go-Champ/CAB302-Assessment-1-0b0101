@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The CollectionDAO class provides data access methods for interacting with the
- * Collections table in the database. It follows the singleton pattern to ensure
- * that only one instance of this class is created throughout the application.
+ * The CollectionDAO class provides data access methods for managing
+ * Collection records in the database. It includes operations to create the
+ * Collections table, insert new collections, and retrieve collections.
+ * This class follows the Singleton pattern to ensure only one instance is used.
  */
 public class CollectionDAO {
-
     private static CollectionDAO instance;
     private static Connection connection;
 
@@ -23,8 +23,8 @@ public class CollectionDAO {
     }
 
     /**
-     * Singleton pattern to get the single instance of CollectionDAO.
-     * Ensures that only one instance of this class is created throughout the application.
+     * Returns the singleton instance of CollectionDAO.
+     * Ensures only one instance exists in the application.
      *
      * @return The single instance of CollectionDAO.
      */
@@ -37,29 +37,29 @@ public class CollectionDAO {
 
     /**
      * Creates the Collections table in the database if it doesn't already exist.
-     * The table includes fields for the collection name and description, as well as a foreign key reference to the user ID.
+     * The table includes fields for collectionId (auto-incremented), userId, collectionName, and collectionDescription.
      */
     public void createTable() {
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS Collections (" +
-                            "collectionId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "collectionId INTEGER PRIMARY KEY AUTOINCREMENT," + // Auto-increment the ID
                             "userId INTEGER," +
                             "collectionName TEXT NOT NULL," +
-                            "collectionDescription TEXT," +
+                            "collectionDescription TEXT," + // Description can now be optional
                             "FOREIGN KEY (userId) REFERENCES Users(userId)" +
                             ");"
             );
         } catch (SQLException ex) {
-            System.err.println("Error creating Collections table: " + ex.getMessage());
+            System.err.println(ex);
         }
     }
 
     /**
-     * Inserts a new collection record into the Collections table.
+     * Inserts a new collection into the Collections table.
      *
-     * @param collection The collection object containing all details to be inserted.
+     * @param collection The Collection object to be inserted.
      */
     public void insert(Collection collection) {
         try {
@@ -72,14 +72,14 @@ public class CollectionDAO {
             insertCollection.setString(3, collection.getCollectionDescription());
             insertCollection.execute();
         } catch (SQLException ex) {
-            System.err.println("Error inserting collection: " + ex.getMessage());
+            System.err.println(ex);
         }
     }
 
     /**
      * Retrieves all collections from the Collections table.
      *
-     * @return A list of Collection objects representing all collections in the database.
+     * @return A list of all Collection objects from the database.
      */
     public List<Collection> getAll() {
         List<Collection> collections = new ArrayList<>();
@@ -102,11 +102,11 @@ public class CollectionDAO {
     }
 
     /**
-     * Retrieves the collection ID based on the given user and collection name.
+     * Retrieves the ID of a collection by the user's ID and the collection name.
      *
-     * @param user           The user associated with the collection.
+     * @param user The user who owns the collection.
      * @param collectionName The name of the collection.
-     * @return The ID of the collection if found; otherwise, -1.
+     * @return The collection ID if found, or -1 if not found.
      */
     public int getCollectionsIDByUserAndCollectionName(User user, String collectionName) {
         int collectionId = -1; // Default value in case no result is found
@@ -115,6 +115,7 @@ public class CollectionDAO {
             // Use a PreparedStatement to prevent SQL injection and ensure safe parameter handling
             String query = "SELECT collectionId FROM Collections WHERE collectionName = ? AND userId = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
+
 
             stmt.setString(1, collectionName);  // Set the collection name
             stmt.setInt(2, user.getId());  // Set the user ID
@@ -125,16 +126,18 @@ public class CollectionDAO {
                 collectionId = rs.getInt("collectionId"); // Get the collectionId from the result set
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collection ID: " + e.getMessage());
+            System.err.println("Error retrieving collections: " + e.getMessage());
         }
+
+
         return collectionId;
     }
 
     /**
-     * Retrieves all collections associated with a specific user.
+     * Retrieves all collections for a specific user from the Collections table.
      *
-     * @param user The user whose collections are to be retrieved.
-     * @return A list of Collection objects associated with the given user.
+     * @param user The user whose collections to retrieve.
+     * @return A list of collections owned by the specified user.
      */
     public List<Collection> getCollectionsByUser(User user) {
         List<Collection> collections = new ArrayList<>();
@@ -153,7 +156,7 @@ public class CollectionDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collections for user: " + e.getMessage());
+            System.err.println("Error retrieving collections: " + e.getMessage());
         }
         return collections;
     }

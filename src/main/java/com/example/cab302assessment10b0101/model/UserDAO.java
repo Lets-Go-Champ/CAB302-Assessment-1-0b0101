@@ -52,7 +52,7 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-            System.err.println("Error creating Users table: " + ex.getMessage());
+            System.err.println(ex);
         }
     }
 
@@ -70,7 +70,7 @@ public class UserDAO {
             insertUser.setString(2, user.getPassword());
             insertUser.execute();
         } catch (SQLException ex) {
-            System.err.println("Error inserting user: " + ex.getMessage());
+            System.err.println(ex);
         }
     }
 
@@ -80,8 +80,7 @@ public class UserDAO {
      * @param username The username entered by the user.
      * @param password The password entered by the user.
      * @return A User object if credentials are valid; otherwise, null.
-     */
-    public User validateCredentials(String username, String password) {
+     */    public User validateCredentials(String username, String password) {
         try {
             String query = "SELECT * FROM Users WHERE username = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -91,15 +90,15 @@ public class UserDAO {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return new User(
-                        rs.getInt("userId"),
+                        rs.getInt("userId"),    // Assuming your table has a column 'userId'
                         rs.getString("username"),
-                        rs.getString("password")
+                        rs.getString("password") // You might want to handle passwords more securely
                 );
             } else {
-                return null;
+                return null; // No user found
             }
         } catch (SQLException e) {
-            System.err.println("Error validating credentials: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -124,7 +123,7 @@ public class UserDAO {
                 );
             }
         } catch (SQLException ex) {
-            System.err.println("Error retrieving users: " + ex.getMessage());
+            System.err.println(ex);
         }
         return user;
     }

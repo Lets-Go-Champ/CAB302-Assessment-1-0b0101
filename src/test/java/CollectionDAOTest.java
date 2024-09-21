@@ -1,22 +1,63 @@
 import com.example.cab302assessment10b0101.model.Collection;
 import com.example.cab302assessment10b0101.model.MockCollectionDAO;
+import com.example.cab302assessment10b0101.model.User;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The CollectionDAOTest class contains unit tests for the MockCollectionDAO,
+ * which imitates the behavior of the actual CollectionDAO. It verifies the correct
+ * functionality of collection operations such as inserting, retrieving collections,
+ * and getting collection IDs.
+ */
 public class CollectionDAOTest {
 
     private MockCollectionDAO mockCollectionDAO;
+    private User testUser;
 
-    // Set up before each test.
+    /**
+     * Sets up the test environment by initializing the MockCollectionDAO and a test user.
+     */
     @BeforeEach
     public void setUp() {
         mockCollectionDAO = new MockCollectionDAO();  // Initialize the mock DAO for testing
+        testUser = new User(1, "testUser", "testPassword");  // Create a test user
     }
 
-    // Test insert new collection.
+    /**
+     * Tests inserting and retrieving collections by user.
+     */
+    @Test
+    public void testGetCollectionsByUser() {
+        // Insert multiple collections
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Collection 1", "Description 1"));
+        mockCollectionDAO.insert(new Collection(2, "Collection 2", "Description 2"));  // Collection for another user
+
+        // Retrieve collections by user
+        List<Collection> userCollections = mockCollectionDAO.getCollectionsByUser(testUser);
+        assertEquals(1, userCollections.size());
+        assertEquals("Collection 1", userCollections.get(0).getCollectionName());
+    }
+
+    /**
+     * Tests retrieving collectionId by user and collection name.
+     */
+    @Test
+    public void testGetCollectionIdByUserAndCollectionName() {
+        Collection collection = new Collection(testUser.getId(), "My Collection", "My Description");
+        mockCollectionDAO.insert(collection);
+
+        int collectionId = mockCollectionDAO.getCollectionsIDByUserAndCollectionName(testUser, "My Collection");
+        assertEquals(collection.getId(), collectionId);
+    }
+
+    /**
+     * Tests inserting a new collection.
+     */
     @Test
     public void testInsertCollection() {
         Collection collection = new Collection("Test Collection", "Test Description");
@@ -29,7 +70,9 @@ public class CollectionDAOTest {
         assertEquals("Test Description", collections.get(0).getCollectionDescription());
     }
 
-    // Test get all collections.
+    /**
+     * Tests retrieving all collections.
+     */
     @Test
     public void testGetAllCollections() {
         // Insert multiple collections
@@ -45,7 +88,9 @@ public class CollectionDAOTest {
         assertEquals("Collection 2", collections.get(1).getCollectionName());
     }
 
-    // Test inserting collection with null description.
+    /**
+     * Tests inserting a collection with a null description.
+     */
     @Test
     public void testInsertCollectionWithNullDescription() {
         Collection collection = new Collection("Test Collection", null);
@@ -56,7 +101,9 @@ public class CollectionDAOTest {
         assertNull(collections.get(0).getCollectionDescription());
     }
 
-    // Test inserting multiple collections.
+    /**
+     * Tests inserting multiple collections.
+     */
     @Test
     public void testInsertMultipleCollections() {
         mockCollectionDAO.insert(new Collection("Test Collection 1", "Description 1"));
@@ -68,7 +115,9 @@ public class CollectionDAOTest {
         assertEquals("Test Collection 2", collections.get(1).getCollectionName());
     }
 
-    // Test inserting collection with an empty name.
+    /**
+     * Tests inserting a collection with an empty name.
+     */
     @Test
     public void testInsertCollectionWithEmptyName() {
         Collection collection = new Collection("", "Description with empty name");
@@ -79,7 +128,9 @@ public class CollectionDAOTest {
         assertEquals("", collections.get(0).getCollectionName());
     }
 
-    // Test inserting duplicate collection names.
+    /**
+     * Tests inserting collections with duplicate names.
+     */
     @Test
     public void testInsertDuplicateCollectionNames() {
         mockCollectionDAO.insert(new Collection("Duplicate Collection", "First Description"));
@@ -89,7 +140,9 @@ public class CollectionDAOTest {
         assertEquals(2, collections.size());
     }
 
-    // Test inserting collection with very long name.
+    /**
+     * Tests inserting a collection with a very long name.
+     */
     @Test
     public void testInsertCollectionWithLongName() {
         String longName = "This is a very long collection name that exceeds typical limits...";

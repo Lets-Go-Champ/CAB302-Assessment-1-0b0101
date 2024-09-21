@@ -2,12 +2,16 @@ import com.example.cab302assessment10b0101.model.DatabaseConnector;
 
 import org.junit.jupiter.api.Test;
 import java.sql.Connection;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The DatabaseConnectorTest class contains unit tests for the DatabaseConnector class.
+ */
 public class DatabaseConnectorTest {
 
-    // Test that the singleton instance is always the same
+    /**
+     * Tests that the singleton instance of DatabaseConnector is always the same.
+     */
     @Test
     public void testSingletonInstance() {
         Connection conn1 = DatabaseConnector.getInstance();
@@ -21,7 +25,9 @@ public class DatabaseConnectorTest {
         assertEquals(conn1, conn2);
     }
 
-    // Test that a connection is successfully established
+    /**
+     * Tests that a connection to the database is successfully established.
+     */
     @Test
     public void testConnectionEstablished() {
         Connection connection = DatabaseConnector.getInstance();
