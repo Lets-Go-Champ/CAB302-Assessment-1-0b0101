@@ -5,17 +5,29 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The UserDAOTest class contains unit tests for the MockUserDAO, which is used
+ * to simulate the behavior of UserDAO in a controlled test environment.
+ * This class tests the core operations such as inserting, updating, deleting,
+ * and retrieving users from the mock data store, as well as validating user credentials.
+ */
 public class UserDAOTest {
 
     private UserDAOInterface userDAO;
 
-    // Set up for each test.
+    /**
+     * Sets up the MockUserDAO instance before each test.
+     * This ensures each test starts with a fresh mock data store.
+     */
     @BeforeEach
     public void setUp() {
         userDAO = new MockUserDAO();  // Use mock DAO for testing
     }
 
-    // Test Insert user method.
+    /**
+     * Tests the insertion of a single user into the MockUserDAO.
+     * Verifies that the user is correctly inserted and retrievable.
+     */
     @Test
     public void testInsertUser() {
         User user = new User("testUser", "testPassword");
@@ -27,7 +39,10 @@ public class UserDAOTest {
         assertEquals("testPassword", users.get(0).getPassword());
     }
 
-    // Test update user method.
+    /**
+     * Tests updating an existing user's details in the MockUserDAO.
+     * Verifies that the user's data is correctly updated.
+     */
     @Test
     public void testUpdateUser() {
         User user = new User("testUser", "testPassword");
@@ -42,7 +57,10 @@ public class UserDAOTest {
         assertEquals("updatedPassword", updatedUser.getPassword());
     }
 
-    // Test delete user method.
+    /**
+     * Tests deleting a user from the MockUserDAO by their ID.
+     * Verifies that the user is removed and no longer retrievable.
+     */
     @Test
     public void testDeleteUser() {
         User user = new User("toDeleteUser", "deletePassword");
@@ -54,7 +72,10 @@ public class UserDAOTest {
         assertTrue(userDAO.getAll().isEmpty());
     }
 
-    // Test get all users.
+    /**
+     * Tests retrieving all users from the MockUserDAO.
+     * Verifies that multiple inserted users are correctly stored and retrievable.
+     */
     @Test
     public void testGetAllUsers() {
         userDAO.insert(new User("user1", "password1"));
@@ -69,7 +90,10 @@ public class UserDAOTest {
         assertEquals("password2", users.get(1).getPassword());
     }
 
-    // Test get by ID.
+    /**
+     * Tests retrieving a user by their ID from the MockUserDAO.
+     * Verifies that the correct user is returned based on their ID.
+     */
     @Test
     public void testGetById() {
         User user = new User("testUserById", "passwordById");
@@ -81,7 +105,10 @@ public class UserDAOTest {
         assertEquals("passwordById", fetchedUser.getPassword());
     }
 
-    // Test insert duplicate usernames.
+    /**
+     * Tests that duplicate usernames cannot be inserted into the MockUserDAO.
+     * Verifies that an exception is thrown when trying to insert a user with a duplicate username.
+     */
     @Test
     public void testInsertDuplicateUsernames() {
         User user1 = new User("duplicateUser", "password1");
@@ -96,7 +123,10 @@ public class UserDAOTest {
         });
     }
 
-    // Test validateCredentials method.
+    /**
+     * Tests the validation of user credentials using the MockUserDAO.
+     * Verifies that valid credentials return the correct user and invalid credentials return null.
+     */
     @Test
     public void testValidateCredentials() {
         User user = new User("validUser", "validPassword");
