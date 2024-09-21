@@ -16,7 +16,7 @@ public class CollectionTest {
      */
     @BeforeEach
     public void setUp() {
-        collection = new Collection("Fantasy", "A collection of fantasy books");
+        collection = new Collection(1, "Fantasy", "A collection of fantasy books");
     }
 
     /**
@@ -58,7 +58,7 @@ public class CollectionTest {
      */
     @Test
     public void testGetUserId() {
-        assertEquals(0, collection.getUserId());
+        assertEquals(1, collection.getUserId());
     }
 
     /**
