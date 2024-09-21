@@ -18,9 +18,6 @@ import com.example.cab302assessment10b0101.model.BookDAO;
 
 public class EditBookDetailsController {
 
-    // TODO: Changes to make ISBN an int?
-
-
     @FXML
     public ChoiceBox<Collection> collectionChoiceBox;
     public TextField isbnTextField;
@@ -36,11 +33,13 @@ public class EditBookDetailsController {
 
     private Image image;
 
+    // Sets the selected collection in the ChoiceBox based on the collection ID
     private void setCollectionChoiceBox(int collectionID) {
         for ( Collection collection : CollectionDAO.getInstance().getAll() ) {
             if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
         }
     }
+    // Sets the TextFields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
     private void setTitleTextField(String title) { titleTextField.setText(title); }
     private void setAuthorTextField(String author) { authorTextField.setText(author); }
@@ -74,13 +73,14 @@ public class EditBookDetailsController {
 
 
     @FXML
+    // Initializes the controller and sets up the event handlers and fields
     public void initialize() {
         setupEventHandlers();
         populateCollections();
         populateFields();
     }
 
-
+    // Sets up the event handlers for the buttons
     private void setupEventHandlers() {
         addImageButton.setOnAction(e -> handleUploadImage());
         updateBookButton.setOnAction(event -> handleEditBook());
@@ -88,6 +88,7 @@ public class EditBookDetailsController {
 
 
     @FXML
+    // Handles the edit book action when the update button is clicked
     private void handleEditBook() {
         System.out.println("\nUpdating Book...");
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
@@ -129,6 +130,7 @@ public class EditBookDetailsController {
         }
     }
 
+    // Populates the collections for the current user
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
@@ -138,6 +140,7 @@ public class EditBookDetailsController {
         if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
     }
 
+    // Populates the fields with the book's existing details
     private void populateFields() {
         setCollectionChoiceBox(book.getCollectionId());
         setIsbnTextField(Integer.toString(book.getId()));
@@ -178,6 +181,12 @@ public class EditBookDetailsController {
         return true;
     }
 
+    /**
+     * Checks if the provided ISBN is valid (contains only digits)
+     *
+     * @param isbn The ISBN to validate
+     * @return True if the ISBN contains only digits, False otherwise
+     */
     private boolean isValidISBN(String isbn) {
         try { Integer.parseInt(isbn); }
         catch (Exception e ) { return false; }
@@ -187,15 +196,31 @@ public class EditBookDetailsController {
         return true;
     }
 
+    /**
+     * Checks if the provided pages value is valid (greater than zero)
+     *
+     * @param pages The page count to validate
+     * @return True if pages is a valid number greater than zero, False otherwise
+     */
     private boolean isPagesValid(String pages) {
         try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 );}
         catch (Exception e ) { return false; }
     }
 
+    /**
+     * Checks if a collection is selected in the ChoiceBox
+     *
+     * @return True if a collection is selected, False otherwise
+     */
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
 
+
+    /**
+     * Handles the upload of an image file and sets it as the book's cover image.
+     * If the upload fails, an alert is shown to the user.
+     */
     private void handleUploadImage() {
         try {
             // FileChooser for uploading a book image.
@@ -224,6 +249,10 @@ public class EditBookDetailsController {
         } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
     }
 
+    /**
+     * Handles turning an image into a BLOB for input into the database.
+     * If the upload fails, an alert is shown to the user.
+     */
     private byte[] imageToBytes(String imagePath) {
         try {
             Path path = Paths.get(imagePath);
@@ -270,6 +299,13 @@ public class EditBookDetailsController {
         }
     }
 
+    /**
+     * Shows an alert dialog with the specified type, title, and message.
+     *
+     * @param alertType The type of alert.
+     * @param title     The title of the alert dialog.
+     * @param message   The message content of the alert dialog.
+     */
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
