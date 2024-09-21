@@ -4,13 +4,29 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 
+/**
+ * The BookDAO class is responsible for interacting with the database to perform
+ * CRUD (Create, Read, Update, Delete) operations for Book objects. It provides
+ * methods for inserting, updating, and retrieving book records from the Books table.
+ */
 public class BookDAO {
     private static BookDAO instance;
     private static Connection connection;
 
+    /**
+     * Private constructor for singleton pattern to ensure only one instance of BookDAO is created.
+     * It initializes the database connection using DatabaseConnector.
+     */
     private BookDAO() {
         connection = DatabaseConnector.getInstance();
     }
+
+    /**
+     * Retrieves the singleton instance of BookDAO.
+     * If an instance does not exist, it is created.
+     *
+     * @return The single instance of BookDAO.
+     */
 
     public static synchronized BookDAO getInstance() {
         if (instance == null) {
@@ -19,7 +35,10 @@ public class BookDAO {
         return instance;
     }
 
-    // Create the Books table if it doesn't already exist
+    /**
+     * Creates the Books table in the database if it doesn't already exist.
+     * This table stores information about books such as their ID, title, author, etc.
+     */
     public void createTable() {
         try {
             Statement createTable = connection.createStatement();
@@ -44,8 +63,12 @@ public class BookDAO {
         }
     }
 
-    // Insert a new book into the Books table
-    public void insert(Book book) {
+    /**
+     * Inserts a new book record into the Books table.
+     * The book details are stored as fields in the database.
+     *
+     * @param book The Book object containing details to be inserted into the table.
+     */    public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
                     "INSERT INTO Books (collectionId, title, ISBN, author, description, publicationDate, publisher, pages, notes, image) " +
@@ -67,8 +90,12 @@ public class BookDAO {
         }
     }
 
-    // Update the book details in a table
-    public void update(Book book) {
+    /**
+     * Updates the details of an existing book in the Books table.
+     * The book's ID is used to identify which record to update.
+     *
+     * @param book The Book object containing updated details.
+     */    public void update(Book book) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(
                     "UPDATE Books SET collectionId=?, title=?, id=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=? WHERE id=?"
@@ -88,8 +115,12 @@ public class BookDAO {
         } catch (SQLException ex) { System.err.println(ex); }
     }
 
-    // Retrieve all books from the Books table
-    public ObservableList<Book> getAll() {
+    /**
+     * Retrieves all book records from the Books table.
+     * The results are returned as an ObservableList of Book objects.
+     *
+     * @return An ObservableList of all books in the database.
+     */    public ObservableList<Book> getAll() {
         ObservableList<Book> books = FXCollections.observableArrayList();
         try {
             Statement getAll = connection.createStatement();
@@ -117,21 +148,24 @@ public class BookDAO {
         return books;
     }
 
+    /**
+     * Retrieves all book records from a specific collection based on the provided collection ID.
+     * The results are returned as an ObservableList of Book objects.
+     *
+     * @param collectionId The ID of the collection to filter books by.
+     * @return An ObservableList of books belonging to the specified collection.
+     */
     public ObservableList<Book> getAllByCollection(int collectionId) {
         ObservableList<Book> books = FXCollections.observableArrayList();
-        //System.out.println("calling getAllByCollection for collection: " + collectionId);
 
         String query = "SELECT * FROM Books WHERE collectionId = ?";
         try (PreparedStatement getAll = connection.prepareStatement(query)) {
             // Set the collectionId value
             getAll.setInt(1, collectionId);
-            //System.out.println("PreparedStatement set with collectionId: " + collectionId);
 
-            // Execute the query
+            // Execute the query and process the result set
             ResultSet rs = getAll.executeQuery();
-            //System.out.println("Query executed, processing results...");
 
-            // Iterate over the result set and add books to the list
             int bookCount = 0;
             while (rs.next()) {
                 Book book = new Book(
@@ -149,16 +183,10 @@ public class BookDAO {
                 );
                 books.add(book);
                 bookCount++;
-                //System.out.println("Added book to list: " + book.getTitle());
             }
-
-           // System.out.println("Books loaded successfully. Number of books: " + bookCount);
-
         } catch (SQLException e) {
             System.err.println("Error retrieving books: " + e.getMessage());
         }
-
-        //System.out.println("Final book list size: " + books.size());
         return books;
     }
 }
