@@ -3,7 +3,6 @@ package com.example.cab302assessment10b0101.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
 /**
  * The User class represents a user entity in the library management system.
  * Each user has a unique ID, a username, a password, and a collection of book collections.

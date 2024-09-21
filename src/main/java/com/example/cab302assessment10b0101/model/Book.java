@@ -254,9 +254,13 @@ public class Book {
      * Sets the number of pages in the book.
      * @param pages The number of pages to set as an IntegerProperty.
      */
-    public void setPages(IntegerProperty pages) {
+    public void setPages(SimpleIntegerProperty pages) {
+        if (pages.get() < 0) {
+            throw new IllegalArgumentException("Number of pages cannot be negative");
+        }
         this.pages = pages;
     }
+
 
     /**
      * Sets additional notes about the book.

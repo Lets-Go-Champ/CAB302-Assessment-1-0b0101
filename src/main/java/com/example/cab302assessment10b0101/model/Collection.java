@@ -93,6 +93,9 @@ public class Collection {
      * @param collectionName The new name of the collection.
      */
     public void setCollectionName(String collectionName) {
+        if (collectionName == null || collectionName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Collection name cannot be empty");
+        }
         this.collectionName = collectionName;
     }
 

@@ -60,7 +60,7 @@ public class CollectionDAOTest {
      */
     @Test
     public void testInsertCollection() {
-        Collection collection = new Collection("Test Collection", "Test Description");
+        Collection collection = new Collection(testUser.getId(), "Test Collection", "Test Description");
         mockCollectionDAO.insert(collection);
 
         // Retrieve the inserted collection
@@ -76,8 +76,8 @@ public class CollectionDAOTest {
     @Test
     public void testGetAllCollections() {
         // Insert multiple collections
-        mockCollectionDAO.insert(new Collection("Collection 1", "Description 1"));
-        mockCollectionDAO.insert(new Collection("Collection 2", "Description 2"));
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Collection 1", "Description 1"));
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Collection 2", "Description 2"));
 
         // Retrieve all collections
         List<Collection> collections = mockCollectionDAO.getAll();
@@ -93,7 +93,7 @@ public class CollectionDAOTest {
      */
     @Test
     public void testInsertCollectionWithNullDescription() {
-        Collection collection = new Collection("Test Collection", null);
+        Collection collection = new Collection(testUser.getId(), "Test Collection", null);
         mockCollectionDAO.insert(collection);
 
         List<Collection> collections = mockCollectionDAO.getAll();
@@ -106,8 +106,8 @@ public class CollectionDAOTest {
      */
     @Test
     public void testInsertMultipleCollections() {
-        mockCollectionDAO.insert(new Collection("Test Collection 1", "Description 1"));
-        mockCollectionDAO.insert(new Collection("Test Collection 2", "Description 2"));
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Test Collection 1", "Description 1"));
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Test Collection 2", "Description 2"));
 
         List<Collection> collections = mockCollectionDAO.getAll();
         assertEquals(2, collections.size());
@@ -120,7 +120,7 @@ public class CollectionDAOTest {
      */
     @Test
     public void testInsertCollectionWithEmptyName() {
-        Collection collection = new Collection("", "Description with empty name");
+        Collection collection = new Collection(testUser.getId(), "", "Description with empty name");
         mockCollectionDAO.insert(collection);
 
         List<Collection> collections = mockCollectionDAO.getAll();
@@ -133,8 +133,8 @@ public class CollectionDAOTest {
      */
     @Test
     public void testInsertDuplicateCollectionNames() {
-        mockCollectionDAO.insert(new Collection("Duplicate Collection", "First Description"));
-        mockCollectionDAO.insert(new Collection("Duplicate Collection", "Second Description"));
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Duplicate Collection", "First Description"));
+        mockCollectionDAO.insert(new Collection(testUser.getId(), "Duplicate Collection", "Second Description"));
 
         List<Collection> collections = mockCollectionDAO.getAll();
         assertEquals(2, collections.size());
@@ -146,7 +146,7 @@ public class CollectionDAOTest {
     @Test
     public void testInsertCollectionWithLongName() {
         String longName = "This is a very long collection name that exceeds typical limits...";
-        Collection collection = new Collection(longName, "Description for long name");
+        Collection collection = new Collection(testUser.getId(), longName, "Description for long name");
         mockCollectionDAO.insert(collection);
 
         List<Collection> collections = mockCollectionDAO.getAll();
