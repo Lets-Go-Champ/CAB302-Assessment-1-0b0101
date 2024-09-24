@@ -9,10 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * The MyBooksController class displays the user's book collections
@@ -28,6 +30,9 @@ public class MyBooksController implements Initializable {
     @FXML
     private GridPane bookContainer; //Grid layout for displaying books
 
+    @FXML
+    private TextField searchTextField;
+
     /**
      * This method is called automatically after the FXML file has been loaded.
      * It initializes the controller, populates the collection dropdown, and loads the books
@@ -42,6 +47,11 @@ public class MyBooksController implements Initializable {
         if (defaultCollection != null) {
             loadBooks(defaultCollection);
         }
+
+        // Set up search functionality
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterBooks(newValue);  // Call method to filter books based on search query
+        });
     }
 
     /**
@@ -168,5 +178,40 @@ public class MyBooksController implements Initializable {
             collectionsChoiceBox.getSelectionModel().selectFirst();
         }
     }
+
+    /**
+     * Filters the books based on the search query entered by the user.
+     *
+     * @param query The search query entered by the user.
+     */
+    private void filterBooks(String query) {
+        Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
+        if (selectedCollection == null) return;  // Exit if no collection is selected
+
+        // Get the current user
+        User currentUser = UserManager.getInstance().getCurrentUser();
+
+        // Retrieve the collection ID from the CollectionDAO based on the user and collection name
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
+
+        // Fetch all books by the collection ID
+        ObservableList<Book> allBooks = BookDAO.getInstance().getAllByCollection(collectionId);
+
+        if (query == null || query.trim().isEmpty()) {
+            // If the search field is empty, show all books
+            updateBookGrid(allBooks);
+        } else {
+            // Filter books by title (ignoring case)
+            ObservableList<Book> filteredBooks = FXCollections.observableArrayList(
+                    allBooks.stream()
+                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
+                            .collect(Collectors.toList())
+            );
+            updateBookGrid(filteredBooks);  // Display the filtered books
+        }
+    }
+
+
 }
 
