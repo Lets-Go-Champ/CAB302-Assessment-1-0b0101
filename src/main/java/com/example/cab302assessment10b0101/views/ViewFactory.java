@@ -111,26 +111,17 @@ public class ViewFactory {
         if (editBookDetailsView == null) {
             try {
                 // Initialize FXMLLoader and the controller
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/EditBookDetails.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/editBookDetails.fxml"));
                 editBookDetailsView = loader.load();
 
                 EditBookDetailsController controller = loader.getController();
 
-                // Set listener on userSelectedBook to update the EditBookDetailsController when "edit book" is selected
+                // Set listener on userSelectedBook to update the EditBookDetailsController when a new book is selected
                 userSelectedBook.addListener((observable, oldBook, newBook) -> {
-                    System.out.println("Book changed: " + (newBook != null ? newBook.getTitle() : "null"));
-
-                    if (newBook != null && controller != null) {
-                        //System.out.println("Setting data on BookDetailsController for book: " + newBook.getTitle());
-                        controller.populateFields(newBook);
-                    }
-                });
+                    if (newBook != null && controller != null) { controller.populateFields(newBook); } });
 
                 // Manually trigger the listener logic for the current value of userSelectedBook
-                if (userSelectedBook.get() != null) {
-                    //System.out.println("Manually setting data for the initially selected book: " + userSelectedBook.get().getTitle());
-                    controller.populateFields(userSelectedBook.get());
-                }
+                if (userSelectedBook.get() != null) { controller.populateFields(userSelectedBook.get()); }
 
             } catch (Exception e) {
                 e.printStackTrace();
