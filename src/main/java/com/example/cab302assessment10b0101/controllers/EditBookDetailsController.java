@@ -16,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import com.example.cab302assessment10b0101.model.BookDAO;
@@ -28,7 +30,7 @@ import com.example.cab302assessment10b0101.model.BookDAO;
  */
 public class EditBookDetailsController implements Initializable {
 
-    //FXML UI elements that are linked to the corresponding elements in the view
+    // FXML UI elements that are linked to the corresponding elements in the view
     @FXML
     private ChoiceBox<Collection> collectionChoiceBox; //Dropdown for choosing a collection
     @FXML
@@ -54,6 +56,7 @@ public class EditBookDetailsController implements Initializable {
     @FXML
     private Image image; //Image field for storing the uploaded book cover image
 
+    private Book originalBook;
 
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
@@ -70,6 +73,7 @@ public class EditBookDetailsController implements Initializable {
     final String noImageMessage = "Please select a cover image.";
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
+    final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
 
     /**
      * Sets the selected collection in the ChoiceBox based on the collection ID.
@@ -87,7 +91,7 @@ public class EditBookDetailsController implements Initializable {
     private void setAuthorTextField(String author) { authorTextField.setText(author); }
     private void setDescriptionTextField(String description) { descriptionTextField.setText(description); }
     private void setPublisherTextField(String publisher) { publisherTextField.setText(publisher); }
-    private void setDateDatePicker(String date) { dateDatePicker.setValue(LocalDate.parse(date)); }
+    private void setDateDatePicker(LocalDate date) { dateDatePicker.setValue(date); }
     private void setPagesTextField(String pages) { pagesTextField.setText(pages); }
     private void setNotesTextField(String notes) { notesTextField.setText(notes); }
     private void setCoverImage(Image coverImage) { image = coverImage; }
@@ -114,6 +118,8 @@ public class EditBookDetailsController implements Initializable {
      */
     @FXML
     private void handleEditBook() {
+
+        // TODO Remove these print statements??
         System.out.println("\nUpdating Book...");
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
         System.out.println("Collection Name = " + collectionName);
@@ -154,6 +160,28 @@ public class EditBookDetailsController implements Initializable {
         }
     }
 
+    private void formatDate(String date) {
+
+        // Define an array of possible date formats
+        DateTimeFormatter[] formatters = new DateTimeFormatter[]{
+                DateTimeFormatter.ofPattern("yyyy-M-d"),   // Format for yyyy-M-D
+                DateTimeFormatter.ofPattern("yyyy-M-dd"),  // Format for yyyy-M-DD
+                DateTimeFormatter.ofPattern("yyyy-MM-d"),  // Format for yyyy-MM-D
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")  // Format for yyyy-MM-DD
+        };
+        LocalDate parsedDate = null;
+
+        // Try each formatter in the array
+        for (DateTimeFormatter formatter : formatters) {
+            try { parsedDate = LocalDate.parse(date, formatter); break; }
+            catch (DateTimeParseException e) {}
+        }
+
+        // If parsedDate is not null, update the DatePicker; otherwise, handle error
+        if (parsedDate != null) { setDateDatePicker(parsedDate); }
+        else { showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
+    }
+
     // Populates the collections for the current user
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
@@ -166,13 +194,14 @@ public class EditBookDetailsController implements Initializable {
 
     // Populates the fields with the book's existing details
     public void populateFields(Book book) {
+        originalBook = book;
         setTitleTextField(book.getTitle()); // Set the main page title to the book title
         setCollectionChoiceBox(book.getCollectionId());
         setIsbnTextField(Integer.toString(book.getISBN())); //Set the ISBN label to the book's ISBN
         setAuthorTextField(book.getAuthor()); // Set the author label to the book's author
         setDescriptionTextField(book.getDescription()); // Set the description label to the book's description
         setPublisherTextField(book.getPublisher()); //Set the publisher label to the book's publisher
-        setDateDatePicker(book.getPublicationDate()); // Set the publication date label to the book's publication date
+        formatDate(book.getPublicationDate()); // Set the publication date label to the book's publication date
         setPagesTextField(Integer.toString(book.getPages())); // Set the pages label to the book's number of pages
         setNotesTextField(book.getNotes()); // Set the notes label to the book's notes
         setCoverImage(book.getImage()); // Set ImageView to the book's cover image.

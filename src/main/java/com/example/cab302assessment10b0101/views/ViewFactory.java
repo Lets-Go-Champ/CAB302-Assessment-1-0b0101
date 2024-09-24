@@ -121,14 +121,14 @@ public class ViewFactory {
                     System.out.println("Book changed: " + (newBook != null ? newBook.getTitle() : "null"));
 
                     if (newBook != null && controller != null) {
-                        System.out.println("Setting data on BookDetailsController for book: " + newBook.getTitle());
+                        //System.out.println("Setting data on BookDetailsController for book: " + newBook.getTitle());
                         controller.populateFields(newBook);
                     }
                 });
 
                 // Manually trigger the listener logic for the current value of userSelectedBook
                 if (userSelectedBook.get() != null) {
-                    System.out.println("Manually setting data for the initially selected book: " + userSelectedBook.get().getTitle());
+                    //System.out.println("Manually setting data for the initially selected book: " + userSelectedBook.get().getTitle());
                     controller.populateFields(userSelectedBook.get());
                 }
 
