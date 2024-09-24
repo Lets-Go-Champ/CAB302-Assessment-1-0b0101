@@ -2,8 +2,13 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+
+import java.awt.event.ActionEvent;
+import java.util.Optional;
 
 /**
  * The BookDetailsController class is responsible for displaying detailed information about a selected book.
@@ -42,6 +47,10 @@ public class BookDetailsController {
     @FXML
     private Label isbnLabel; //Label to display the book's ISBN
 
+    @FXML
+    private Book currentBook;
+
+
     /**
      * Sets the book data of a given book to be displayed in the UI.
      * This method updates each UI element with the corresponding data from the Book object.
@@ -49,6 +58,7 @@ public class BookDetailsController {
      * @param book The Book object whose details are to be displayed.
      */
     public void setData(Book book){
+        this.currentBook = book;
         mainTitle.setText(book.getTitle()); //Set the main page title to the book title
         publicationDateLabel.setText(book.getPublicationDate()); //Set the publication date label to the book's publication date
         publisherLabel.setText(book.getPublisher()); //Set the publisher label to the book's publisher
@@ -59,6 +69,39 @@ public class BookDetailsController {
         notesLabel.setText(book.getNotes()); //Set the notes label to the book's notes
         descriptionLabel.setText(book.getDescription()); //Set the description label to the book's description
         bookCoverImage.setImage(book.getImage()); //Set ImageView to the book's cover image.
+    }
+
+    // Method triggered when the delete button is clicked
+    public void handleDeleteButtonAction(javafx.event.ActionEvent actionEvent) {
+        if (currentBook == null) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("No book is selected for deletion.");
+            errorAlert.showAndWait();
+            return;  // Exit the method if there is no book to delete
+        }
+
+        // Show confirmation dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Book");
+        alert.setHeaderText("Are you sure you want to delete this book?");
+        alert.setContentText("This action cannot be undone.");
+
+        // Wait for user response
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // User clicked OK, proceed with deletion
+            DeleteBookController deleteBookController = new DeleteBookController();
+            deleteBookController.deleteBook(currentBook);
+
+            // Show success alert
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Book Deleted");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("The book has been successfully deleted.");
+            successAlert.showAndWait();
+        }
     }
 }
 
