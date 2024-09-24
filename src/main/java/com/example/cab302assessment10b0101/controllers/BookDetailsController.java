@@ -1,9 +1,15 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * The BookDetailsController class is responsible for displaying detailed information about a selected book.
@@ -42,6 +48,20 @@ public class BookDetailsController {
     @FXML
     private Label isbnLabel; //Label to display the book's ISBN
 
+    @FXML
+    private Button editBookButton; // Button for editing the Book's Details
+
+    public void initialize(){
+        setupEventHandlers();
+    }
+
+    /**
+     * Sets up the event handlers for the buttons.
+     */
+    private void setupEventHandlers() {
+        editBookButton.setOnAction(event -> handleEditBookClick());
+    }
+
     /**
      * Sets the book data of a given book to be displayed in the UI.
      * This method updates each UI element with the corresponding data from the Book object.
@@ -59,6 +79,13 @@ public class BookDetailsController {
         notesLabel.setText(book.getNotes()); //Set the notes label to the book's notes
         descriptionLabel.setText(book.getDescription()); //Set the description label to the book's description
         bookCoverImage.setImage(book.getImage()); //Set ImageView to the book's cover image.
+    }
+
+    private void handleEditBookClick(){
+        //System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());
+        //ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS); // set flag for Book Detail page
+        //System.out.println("Book " + book + "was clicked");
     }
 }
 

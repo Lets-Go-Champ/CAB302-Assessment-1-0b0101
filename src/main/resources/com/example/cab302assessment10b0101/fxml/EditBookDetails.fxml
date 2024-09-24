@@ -28,13 +28,8 @@
             <VBox.margin>
                 <Insets left="40.0"/>
             </VBox.margin>
-            <TabPane prefHeight="730" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
-                <Tab text="Search">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="636.0" prefWidth="839.0"/>
-                </Tab>
-                <Tab text="Manual Entry">
-                    <ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS">
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="911.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="911.0">
                             <VBox layoutY="14.0" prefHeight="639.0" prefWidth="394.0"
                                   AnchorPane.leftAnchor="0.0">
                                 <Label text="Add to Collection">
@@ -116,9 +111,7 @@
                                 </HBox>
                             </VBox>
                         </AnchorPane>
-                    </ScrollPane>
-                </Tab>
-            </TabPane>
+            </ScrollPane>
         </AnchorPane>
     </VBox>
 </AnchorPane>
