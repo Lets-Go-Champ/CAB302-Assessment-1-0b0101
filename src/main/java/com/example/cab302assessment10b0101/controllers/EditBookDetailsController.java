@@ -81,7 +81,7 @@ public class EditBookDetailsController implements Initializable {
             if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
         }
     }
-    // Sets the TextFields with the specified values
+    // Sets the fields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
     private void setTitleTextField(String title) { titleTextField.setText(title); }
     private void setAuthorTextField(String author) { authorTextField.setText(author); }
@@ -90,14 +90,7 @@ public class EditBookDetailsController implements Initializable {
     private void setDateDatePicker(String date) { dateDatePicker.setValue(LocalDate.parse(date)); }
     private void setPagesTextField(String pages) { pagesTextField.setText(pages); }
     private void setNotesTextField(String notes) { notesTextField.setText(notes); }
-
-
-    // Book for testing - as if this book was parsed
-    // Test book will be whatever the first book in the DB is
-    Book book = BookDAO.getInstance().getAll().get(0);
-
-
-
+    private void setCoverImage(Image coverImage) { image = coverImage; }
 
     /**
      * Initializes the controller, setting up event handlers and populating the collections list.
@@ -106,7 +99,6 @@ public class EditBookDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
-        populateFields();
     }
 
     /**
@@ -173,16 +165,17 @@ public class EditBookDetailsController implements Initializable {
     }
 
     // Populates the fields with the book's existing details
-    private void populateFields() {
+    public void populateFields(Book book) {
+        setTitleTextField(book.getTitle()); // Set the main page title to the book title
         setCollectionChoiceBox(book.getCollectionId());
-        setIsbnTextField(Integer.toString(book.getId()));
-        setTitleTextField(book.getTitle());
-        setAuthorTextField(book.getAuthor());
-        setDescriptionTextField(book.getDescription());
-        setPublisherTextField(book.getPublisher());
-        setDateDatePicker(book.getPublicationDate());
-        setPagesTextField(Integer.toString(book.getPages()));
-        setNotesTextField(book.getNotes());
+        setIsbnTextField(Integer.toString(book.getISBN())); //Set the ISBN label to the book's ISBN
+        setAuthorTextField(book.getAuthor()); // Set the author label to the book's author
+        setDescriptionTextField(book.getDescription()); // Set the description label to the book's description
+        setPublisherTextField(book.getPublisher()); //Set the publisher label to the book's publisher
+        setDateDatePicker(book.getPublicationDate()); // Set the publication date label to the book's publication date
+        setPagesTextField(Integer.toString(book.getPages())); // Set the pages label to the book's number of pages
+        setNotesTextField(book.getNotes()); // Set the notes label to the book's notes
+        setCoverImage(book.getImage()); // Set ImageView to the book's cover image.
     }
 
     /**
@@ -311,7 +304,7 @@ public class EditBookDetailsController implements Initializable {
         byte[] imageBytes = imageToBytes(imagePath);
 
         if (imageBytes.length != 0) {
-            Book newBook = new Book(book.getCollectionId(), title, Integer.parseInt(isbn), author, description, publisher, publicationDate, Integer.parseInt(pages), note, imageBytes);
+            Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publisher, publicationDate, Integer.parseInt(pages), note, imageBytes);
             BookDAO.getInstance().update(newBook);
 
             // Print the results to console for testing:
