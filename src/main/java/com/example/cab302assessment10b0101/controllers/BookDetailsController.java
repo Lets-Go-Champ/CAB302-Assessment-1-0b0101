@@ -71,7 +71,17 @@ public class BookDetailsController {
         bookCoverImage.setImage(book.getImage()); //Set ImageView to the book's cover image.
     }
 
-    // Method triggered when the delete button is clicked
+    /**
+     * Handles the action triggered when the delete button is clicked.
+     * <p>
+     * This method checks if a book is currently selected for deletion. If no book is selected,
+     * it displays an error alert to the user. If a book is selected, it shows a confirmation
+     * dialog asking the user to confirm the deletion. If the user confirms, the book is deleted
+     * and a success alert is displayed.
+     * </p>
+     *
+     * @param actionEvent The ActionEvent triggered by the delete button click.
+     */
     public void handleDeleteButtonAction(javafx.event.ActionEvent actionEvent) {
         if (currentBook == null) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
