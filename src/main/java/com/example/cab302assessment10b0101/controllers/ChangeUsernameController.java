@@ -15,30 +15,36 @@ public class ChangeUsernameController {
     public Button updateButton;
     public Button cancelButton;
 
-    //Error messages for input validation
+    // Error messages for input validation
     final String noUsernameMessage = "Please enter a new username.";
+    final String usernameExistsMessage = "The entered username is assigned to another user.";
     final String successfulUpdateMessage = "Username updated successfully!";
 
-    //The original username for the current user
+    // The original username for the current user
     final private String originalUsername = UserManager.getInstance().getCurrentUser().getUsername();
 
-
-
-
+    /**
+     * Updates the username if all fields are valid
+     */
     public void handleUpdateUsername() {
         String newUsername = newUsernameTextField.getText();
 
-        // TODO verify that the username does not already exist
-        if ( !newUsername.isEmpty() ) {
-            UserDAO.getInstance().updateUsername(newUsername, originalUsername);
-            showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
-            ((Stage) updateButton.getScene().getWindow()).close();
-        }
-        else { showAlert("Error", noUsernameMessage, Alert.AlertType.ERROR); }
+        // Perform validation
+        if ( isUsernameDuplicate(newUsername) ) { showAlert("Error", usernameExistsMessage, Alert.AlertType.ERROR); return; }
+        if ( newUsername.isEmpty() ) { showAlert("Error", noUsernameMessage, Alert.AlertType.ERROR); return; }
+
+        UserDAO.getInstance().updateUsername(newUsername, originalUsername);
+        showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
+        ((Stage) updateButton.getScene().getWindow()).close();
     }
 
+    // Returns to the user profile
     public void handleCancel() { ((Stage) cancelButton.getScene().getWindow()).close(); }
 
+    // Determines if the username already exists in the database
+    private boolean isUsernameDuplicate(String username) {
+        return UserDAO.getInstance().getAll().stream().anyMatch(user -> user.getUsername().equalsIgnoreCase(username));
+    }
 
     /**
      * Shows an alert dialog with the specified type, title, and message.
