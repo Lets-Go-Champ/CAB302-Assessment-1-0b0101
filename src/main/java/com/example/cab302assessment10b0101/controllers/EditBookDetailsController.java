@@ -63,7 +63,7 @@ public class EditBookDetailsController implements Initializable {
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
-    final String titleExistsMessage = "";
+    final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
     final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
     final String noAuthorErrorMessage = "Please enter an Author.";
@@ -121,15 +121,6 @@ public class EditBookDetailsController implements Initializable {
      */
     @FXML
     private void handleEditBook() {
-
-
-
-        // TODO Determine if a book title is already in use
-        // reference through unique bookID or title?
-
-
-
-
 
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
@@ -225,6 +216,7 @@ public class EditBookDetailsController implements Initializable {
 
         if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
+        if ( titleExists(title) ) { showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
         if ( isbn.isEmpty() ) { showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
         if ( !isValidISBN(isbn) ) { showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
         if ( author.isEmpty() ) { showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
@@ -270,10 +262,12 @@ public class EditBookDetailsController implements Initializable {
         User currentUser = UserManager.getInstance().getCurrentUser();
         List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
 
-        // Iterate over each book in the User's collection to determine if the title is in use
-        for ( Collection collection : userCollections ) {
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
-            for ( Book book : books ) { if ( book.getTitle().equals(title) ) { return true; } }
+        if ( !title.equals(originalTitle) ) {
+            // Iterate over each book in the User's collection to determine if the title is in use
+            for (Collection collection : userCollections) {
+                ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
+                for (Book book : books) { if (book.getTitle().equals(title)) { return true; } }
+            }
         }
         return false;
     }
