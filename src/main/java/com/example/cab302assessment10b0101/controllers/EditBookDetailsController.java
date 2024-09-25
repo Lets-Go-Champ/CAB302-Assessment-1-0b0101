@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.cab302assessment10b0101.model.BookDAO;
@@ -57,17 +58,17 @@ public class EditBookDetailsController implements Initializable {
     private Image image; //Image field for storing the uploaded book cover image
     private byte[] imageBytes; //Image as a byte array for storing/uploading the image
 
-    private String originalTitle;
+    private String originalTitle; //The original title of the book, before being updated.
 
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
+    final String titleExistsMessage = "";
     final String noISBNMessage = "Please enter an ISBN.";
     final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
     final String noAuthorErrorMessage = "Please enter an Author.";
     final String noDescriptionMessage = "Please enter a description";
     final String noPublisherMessage = "Please enter a publisher.";
-    final String noDateMessage = "Please enter a publication date.";
     final String noPagesMessage = "Please enter a page count.";
     final String invalidPagesMessage = "Please enter a valid page count ( >0).";
     final String noNoteMessage = "Please enter a note.";
@@ -121,6 +122,15 @@ public class EditBookDetailsController implements Initializable {
     @FXML
     private void handleEditBook() {
 
+
+
+        // TODO Determine if a book title is already in use
+        // reference through unique bookID or title?
+
+
+
+
+
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
         String title = titleTextField.getText();
@@ -128,7 +138,6 @@ public class EditBookDetailsController implements Initializable {
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
         String publisher = publisherTextField.getText();
-        LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
 
@@ -147,6 +156,11 @@ public class EditBookDetailsController implements Initializable {
         }
     }
 
+    /**
+     * Formats a given date string as a LocalDate with formatting for multiple date formats.
+     * The date picker is updated to display this value.
+     * @param date The string date of form YYYY-M(M)-D(D)
+     */
     private void formatDate(String date) {
 
         // Define an array of possible date formats
@@ -248,13 +262,29 @@ public class EditBookDetailsController implements Initializable {
     }
 
     /**
+     * Determines if the given title is already assigned to a Book in the Users Books
+     * @param title The new title for a book
+     * @return True if title is assigned to another book; false otherwise
+     */
+    private boolean titleExists(String title) {
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+
+        // Iterate over each book in the User's collection to determine if the title is in use
+        for ( Collection collection : userCollections ) {
+            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
+            for ( Book book : books ) { if ( book.getTitle().equals(title) ) { return true; } }
+        }
+        return false;
+    }
+
+    /**
      * Checks if a collection is selected in the ChoiceBox
      * @return True if a collection is selected, False otherwise
      */
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
-
 
     /**
      * Handles the upload of an image file and sets it as the book's cover image.
@@ -300,7 +330,6 @@ public class EditBookDetailsController implements Initializable {
         } catch (Exception e) {showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];}
     }
 
-
     /**
      * Updates the book in the database
      * @param title The title of the book
@@ -334,6 +363,9 @@ public class EditBookDetailsController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Resets the input fields once a book has been updated.
+     */
     private void clearFields() {
         titleTextField.clear();
         isbnTextField.clear();
