@@ -41,7 +41,6 @@ public class ProfileController {
             dialogStage.showAndWait();
         } catch (IOException e) { e.printStackTrace(); }
         reload();
-        // showAlert
     }
 
     public void handleUpdatePassword() {
