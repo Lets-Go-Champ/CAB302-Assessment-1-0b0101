@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.cab302assessment10b0101.model.BookDAO;
@@ -55,6 +56,7 @@ public class AddBookManuallyController implements Initializable {
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
+    final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
     final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
     final String noAuthorErrorMessage = "Please enter an Author.";
@@ -161,6 +163,7 @@ public class AddBookManuallyController implements Initializable {
 
         if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
+        if ( titleExists(title) ) { showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
         if ( isbn.isEmpty() ) { showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
         if ( !isValidISBN(isbn) ) { showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
         if ( author.isEmpty() ) { showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
@@ -197,6 +200,23 @@ public class AddBookManuallyController implements Initializable {
     private boolean isPagesValid(String pages) {
         try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 );}
         catch (Exception e ) { return false; }
+    }
+
+    /**
+     * Determines if the given title is already assigned to a Book in the Users Books
+     * @param title The new title for a book
+     * @return True if title is assigned to another book; false otherwise
+     */
+    private boolean titleExists(String title) {
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+
+        // Iterate over each book in the User's collection to determine if the title is in use
+        for (Collection collection : userCollections) {
+            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
+            for (Book book : books) { if (book.getTitle().equals(title)) { return true; } }
+        }
+        return false;
     }
 
     /**
