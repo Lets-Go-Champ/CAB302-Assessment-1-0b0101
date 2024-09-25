@@ -9,6 +9,15 @@ public class ProfileController {
     public TextField usernameTextField;
     public TextField passwordTextField;
 
+    private void setUsernameTextField(String username) { usernameTextField.setText(username); }
+    private void setPasswordTextField(String password) { passwordTextField.setText(password); }
+
+
+    public void populateFields(String username, String password) {
+        setUsernameTextField(username);
+        setPasswordTextField(password);
+    }
+
     public void handleUpdateUsername() {
     }
 
