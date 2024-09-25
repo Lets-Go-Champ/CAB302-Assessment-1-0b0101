@@ -51,6 +51,8 @@ public class BookDetailsController {
     private Book currentBook;
 
 
+
+
     /**
      * Sets the book data of a given book to be displayed in the UI.
      * This method updates each UI element with the corresponding data from the Book object.
