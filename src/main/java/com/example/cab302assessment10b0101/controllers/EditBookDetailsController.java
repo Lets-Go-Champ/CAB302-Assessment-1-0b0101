@@ -16,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.cab302assessment10b0101.model.BookDAO;
@@ -28,7 +31,7 @@ import com.example.cab302assessment10b0101.model.BookDAO;
  */
 public class EditBookDetailsController implements Initializable {
 
-    //FXML UI elements that are linked to the corresponding elements in the view
+    // FXML UI elements that are linked to the corresponding elements in the view
     @FXML
     private ChoiceBox<Collection> collectionChoiceBox; //Dropdown for choosing a collection
     @FXML
@@ -51,25 +54,28 @@ public class EditBookDetailsController implements Initializable {
     private Button updateBookButton; //Button to add the book
     @FXML
     private Button addImageButton; //Button to upload a book cover image
-    @FXML
-    private Image image; //Image field for storing the uploaded book cover image
 
+    private Image image; //Image field for storing the uploaded book cover image
+    private byte[] imageBytes; //Image as a byte array for storing/uploading the image
+
+    private String originalTitle; //The original title of the book, before being updated.
 
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
+    final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
     final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
     final String noAuthorErrorMessage = "Please enter an Author.";
     final String noDescriptionMessage = "Please enter a description";
     final String noPublisherMessage = "Please enter a publisher.";
-    final String noDateMessage = "Please enter a publication date.";
     final String noPagesMessage = "Please enter a page count.";
     final String invalidPagesMessage = "Please enter a valid page count ( >0).";
     final String noNoteMessage = "Please enter a note.";
     final String noImageMessage = "Please select a cover image.";
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
+    final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
 
     /**
      * Sets the selected collection in the ChoiceBox based on the collection ID.
@@ -81,23 +87,17 @@ public class EditBookDetailsController implements Initializable {
             if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
         }
     }
-    // Sets the TextFields with the specified values
+    // Sets the fields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
     private void setTitleTextField(String title) { titleTextField.setText(title); }
     private void setAuthorTextField(String author) { authorTextField.setText(author); }
     private void setDescriptionTextField(String description) { descriptionTextField.setText(description); }
     private void setPublisherTextField(String publisher) { publisherTextField.setText(publisher); }
-    private void setDateDatePicker(String date) { dateDatePicker.setValue(LocalDate.parse(date)); }
+    private void setDateDatePicker(LocalDate date) { dateDatePicker.setValue(date); }
     private void setPagesTextField(String pages) { pagesTextField.setText(pages); }
     private void setNotesTextField(String notes) { notesTextField.setText(notes); }
-
-
-    // Book for testing - as if this book was parsed
-    // Test book will be whatever the first book in the DB is
-    Book book = BookDAO.getInstance().getAll().get(0);
-
-
-
+    private void setCoverImage(Image coverImage) { image = coverImage; }
+    private void setImageBytes(byte[] imageBytes) { this.imageBytes = imageBytes; }
 
     /**
      * Initializes the controller, setting up event handlers and populating the collections list.
@@ -106,7 +106,6 @@ public class EditBookDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
-        populateFields();
     }
 
     /**
@@ -122,30 +121,16 @@ public class EditBookDetailsController implements Initializable {
      */
     @FXML
     private void handleEditBook() {
-        System.out.println("\nUpdating Book...");
+
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
-        System.out.println("Collection Name = " + collectionName);
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
-
-        System.out.println("CollectionID = " + collectionId);
-        if ( collectionId == -1 ) {
-            System.out.println("No such collection Id"); return;
-        }
-
-        System.out.println("collection ID = " + collectionId);
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
         String publisher = publisherTextField.getText();
-        LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
-
-        // This should become redundant, but will leave here for the meantime.
-        // Ensure that a date is selected
-        try { publicationDate.getDayOfMonth();}
-        catch (Exception e) { showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
 
         // Format the publication Date as a String (YYYY-MM-DD)
         String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
@@ -162,6 +147,33 @@ public class EditBookDetailsController implements Initializable {
         }
     }
 
+    /**
+     * Formats a given date string as a LocalDate with formatting for multiple date formats.
+     * The date picker is updated to display this value.
+     * @param date The string date of form YYYY-M(M)-D(D)
+     */
+    private void formatDate(String date) {
+
+        // Define an array of possible date formats
+        DateTimeFormatter[] formatters = new DateTimeFormatter[]{
+                DateTimeFormatter.ofPattern("yyyy-M-d"),   // Format for yyyy-M-D
+                DateTimeFormatter.ofPattern("yyyy-M-dd"),  // Format for yyyy-M-DD
+                DateTimeFormatter.ofPattern("yyyy-MM-d"),  // Format for yyyy-MM-D
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")  // Format for yyyy-MM-DD
+        };
+        LocalDate parsedDate = null;
+
+        // Try each formatter in the array
+        for (DateTimeFormatter formatter : formatters) {
+            try { parsedDate = LocalDate.parse(date, formatter); break; }
+            catch (DateTimeParseException e) {}
+        }
+
+        // If parsedDate is not null, update the DatePicker; otherwise, handle error
+        if (parsedDate != null) { setDateDatePicker(parsedDate); }
+        else { showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
+    }
+
     // Populates the collections for the current user
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
@@ -173,16 +185,19 @@ public class EditBookDetailsController implements Initializable {
     }
 
     // Populates the fields with the book's existing details
-    private void populateFields() {
-        setCollectionChoiceBox(book.getCollectionId());
-        setIsbnTextField(Integer.toString(book.getId()));
+    public void populateFields(Book book) {
+        originalTitle = book.getTitle();
         setTitleTextField(book.getTitle());
+        setCollectionChoiceBox(book.getCollectionId());
+        setIsbnTextField(Integer.toString(book.getISBN()));
         setAuthorTextField(book.getAuthor());
         setDescriptionTextField(book.getDescription());
         setPublisherTextField(book.getPublisher());
-        setDateDatePicker(book.getPublicationDate());
+        formatDate(book.getPublicationDate());
         setPagesTextField(Integer.toString(book.getPages()));
         setNotesTextField(book.getNotes());
+        setCoverImage(book.getImage());
+        setImageBytes(book.getBytes());
     }
 
     /**
@@ -201,6 +216,7 @@ public class EditBookDetailsController implements Initializable {
 
         if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
+        if ( titleExists(title) ) { showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
         if ( isbn.isEmpty() ) { showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
         if ( !isValidISBN(isbn) ) { showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
         if ( author.isEmpty() ) { showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
@@ -215,7 +231,6 @@ public class EditBookDetailsController implements Initializable {
 
     /**
      * Checks if the provided ISBN is valid (contains only digits)
-     *
      * @param isbn The ISBN to validate
      * @return True if the ISBN contains only digits, False otherwise
      */
@@ -230,7 +245,6 @@ public class EditBookDetailsController implements Initializable {
 
     /**
      * Checks if the provided pages value is valid (greater than zero)
-     *
      * @param pages The page count to validate
      * @return True if pages is a valid number greater than zero, False otherwise
      */
@@ -240,14 +254,31 @@ public class EditBookDetailsController implements Initializable {
     }
 
     /**
+     * Determines if the given title is already assigned to a Book in the Users Books
+     * @param title The new title for a book
+     * @return True if title is assigned to another book; false otherwise
+     */
+    private boolean titleExists(String title) {
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+
+        if ( !title.equals(originalTitle) ) {
+            // Iterate over each book in the User's collection to determine if the title is in use
+            for (Collection collection : userCollections) {
+                ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
+                for (Book book : books) { if (book.getTitle().equals(title)) { return true; } }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks if a collection is selected in the ChoiceBox
-     *
      * @return True if a collection is selected, False otherwise
      */
     private boolean collectionSelected() {
         return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
-
 
     /**
      * Handles the upload of an image file and sets it as the book's cover image.
@@ -255,20 +286,21 @@ public class EditBookDetailsController implements Initializable {
      */
     private void handleUploadImage() {
         try {
-            // FileChooser for uploading a book image.
-            FileChooser fileChooser = new FileChooser();
-
             // Create a window to upload the image
+            FileChooser fileChooser = new FileChooser();
             Stage dialogStage = new Stage();
-
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
                     new FileChooser.ExtensionFilter("PNG Files", "*.png")
             );
             File selectedFile = fileChooser.showOpenDialog(dialogStage);
 
-            // Display the image that was uploaded
+            // Save the contents of the image
             image = new Image(String.valueOf(selectedFile));
+            String imagePath = image.getUrl();
+            imageBytes = imageToBytes(imagePath);
+
+            // Display the image that was uploaded
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(300);
             imageView.setFitHeight(400);
@@ -292,7 +324,6 @@ public class EditBookDetailsController implements Initializable {
         } catch (Exception e) {showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];}
     }
 
-
     /**
      * Updates the book in the database
      * @param title The title of the book
@@ -307,36 +338,16 @@ public class EditBookDetailsController implements Initializable {
     private void updateBook(int collectionId, String title, String isbn, String author, String description,
                             String publisher, String publicationDate, String pages, String note) {
 
-        String imagePath = image.getUrl();
-        byte[] imageBytes = imageToBytes(imagePath);
-
-        if (imageBytes.length != 0) {
-            Book newBook = new Book(book.getCollectionId(), title, Integer.parseInt(isbn), author, description, publisher, publicationDate, Integer.parseInt(pages), note, imageBytes);
-            BookDAO.getInstance().update(newBook);
-
-            // Print the results to console for testing:
-            System.out.println("Book Updated Successfully! Details: " + "\n" +
-                    "Collection ID: " + collectionId + "\n" +
-                    "ISBN: " + isbn + "\n" +
-                    "Title: " + title + "\n" +
-                    "Author: " + author + "\n" +
-                    "Description: " + description + "\n" +
-                    "Publication Date: " + publicationDate + "\n" +
-                    "Publisher: " + publisher + "\n" +
-                    "Pages: " + pages + "\n" +
-                    "Note: " + note + "\n" +
-                    "Image: " + imageBytes.toString()
-            );
-            clearFields();
-        }
+        Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+        BookDAO.getInstance().update(newBook, originalTitle);
+        clearFields();
     }
 
     /**
      * Shows an alert dialog with the specified type, title, and message.
-     *
-     * @param alertType The type of alert.
      * @param title     The title of the alert dialog.
      * @param message   The message content of the alert dialog.
+     * @param alertType The type of alert.
      */
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
@@ -346,6 +357,9 @@ public class EditBookDetailsController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Resets the input fields once a book has been updated.
+     */
     private void clearFields() {
         titleTextField.clear();
         isbnTextField.clear();

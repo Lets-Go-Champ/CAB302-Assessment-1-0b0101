@@ -95,14 +95,14 @@ public class BookDAO {
      * The book's ID is used to identify which record to update.
      *
      * @param book The Book object containing updated details.
-     */    public void update(Book book) {
+     */    public void update(Book book, String originalTitle) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(
-                    "UPDATE Books SET collectionId=?, title=?, id=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=? WHERE id=?"
+                    "UPDATE Books SET collectionId=?, title=?, isbn=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=? WHERE title=?"
             );
             updateBook.setInt(1, book.getCollectionId());
             updateBook.setString(2, book.getTitle());
-            updateBook.setInt(3, book.getId());
+            updateBook.setInt(3, book.getISBN());
             updateBook.setString(4, book.getAuthor());
             updateBook.setString(5, book.getDescription());
             updateBook.setString(6, book.getPublicationDate());
@@ -110,7 +110,7 @@ public class BookDAO {
             updateBook.setInt(8, book.getPages());
             updateBook.setString(9, book.getNotes());
             updateBook.setBytes(10, book.getBytes());
-            updateBook.setInt(11, book.getId());
+            updateBook.setString(11, originalTitle);
             updateBook.execute();
         } catch (SQLException ex) { System.err.println(ex); }
     }

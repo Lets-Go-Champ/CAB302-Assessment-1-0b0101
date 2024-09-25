@@ -21,7 +21,7 @@
             </font>
         </Label>
         <HBox spacing="40.0">
-            <Button mnemonicParsing="false" text="Edit">
+            <Button mnemonicParsing="false" text="Edit" onAction="#handleEditBookButton">
                 <font>
                     <Font size="20.0" />
                 </font>

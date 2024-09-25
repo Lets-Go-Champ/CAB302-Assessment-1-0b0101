@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.views;
 import com.example.cab302assessment10b0101.controllers.BookDetailsController;
 import com.example.cab302assessment10b0101.controllers.ClientController;
+import com.example.cab302assessment10b0101.controllers.EditBookDetailsController;
 import com.example.cab302assessment10b0101.controllers.MyBooksController;
 import com.example.cab302assessment10b0101.model.Book;
 import javafx.beans.property.ObjectProperty;
@@ -20,6 +21,7 @@ public class ViewFactory {
     private AnchorPane addCollectionView;
     private AnchorPane addBookView;
     private AnchorPane booksDetailsView;
+    private AnchorPane editBookDetailsView;
 
     public ViewFactory(){
 
@@ -105,6 +107,28 @@ public class ViewFactory {
         return booksDetailsView;
     }
 
+    public AnchorPane getEditBookDetailsView() {
+        if (editBookDetailsView == null) {
+            try {
+                // Initialize FXMLLoader and the controller
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/editBookDetails.fxml"));
+                editBookDetailsView = loader.load();
+
+                EditBookDetailsController controller = loader.getController();
+
+                // Set listener on userSelectedBook to update the EditBookDetailsController when a new book is selected
+                userSelectedBook.addListener((observable, oldBook, newBook) -> {
+                    if (newBook != null && controller != null) { controller.populateFields(newBook); } });
+
+                // Manually trigger the listener logic for the current value of userSelectedBook
+                if (userSelectedBook.get() != null) { controller.populateFields(userSelectedBook.get()); }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return editBookDetailsView;
+    }
 
 
     public void getLoginScreen() {

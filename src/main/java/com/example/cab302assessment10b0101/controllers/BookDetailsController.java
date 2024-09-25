@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -59,6 +61,11 @@ public class BookDetailsController {
         notesLabel.setText(book.getNotes()); //Set the notes label to the book's notes
         descriptionLabel.setText(book.getDescription()); //Set the description label to the book's description
         bookCoverImage.setImage(book.getImage()); //Set ImageView to the book's cover image.
+    }
+
+    @FXML
+    private void handleEditBookButton(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS);
     }
 }
 
