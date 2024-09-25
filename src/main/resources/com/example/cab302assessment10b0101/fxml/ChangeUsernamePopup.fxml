@@ -21,6 +21,6 @@
         </font>
     </Label>
     <TextField fx:id="newUsernameTextField" layoutX="146.0" layoutY="106.0" prefHeight="43.0" prefWidth="211.0"/>
-    <Button layoutX="146.0" layoutY="169.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="92.0" text="Save" onAction="#handleUpdateUsername"/>
-    <Button layoutX="264.0" layoutY="169.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="92.0" text="Cancel" onAction="#handleCancel"/>
+    <Button fx:id="updateButton" layoutX="146.0" layoutY="169.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="92.0" text="Save" onAction="#handleUpdateUsername"/>
+    <Button fx:id="cancelButton" layoutX="264.0" layoutY="169.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="92.0" text="Cancel" onAction="#handleCancel"/>
 </AnchorPane>

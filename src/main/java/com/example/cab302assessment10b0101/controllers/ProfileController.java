@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -39,8 +40,25 @@ public class ProfileController {
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
         } catch (IOException e) { e.printStackTrace(); }
+        reload();
+        // showAlert
     }
 
     public void handleUpdatePassword() {
+    }
+
+    /**
+     * Refreshes the values displayed in the textFields
+     */
+    private void reload() {
+        // Update the Instance to reflect new user credentials
+        int currentUserID = UserManager.getInstance().getCurrentUser().getId();
+        for ( User user : UserDAO.getInstance().getAll() ) {
+            if ( user.getId() == currentUserID ) {
+                UserManager.getInstance().setCurrentUser(user);
+            }
+        }
+        setUsernameTextField(UserManager.getInstance().getCurrentUser().getUsername());
+        setPasswordTextField(UserManager.getInstance().getCurrentUser().getPassword());
     }
 }
