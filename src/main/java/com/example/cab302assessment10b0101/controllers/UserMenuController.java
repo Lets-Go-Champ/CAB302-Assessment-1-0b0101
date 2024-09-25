@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 import com.example.cab302assessment10b0101.views.MenuOptions;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
@@ -59,6 +60,12 @@ public class UserMenuController implements Initializable {
     private void onAddCollectionClicked(){
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
     }
+
+    @FXML
+    private void onProfileClicked() {
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.PROFILE);
+    }
+
 
     /**
      * This method is called when the "Logout" button is clicked.

@@ -23,6 +23,7 @@
          <Button fx:id="addCollectionBtn" onAction="#onAddCollectionClicked" text="Add Collection" />
          <Button fx:id="addBookBtn" onAction="#onAddBookClicked" text="Add Book" />
          <Button fx:id="lendingBtn" text="Lending" />
+         <Button layoutX="248.0" layoutY="90.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="82.0" text="Profile" onAction="#onProfileClicked"/>
          <Button fx:id="logoutButton" text="Logout" onAction="#onLogoutClicked" >
             <VBox.margin>
                <Insets top="200.0" />

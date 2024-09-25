@@ -22,6 +22,7 @@ public class ViewFactory {
     private AnchorPane addBookView;
     private AnchorPane booksDetailsView;
     private AnchorPane editBookDetailsView;
+    private AnchorPane profileView;
 
     public ViewFactory(){
 
@@ -128,6 +129,15 @@ public class ViewFactory {
             }
         }
         return editBookDetailsView;
+    }
+
+    public AnchorPane getProfileView() {
+        if (profileView == null) {
+            try {
+                profileView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Profile.fxml")).load();
+            } catch (Exception e) { e.printStackTrace(); }
+        }
+        return profileView;
     }
 
 
