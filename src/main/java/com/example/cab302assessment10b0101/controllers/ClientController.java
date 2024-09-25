@@ -30,6 +30,13 @@ public class ClientController implements Initializable {
         // Add the listener to listen for changed to the selected menu item. Based on the value of the new selected menu item the center of the BorderPane is updated to show the corresponding view.
 
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().addListener((observableValue, oldVal, newVal) -> {
+
+            // Debugline
+            if (newVal == null) {
+                System.out.println("No menu option selected. Ignoring null value.");
+                return; // Exit early if newVal is null
+            }
+
            //Determines which view to update the center to based on the selected menu item
             switch (newVal) {
                 //If Add book is clicked, update border pane center to display add book view
