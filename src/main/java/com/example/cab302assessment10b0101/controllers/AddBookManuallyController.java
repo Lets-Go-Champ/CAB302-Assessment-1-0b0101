@@ -142,7 +142,7 @@ public class AddBookManuallyController implements Initializable {
     }
 
     /**
-     * Populates the reading status combo box with options: Unread, Reading, Read.
+     * Populates the reading status choice box with options: Unread, Reading, Read.
      */
     private void populateReadingStatus() {
         ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");

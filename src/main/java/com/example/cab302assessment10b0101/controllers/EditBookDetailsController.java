@@ -198,7 +198,13 @@ public class EditBookDetailsController implements Initializable {
     private void populateReadingStatus() {
         ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
         readingStatusChoiceBox.setItems(readingStatusOptions);
-        readingStatusChoiceBox.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Populates the reading status choice box with the reading status from the database
+     */
+    private void setReadingStatusChoiceBox(String readingStatus) {
+        readingStatusChoiceBox.getSelectionModel().select(readingStatus);
     }
 
     /**
@@ -217,6 +223,7 @@ public class EditBookDetailsController implements Initializable {
         setNotesTextField(book.getNotes());
         setCoverImage(book.getImage());
         setImageBytes(book.getBytes());
+        setReadingStatusChoiceBox(book.getReadingStatus());
     }
 
     /**
