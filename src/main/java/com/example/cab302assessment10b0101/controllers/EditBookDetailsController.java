@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -109,6 +110,7 @@ public class EditBookDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
+        populateReadingStatus();
     }
 
     /**
@@ -134,6 +136,7 @@ public class EditBookDetailsController implements Initializable {
         String publisher = publisherTextField.getText();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
+        String readingStatus = readingStatusChoiceBox.getSelectionModel().getSelectedItem();
 
         // Format the publication Date as a String (YYYY-MM-DD)
         String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
@@ -142,10 +145,10 @@ public class EditBookDetailsController implements Initializable {
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
         // Ensure all fields have values
-        if (validateFields(title, isbn, author, description, publisher, pages, notes, String.valueOf(readingStatusChoiceBox))) {
+        if (validateFields(title, isbn, author, description, publisher, pages, notes, readingStatus)) {
 
             // Update the book
-            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, String.valueOf(readingStatusChoiceBox));
+            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
         }
     }
@@ -177,7 +180,9 @@ public class EditBookDetailsController implements Initializable {
         else { showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
     }
 
-    // Populates the collections for the current user
+    /**
+     * Populates the collections for the current user
+     */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
@@ -187,7 +192,18 @@ public class EditBookDetailsController implements Initializable {
         if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
     }
 
-    // Populates the fields with the book's existing details
+    /**
+     * Populates the reading status combo box with options: Unread, Reading, Read.
+     */
+    private void populateReadingStatus() {
+        ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
+        readingStatusChoiceBox.setItems(readingStatusOptions);
+        readingStatusChoiceBox.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * Populates the fields with the book's existing details
+     */
     public void populateFields(Book book) {
         originalTitle = book.getTitle();
         setTitleTextField(book.getTitle());

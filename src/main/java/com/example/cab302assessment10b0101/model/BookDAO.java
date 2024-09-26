@@ -100,7 +100,7 @@ public class BookDAO {
      */    public void update(Book book, String originalTitle) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(
-                    "UPDATE Books SET collectionId=?, title=?, isbn=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=? WHERE title=?"
+                    "UPDATE Books SET collectionId=?, title=?, isbn=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=?, readingStatus=? WHERE title=?"
             );
             updateBook.setInt(1, book.getCollectionId());
             updateBook.setString(2, book.getTitle());

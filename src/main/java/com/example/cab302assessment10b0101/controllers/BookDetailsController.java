@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -118,6 +120,10 @@ public class BookDetailsController {
             successAlert.setContentText("The book has been successfully deleted.");
             successAlert.showAndWait();
         }
+    }
+    @FXML
+    private void handleEditBookButton(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS);
     }
 }
 
