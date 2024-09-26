@@ -135,6 +135,18 @@
                      <Font size="17.0" />
                   </font></Label>
                 </HBox>
+
+                <!-- Reading Status -->
+                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
+                    <Label text="Notes:">
+                        <font>
+                            <Font size="17.0" />
+                        </font></Label>
+                    <Label fx:id="readingStatusLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                        <font>
+                            <Font size="17.0" />
+                        </font></Label>
+                </HBox>
             </VBox>
         </HBox>
     </VBox>

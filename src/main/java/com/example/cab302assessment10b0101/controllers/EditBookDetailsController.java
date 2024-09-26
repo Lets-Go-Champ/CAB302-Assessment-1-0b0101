@@ -54,6 +54,8 @@ public class EditBookDetailsController implements Initializable {
     private Button updateBookButton; //Button to add the book
     @FXML
     private Button addImageButton; //Button to upload a book cover image
+    @FXML
+    private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
 
     private Image image; //Image field for storing the uploaded book cover image
     private byte[] imageBytes; //Image as a byte array for storing/uploading the image
@@ -76,6 +78,7 @@ public class EditBookDetailsController implements Initializable {
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
     final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
+    final String noReadingStatusMessage = "Please select a reading status.";
 
     /**
      * Sets the selected collection in the ChoiceBox based on the collection ID.
@@ -139,10 +142,10 @@ public class EditBookDetailsController implements Initializable {
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
         // Ensure all fields have values
-        if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
+        if (validateFields(title, isbn, author, description, publisher, pages, notes, String.valueOf(readingStatusChoiceBox))) {
 
             // Update the book
-            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, String.valueOf(readingStatusChoiceBox));
             showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
         }
     }
@@ -212,7 +215,7 @@ public class EditBookDetailsController implements Initializable {
      * @return True if all fields are valid, False otherwise
      */
     private boolean validateFields(String title, String isbn, String author, String description,
-                                   String publisher, String pages, String notes) {
+                                   String publisher, String pages, String notes, String readingStatus) {
 
         if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
@@ -226,6 +229,7 @@ public class EditBookDetailsController implements Initializable {
         if ( !isPagesValid(pages) ) { showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
         if ( notes.isEmpty() ) { showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
         if ( image == null ) { showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
+        if (readingStatus == null || readingStatus.isEmpty()) { showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
         return true;
     }
 
@@ -334,11 +338,12 @@ public class EditBookDetailsController implements Initializable {
      * @param publicationDate The date the book was published
      * @param pages The book's page count
      * @param note User defined note regarding the book
+     * @param readingStatus The current reading status of the book
      */
     private void updateBook(int collectionId, String title, String isbn, String author, String description,
-                            String publisher, String publicationDate, String pages, String note) {
+                            String publisher, String publicationDate, String pages, String note, String readingStatus) {
 
-        Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+        Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
         BookDAO.getInstance().update(newBook, originalTitle);
         clearFields();
     }
