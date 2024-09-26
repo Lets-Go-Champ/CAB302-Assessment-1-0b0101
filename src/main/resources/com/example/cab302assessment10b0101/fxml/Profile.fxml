@@ -25,6 +25,7 @@
     <Button fx:id="changeUsernameButton"
             layoutX="248.0" layoutY="90.0" mnemonicParsing="false" prefHeight="35.0"
             prefWidth="82.0" text="Change" onAction="#handleUpdateUsername"/>
-    <Button layoutX="248.0" layoutY="178.0" mnemonicParsing="false" prefHeight="35.0"
+    <Button fx:id="changePasswordButton"
+            layoutX="248.0" layoutY="178.0" mnemonicParsing="false" prefHeight="35.0"
             prefWidth="82.0" text="Change" onAction="#handleUpdatePassword"/>
 </AnchorPane>

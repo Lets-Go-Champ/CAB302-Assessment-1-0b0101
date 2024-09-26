@@ -16,6 +16,7 @@ public class ProfileController {
     public TextField usernameTextField;
     public TextField passwordTextField;
     public Button changeUsernameButton;
+    public Button changePasswordButton;
 
     private void setUsernameTextField(String username) { usernameTextField.setText(username); }
     private void setPasswordTextField(String password) { passwordTextField.setText(password); }
@@ -28,7 +29,7 @@ public class ProfileController {
 
     public void handleUpdateUsername() {
         try {
-            // Load the ChangeUsernamePopup.fxml file for account creation
+            // Load the ChangeUsernamePopup.fxml file for account updating
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/ChangeUsernamePopup.fxml"));
             Scene scene = new Scene(loader.load());
 
@@ -44,6 +45,20 @@ public class ProfileController {
     }
 
     public void handleUpdatePassword() {
+        try {
+            // Load the ChangePasswordPopup.fxml file for account updating
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/ChangePasswordPopup.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Display the Pop-up
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Change Password");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(changePasswordButton.getScene().getWindow());
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+        } catch (IOException e) { e.printStackTrace(); }
+        reload();
     }
 
     /**
