@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.model.UserDAO;
 import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,8 +19,8 @@ public class ChangePasswordController {
     final String noPasswordMessage = "Please enter a new password.";
     final String successfulUpdateMessage = "Password updated successfully!";
 
-    // The original username for the current user
-    final private String originalPassword = UserManager.getInstance().getCurrentUser().getPassword();
+    // The username of the current user
+    final private String username = UserManager.getInstance().getCurrentUser().getUsername();
 
     /**
      * Updates the password if all fields are valid
@@ -30,7 +31,7 @@ public class ChangePasswordController {
         // Perform validation
         if ( newPassword.isEmpty() ) { showAlert("Error", noPasswordMessage, Alert.AlertType.ERROR); return; }
 
-        //UserDAO.getInstance().updatePassword(newPassword, originalPassword);
+        UserDAO.getInstance().updatePassword(newPassword, username);
         showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
         ((Stage) updateButton.getScene().getWindow()).close();
     }
