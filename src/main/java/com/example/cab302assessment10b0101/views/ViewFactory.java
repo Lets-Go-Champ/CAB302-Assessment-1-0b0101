@@ -22,6 +22,7 @@ public class ViewFactory {
     private AnchorPane addBookView;
     private AnchorPane booksDetailsView;
     private AnchorPane editBookDetailsView;
+    private AnchorPane lendingView;
 
     public ViewFactory(){
 
@@ -128,6 +129,17 @@ public class ViewFactory {
             }
         }
         return editBookDetailsView;
+    }
+
+    public AnchorPane getLendingView(){
+        if (lendingView == null) {
+            try{
+                lendingView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Lending-page.fxml")).load();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return lendingView;
     }
 
 

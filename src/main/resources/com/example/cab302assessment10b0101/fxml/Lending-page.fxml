@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.LendingPageController">
+    <VBox prefHeight="730" prefWidth="960">
+        <Label text="Lending">
+                <font>
+                    <Font size="30.0" />
+                </font>
+                <VBox.margin>
+                    <Insets left="40.0" top="20.0" />
+                </VBox.margin>
+            </Label>
+            <AnchorPane prefHeight="641.0" prefWidth="960.0">
+                <VBox.margin>
+                    <Insets left="40.0" />
+                </VBox.margin>
+                <TabPane prefHeight="730" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Lending">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="702.0" prefWidth="959.0">
+                           <children>
+                              <ListView fx:id="listView" prefHeight="686.0" prefWidth="946.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </content>
+                </Tab>
+                <Tab text="Add Lender">
+                    <ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="911.0">
+                            <VBox layoutY="14.0" prefHeight="639.0" prefWidth="394.0" AnchorPane.leftAnchor="0.0">
+                            </VBox>
+                        </AnchorPane>
+                    </ScrollPane>
+                </Tab></TabPane>
+            </AnchorPane>
+    </VBox>
+</AnchorPane>
