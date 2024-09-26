@@ -15,7 +15,7 @@ public class ChangeUsernameController {
     public Button updateButton;
     public Button cancelButton;
 
-    // Error messages for input validation
+    // Messages for input validation and notification
     final String noUsernameMessage = "Please enter a new username.";
     final String usernameExistsMessage = "The entered username is assigned to another user.";
     final String successfulUpdateMessage = "Username updated successfully!";
@@ -33,6 +33,7 @@ public class ChangeUsernameController {
         if ( isUsernameDuplicate(newUsername) ) { showAlert("Error", usernameExistsMessage, Alert.AlertType.ERROR); return; }
         if ( newUsername.isEmpty() ) { showAlert("Error", noUsernameMessage, Alert.AlertType.ERROR); return; }
 
+        // Update the username
         UserDAO.getInstance().updateUsername(newUsername, originalUsername);
         showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
         ((Stage) updateButton.getScene().getWindow()).close();

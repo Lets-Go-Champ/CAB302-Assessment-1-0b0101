@@ -10,6 +10,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * The ProfileController class handles displaying and updating the user's credentials.
+ * It retrieves data from the UI, validates it, and stores the information in the database.
+ */
 public class ProfileController {
 
     @FXML
@@ -18,15 +22,17 @@ public class ProfileController {
     public Button changeUsernameButton;
     public Button changePasswordButton;
 
+    // Updates the displayed username and password
     private void setUsernameTextField(String username) { usernameTextField.setText(username); }
     private void setPasswordTextField(String password) { passwordTextField.setText(password); }
 
-
+    // Populates the text fields
     public void populateFields(String username, String password) {
         setUsernameTextField(username);
         setPasswordTextField(password);
     }
 
+    // Switches views to changeUsername. Updates the username and instance.
     public void handleUpdateUsername() {
         try {
             // Load the ChangeUsernamePopup.fxml file for account updating
@@ -44,6 +50,7 @@ public class ProfileController {
         reload();
     }
 
+    // Switches views to changePassword. Updates the password and instance.
     public void handleUpdatePassword() {
         try {
             // Load the ChangePasswordPopup.fxml file for account updating
@@ -61,9 +68,8 @@ public class ProfileController {
         reload();
     }
 
-    /**
-     * Refreshes the values displayed in the textFields
-     */
+
+    // Updates the Instance and refreshes the values displayed in the textFields
     private void reload() {
         // Update the Instance to reflect new user credentials
         int currentUserID = UserManager.getInstance().getCurrentUser().getId();
@@ -72,6 +78,7 @@ public class ProfileController {
                 UserManager.getInstance().setCurrentUser(user);
             }
         }
+        // Update the textFields
         setUsernameTextField(UserManager.getInstance().getCurrentUser().getUsername());
         setPasswordTextField(UserManager.getInstance().getCurrentUser().getPassword());
     }

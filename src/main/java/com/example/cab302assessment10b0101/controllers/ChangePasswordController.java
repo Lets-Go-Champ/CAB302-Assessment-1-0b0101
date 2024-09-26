@@ -15,7 +15,7 @@ public class ChangePasswordController {
     public Button updateButton;
     public Button cancelButton;
 
-    // Error messages for input validation
+    // Messages for input validation and notification
     final String noPasswordMessage = "Please enter a new password.";
     final String successfulUpdateMessage = "Password updated successfully!";
 
@@ -31,6 +31,7 @@ public class ChangePasswordController {
         // Perform validation
         if ( newPassword.isEmpty() ) { showAlert("Error", noPasswordMessage, Alert.AlertType.ERROR); return; }
 
+        // Update the password
         UserDAO.getInstance().updatePassword(newPassword, username);
         showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
         ((Stage) updateButton.getScene().getWindow()).close();
