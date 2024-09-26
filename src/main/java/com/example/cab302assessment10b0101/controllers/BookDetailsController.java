@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -48,6 +50,9 @@ public class BookDetailsController {
     private Label isbnLabel; //Label to display the book's ISBN
 
     @FXML
+    private Label readingStatusLabel; //Label to display the book's ISBN
+
+    @FXML
     private Book currentBook;
 
 
@@ -61,16 +66,17 @@ public class BookDetailsController {
      */
     public void setData(Book book){
         this.currentBook = book;
-        mainTitle.setText(book.getTitle()); //Set the main page title to the book title
-        publicationDateLabel.setText(book.getPublicationDate()); //Set the publication date label to the book's publication date
-        publisherLabel.setText(book.getPublisher()); //Set the publisher label to the book's publisher
-        titleLabel.setText(book.getTitle()); //Set the book title label to the book title
-        isbnLabel.setText(book.getISBNAsString()); //Set the ISBN label to the book's ISBN
-        authorLabel.setText(book.getAuthor()); //Set the author label to the book's author
-        pagesLabel.setText(book.getPagesAsString()); //Set the pages label to the book's number of pages
-        notesLabel.setText(book.getNotes()); //Set the notes label to the book's notes
-        descriptionLabel.setText(book.getDescription()); //Set the description label to the book's description
-        bookCoverImage.setImage(book.getImage()); //Set ImageView to the book's cover image.
+        mainTitle.setText(book.getTitle()); // Set the main page title to the book title
+        publicationDateLabel.setText(book.getPublicationDate()); // Set the publication date label to the book's publication date
+        publisherLabel.setText(book.getPublisher()); // Set the publisher label to the book's publisher
+        titleLabel.setText(book.getTitle()); // Set the book title label to the book title
+        isbnLabel.setText(book.getISBNAsString()); // Set the ISBN label to the book's ISBN
+        authorLabel.setText(book.getAuthor()); // Set the author label to the book's author
+        pagesLabel.setText(book.getPagesAsString()); // Set the pages label to the book's number of pages
+        notesLabel.setText(book.getNotes()); // Set the notes label to the book's notes
+        descriptionLabel.setText(book.getDescription()); // Set the description label to the book's description
+        bookCoverImage.setImage(book.getImage()); // Set ImageView to the book's cover image.
+        readingStatusLabel.setText(book.getReadingStatus()); // Set the reading status label to the book's reading status
     }
 
     /**
@@ -114,6 +120,10 @@ public class BookDetailsController {
             successAlert.setContentText("The book has been successfully deleted.");
             successAlert.showAndWait();
         }
+    }
+    @FXML
+    private void handleEditBookButton(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS);
     }
 }
 

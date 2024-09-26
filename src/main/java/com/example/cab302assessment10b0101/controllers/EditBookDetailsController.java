@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,6 +55,8 @@ public class EditBookDetailsController implements Initializable {
     private Button updateBookButton; //Button to add the book
     @FXML
     private Button addImageButton; //Button to upload a book cover image
+    @FXML
+    private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
 
     private Image image; //Image field for storing the uploaded book cover image
     private byte[] imageBytes; //Image as a byte array for storing/uploading the image
@@ -76,6 +79,7 @@ public class EditBookDetailsController implements Initializable {
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
     final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
+    final String noReadingStatusMessage = "Please select a reading status.";
 
     /**
      * Sets the selected collection in the ChoiceBox based on the collection ID.
@@ -106,6 +110,7 @@ public class EditBookDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
+        populateReadingStatus();
     }
 
     /**
@@ -131,6 +136,7 @@ public class EditBookDetailsController implements Initializable {
         String publisher = publisherTextField.getText();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
+        String readingStatus = readingStatusChoiceBox.getSelectionModel().getSelectedItem();
 
         // Format the publication Date as a String (YYYY-MM-DD)
         String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
@@ -139,10 +145,10 @@ public class EditBookDetailsController implements Initializable {
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
         // Ensure all fields have values
-        if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
+        if (validateFields(title, isbn, author, description, publisher, pages, notes, readingStatus)) {
 
             // Update the book
-            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
         }
     }
@@ -174,7 +180,9 @@ public class EditBookDetailsController implements Initializable {
         else { showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
     }
 
-    // Populates the collections for the current user
+    /**
+     * Populates the collections for the current user
+     */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
@@ -184,7 +192,24 @@ public class EditBookDetailsController implements Initializable {
         if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
     }
 
-    // Populates the fields with the book's existing details
+    /**
+     * Populates the reading status combo box with options: Unread, Reading, Read.
+     */
+    private void populateReadingStatus() {
+        ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
+        readingStatusChoiceBox.setItems(readingStatusOptions);
+    }
+
+    /**
+     * Populates the reading status choice box with the reading status from the database
+     */
+    private void setReadingStatusChoiceBox(String readingStatus) {
+        readingStatusChoiceBox.getSelectionModel().select(readingStatus);
+    }
+
+    /**
+     * Populates the fields with the book's existing details
+     */
     public void populateFields(Book book) {
         originalTitle = book.getTitle();
         setTitleTextField(book.getTitle());
@@ -198,6 +223,7 @@ public class EditBookDetailsController implements Initializable {
         setNotesTextField(book.getNotes());
         setCoverImage(book.getImage());
         setImageBytes(book.getBytes());
+        setReadingStatusChoiceBox(book.getReadingStatus());
     }
 
     /**
@@ -212,7 +238,7 @@ public class EditBookDetailsController implements Initializable {
      * @return True if all fields are valid, False otherwise
      */
     private boolean validateFields(String title, String isbn, String author, String description,
-                                   String publisher, String pages, String notes) {
+                                   String publisher, String pages, String notes, String readingStatus) {
 
         if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
@@ -226,6 +252,7 @@ public class EditBookDetailsController implements Initializable {
         if ( !isPagesValid(pages) ) { showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
         if ( notes.isEmpty() ) { showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
         if ( image == null ) { showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
+        if (readingStatus == null || readingStatus.isEmpty()) { showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
         return true;
     }
 
@@ -334,11 +361,12 @@ public class EditBookDetailsController implements Initializable {
      * @param publicationDate The date the book was published
      * @param pages The book's page count
      * @param note User defined note regarding the book
+     * @param readingStatus The current reading status of the book
      */
     private void updateBook(int collectionId, String title, String isbn, String author, String description,
-                            String publisher, String publicationDate, String pages, String note) {
+                            String publisher, String publicationDate, String pages, String note, String readingStatus) {
 
-        Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+        Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
         BookDAO.getInstance().update(newBook, originalTitle);
         clearFields();
     }
