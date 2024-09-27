@@ -34,18 +34,14 @@ public class UserManager {
      *
      * @param user The User object representing the currently logged-in user.
      */
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-    }
+    public void setCurrentUser(User user) { this.currentUser = user; }
 
     /**
      * Retrieves the current logged-in user.
      *
      * @return The User object representing the currently logged-in user, or null if no user is logged in.
      */
-    public User getCurrentUser() {
-        return currentUser;
-    }
+    public User getCurrentUser() { return currentUser; }
 
     /**
      * Logs out the current user by setting the current user to null.

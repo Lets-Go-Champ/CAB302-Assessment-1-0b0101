@@ -115,8 +115,7 @@ public class CollectionDAO {
             // Use a PreparedStatement to prevent SQL injection and ensure safe parameter handling
             String query = "SELECT collectionId FROM Collections WHERE collectionName = ? AND userId = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
-
-
+            
             stmt.setString(1, collectionName);  // Set the collection name
             stmt.setInt(2, user.getId());  // Set the user ID
 

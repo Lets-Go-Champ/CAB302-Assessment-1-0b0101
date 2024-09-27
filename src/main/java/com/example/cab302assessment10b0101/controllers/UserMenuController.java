@@ -116,6 +116,5 @@ public class UserMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
     }
 }
