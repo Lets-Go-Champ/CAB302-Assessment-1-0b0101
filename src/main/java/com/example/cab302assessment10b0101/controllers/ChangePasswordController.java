@@ -8,6 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The ChangePasswordController class handles updating the user's password.
+ * It retrieves data from the UI, validates it, and stores the information in the database.
+ */
 public class ChangePasswordController {
 
     @FXML
@@ -22,9 +26,8 @@ public class ChangePasswordController {
     // The username of the current user
     final private String username = UserManager.getInstance().getCurrentUser().getUsername();
 
-    /**
-     * Updates the password if all fields are valid
-     */
+
+    // Updates the password if all fields are valid
     public void handleUpdatePassword() {
         String newPassword = newPasswordTextField.getText();
 

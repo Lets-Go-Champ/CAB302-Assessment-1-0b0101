@@ -26,13 +26,13 @@ public class ProfileController {
     private void setUsernameTextField(String username) { usernameTextField.setText(username); }
     private void setPasswordTextField(String password) { passwordTextField.setText(password); }
 
-    // Populates the text fields
+    // Populates the textFields
     public void populateFields(String username, String password) {
         setUsernameTextField(username);
         setPasswordTextField(password);
     }
 
-    // Switches views to changeUsername. Updates the username and instance.
+    // Switches views to changeUsername. Updates the username and instance
     public void handleUpdateUsername() {
         try {
             // Load the ChangeUsernamePopup.fxml file for account updating
@@ -50,7 +50,7 @@ public class ProfileController {
         reload();
     }
 
-    // Switches views to changePassword. Updates the password and instance.
+    // Switches views to changePassword. Updates the password and instance
     public void handleUpdatePassword() {
         try {
             // Load the ChangePasswordPopup.fxml file for account updating
@@ -67,7 +67,6 @@ public class ProfileController {
         } catch (IOException e) { e.printStackTrace(); }
         reload();
     }
-
 
     // Updates the Instance and refreshes the values displayed in the textFields
     private void reload() {

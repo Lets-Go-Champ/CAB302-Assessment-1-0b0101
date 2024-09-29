@@ -8,6 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The ChangeUsernameController class handles updating the user's username.
+ * It retrieves data from the UI, validates it, and stores the information in the database.
+ */
 public class ChangeUsernameController {
 
     @FXML
@@ -23,9 +27,8 @@ public class ChangeUsernameController {
     // The original username for the current user
     final private String originalUsername = UserManager.getInstance().getCurrentUser().getUsername();
 
-    /**
-     * Updates the username if all fields are valid
-     */
+
+    // Updates the username if all fields are valid
     public void handleUpdateUsername() {
         String newUsername = newUsernameTextField.getText();
 
