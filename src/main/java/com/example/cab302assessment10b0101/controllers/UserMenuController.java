@@ -51,7 +51,6 @@ public class UserMenuController implements Initializable {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDBOOK);
     }
 
-
     /**
      * This method is called when the "Add Collection" button is clicked.
      * It sets the selected menu item to the ADDCOLLECTION view.
@@ -67,13 +66,12 @@ public class UserMenuController implements Initializable {
      */
     @FXML
     private void onLogoutClicked() {
+        // Immediately return to Login screen and reset any session data before returning to login
+        resetUserData();
+        goToLoginPage();
         // Show logout success popup
         showLogoutSuccessAlert();
-        // Immediately return to login screen
-        resetUserData();  // Reset any session data before returning to login
-        goToLoginPage();
     }
-
 
     /**
      * Displays a confirmation alert indicating successful logout.

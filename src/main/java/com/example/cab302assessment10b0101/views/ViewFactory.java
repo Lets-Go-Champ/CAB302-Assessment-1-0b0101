@@ -69,7 +69,7 @@ public class ViewFactory {
             myBooksView = loader.load();  // Load the view each time
             loader.getController(); // Get a fresh controller instance
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error loading MyBooksView: " + e.getMessage());
         }
         return myBooksView; // Return the AnchorPane directly
     }
@@ -84,7 +84,7 @@ public class ViewFactory {
             try{
                 addCollectionView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddCollection.fxml")).load();
             } catch (Exception e){
-                e.printStackTrace();
+                System.out.println("Error loading AddCollectionView: " + e.getMessage());
             }
         }
         return addCollectionView;
@@ -100,7 +100,7 @@ public class ViewFactory {
             try{
                 addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
             } catch (Exception e){
-                e.printStackTrace();
+                System.out.println("Error loading AddBookView: " + e.getMessage());
             }
         }
         return addBookView;
@@ -137,12 +137,17 @@ public class ViewFactory {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Error loading BookDetailsView: " + e.getMessage());
             }
         }
         return booksDetailsView;
     }
 
+    /**
+     * Loads and returns the Edit Book Details view.
+     * Loads Edit Book Details view when asked through Book Details page.
+     * @return AnchorPane representing the Edit Book Details view.
+     */
     public AnchorPane getEditBookDetailsView() {
         if (editBookDetailsView == null) {
             try {
@@ -160,7 +165,7 @@ public class ViewFactory {
                 if (userSelectedBook.get() != null) { controller.populateFields(userSelectedBook.get()); }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Error loading EditBookDetailsView: " + e.getMessage());
             }
         }
         return editBookDetailsView;
@@ -197,7 +202,7 @@ public class ViewFactory {
         try {
             scene = new Scene(loader.load());
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Error creating stage: " + e.getMessage());
         }
         Stage stage = new Stage();
         stage.setScene(scene);
