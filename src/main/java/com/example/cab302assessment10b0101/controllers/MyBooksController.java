@@ -160,8 +160,6 @@ public class MyBooksController implements Initializable {
      */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
-        // Debugging
-        System.out.println("Current User when populating Collections: " + UserManager.getInstance().getCurrentUser().getUsername());
         // Clear existing items in case switching accounts
         collectionsChoiceBox.getItems().clear();
 
