@@ -21,12 +21,12 @@
             </font>
         </Label>
         <HBox spacing="40.0">
-            <Button mnemonicParsing="false" text="Edit">
+            <Button mnemonicParsing="false" text="Edit" onAction="#handleEditBookButton">
                 <font>
                     <Font size="20.0" />
                 </font>
             </Button>
-            <Button mnemonicParsing="false" text="Delete">
+            <Button mnemonicParsing="false" text="Delete" onAction="#handleDeleteButtonAction">
                 <font>
                     <Font size="20.0" />
                 </font>
@@ -134,6 +134,18 @@
                   <font>
                      <Font size="17.0" />
                   </font></Label>
+                </HBox>
+
+                <!-- Reading Status -->
+                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
+                    <Label text="Reading Status:">
+                        <font>
+                            <Font size="17.0" />
+                        </font></Label>
+                    <Label fx:id="readingStatusLabel" wrapText="true" HBox.hgrow="ALWAYS">
+                        <font>
+                            <Font size="17.0" />
+                        </font></Label>
                 </HBox>
             </VBox>
         </HBox>

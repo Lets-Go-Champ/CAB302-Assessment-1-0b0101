@@ -23,7 +23,8 @@ public class Book {
     private StringProperty publisher;
     private IntegerProperty pages;
     private StringProperty notes;
-    private byte[] image; // New field for storing images
+    private byte[] image;
+    private StringProperty readingStatus;
 
     /**
      * Constructs a new Book object with the specified parameters including a book ID.
@@ -39,8 +40,9 @@ public class Book {
      * @param pages           The number of pages in the book.
      * @param notes           Additional notes about the book.
      * @param image           The image associated with the book as a byte array.
+     * @param readingStatus   The current reading status of the book.
      */
-    public Book(int bookId, int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+    public Book(int bookId, int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image, String readingStatus) {
         this.bookId = bookId;
         this.collectionId = collectionId;
         this.title = new SimpleStringProperty(title);
@@ -52,6 +54,7 @@ public class Book {
         this.pages = new SimpleIntegerProperty(pages);
         this.notes = new SimpleStringProperty(notes);
         this.image = image;
+        this.readingStatus = new SimpleStringProperty(readingStatus);
     }
 
 
@@ -68,8 +71,9 @@ public class Book {
      * @param pages           The number of pages in the book.
      * @param notes           Additional notes about the book.
      * @param image           The image associated with the book as a byte array.
+     * @param readingStatus   The current reading status of the book.
      */
-    public Book(int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image) {
+    public Book(int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image, String readingStatus) {
         this.collectionId = collectionId;
         this.title = new SimpleStringProperty(title);
         this.isbn = new SimpleIntegerProperty(isbn);
@@ -80,6 +84,7 @@ public class Book {
         this.pages = new SimpleIntegerProperty(pages);
         this.notes = new SimpleStringProperty(notes);
         this.image = image;
+        this.readingStatus = new SimpleStringProperty(readingStatus);
     }
 
     // Getters for program functions
@@ -192,6 +197,14 @@ public class Book {
         return null;
     }
 
+    /**
+     * Gets the current reading status of the book.
+     * @return The reading status as a String.
+     */
+    public String getReadingStatus() {
+        return readingStatus.get();
+    }
+
     // Setters for program functions
 
     /**
@@ -284,5 +297,13 @@ public class Book {
      */
     public String getISBNAsString() {
         return String.valueOf(isbn.get());
+    }
+
+    /**
+     * Sets the current reading status of the book.
+     * @param readingStatus The reading status to set as a StringProperty.
+     */
+    public void setreadingStatus(StringProperty readingStatus) {
+        this.readingStatus = readingStatus;
     }
 }

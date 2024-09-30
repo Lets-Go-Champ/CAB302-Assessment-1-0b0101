@@ -46,6 +46,9 @@ public class ClientController implements Initializable {
                 //If user clicks on a book, update border pane center to display the book details page
                 case BOOKDETAILS: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getBookDetailsView());
                     break;
+                //If user clicks on edit book, update border pane center to display the edit book details page
+                case EDITBOOKDETAILS: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getEditBookDetailsView());
+                    break;
                 //Update border pane center to display my books page view on default
                 default: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getMyBooksView());
                     break;
