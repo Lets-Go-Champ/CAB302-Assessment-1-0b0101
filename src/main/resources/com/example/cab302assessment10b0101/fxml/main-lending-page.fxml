@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.LendingPageController">
+    <VBox prefHeight="730" prefWidth="960">
+        <Label text="Lending">
+            <font>
+                <Font size="30.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="40.0" top="20.0" />
+            </VBox.margin>
+        </Label>
+        <AnchorPane prefHeight="641.0" prefWidth="960.0" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets left="40.0" />
+            </VBox.margin>
+            <TabPane fx:id="lendingTabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Tab text="Lending">
+                    <fx:include fx:id="loanView" source="LoanView.fxml"/>
+                </Tab>
+                <Tab text="Add Lender">
+                    <fx:include fx:id="addLender" source="AddLender.fxml"/>
+                </Tab>
+            </TabPane>
+        </AnchorPane>
+    </VBox>
+</AnchorPane>

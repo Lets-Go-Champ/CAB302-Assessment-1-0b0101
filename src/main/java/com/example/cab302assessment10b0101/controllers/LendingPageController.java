@@ -1,28 +1,35 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.Loan;
-import com.example.cab302assessment10b0101.views.LenderCellFactory;
+import com.example.cab302assessment10b0101.model.LoanService;
+import com.example.cab302assessment10b0101.model.UserManager;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LendingPageController implements Initializable {
+public class LendingPageController {
 
-    public ListView<Loan> loanListView;
+    private final LoanService loanService;
+    public LoanViewController loanViewController;
+    public AddLenderController addLenderController;
 
 
+    @FXML
+    public TabPane lendingTabPane;
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    setData();
-    loanListView.getItems();
-    loanListView.setCellFactory(e -> new LenderCellFactory());
+    public void initialize() {
+        loanViewController.setLoanService(loanService);
+        addLenderController.setLoanService(loanService);
     }
 
-    private void setData(){
-
+    public LendingPageController(){
+        this.loanService = new LoanService(UserManager.getInstance().getCurrentUser().getId());
     }
+
+    public void refreshLoans() {
+        loanService.refreshLoans();
+    }
+
 }

@@ -134,7 +134,7 @@ public class ViewFactory {
     public AnchorPane getLendingView(){
         if (lendingView == null) {
             try{
-                lendingView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Lending-page.fxml")).load();
+                lendingView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/main-lending-page.fxml")).load();
             } catch (Exception e){
                 e.printStackTrace();
             }

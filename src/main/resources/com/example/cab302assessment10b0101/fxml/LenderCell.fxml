@@ -12,11 +12,10 @@
 
 <AnchorPane prefHeight="150.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <HBox alignment="CENTER" prefHeight="150.0" prefWidth="730.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-      <ImageView id="loanBookImage" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true" HBox.hgrow="ALWAYS">
-         <Image url="@../images/The-Fellowship-Of-The-Ring-Book-Cover-by-JRR-Tolkien_1-480.jpg" />
+      <ImageView fx:id="loanBookCoverImage" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true">
       </ImageView>
       <VBox alignment="CENTER" prefHeight="150.0" prefWidth="173.0" HBox.hgrow="ALWAYS">
-         <Label fx:id="loanBookTitle" text="Title">
+         <Label fx:id="loanBookTitle" text="Title" >
             <font>
                <Font size="18.0" />
             </font>

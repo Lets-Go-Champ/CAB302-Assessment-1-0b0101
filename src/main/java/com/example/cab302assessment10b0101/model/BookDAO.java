@@ -213,4 +213,62 @@ public class BookDAO {
             throw e; // Optionally rethrow the exception
         }
     }
+
+    public Book getBookById(int bookId) {
+        String query = "SELECT * FROM Books WHERE bookId = ?";
+        try (PreparedStatement getBook = connection.prepareStatement(query)) {
+            // Set the bookId value
+            getBook.setInt(1, bookId);
+
+            // Execute the query and process the result set
+            ResultSet rs = getBook.executeQuery();
+
+            if (rs.next()) {
+                return new Book(
+                        rs.getInt("collectionId"),
+                        rs.getInt("bookId"),
+                        rs.getString("title"),
+                        rs.getInt("isbn"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("publicationDate"),
+                        rs.getString("publisher"),
+                        rs.getInt("pages"),
+                        rs.getString("notes"),
+                        rs.getBytes("image"),
+                        rs.getString("readingStatus")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving book: " + e.getMessage());
+        }
+        return null; // Return null if no book is found with the given ID
+    }
+
+    public Book getBookByName(String bookName) {
+        String query = "SELECT * FROM Books WHERE title = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, bookName);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Book(
+                        rs.getInt("bookId"),
+                        rs.getInt("collectionId"),
+                        rs.getString("title"),
+                        rs.getInt("isbn"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("publicationDate"),
+                        rs.getString("publisher"),
+                        rs.getInt("pages"),
+                        rs.getString("notes"),
+                        rs.getBytes("image"),
+                        rs.getString("readingStatus")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving book by name: " + e.getMessage());
+        }
+        return null; // Return null if no book is found
+    }
 }
