@@ -59,7 +59,7 @@ public class BookDAO {
                             ");"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error creating table: " + ex.getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ public class BookDAO {
             insertBook.setBytes(10, book.getBytes());
             insertBook.execute();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error inserting book: " + ex.getMessage());
         }
     }
 

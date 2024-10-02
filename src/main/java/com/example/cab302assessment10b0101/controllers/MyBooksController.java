@@ -74,7 +74,7 @@ public class MyBooksController implements Initializable {
      *
      * @param book The book that was clicked.
      */
-    private void handleBookClick(Book book){
+    private void handleBookClick(Book book) {
         //System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensu
         ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS); // set flag for Book Detail page
@@ -215,8 +215,11 @@ public class MyBooksController implements Initializable {
             );
             updateBookGrid(filteredBooks);  // Display the filtered books
         }
-
-
+    }
 
 }
+
+
+
+
 

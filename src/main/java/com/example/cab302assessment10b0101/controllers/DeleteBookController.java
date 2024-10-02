@@ -30,7 +30,7 @@ public class DeleteBookController {
     /**
      * Deletes a book from the database.
      * <p>
-     * This method attempts to delete a book based on its ISBN. If the provided
+     * This method attempts to delete a book based on its bookId. If the provided
      * book object is null, an IllegalArgumentException is thrown. It logs the
      * outcome of the deletion attempt and handles any SQL exceptions that may occur.
      * </p>
@@ -39,17 +39,20 @@ public class DeleteBookController {
      * @throws IllegalArgumentException if the provided book is null.
      */
     public void deleteBook(Book book) {
-        System.out.println("Attempting to delete book with ISBN: " + book.getISBNAsString());
         if (book == null) {
             throw new IllegalArgumentException("Cannot delete a null book.");
         }
+
+        System.out.println("Attempting to delete book with bookId: " + book.getId());
+
         try {
-            bookDao.deleteBook(book.getISBNAsString());
+            bookDao.deleteBookById(book.getId()); // Replace ISBN deletion with bookId deletion
             System.out.println("Book deleted successfully.");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Failed to delete the book: " + e.getMessage());
         }
     }
+
 }
 
 
