@@ -205,12 +205,17 @@ public class MyBooksController implements Initializable {
             // Filter books by title (ignoring case)
             ObservableList<Book> filteredBooks = FXCollections.observableArrayList(
                     allBooks.stream()
-                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
+                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                                    book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
+                                    book.getPublisher().toLowerCase().contains(query.toLowerCase()) ||
+                                    String.valueOf(book.getISBN()).contains(query) ||
+                                    String.valueOf(book.getPages()).contains(query) ||
+                                    book.getPublicationDate().toLowerCase().contains(query.toLowerCase()))
                             .collect(Collectors.toList())
             );
             updateBookGrid(filteredBooks);  // Display the filtered books
         }
-    }
+
 
 
 }
