@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
  */
 public class MyBooksController implements Initializable {
 
-    //FXML fields for linking the UI elements in the view
+    // FXML fields for linking the UI elements in the view
     @FXML
-    private ChoiceBox<Collection> collectionsChoiceBox; //Dropdown for selecting a collection
+    private ChoiceBox<Collection> collectionsChoiceBox;
 
     @FXML
-    private GridPane bookContainer; //Grid layout for displaying books
+    private GridPane bookContainer; // Grid layout for displaying books
 
     @FXML
     private TextField searchTextField;
@@ -62,7 +62,6 @@ public class MyBooksController implements Initializable {
         reloadBooksForSelectedCollection();
         collectionsChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                //System.out.println(newValue); //debugging tool
                 loadBooks(newValue);
             }
         });
@@ -75,10 +74,9 @@ public class MyBooksController implements Initializable {
      * @param book The book that was clicked.
      */
     private void handleBookClick(Book book){
-        //System.out.println("Book clicked: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensu
-        ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book); // set flag for Book Detail page
-        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS); // set flag for Book Detail page
-        //System.out.println("Book " + book + "was clicked");
+        // Set flag for Book Detail page
+        ViewManager.getInstance().getViewFactory().getUserSelectedBook().set(book);
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.BOOKDETAILS);
     }
 
     /**
@@ -87,10 +85,10 @@ public class MyBooksController implements Initializable {
     public void reloadBooksForSelectedCollection() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
         if (selectedCollection != null) {
-            //System.out.println("Reloading books for collection: " + selectedCollection.getCollectionName());
-            loadBooks(selectedCollection); // Force reloading the books for the selected collection
+            // Force reloading the books for the selected collection
+            loadBooks(selectedCollection);
         } else {
-            //System.out.println("No collection selected.");
+            System.out.println("No collection selected.");
         }
     }
 
@@ -100,21 +98,17 @@ public class MyBooksController implements Initializable {
      * @param collection The collection for which the books should be loaded.
      */
     private void loadBooks(Collection collection) {
-        //System.out.println("Loading books for collection: " + collection.getCollectionName());
-        //System.out.println("which has an ID of: " + collection.getId());
-        //get current user
+        // Get current User
         User currentUser = UserManager.getInstance().getCurrentUser();
 
-        //get collection name and ID
+        // Get Collection Name and ID
         String collectionName = collection.getCollectionName();
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-        //System.out.println("passing: " + collection);
-        //Get the books from the database for the selected collection
+        // Get the books from the database for the selected collection
         ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
-        //System.out.println(books);
 
-        //update grid
+        // Update grid
         updateBookGrid(books);
     }
 
@@ -126,17 +120,17 @@ public class MyBooksController implements Initializable {
      */
     private void updateBookGrid(ObservableList<Book> books) {
         Platform.runLater(() -> {
-            //System.out.println("Updating book grid with " + books.size() + " books.");
 
-            //track rows and columns
+            // Track rows and columns
             int columns = 0;
             int rows = 1;
             int maxColumns = 4;
 
-            bookContainer.getChildren().clear(); // Clear existing content
+            // Clear existing content
+            bookContainer.getChildren().clear();
 
             try {
-                //create book UI for each book
+                // Create book UI for each book
                 for (Book book : books) {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Book.fxml"));
@@ -144,22 +138,22 @@ public class MyBooksController implements Initializable {
                     BookController bookController = fxmlLoader.getController();
                     bookController.setData(book);
 
-                    //Add a mouse click event for each book being clicked
+                    // Add a mouse click event for each book being clicked
                     bookBox.setOnMouseClicked(event -> handleBookClick(book));
 
-                    //add book to current row and column
+                    // Add book to current row and column
                     bookContainer.add(bookBox, columns, rows);
                     GridPane.setMargin(bookBox, new Insets(10));
 
-                    //update rows and columns
+                    // Update rows and columns
                     columns++;
                     if (columns == maxColumns) {
-                        columns = 0;  // Reset to the first column
-                        rows++;       // Move to the next row
+                        columns = 0;
+                        rows++;
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error updating book grid: " + e.getMessage());
             }
         });
     }
@@ -170,6 +164,9 @@ public class MyBooksController implements Initializable {
      */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
+        // Clear existing items in case switching accounts
+        collectionsChoiceBox.getItems().clear();
+
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionsChoiceBox.setItems(collections);
 
@@ -186,7 +183,8 @@ public class MyBooksController implements Initializable {
      */
     private void filterBooks(String query) {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection == null) return;  // Exit if no collection is selected
+        // Exit if no collection is selected
+        if (selectedCollection == null) return;
 
         // Get the current user
         User currentUser = UserManager.getInstance().getCurrentUser();
@@ -208,7 +206,8 @@ public class MyBooksController implements Initializable {
                             .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
                             .collect(Collectors.toList())
             );
-            updateBookGrid(filteredBooks);  // Display the filtered books
+            // Display the filtered books
+            updateBookGrid(filteredBooks);
         }
     }
 

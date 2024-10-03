@@ -1,4 +1,5 @@
 package com.example.cab302assessment10b0101.controllers;
+import com.example.cab302assessment10b0101.model.UserManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 
@@ -59,7 +60,6 @@ public class UserMenuController implements Initializable {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.LENDING);
     }
 
-
     /**
      * This method is called when the "Add Collection" button is clicked.
      * It sets the selected menu item to the ADDCOLLECTION view.
@@ -74,11 +74,11 @@ public class UserMenuController implements Initializable {
      * It closes the current stage (window) and shows a logout success alert.
      */
     @FXML
-    private void onLogoutClicked(){
-        Stage stage = (Stage) myBooksBtn.getScene().getWindow();
-        ViewManager.getInstance().getViewFactory().closeStage(stage);
-        //ViewManager.getInstance().getViewFactory().getLoginScreen();
-        //UserManager.getInstance().setCurrentUser(null);
+    private void onLogoutClicked() {
+        // Immediately return to Login screen and reset any session data before returning to login
+        resetUserData();
+        goToLoginPage();
+        // Show logout success popup
         showLogoutSuccessAlert();
     }
 
@@ -86,13 +86,30 @@ public class UserMenuController implements Initializable {
      * Displays a confirmation alert indicating successful logout.
      */
     private void showLogoutSuccessAlert() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Logout Successful");
-        alert.setHeaderText(null);  // Optional: Set to null if you don't want a header
-        alert.setContentText("You have successfully logged out.");
+        alert.setHeaderText(null);
+        alert.setContentText("You have been logged out successfully.");
 
-        // Display the alert and wait for the user to close it
+        // Show the alert and wait
         alert.showAndWait();
+    }
+
+    /**
+     * Resets the current user and other session-related data.
+     */
+    private void resetUserData() {
+        UserManager.getInstance().setCurrentUser(null);
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(null);
+    }
+
+    /**
+     * Navigates back to the login page after successful logout.
+     */
+    private void goToLoginPage() {
+        Stage stage = (Stage) myBooksBtn.getScene().getWindow();
+        ViewManager.getInstance().getViewFactory().closeStage(stage);
+        ViewManager.getInstance().getViewFactory().getLoginScreen();  // Show the login screen again
     }
 
     /**
@@ -106,6 +123,5 @@ public class UserMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
     }
 }
