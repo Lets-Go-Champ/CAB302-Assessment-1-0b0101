@@ -53,6 +53,6 @@
           <Font size="39.0"/>
         </font>
     </Label>
-    <Line endX="802.0000610351562" endY="7.62939453125E-6" layoutX="122.0" layoutY="113.0" startX="-100.0"
+    <Line endX="832" endY="7.62939453125E-6" layoutX="122.0" layoutY="113.0" startX="-100.0"
           strokeWidth="2.0"/>
 </AnchorPane>

@@ -9,7 +9,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302assessment10b0101.controllers.ProfileIconController">
     <HBox alignment="CENTER_LEFT" spacing="15" AnchorPane.topAnchor="15" AnchorPane.rightAnchor="20" >
-        <Label text="USER">
+        <Label text="PROFILE">
             <font>
                 <Font size="23.0" />
             </font>
