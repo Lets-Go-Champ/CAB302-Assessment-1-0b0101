@@ -7,7 +7,8 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.ProfileController">
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.ProfileController"
+     minHeight="730" minWidth="960">
     <Label layoutX="49.0" layoutY="55.0" prefHeight="23.0" prefWidth="118.0" text="Username">
         <font>
             <Font name="System Bold" size="24.0"/>
