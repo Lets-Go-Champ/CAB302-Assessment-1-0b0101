@@ -31,8 +31,8 @@
                 </Tab>
                 <Tab text="Manual Entry">
                     <ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS">
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="911.0">
-                            <VBox layoutY="14.0" prefHeight="639.0" prefWidth="394.0" AnchorPane.leftAnchor="0.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="911.0">
+                            <VBox layoutY="14.0" prefHeight="639.0" prefWidth="394.0" AnchorPane.leftAnchor="20.0">
 
                                 <Label text="Add to Collection">
                                     <font>
