@@ -75,6 +75,40 @@ public class UserDAO {
     }
 
     /**
+     * Updates the username record in the Users table.
+     *
+     * @param newUsername The new username of the user to be updated
+     * @param originalUsername The original username of the user
+     */
+    public void updateUsername(String newUsername, String originalUsername) {
+        try {
+            PreparedStatement updateUsername = connection.prepareStatement(
+                    "UPDATE Users SET username=? WHERE username=?"
+            );
+            updateUsername.setString(1, newUsername);
+            updateUsername.setString(2, originalUsername);
+            updateUsername.execute();
+        } catch (SQLException ex) { System.err.println(ex); }
+    }
+
+    /**
+     * Updates the password record in the Users table.
+     *
+     * @param newPassword The new password of the user to be updated
+     * @param username The original username of the user
+     */
+    public void updatePassword(String newPassword, String username) {
+        try {
+            PreparedStatement updatePassword = connection.prepareStatement(
+                    "UPDATE Users SET password=? WHERE username=?"
+            );
+            updatePassword.setString(1, newPassword);
+            updatePassword.setString(2, username);
+            updatePassword.execute();
+        } catch (SQLException ex) { System.err.println(ex); }
+    }
+
+    /**
      * Validates the user's credentials against records in the Users table.
      *
      * @param username The username entered by the user.

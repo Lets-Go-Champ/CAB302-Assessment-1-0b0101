@@ -1,8 +1,7 @@
 package com.example.cab302assessment10b0101.views;
-import com.example.cab302assessment10b0101.controllers.BookDetailsController;
-import com.example.cab302assessment10b0101.controllers.ClientController;
-import com.example.cab302assessment10b0101.controllers.EditBookDetailsController;
+import com.example.cab302assessment10b0101.controllers.*;
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +26,7 @@ public class ViewFactory {
     private AnchorPane addBookView;
     private AnchorPane booksDetailsView;
     private AnchorPane editBookDetailsView;
+    private AnchorPane profileView;
     private AnchorPane lendingView;
 
     /**
@@ -181,6 +181,21 @@ public class ViewFactory {
             }
         }
         return lendingView;
+    }
+
+    public AnchorPane getProfileView() {
+        if (profileView == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Profile.fxml"));
+                profileView = loader.load();
+
+                ProfileController controller = loader.getController();
+                String currentUserUsername = UserManager.getInstance().getCurrentUser().getUsername();
+                String currentUserPassword = UserManager.getInstance().getCurrentUser().getPassword();
+                controller.populateFields(currentUserUsername, currentUserPassword);
+            } catch (Exception e) { e.printStackTrace(); }
+        }
+        return profileView;
     }
 
     /**

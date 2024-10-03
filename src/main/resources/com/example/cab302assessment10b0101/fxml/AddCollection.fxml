@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane minHeight="730" minWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302assessment10b0101.controllers.AddCollectionController">
     <VBox layoutX="22.0" layoutY="150.0" prefHeight="365.0" prefWidth="242.0">
         <Label text="Collection Name">
@@ -53,6 +53,6 @@
           <Font size="39.0"/>
         </font>
     </Label>
-    <Line endX="802.0000610351562" endY="7.62939453125E-6" layoutX="122.0" layoutY="113.0" startX="-100.0"
+    <Line endX="832" endY="7.62939453125E-6" layoutX="122.0" layoutY="113.0" startX="-100.0"
           strokeWidth="2.0"/>
 </AnchorPane>

@@ -1,16 +1,14 @@
 package com.example.cab302assessment10b0101.controllers;
+
 import com.example.cab302assessment10b0101.model.UserManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import com.example.cab302assessment10b0101.model.ViewManager;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -122,6 +120,5 @@ public class UserMenuController implements Initializable {
      *                      or null if the root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle){}
 }
