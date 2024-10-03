@@ -68,7 +68,7 @@ public class EditBookDetailsController implements Initializable {
     final String noTitleErrorMessage = "Please enter a Title.";
     final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
-    final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    final String invalidISBNMessage = "The ISBN must be 10 digits long and only contain digits 0-9.";
     final String noAuthorErrorMessage = "Please enter an Author.";
     final String noDescriptionMessage = "Please enter a description";
     final String noPublisherMessage = "Please enter a publisher.";
@@ -257,16 +257,22 @@ public class EditBookDetailsController implements Initializable {
     }
 
     /**
-     * Checks if the provided ISBN is valid (contains only digits)
-     * @param isbn The ISBN to validate
-     * @return True if the ISBN contains only digits, False otherwise
+     * Validates if the ISBN consists of exactly 10 digits and is numeric.
+     *
+     * @param isbn The ISBN string.
+     * @return True if valid, otherwise false.
      */
     private boolean isValidISBN(String isbn) {
-        try { Integer.parseInt(isbn); }
-        catch (Exception e ) { return false; }
-
-        // Function assumes that an integer value is a valid ISBN
-        // Functionality for further validating and ISBN can be implemented in future
+        // Check if ISBN is exactly 10 digits long
+        if (isbn == null || isbn.length() != 10) {
+            return false;
+        }
+        // Check if the ISBN is numeric and fits within the range of an int
+        try {
+            Integer.parseInt(isbn);
+        } catch (NumberFormatException e) {
+            return false;
+        }
         return true;
     }
 
