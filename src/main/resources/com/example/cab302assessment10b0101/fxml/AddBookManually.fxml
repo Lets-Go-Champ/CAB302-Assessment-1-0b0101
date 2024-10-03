@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
     <VBox prefHeight="730" prefWidth="960">
         <Label text="Add Book">
@@ -90,6 +91,12 @@
                                 </Label>
                                 <TextField fx:id="notesTextField" layoutX="43.0" layoutY="889.0"
                                            prefHeight="168.0" prefWidth="362.0"/>
+                                <Label text="Reading Status">
+                                    <font>
+                                        <Font name="System Bold" size="24.0"/>
+                                    </font>
+                                </Label>
+                                <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25.0" prefWidth="352.0"/>
                                 <Label layoutX="41.0" layoutY="1078.0" text="Cover Image">
                                     <font>
                                         <Font name="System Bold" size="24.0"/>

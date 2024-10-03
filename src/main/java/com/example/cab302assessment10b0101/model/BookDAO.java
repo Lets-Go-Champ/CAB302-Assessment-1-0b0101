@@ -55,11 +55,12 @@ public class BookDAO {
                             "pages INTEGER," +
                             "notes TEXT," +
                             "image BLOB," +
+                            "readingStatus TEXT," +
                             "FOREIGN KEY (collectionId) REFERENCES Collections(collectionId)" +
                             ");"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error creating table: " + ex.getMessage());
         }
     }
 
@@ -71,8 +72,8 @@ public class BookDAO {
      */    public void insert(Book book) {
         try {
             PreparedStatement insertBook = connection.prepareStatement(
-                    "INSERT INTO Books (collectionId, title, ISBN, author, description, publicationDate, publisher, pages, notes, image) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+                    "INSERT INTO Books (collectionId, title, ISBN, author, description, publicationDate, publisher, pages, notes, image, readingStatus) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
             );
             insertBook.setInt(1, book.getCollectionId());
             insertBook.setString(2, book.getTitle());
@@ -84,9 +85,10 @@ public class BookDAO {
             insertBook.setInt(8, book.getPages());
             insertBook.setString(9, book.getNotes());
             insertBook.setBytes(10, book.getBytes());
+            insertBook.setString(11, book.getReadingStatus());
             insertBook.execute();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println("Error inserting book: " + ex.getMessage());
         }
     }
 
@@ -98,7 +100,7 @@ public class BookDAO {
      */    public void update(Book book, String originalTitle) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(
-                    "UPDATE Books SET collectionId=?, title=?, isbn=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=? WHERE title=?"
+                    "UPDATE Books SET collectionId=?, title=?, isbn=?, author=?, description=?, publicationDate=?, publisher=?, pages=?, notes=?, image=?, readingStatus=? WHERE title=?"
             );
             updateBook.setInt(1, book.getCollectionId());
             updateBook.setString(2, book.getTitle());
@@ -110,9 +112,12 @@ public class BookDAO {
             updateBook.setInt(8, book.getPages());
             updateBook.setString(9, book.getNotes());
             updateBook.setBytes(10, book.getBytes());
-            updateBook.setString(11, originalTitle);
+            updateBook.setString(11, book.getReadingStatus());
+            updateBook.setString(12, originalTitle);
             updateBook.execute();
-        } catch (SQLException ex) { System.err.println(ex); }
+        } catch (SQLException ex) {
+            System.err.println("Error updating book: " + ex.getMessage());
+        }
     }
 
     /**
@@ -138,7 +143,8 @@ public class BookDAO {
                                 rs.getString("publisher"),
                                 rs.getInt("pages"),
                                 rs.getString("notes"),
-                                rs.getBytes("image")
+                                rs.getBytes("image"),
+                                rs.getString("readingStatus")
                         )
                 );
             }
@@ -179,7 +185,8 @@ public class BookDAO {
                         rs.getString("publisher"),
                         rs.getInt("pages"),
                         rs.getString("notes"),
-                        rs.getBytes("image")
+                        rs.getBytes("image"),
+                        rs.getString("readingStatus")
                 );
                 books.add(book);
                 bookCount++;
@@ -188,5 +195,80 @@ public class BookDAO {
             System.err.println("Error retrieving books: " + e.getMessage());
         }
         return books;
+    }
+
+    public void deleteBook(String isbn) throws SQLException {
+        String sql = "DELETE FROM books WHERE isbn = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, isbn); // Set the ISBN to delete
+            int rowsAffected = pstmt.executeUpdate(); // Execute the update query
+
+            if (rowsAffected > 0) {
+                System.out.println("Book with ISBN " + isbn + " deleted successfully.");
+            } else {
+                System.out.println("No book found with ISBN " + isbn + ".");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error deleting book with ISBN " + isbn + ": " + e.getMessage());
+            throw e; // Optionally rethrow the exception
+        }
+    }
+
+    public Book getBookById(int bookId) {
+        String query = "SELECT * FROM Books WHERE bookId = ?";
+        try (PreparedStatement getBook = connection.prepareStatement(query)) {
+            // Set the bookId value
+            getBook.setInt(1, bookId);
+
+            // Execute the query and process the result set
+            ResultSet rs = getBook.executeQuery();
+
+            if (rs.next()) {
+                return new Book(
+                        rs.getInt("collectionId"),
+                        rs.getInt("bookId"),
+                        rs.getString("title"),
+                        rs.getInt("isbn"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("publicationDate"),
+                        rs.getString("publisher"),
+                        rs.getInt("pages"),
+                        rs.getString("notes"),
+                        rs.getBytes("image"),
+                        rs.getString("readingStatus")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving book: " + e.getMessage());
+        }
+        return null; // Return null if no book is found with the given ID
+    }
+
+    public Book getBookByName(String bookName) {
+        String query = "SELECT * FROM Books WHERE title = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, bookName);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Book(
+                        rs.getInt("bookId"),
+                        rs.getInt("collectionId"),
+                        rs.getString("title"),
+                        rs.getInt("isbn"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("publicationDate"),
+                        rs.getString("publisher"),
+                        rs.getInt("pages"),
+                        rs.getString("notes"),
+                        rs.getBytes("image"),
+                        rs.getString("readingStatus")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving book by name: " + e.getMessage());
+        }
+        return null; // Return null if no book is found
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface CollectionDAOInterface {
 
     /**
-     * Inserts a new collection into the data store.
+     * Inserts a new collection into the database.
      *
      * @param collection The Collection object to be inserted.
      */

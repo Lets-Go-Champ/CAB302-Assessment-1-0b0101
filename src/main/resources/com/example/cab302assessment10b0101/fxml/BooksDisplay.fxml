@@ -25,8 +25,8 @@
  </ScrollPane>
    <HBox alignment="CENTER" layoutX="20.0" layoutY="94.0" prefHeight="48.0" prefWidth="353.0">
       <children>
-         <TextField prefHeight="48.0" prefWidth="238.0" HBox.hgrow="ALWAYS" />
-         <FontAwesomeIconView glyphName="SEARCH" size="30" wrappingWidth="17.142857551574707">
+          <TextField fx:id="searchTextField" prefHeight="48.0" prefWidth="238.0" HBox.hgrow="ALWAYS"/>
+          <FontAwesomeIconView glyphName="SEARCH" size="30" wrappingWidth="17.142857551574707">
             <HBox.margin>
                <Insets left="25.0" />
             </HBox.margin>

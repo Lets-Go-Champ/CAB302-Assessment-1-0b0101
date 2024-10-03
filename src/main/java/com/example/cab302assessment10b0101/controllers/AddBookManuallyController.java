@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,36 +30,38 @@ public class AddBookManuallyController implements Initializable {
 
     //FXML UI components used for adding book details
     @FXML
-    private ChoiceBox<Collection> collectionChoiceBox; //Dropdown for choosing a collection
+    private ChoiceBox<Collection> collectionChoiceBox; // Dropdown for choosing a collection
     @FXML
-    private TextField isbnTextField; //Input field for ISBN
+    private TextField isbnTextField; // Input field for ISBN
     @FXML
-    private TextField titleTextField; //Input field for book title
+    private TextField titleTextField; // Input field for book title
     @FXML
-    private TextField authorTextField; //Input field for book author
+    private TextField authorTextField; // Input field for book author
     @FXML
-    private TextField descriptionTextField; //Input field for book description
+    private TextField descriptionTextField; // Input field for book description
     @FXML
-    private TextField publisherTextField; //Input field for publisher
+    private TextField publisherTextField; // Input field for publisher
     @FXML
-    private DatePicker dateDatePicker; //Date picker for publication date
+    private DatePicker dateDatePicker; // Date picker for publication date
     @FXML
-    private TextField pagesTextField; //Input field for page count
+    private TextField pagesTextField; // Input field for page count
     @FXML
-    private TextField notesTextField; //Input field for user notes
+    private TextField notesTextField; // Input field for user notes
     @FXML
-    private Button addBookButton; //Button to add the book
+    private Button addBookButton; // Button to add the book
     @FXML
-    private Button addImageButton; //Button to upload a book cover image
+    private Button addImageButton; // Button to upload a book cover image
     @FXML
-    private Image image; //Image field for storing the uploaded book cover image
+    private Image image; // Image field for storing the uploaded book cover image
+    @FXML
+    private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
 
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
     final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
-    final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    final String invalidISBNMessage = "The ISBN must be 10 digits long and only contain digits 0-9.";
     final String noAuthorErrorMessage = "Please enter an Author.";
     final String noDescriptionMessage = "Please enter a description";
     final String noPublisherMessage = "Please enter a publisher.";
@@ -69,6 +72,7 @@ public class AddBookManuallyController implements Initializable {
     final String noImageMessage = "Please select a cover image.";
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
+    final String noReadingStatusMessage = "Please select a reading status.";
 
     /**
      * Initializes the controller, setting up event handlers and populating the collections list.
@@ -77,6 +81,7 @@ public class AddBookManuallyController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         setupEventHandlers();
         populateCollections();
+        populateReadingStatus();
     }
 
     /**
@@ -115,6 +120,7 @@ public class AddBookManuallyController implements Initializable {
         LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
+        String readingStatus = readingStatusChoiceBox.getSelectionModel().getSelectedItem();
 
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
@@ -127,12 +133,21 @@ public class AddBookManuallyController implements Initializable {
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
         // Validate all input fields
-        if (validateFields(title, isbn, author, description, publisher, pages, notes)) {
+        if (validateFields(title, isbn, author, description, publisher, pages, notes, readingStatus)) {
 
             // Save the book to the database
-            saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes);
+            saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
         }
+    }
+
+    /**
+     * Populates the reading status choice box with options: Unread, Reading, Read.
+     */
+    private void populateReadingStatus() {
+        ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
+        readingStatusChoiceBox.setItems(readingStatusOptions);
+        // readingStatusChoiceBox.getSelectionModel().selectFirst(); // Set default selection, still debating if this is good practice
     }
 
     /**
@@ -156,10 +171,11 @@ public class AddBookManuallyController implements Initializable {
      * @param publisher The publisher of the book
      * @param pages The book's page count
      * @param notes The user added notes for the book
+     * @param readingStatus The current reading status of the book
      * @return True if all fields are valid, False otherwise
      */
     private boolean validateFields(String title, String isbn, String author, String description,
-                                   String publisher, String pages, String notes) {
+                                   String publisher, String pages, String notes, String readingStatus) {
 
         if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
@@ -173,21 +189,27 @@ public class AddBookManuallyController implements Initializable {
         if ( !isPagesValid(pages) ) { showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
         if ( notes.isEmpty() ) { showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
         if ( image == null ) { showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
+        if (readingStatus == null || readingStatus.isEmpty()) { showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
         return true;
     }
 
     /**
-     * Validates if the ISBN consists of only digits.
+     * Validates if the ISBN consists of exactly 10 digits and is numeric.
      *
      * @param isbn The ISBN string.
      * @return True if valid, otherwise false.
      */
     private boolean isValidISBN(String isbn) {
-        try { Integer.parseInt(isbn); }
-        catch (Exception e ) { return false; }
-
-        // Function assumes that an integer value is a valid ISBN
-        // Functionality for further validating and ISBN can be implemented in future
+        // Check if ISBN is exactly 10 digits long
+        if (isbn == null || isbn.length() != 10) {
+            return false;
+        }
+        // Check if the ISBN is numeric and fits within the range of an int
+        try {
+            Integer.parseInt(isbn);
+        } catch (NumberFormatException e) {
+            return false;
+        }
         return true;
     }
 
@@ -287,9 +309,10 @@ public class AddBookManuallyController implements Initializable {
      * @param publicationDate The date the book was published
      * @param pages The book's page count
      * @param note User defined note regarding the book
+     * @param readingStatus The current reading status of the book
      */
     private void saveBook(int collectionId, String title, String isbn, String author, String description,
-                          String publisher, String publicationDate, String pages, String note) {
+                          String publisher, String publicationDate, String pages, String note, String readingStatus) {
 
         //Convert image to byte array
         String imagePath = image.getUrl();
@@ -297,7 +320,7 @@ public class AddBookManuallyController implements Initializable {
 
         //If image conversion succeeds create a new book and insert it into the database
         if (imageBytes.length != 0) {
-            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes);
+            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
             BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
