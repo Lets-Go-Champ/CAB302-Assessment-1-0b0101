@@ -52,6 +52,15 @@ public class UserMenuController implements Initializable {
     }
 
     /**
+     * This method is called when the "Lending" button is clicked.
+     * It sets the selected menu item to the LENDING view.
+     */
+    @FXML
+    private void onLendingClicked(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.LENDING);
+    }
+
+    /**
      * This method is called when the "Add Collection" button is clicked.
      * It sets the selected menu item to the ADDCOLLECTION view.
      */

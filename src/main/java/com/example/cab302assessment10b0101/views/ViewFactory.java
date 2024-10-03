@@ -27,6 +27,7 @@ public class ViewFactory {
     private AnchorPane addBookView;
     private AnchorPane booksDetailsView;
     private AnchorPane editBookDetailsView;
+    private AnchorPane lendingView;
 
     /**
      * Constructor for ViewFactory.
@@ -171,6 +172,17 @@ public class ViewFactory {
         return editBookDetailsView;
     }
 
+    public AnchorPane getLendingView(){
+        if (lendingView == null) {
+            try{
+                lendingView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/main-lending-page.fxml")).load();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return lendingView;
+    }
+
     /**
      * Displays the login screen.
      * Loads the login FXML and creates a new stage for the login window.
@@ -179,7 +191,6 @@ public class ViewFactory {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
         createStage(loader);
     }
-
 
     /**
      * Displays the client screen.
