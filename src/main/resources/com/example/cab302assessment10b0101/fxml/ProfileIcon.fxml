@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cab302assessment10b0101.controllers.ProfileIconController">
+    <HBox alignment="TOP_RIGHT" spacing="15" AnchorPane.topAnchor="15" AnchorPane.rightAnchor="20" >
+        <Label text="USER">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </Label>
+        <FontAwesomeIconView glyphName="USER" size="35" onMouseClicked="#getProfileView">
+        </FontAwesomeIconView>
+    </HBox>
+</AnchorPane>

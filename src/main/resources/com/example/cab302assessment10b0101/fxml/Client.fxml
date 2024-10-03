@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Button?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.text.Font?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <BorderPane fx:id="mainBorderPane" prefHeight="730" prefWidth="1120">
         <left>
@@ -17,13 +11,8 @@
         <center>
             <fx:include source="BooksDisplay.fxml" />
         </center>
+        <right>
+            <fx:include source="ProfileIcon.fxml" />
+        </right>
     </BorderPane>
-    <HBox alignment="CENTER_RIGHT" spacing="15" AnchorPane.topAnchor="15" AnchorPane.rightAnchor="20" >
-        <Label text="USER" >
-            <font>
-                <Font size="23.0" />
-            </font>
-        </Label>
-        <FontAwesomeIconView glyphName="USER" size="35"></FontAwesomeIconView>
-    </HBox>
 </AnchorPane>
