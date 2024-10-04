@@ -14,8 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ComboBox?>
-<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
+<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" stylesheets="@../styles/addBookManually.css" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
     <VBox prefHeight="730" prefWidth="960">
         <Label text="Add Book">
            <font>
@@ -35,87 +35,37 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="911.0">
                             <VBox layoutY="14.0" prefHeight="639.0" prefWidth="394.0" AnchorPane.leftAnchor="20.0">
 
-                                <Label text="Add to Collection">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="Add to Collection"> </Label>
                                 <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25.0" prefWidth="352.0"/>
-                                <Label text="Title">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="Title"> </Label>
                                 <TextField fx:id="titleTextField" prefHeight="25.0" prefWidth="355.0"/>
-                                <Label text="ID/ISBN">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="ID/ISBN"> </Label>
                                 <TextField fx:id="isbnTextField" prefHeight="25.0" prefWidth="356.0"/>
-                                <Label text="Author">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="Author"> </Label>
                                 <TextField fx:id="authorTextField" prefHeight="25.0" prefWidth="358.0"/>
-                                <Label text="Description">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="Description"> </Label>
                                 <TextField fx:id="descriptionTextField" prefHeight="168.0" prefWidth="354.0"/>
-                                <Label text="Publisher">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="Publisher"> </Label>
                                 <TextField fx:id="publisherTextField" prefHeight="25.0" prefWidth="355.0"/>
-                                <Label prefHeight="35.0" prefWidth="153.0" text="Publish Date">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label prefHeight="35.0" prefWidth="153.0" text="Publish Date"> </Label>
                                 <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25.0"
                                             prefWidth="358.0"/>
-                                <Label prefHeight="35.0" prefWidth="153.0" text="Pages">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label prefHeight="35.0" prefWidth="153.0" text="Pages"> </Label>
                                 <TextField fx:id="pagesTextField" prefHeight="25.0" prefWidth="355.0"/>
-                                <Label layoutX="43.0" layoutY="854.0" text="Notes">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label layoutX="43.0" layoutY="854.0" text="Notes"> </Label>
                                 <TextField fx:id="notesTextField" layoutX="43.0" layoutY="889.0"
                                            prefHeight="168.0" prefWidth="362.0"/>
-                                <Label text="Reading Status">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label text="Reading Status"> </Label>
                                 <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25.0" prefWidth="352.0"/>
-                                <Label layoutX="41.0" layoutY="1078.0" text="Cover Image">
-                                    <font>
-                                        <Font name="System Bold" size="24.0"/>
-                                    </font>
-                                </Label>
+                                <Label layoutX="41.0" layoutY="1078.0" text="Cover Image"> </Label>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                                     <Button fx:id="addImageButton" layoutX="39.0" layoutY="1128.0"
                                             mnemonicParsing="false" prefHeight="39.0" prefWidth="118.0"
                                             text="Add Image" textFill="#17cd26">
-                                        <font>
-                                            <Font name="System Bold" size="18.0"/>
-                                        </font>
                                     </Button>
                                     <Button fx:id="addBookButton" alignment="CENTER" mnemonicParsing="false"
                                             prefHeight="40.0" prefWidth="134.0" text="Add Book"
                                             textFill="#17cd26">
-                                        <font>
-                                            <Font name="System Bold" size="18.0"/>
-                                        </font>
                                     </Button>
                                 </HBox>
                             </VBox>

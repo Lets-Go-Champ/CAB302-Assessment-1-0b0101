@@ -1,0 +1,38 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: none;
+}
+
+.label {
+    -fx-font-family: Monospace;
+    -fx-font-weight: Bold;
+    -fx-text-fill: #194f4f;
+}
+
+
+.anchor-pane {
+    -fx-background-color: gray;
+}
+
+/* Tabs (Search, Add Manually) */
+.tab {
+    -fx-background-color: none;
+    -fx-font-family: Monospace;
+    -fx-font-weight: Bold;
+    -fx-text-fill: #247373;
+    -fx-font-size: 18;
+}
+
+/* Tab Contents */
+.tab-pane:top .tab-content-area .label {
+        -fx-font-family: Monospace;
+        -fx-font-weight: Bold;
+        -fx-text-fill: #247373;
+        -fx-font-size: 18;
+}
+
+.button {
+    -fx-font-family: Monospace;
+    -fx-font-weight: Bold;
+    -fx-text-fill: #194f4f;
+    -fx-font-size: 14;
+}
