@@ -26,7 +26,7 @@
            </VBox.margin>
         </Label>
         <AnchorPane prefHeight="641.0" prefWidth="960.0">
-            <TabPane prefHeight="730" prefWidth="960" tabMinWidth="125" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="730" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Search">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="636.0" prefWidth="839.0"/>
                 </Tab>
