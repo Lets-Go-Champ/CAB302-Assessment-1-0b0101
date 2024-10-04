@@ -19,7 +19,7 @@
     <VBox prefHeight="730" prefWidth="960">
         <Label text="Add Book">
            <font>
-               <Font size="30.0"/>
+               <Font size="40.0"/>
            </font>
            <VBox.margin>
                <Insets left="40.0" top="20.0"/>
@@ -35,29 +35,29 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="911.0">
                             <VBox layoutY="14.0" prefHeight="639.0" prefWidth="394.0" AnchorPane.leftAnchor="20.0">
 
-                                <Label text="Add to Collection"> </Label>
+                                <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
                                 <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25.0" prefWidth="352.0"/>
-                                <Label text="Title"> </Label>
+                                <Label text="Title" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="titleTextField" prefHeight="25.0" prefWidth="355.0"/>
-                                <Label text="ID/ISBN"> </Label>
+                                <Label text="ID/ISBN" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="isbnTextField" prefHeight="25.0" prefWidth="356.0"/>
-                                <Label text="Author"> </Label>
+                                <Label text="Author" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="authorTextField" prefHeight="25.0" prefWidth="358.0"/>
-                                <Label text="Description"> </Label>
+                                <Label text="Description" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="descriptionTextField" prefHeight="168.0" prefWidth="354.0"/>
-                                <Label text="Publisher"> </Label>
+                                <Label text="Publisher" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="publisherTextField" prefHeight="25.0" prefWidth="355.0"/>
-                                <Label prefHeight="35.0" prefWidth="153.0" text="Publish Date"> </Label>
+                                <Label prefHeight="35.0" prefWidth="200.0" text="Publish Date" styleClass="manualAdd_labels"> </Label>
                                 <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25.0"
                                             prefWidth="358.0"/>
-                                <Label prefHeight="35.0" prefWidth="153.0" text="Pages"> </Label>
+                                <Label prefHeight="35.0" prefWidth="153.0" text="Pages" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="pagesTextField" prefHeight="25.0" prefWidth="355.0"/>
-                                <Label layoutX="43.0" layoutY="854.0" text="Notes"> </Label>
+                                <Label layoutX="43.0" layoutY="854.0" text="Notes" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="notesTextField" layoutX="43.0" layoutY="889.0"
                                            prefHeight="168.0" prefWidth="362.0"/>
-                                <Label text="Reading Status"> </Label>
+                                <Label text="Reading Status" styleClass="manualAdd_labels"> </Label>
                                 <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25.0" prefWidth="352.0"/>
-                                <Label layoutX="41.0" layoutY="1078.0" text="Cover Image"> </Label>
+                                <Label layoutX="41.0" layoutY="1078.0" text="Cover Image" styleClass="manualAdd_labels"> </Label>
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                                     <Button fx:id="addImageButton" layoutX="39.0" layoutY="1128.0"
                                             mnemonicParsing="false" prefHeight="39.0" prefWidth="118.0"

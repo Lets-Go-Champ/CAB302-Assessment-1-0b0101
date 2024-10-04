@@ -3,7 +3,7 @@
 }
 
 .label {
-    -fx-font-family: Monospace;
+    -fx-font-family: "Impact";
     -fx-font-weight: Bold;
     -fx-text-fill: #194f4f;
 }
@@ -16,22 +16,33 @@
 /* Tabs (Search, Add Manually) */
 .tab {
     -fx-background-color: none;
-    -fx-font-family: Monospace;
+    -fx-font-family: "Impact";
     -fx-font-weight: Bold;
+}
 
+/* Tab Sizing */
+.tab-pane:top {
+    -fx-tab-min-height: 40;
     -fx-font-size: 22;
 }
 
-/* Tab Contents */
-.tab-pane:top .tab-content-area .label {
-        -fx-font-family: Monospace;
-        -fx-font-weight: Bold;
-        -fx-text-fill: #247373;
-        -fx-font-size: 18;
+/* Labels within Tabs */
+.manualAdd_labels {
+    -fx-font-family: "Impact";
+    -fx-text-fill: #247373;
+    -fx-font-size: 20;
 }
 
+/* TextFields in Tab Contents */
+.tab-pane:top .tab-content-area .text-field {
+    -fx-font-family: Amaranth;
+    -fx-font-weight: Bold;
+    -fx-font-size: 16;
+}
+
+/* addImage/saveBook buttons */
 .button {
-    -fx-font-family: Monospace;
+    -fx-font-family: "Impact";
     -fx-font-weight: Bold;
     -fx-text-fill: #194f4f;
     -fx-font-size: 14;
