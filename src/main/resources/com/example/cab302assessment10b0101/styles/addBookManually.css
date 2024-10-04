@@ -2,7 +2,6 @@
 /* Title (Add Book) */
 .title_label {
     -fx-font-family: "Impact";
-    -fx-font-weight: Bold;
     -fx-font-size: 40;
     -fx-text-fill: #247373;
 }
@@ -16,7 +15,7 @@
 /* Tab Sizing */
 .tab-pane:top {
     -fx-tab-min-height: 40;
-    -fx-font-size: 22;
+    -fx-font-size: 20;
 }
 
 /* Tab Background */
@@ -24,15 +23,19 @@
     -fx-background-color: none;
 }
 
-/* Labels within Tabs */
+/* Selected Tab Highlight */
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+    -fx-border-color: none;
+}
+
+/* Labels */
 .manualAdd_labels {
     -fx-font-family: "Impact";
     -fx-font-size: 20;
 }
 
-/* TextFields in Tab Contents */
+/* TextFields */
 .tab-pane:top .tab-content-area .text-field {
-    -fx-font-weight: Bold;
     -fx-font-size: 16;
 }
 
@@ -51,7 +54,6 @@
 /* addImage/saveBook buttons */
 .button {
     -fx-font-family: "Impact";
-    -fx-font-weight: Bold;
     -fx-text-fill: #247373;
     -fx-font-size: 16;
     -fx-pref-width: 120;
@@ -70,4 +72,10 @@
     -fx-font-size: 12;
     -fx-background-color : #247373;
     -fx-background-radius : 2em;
+}
+
+/* Scroll Bar Arrows */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: #247373;
 }

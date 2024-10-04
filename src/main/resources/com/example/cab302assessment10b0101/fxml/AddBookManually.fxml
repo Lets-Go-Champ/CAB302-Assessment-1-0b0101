@@ -26,19 +26,18 @@
         </Label>
 
         <AnchorPane prefHeight="641" prefWidth="960">
-            <TabPane prefHeight="730" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
+            <ScrollPane prefHeight="535" prefWidth="935" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+                <TabPane prefHeight="730" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
 
-                <!-- Search Tab -->
-                <Tab text="Search">
-                    <AnchorPane prefHeight="636" prefWidth="839"/>
-                </Tab>
+                    <!-- Search Tab -->
+                    <Tab text="Search">
+                        <AnchorPane prefHeight="636" prefWidth="839"/>
+                    </Tab>
 
-                <!-- Add Manually Tab -->
-                <Tab text="Manual Entry">
-                    <ScrollPane hbarPolicy="NEVER" prefHeight="535" prefWidth="898" vbarPolicy="ALWAYS">
+                    <!-- Add Manually Tab -->
+                    <Tab text="Manual Entry">
                         <AnchorPane prefHeight="800.0" prefWidth="911.0">
                             <VBox layoutY="14" prefHeight="639" prefWidth="394" AnchorPane.leftAnchor="20">
-
                                 <!-- Collection -->
                                 <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
                                 <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="360"/>
@@ -85,9 +84,9 @@
 
                             </VBox>
                         </AnchorPane>
-                    </ScrollPane>
-                </Tab>
-            </TabPane>
+                    </Tab>
+                </TabPane>
+            </ScrollPane>
         </AnchorPane>
     </VBox>
 </AnchorPane>
