@@ -3,12 +3,8 @@
 .title_label {
     -fx-font-family: "Impact";
     -fx-font-weight: Bold;
+    -fx-font-size: 40;
     -fx-text-fill: #247373;
-}
-
-/* Root Background */
-.anchor-pane {
-    -fx-background-color: gray;
 }
 
 /* Tabs (Search, Add Manually) */
@@ -47,12 +43,19 @@
     -fx-font-size: 16;
 }
 
+/* Date Picker Window Sizing */
+.date-picker {
+    -fx-font-size: 12;
+}
+
 /* addImage/saveBook buttons */
 .button {
     -fx-font-family: "Impact";
     -fx-font-weight: Bold;
     -fx-text-fill: #247373;
     -fx-font-size: 16;
+    -fx-pref-width: 120;
+    -fx-pref-height: 40;
 }
 
 /* Scroll Bar */
@@ -67,9 +70,4 @@
     -fx-font-size: 12;
     -fx-background-color : #247373;
     -fx-background-radius : 2em;
-}
-
-/* Date Picker Window Sizing */
-.date-picker {
-    -fx-font-size: 12;
 }
