@@ -6,6 +6,7 @@
     -fx-text-fill: #194f4f;
 }
 
+/* Root Background */
 .anchor-pane {
     -fx-background-color: gray;
 }
@@ -42,7 +43,6 @@
     -fx-font-size: 16;
 }
 
-
 /* Choice Boxes */
 .choice-box {
     -fx-font-weight: Bold;
@@ -57,4 +57,16 @@
     -fx-font-weight: Bold;
     -fx-text-fill: #194f4f;
     -fx-font-size: 16;
+}
+
+.scroll-bar:vertical {
+    -fx-font-size: 12;
+    -fx-background-color: none;
+    -fx-padding: 2em;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-font-size: 12;
+    -fx-background-color : #247373;
+    -fx-background-radius : 2em;
 }
