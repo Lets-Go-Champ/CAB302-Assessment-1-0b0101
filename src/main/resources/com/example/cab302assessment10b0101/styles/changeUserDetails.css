@@ -1,6 +1,11 @@
 
-.label {
+.heading {
     -fx-font-family: "Impact";
+    -fx-font-size: 30;
+}
+
+.sub_heading {
+    -fx-font-weight: Bold;
     -fx-font-size: 20;
 }
 
@@ -14,3 +19,4 @@
     -fx-font-size: 16;
     -fx-text-fill: #247373;
 }
+
