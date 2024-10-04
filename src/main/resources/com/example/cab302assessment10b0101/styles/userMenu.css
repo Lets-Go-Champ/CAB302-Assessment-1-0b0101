@@ -38,7 +38,7 @@
 }
 
 .menu_container Button {
-    -fx-background-color: none;
+    -fx-background-color: white;
     -fx-border-width: 0.1em;
     -fx-border-radius: 0.5em;
     -fx-border-color: #247373;
