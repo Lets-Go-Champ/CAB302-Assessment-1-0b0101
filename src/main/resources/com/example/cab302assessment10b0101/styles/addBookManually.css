@@ -59,14 +59,21 @@
     -fx-font-size: 16;
 }
 
+/* Scroll Bar */
 .scroll-bar:vertical {
     -fx-font-size: 12;
     -fx-background-color: none;
     -fx-padding: 2em;
 }
 
+/* Scroll Bar Thumb */
 .scroll-bar:vertical .thumb {
     -fx-font-size: 12;
     -fx-background-color : #247373;
     -fx-background-radius : 2em;
+}
+
+/* Date Picker Window Sizing */
+.date-picker {
+    -fx-font-size: 12;
 }
