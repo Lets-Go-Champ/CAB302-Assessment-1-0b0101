@@ -18,8 +18,8 @@
     -fx-background-color: none;
     -fx-font-family: Monospace;
     -fx-font-weight: Bold;
-    -fx-text-fill: #247373;
-    -fx-font-size: 18;
+
+    -fx-font-size: 22;
 }
 
 /* Tab Contents */

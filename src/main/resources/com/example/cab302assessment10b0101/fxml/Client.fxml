@@ -17,7 +17,7 @@
         </center>
     </BorderPane>
     <HBox alignment="CENTER_LEFT" spacing="15" AnchorPane.topAnchor="15" AnchorPane.rightAnchor="20" >
-        <Label text="PROFILE">
+        <Label text="USER">
             <font>
                 <Font size="23.0" />
             </font>
