@@ -1,13 +1,10 @@
-.tab-pane .tab-header-area .tab-header-background {
-    -fx-background-color: none;
-}
 
-.label {
+/* Title (Add Book) */
+.title_label {
     -fx-font-family: "Impact";
     -fx-font-weight: Bold;
     -fx-text-fill: #194f4f;
 }
-
 
 .anchor-pane {
     -fx-background-color: gray;
@@ -26,6 +23,11 @@
     -fx-font-size: 22;
 }
 
+/* Tab Background */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: none;
+}
+
 /* Labels within Tabs */
 .manualAdd_labels {
     -fx-font-family: "Impact";
@@ -40,10 +42,19 @@
     -fx-font-size: 16;
 }
 
+
+/* Choice Boxes */
+.choice-box {
+    -fx-font-weight: Bold;
+    -fx-font-fill: black;
+    -fx-text-fill: black;
+    -fx-font-size: 16;
+}
+
 /* addImage/saveBook buttons */
 .button {
     -fx-font-family: "Impact";
     -fx-font-weight: Bold;
     -fx-text-fill: #194f4f;
-    -fx-font-size: 14;
+    -fx-font-size: 16;
 }
