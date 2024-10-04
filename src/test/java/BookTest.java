@@ -24,7 +24,7 @@ public class BookTest {
         byte[] image = new byte[0];  // Initializing an empty byte array for the image
         book = new Book(1, 1, "The Great Test", 123456, "Jackson",
                 "A thrilling adventure", "01-01-2020", "BestPublisher",
-                500, "My favourite book", image);
+                500, "My favourite book", image, "unread");
     }
 
     /**
