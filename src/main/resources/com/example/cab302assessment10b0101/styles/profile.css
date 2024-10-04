@@ -5,7 +5,6 @@
 }
 
 .text-field {
-    -fx-font-weight: Bold;
     -fx-font-size: 16;
 }
 
@@ -13,4 +12,6 @@
     -fx-font-family: "Impact";
     -fx-font-size: 16;
     -fx-text-fill: #247373;
+    -fx-pref-width: 82;
+    -fx-pref-height: 35;
 }
