@@ -33,27 +33,7 @@
             </VBox.margin>
             <TabPane prefHeight="730" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Search">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="636.0" prefWidth="839.0">
-                        <VBox prefWidth="800" layoutX="20.0" layoutY="20.0" spacing="10">
-                            <!-- Collection Selection -->
-                            <Label text="Select Collection:"/>
-                            <ChoiceBox fx:id="collectionChoiceBoxSearch" prefHeight="25.0" prefWidth="300.0"/>
-
-                            <!-- Search Bar -->
-                            <Label text="Search Book by Title:"/>
-                            <HBox spacing="10">
-                                <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="400.0" promptText="Enter book title"/>
-                                <Button fx:id="searchButton" text="Search" prefHeight="25.0" prefWidth="100.0"/>
-                            </HBox>
-
-                            <!-- Area for displaying 5 search results -->
-                            <Label text="Search Results:"/>
-                            <ListView fx:id="searchResultsListView" prefHeight="150.0" prefWidth="500.0"/>
-
-                            <!-- Add to Collection Button -->
-                            <Button fx:id="addToCollectionButton" text="Add to Collection" prefHeight="40.0" prefWidth="150.0" disable="true"/>
-                        </VBox>
-                    </AnchorPane>
+                    <fx:include source="AddBookSearch.fxml"/>
                 </Tab>
                 <Tab text="Manual Entry">
                     <ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS">
