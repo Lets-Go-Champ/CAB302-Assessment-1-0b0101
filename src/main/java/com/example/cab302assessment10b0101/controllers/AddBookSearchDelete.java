@@ -1,13 +1,20 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.Scraper;
+import com.example.cab302assessment10b0101.model.Collection;
+import com.example.cab302assessment10b0101.model.CollectionDAO;
+import com.example.cab302assessment10b0101.model.User;
+import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +38,9 @@ public class AddBookSearchDelete {
     @FXML
     private Button addBookButton; // Button to add book
 
+    @FXML
+    private ChoiceBox<Collection> collectionChoiceBoxSearch; // ChoiceBox to select collection
+
     private Scraper scraper;
 
     private String selectedBookUrl; // Store the URL of the selected book
@@ -47,6 +57,9 @@ public class AddBookSearchDelete {
         // Initially disable the "Add Book" button
         addBookButton.setDisable(true);
 
+        // Load the user's collections into the ChoiceBox
+        populateCollections();
+
         // Listen for changes in the ListView selection
         searchResultsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Enable the "Add Book" button when a book is selected
@@ -57,6 +70,25 @@ public class AddBookSearchDelete {
                 addBookButton.setDisable(false);
             }
         });
+    }
+
+    /**
+     * Populates the collection ChoiceBox with the user's collections.
+     */
+    private void populateCollections() {
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        List<Collection> collections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+
+        // Convert the list of collections to an observable list
+        ObservableList<Collection> observableCollections = FXCollections.observableArrayList(collections);
+
+        // Set the items in the ChoiceBox
+        collectionChoiceBoxSearch.setItems(observableCollections);
+
+        // Select the first collection by default
+        if (!observableCollections.isEmpty()) {
+            collectionChoiceBoxSearch.getSelectionModel().selectFirst();
+        }
     }
 
     /**
@@ -109,7 +141,13 @@ public class AddBookSearchDelete {
             return;
         }
 
-        System.out.println("Add Book button pressed");
+        Collection selectedCollection = collectionChoiceBoxSearch.getSelectionModel().getSelectedItem();
+        if (selectedCollection == null) {
+            showAlert("Error", "No collection selected.", AlertType.ERROR);
+            return;
+        }
+
+        System.out.println("Add Book button pressed for collection: " + selectedCollection.getCollectionName());
 
         // Run the scraping process for book details on a background thread
         new Thread(() -> {
