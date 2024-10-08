@@ -17,9 +17,10 @@
 <AnchorPane prefHeight="730" prefWidth="960" stylesheets="@../styles/addBookManually.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
 
-    <!-- Title -->
     <VBox prefHeight="730" prefWidth="960">
-        <Label text="Add Book" styleClass="title_label">
+
+        <!-- Title -->
+        <Label text="Add Book" styleClass="title">
             <VBox.margin>
                <Insets left="40" top="20"/>
            </VBox.margin>
@@ -30,14 +31,13 @@
                 <TabPane prefHeight="910" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
 
                     <!-- Search Tab -->
-                    <Tab text="Search">
-                        <AnchorPane prefHeight="636" prefWidth="839"/>
-                    </Tab>
+                    <Tab text="Search"> <AnchorPane prefHeight="636" prefWidth="839"/> </Tab>
 
                     <!-- Add Manually Tab -->
                     <Tab text="Manual Entry">
                         <AnchorPane prefHeight="800" prefWidth="911">
                             <VBox layoutY="14" prefHeight="639" prefWidth="394" AnchorPane.leftAnchor="20">
+
                                 <!-- Collection -->
                                 <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
                                 <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="360"/>
@@ -78,10 +78,9 @@
 
                                 <!-- Buttons -->
                                 <HBox alignment="CENTER_RIGHT" prefHeight="100" prefWidth="200">
-                                    <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128" > </Button>
+                                    <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128"> </Button>
                                     <Button fx:id="addBookButton" text="Add Book" mnemonicParsing="false" > </Button>
                                 </HBox>
-
                             </VBox>
                         </AnchorPane>
                     </Tab>
