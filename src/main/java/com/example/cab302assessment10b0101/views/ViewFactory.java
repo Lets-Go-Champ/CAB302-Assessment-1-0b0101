@@ -59,20 +59,18 @@ public class ViewFactory {
 
     /**
      * Loads and returns the My Books view.
-     * This method reloads the FXML and initializes a fresh MyBooksController each time to ensure
-     * that book collections and details are properly refreshed.
-     * @return AnchorPane representing the My Books view.
+     * Only loads the FXML the first time this method is called. Subsequent calls reuse the same view.
+     * @return AnchorPane representing the My Book view.
      */
     public AnchorPane getMyBooksView() {
-        try {
-            // Always reload the FXML to ensure a fresh view and controller each time
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BooksDisplay.fxml"));
-            myBooksView = loader.load();  // Load the view each time
-            loader.getController(); // Get a fresh controller instance
-        } catch (Exception e) {
-            System.out.println("Error loading MyBooksView: " + e.getMessage());
+        if (myBooksView == null) {
+            try{
+                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BooksDisplay.fxml")).load();
+            } catch (Exception e){
+                System.out.println("Error loading MyBooksView: " + e.getMessage());
+            }
         }
-        return myBooksView; // Return the AnchorPane directly
+        return myBooksView;
     }
 
     /**
@@ -205,6 +203,13 @@ public class ViewFactory {
     public void getLoginScreen() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
         createStage(loader);
+        myBooksView = null;
+        addCollectionView = null;
+        addBookView = null;
+        booksDetailsView = null;
+        editBookDetailsView = null;
+        profileView = null;
+        lendingView= null;
     }
 
     /**
