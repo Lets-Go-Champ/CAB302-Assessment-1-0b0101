@@ -1,10 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.Scraper;
-import com.example.cab302assessment10b0101.model.Collection;
-import com.example.cab302assessment10b0101.model.CollectionDAO;
-import com.example.cab302assessment10b0101.model.User;
-import com.example.cab302assessment10b0101.model.UserManager;
+import com.example.cab302assessment10b0101.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -149,19 +147,133 @@ public class AddBookSearchDelete {
 
         System.out.println("Add Book button pressed for collection: " + selectedCollection.getCollectionName());
 
-        // Run the scraping process for book details on a background thread
+        // Get the title from the selected search result in searchResultsListView
+        int selectedIndex = searchResultsListView.getSelectionModel().getSelectedIndex();
+        String titleFromSearch = searchResults.get(selectedIndex).get("title");
+
+        // Run the process for scraping the rest of the book details on a background thread
         new Thread(() -> {
             try {
+                // Use scrapeBookDetails to fetch the rest of the information from the selectedBookUrl
                 Map<String, String> bookDetails = scraper.scrapeBookDetails(selectedBookUrl);
 
-                // Print detailed book information to the terminal
-                bookDetails.forEach((key, value) -> System.out.println(key + ": " + value));
+                // Use the title from the search result, and the rest of the details from scrapeBookDetails
+                String title = titleFromSearch;  // Preserving the title from scrapeGoogleBooks
+                String isbnStr = bookDetails.get("ISBN");
+                String author = bookDetails.get("Author");
+                String description = bookDetails.get("Description");
+
+                String publicationDate = bookDetails.get("Publication Date");
+                // Handle null or empty publication date
+                if (publicationDate == null || publicationDate.isEmpty()) {
+                    publicationDate = "Unknown";
+                }
+
+                String publisher = bookDetails.get("Publisher");
+                String pageCountStr = bookDetails.get("Page Count");
+                String base64Image = bookDetails.get("ImageBase64");
+                byte[] imageBytes;
+
+                // Debugging: Print the book details being processed
+                System.out.println("Book Details:");
+                System.out.println("Title: " + title);
+                System.out.println("ISBN: " + isbnStr);
+                System.out.println("Author: " + author);
+                System.out.println("Description: " + description);
+                System.out.println("Publication Date: " + publicationDate);
+                System.out.println("Publisher: " + publisher);
+                System.out.println("Page Count: " + pageCountStr);
+
+                // Handle null values for title
+                if (title == null || title.isEmpty()) {
+                    Platform.runLater(() -> showAlert("Error", "Failed to retrieve the book title.", AlertType.ERROR));
+                    return;
+                }
+
+                // Parse ISBN and page count, handle invalid formats
+                int isbn = 0; // Default to 0 if parsing fails
+                int pages = 0; // Default to 0 if parsing fails
+
+                try {
+                    if (isbnStr != null && !isbnStr.isEmpty()) {
+                        isbn = Integer.parseInt(isbnStr);  // Now it can be handled as a string
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Error parsing ISBN: " + isbnStr);
+                }
+
+                try {
+                    if (pageCountStr != null && !pageCountStr.isEmpty()) {
+                        pages = Integer.parseInt(pageCountStr);
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Error parsing page count: " + pageCountStr);
+                }
+
+                // Handle image: if base64 is not found, use default image
+                if (base64Image != null) {
+                    imageBytes = java.util.Base64.getDecoder().decode(base64Image);
+                } else {
+                    imageBytes = loadDefaultImage(); // Use default image if scraping fails
+                }
+
+                // Use "No Description Found" as the default if description is empty
+                if (description == null || description.isEmpty()) {
+                    description = "No Description Found";
+                }
+
+                // Create the book object and insert it into the database
+                Book newBook = new Book(
+                        selectedCollection.getId(),
+                        title,  // Title from search result
+                        isbn,
+                        author,
+                        description,
+                        publicationDate,
+                        publisher,
+                        pages,
+                        "", // Notes are empty for now
+                        imageBytes,
+                        "" // Reading status not set
+                );
+
+                BookDAO.getInstance().insert(newBook); // Insert the book into the database
+
+                // Update UI on the main thread
+                Platform.runLater(() -> {
+                    showAlert("Success", "Book added successfully to the collection.", AlertType.INFORMATION);
+                    searchResultsListView.getItems().clear();
+                });
 
             } catch (IOException e) {
                 Platform.runLater(() -> showAlert("Error", "Failed to retrieve book details.", AlertType.ERROR));
+            } catch (NumberFormatException e) {
+                Platform.runLater(() -> showAlert("Error", "Invalid number format in book details.", AlertType.ERROR));
             }
         }).start();
     }
+
+
+    private byte[] loadDefaultImage() {
+        try {
+            // Load the default image from resources
+            InputStream is = getClass().getResourceAsStream("/com/example/cab302assessment10b0101/images/Default.jpg");
+
+            if (is == null) {
+                System.err.println("Default image not found in resources.");
+                return null;
+            }
+
+            return is.readAllBytes();
+        } catch (IOException e) {
+            System.err.println("Error loading default image: " + e.getMessage());
+            return null; // Return null if there's an error loading the default image
+        }
+    }
+
+
+
+
 
     /**
      * Displays an alert dialog with the provided message.

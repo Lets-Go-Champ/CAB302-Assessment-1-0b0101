@@ -4,11 +4,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Scraper class is responsible for scraping Google Books search results
@@ -67,18 +69,52 @@ public class Scraper {
         // Map to store detailed book information
         Map<String, String> bookDetails = new HashMap<>();
 
+        // Extract the title from the <title> tag in the <head>
+        String title = doc.title();
+
+        // Clean the title if needed (e.g., remove extra " - Google Books" part)
+        if (title != null && title.contains(" - Google Books")) {
+            title = title.replace(" - Google Books", "").trim();
+        }
+        bookDetails.put("title", title);
+
         // Scrape the first ISBN
         String isbnText = doc.select("span:contains(ISBN)").next().text();
         String firstIsbn = isbnText.split(",")[0].trim(); // Get the first ISBN before the comma
         bookDetails.put("ISBN", firstIsbn);
 
+        // Add other details
         bookDetails.put("Publisher", doc.select("span:contains(Publisher)").next().text());
         bookDetails.put("Author", doc.select("span:contains(Author)").next().text());
         bookDetails.put("Page Count", doc.select("span:contains(Page count)").next().text());
-        bookDetails.put("Description", doc.select(".bHexk").text());
+
+        // Scrape description
+        String description = doc.select(".bHexk").text();
+        if (description.isEmpty()) {
+            description = "No Description Found";
+        }
+        bookDetails.put("Description", description);
+
+        // Scrape publication date (adjusted)
+        String publicationDateRaw = doc.select("span:contains(Published)").next().text();
+        String formattedPublicationDate = formatDateString(publicationDateRaw);
+        bookDetails.put("Publication Date", formattedPublicationDate);
+
+        // Scrape image (base64 encoded or default)
+        Element imageElement = doc.select("img[src^='data:image/jpeg;base64']").first();
+        if (imageElement != null) {
+            String base64Image = imageElement.attr("src").split(",")[1]; // Extract base64 part
+            bookDetails.put("ImageBase64", base64Image);
+        } else {
+            // If no image is found, use the default image
+            bookDetails.put("Image", "The-Fellowship-Of-The-Ring-Book-Cover-by-JRR-Tolkien_1-480.jpg");
+        }
 
         return bookDetails;
     }
+
+
+
 
     /**
      * Helper method to format date strings from "14 September 2008" to "14/9/2008".
@@ -90,7 +126,7 @@ public class Scraper {
     private String formatDateString(String dateStr) {
         SimpleDateFormat inputFormatFull = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
         SimpleDateFormat inputFormatYear = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
             // Try parsing full date (e.g., "14 September 2008")
