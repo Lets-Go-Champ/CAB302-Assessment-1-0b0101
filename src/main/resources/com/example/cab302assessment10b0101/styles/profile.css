@@ -1,5 +1,4 @@
 
-/* Title (Add Book) */
 .title {
     -fx-font-family: "Impact";
     -fx-font-size: 40;
@@ -13,12 +12,13 @@
 
 .text-field {
     -fx-font-size: 16;
+    -fx-pref-width: 350;
 }
 
 .button {
     -fx-font-family: "Impact";
     -fx-font-size: 16;
     -fx-text-fill: #247373;
-    -fx-pref-width: 82;
-    -fx-pref-height: 35;
+    -fx-min-width: 100;
+    -fx-min-height: 35;
 }

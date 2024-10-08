@@ -20,16 +20,15 @@
 
         <!-- Username -->
         <Label text="Username" styleClass="sub-heading"> </Label>
-        <HBox>
-            <HBox.margin> <Insets bottom="20" /> </HBox.margin>
+        <HBox minWidth="300">
             <TextField fx:id="usernameTextField" editable="false"> </TextField>
             <Button fx:id="changeUsernameButton" mnemonicParsing="false" text="Change" onAction="#handleUpdateUsername"/>
+            <VBox.margin> <Insets bottom="20" /> </VBox.margin>
         </HBox>
 
         <!-- Password -->
         <Label text="Password" styleClass="sub-heading"> </Label>
-        <HBox>
-            <HBox.margin> <Insets bottom="20" /> </HBox.margin>
+        <HBox minWidth="300">
             <TextField fx:id="passwordTextField" editable="false"> </TextField>
             <Button fx:id="changePasswordButton" mnemonicParsing="false" text="Change" onAction="#handleUpdatePassword"/>
         </HBox>
