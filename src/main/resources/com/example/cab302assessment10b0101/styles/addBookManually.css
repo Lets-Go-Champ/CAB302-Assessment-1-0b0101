@@ -33,6 +33,7 @@
 .manualAdd_labels {
     -fx-font-family: "Impact";
     -fx-font-size: 20;
+    -fx-padding: 20 0 0 0;
 }
 
 /* TextFields */

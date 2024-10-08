@@ -27,7 +27,7 @@
 
         <AnchorPane prefHeight="641" prefWidth="960">
             <ScrollPane prefHeight="600" prefWidth="935" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
-                <TabPane prefHeight="730" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
+                <TabPane prefHeight="910" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
 
                     <!-- Search Tab -->
                     <Tab text="Search">
