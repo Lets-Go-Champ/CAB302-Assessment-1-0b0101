@@ -1,5 +1,12 @@
 
-.label {
+/* Title (Add Book) */
+.title {
+    -fx-font-family: "Impact";
+    -fx-font-size: 40;
+    -fx-text-fill: #247373;
+}
+
+.sub-heading {
     -fx-font-family: "Impact";
     -fx-font-size: 20;
 }

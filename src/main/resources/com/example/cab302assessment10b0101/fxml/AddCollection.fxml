@@ -14,8 +14,8 @@
             stylesheets="@../styles/addCollection.css" fx:controller="com.example.cab302assessment10b0101.controllers.AddCollectionController">
 
     <!-- Title -->
-    <Label layoutX="22" layoutY="37" text="Add Collection" styleClass="title"> </Label>
-    <Line endX="832" endY="7.62939453125E-6" layoutX="122.0" layoutY="113" startX="-100" strokeWidth="2"/>
+    <Label layoutX="22" layoutY="15" text="Add Collection" styleClass="title"> </Label>
+    <Line endX="832" endY="7.62939453125E-6" layoutX="122.0" layoutY="90" startX="-100" strokeWidth="2"/>
 
     <VBox layoutX="22" layoutY="150" prefHeight="365" prefWidth="242">
 
