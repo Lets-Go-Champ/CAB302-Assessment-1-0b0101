@@ -76,8 +76,13 @@ public class MyBooksController implements Initializable {
         });
     }
 
-    // Sorting methods for GridPane
-
+    /**
+     * Sorts the books by title in the currently selected collection and updates the book grid.
+     * <p>
+     * This method retrieves all books from the selected collection, sorts them by title in alphabetical order
+     * (ignoring case), and then updates the book grid to reflect the sorted books.
+     * </p>
+     */
     private void sortBooksByTitle() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
         if (selectedCollection != null) {
@@ -91,7 +96,13 @@ public class MyBooksController implements Initializable {
             updateBookGrid(books);
         }
     }
-
+    /**
+     * Sorts the books by author in the currently selected collection and updates the book grid.
+     * <p>
+     * This method retrieves all books from the selected collection, sorts them by author name in alphabetical order
+     * (ignoring case), and then updates the book grid to reflect the sorted books.
+     * </p>
+     */
     private void sortBooksByAuthor() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
         if (selectedCollection != null) {
@@ -105,7 +116,13 @@ public class MyBooksController implements Initializable {
             updateBookGrid(books);
         }
     }
-
+    /**
+     * Sorts the books by publication date in the currently selected collection and updates the book grid.
+     * <p>
+     * This method retrieves all books from the selected collection, sorts them by publication date,
+     * and then updates the book grid to reflect the sorted books.
+     * </p>
+     */
     private void sortBooksByPublicationDate() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
         if (selectedCollection != null) {
@@ -269,7 +286,11 @@ public class MyBooksController implements Initializable {
             // Filter books by title (ignoring case)
             ObservableList<Book> filteredBooks = FXCollections.observableArrayList(
                     allBooks.stream()
-                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
+                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                                    book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
+                                    book.getPublisher().toLowerCase().contains(query.toLowerCase()) ||
+                                    String.valueOf(book.getISBN()).contains(query) ||
+                                    book.getPublicationDate().toLowerCase().contains(query.toLowerCase()))
                             .collect(Collectors.toList())
             );
             // Display the filtered books
