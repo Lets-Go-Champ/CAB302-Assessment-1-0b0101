@@ -28,7 +28,7 @@
         <TextField fx:id="DescriptionTextField"> <VBox.margin> <Insets bottom="20" /> </VBox.margin> </TextField>
 
         <!-- Buttons -->
-        <HBox alignment="CENTER" spacing="50.0">
+        <HBox alignment="CENTER" spacing="50">
             <Button fx:id="saveBtn" mnemonicParsing="false" text="Save"/>
             <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel"/>
         </HBox>
