@@ -173,14 +173,15 @@ public class ViewFactory {
     }
 
     public AnchorPane getLendingView(){
-        if (lendingView == null) {
-            try{
-                lendingView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/main-lending-page.fxml")).load();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+        try {
+            // Always reload the FXML to ensure a fresh view and controller each time
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/main-lending-page.fxml"));
+            lendingView = loader.load();  // Load the view each time
+            loader.getController(); // Get a fresh controller instance
+        } catch (Exception e) {
+            System.out.println("Error loading LendingView: " + e.getMessage());
         }
-        return lendingView;
+        return lendingView; // Return the AnchorPane directly
     }
 
     public AnchorPane getProfileView() {

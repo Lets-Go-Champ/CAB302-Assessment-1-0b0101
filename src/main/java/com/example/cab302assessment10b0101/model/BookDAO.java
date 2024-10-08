@@ -197,19 +197,19 @@ public class BookDAO {
         return books;
     }
 
-    public void deleteBook(String isbn) throws SQLException {
-        String sql = "DELETE FROM books WHERE isbn = ?";
+    public void deleteBook(String bookName) throws SQLException {
+        String sql = "DELETE FROM books WHERE title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, isbn); // Set the ISBN to delete
+            pstmt.setString(1, bookName); // Set the ISBN to delete
             int rowsAffected = pstmt.executeUpdate(); // Execute the update query
 
             if (rowsAffected > 0) {
-                System.out.println("Book with ISBN " + isbn + " deleted successfully.");
+                System.out.println("Book with book name " + bookName + " deleted successfully.");
             } else {
-                System.out.println("No book found with ISBN " + isbn + ".");
+                System.out.println("No book found with book name " + bookName + ".");
             }
         } catch (SQLException e) {
-            System.err.println("Error deleting book with ISBN " + isbn + ": " + e.getMessage());
+            System.err.println("Error deleting book with book name " + bookName + ": " + e.getMessage());
             throw e; // Optionally rethrow the exception
         }
     }

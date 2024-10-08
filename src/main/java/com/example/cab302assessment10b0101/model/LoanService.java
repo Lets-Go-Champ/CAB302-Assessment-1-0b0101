@@ -18,6 +18,8 @@ public class LoanService {
     private final ObservableList<Loan> loans = FXCollections.observableArrayList();
 
     public void loadLoans() {
+        System.out.println("Loading Loans for user + " +  currentUserId);
+
         loans.setAll(loanDAO.getAllLoansByUser(currentUserId));
     }
 
