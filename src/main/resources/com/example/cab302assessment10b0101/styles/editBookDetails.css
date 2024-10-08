@@ -7,9 +7,10 @@
 }
 
 /* Labels */
-.manualAdd_labels {
+.labels {
     -fx-font-family: "Impact";
     -fx-font-size: 20;
+    -fx-padding: 20 0 0 0;
 }
 
 /* TextFields */
@@ -56,4 +57,9 @@
 .scroll-bar > .increment-button > .increment-arrow,
 .scroll-bar > .decrement-button > .decrement-arrow {
     -fx-background-color: #247373;
+}
+
+/* Remove gray border */
+.scroll-pane {
+    -fx-background-color: transparent;
 }

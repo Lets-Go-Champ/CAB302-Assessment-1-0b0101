@@ -81,3 +81,8 @@
 .scroll-bar > .decrement-button > .decrement-arrow {
     -fx-background-color: #247373;
 }
+
+/* Remove gray border */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
