@@ -1,8 +1,7 @@
 /* title container, text and icon */
 .menu_title_container {
     -fx-alignment: top_center;
-     -fx-background-color: none;
-     -fx-background-radius: 20 20 0 0;
+     -fx-background-color: #DDDDDD;
      -fx-padding: 8;
 }
 
@@ -18,37 +17,40 @@
     -fx-font-family: "Impact";
 }
 
+/* Containers */
+
 .menu_container {
     -fx-alignment: center;
-    -fx-background-color: none;
+    -fx-background-color: #DDDDDD;
 }
 
 .logo_container {
     -fx-alignment: center;
-    -fx-background-color: none;
-    -fx-background-radius: 10;
+    -fx-background-color: #DDDDDD;
 }
-
-
-/*Main Menu Buttons */
 
 .menu_container {
     -fx-spacing: 20;
     -fx-padding: 10 10 10 10;
 }
 
-.menu_container Button {
-    -fx-background-color: white;
-    -fx-border-width: 0.1em;
-    -fx-border-radius: 0.5em;
-    -fx-border-color: #247373;
-    -fx-pref-width: 140;
-    -fx-alignment: center;
-    -fx-font-size: 14;
-    -fx-pref-height: 45;;
-    -fx-font-weight: Bold;
-}
-
 .menu_container Button:hover {
     -fx-cursor: hand;
+}
+
+
+/* Main Menu Buttons */
+.menu_container Button {
+    /* Border */
+    -fx-background-insets: 1 1 1 1;
+    -fx-background-color: white;
+    -fx-border-width: 0.1em;
+    -fx-border-radius: 0.2em;
+    -fx-border-color: #247373;
+    -fx-pref-width: 140;
+    -fx-pref-height: 45;
+
+    /* Text */
+    -fx-font-family: "Impact";
+    -fx-font-size: 18;
 }
