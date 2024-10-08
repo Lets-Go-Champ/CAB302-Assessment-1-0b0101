@@ -97,14 +97,15 @@ public class ViewFactory {
      * @return AnchorPane representing the Add Book view.
      */
     public AnchorPane getAddBookView(){
-        if (addBookView == null) {
-            try{
-                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
-            } catch (Exception e){
-                System.out.println("Error loading AddBookView: " + e.getMessage());
-            }
+        try {
+            // Always reload the FXML to ensure a fresh view and controller each time
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml"));
+            addBookView = loader.load();  // Load the view each time
+            loader.getController(); // Get a fresh controller instance
+        } catch (Exception e) {
+            System.out.println("Error loading AddBookView: " + e.getMessage());
         }
-        return addBookView;
+        return addBookView; // Return the AnchorPane directly
     }
 
     /**
