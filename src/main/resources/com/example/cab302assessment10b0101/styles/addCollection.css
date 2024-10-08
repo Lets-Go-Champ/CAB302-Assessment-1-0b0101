@@ -1,0 +1,28 @@
+
+/* Title (Add Book) */
+.title {
+    -fx-font-family: "Impact";
+    -fx-font-size: 40;
+    -fx-text-fill: #247373;
+}
+
+.sub-heading {
+    -fx-font-family: "Impact";
+    -fx-font-size: 20;
+}
+
+.text-field {
+    -fx-font-size: 16;
+}
+
+.button {
+    -fx-font-family: "Impact";
+    -fx-font-size: 16;
+    -fx-text-fill: #247373;
+    -fx-pref-width: 82;
+    -fx-pref-height: 35;
+}
+
+.line {
+    -fx-text-fill: #247373;
+}
