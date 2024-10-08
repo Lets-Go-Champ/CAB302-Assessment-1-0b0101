@@ -12,12 +12,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.commons.io.IOUtils;
+import java.io.InputStream;
+import java.net.URL;
+import java.io.IOException;
 /**
  * The AddBookSearchDelete controller handles the logic for the search functionality
  * and retrieving detailed book information.
@@ -89,6 +91,20 @@ public class AddBookSearchDelete {
         }
     }
 
+
+    /**
+     * Downloads an image from a given URL using Apache Commons IO and returns it as a byte array.
+     *
+     * @param imageUrl The URL of the image to download.
+     * @return A byte array representing the downloaded image.
+     * @throws IOException If an error occurs during the download process.
+     */
+    private byte[] downloadImage(String imageUrl) throws IOException {
+        try (InputStream inputStream = new URL(imageUrl).openStream()) {
+            return IOUtils.toByteArray(inputStream); // Download the image and convert it to a byte array
+        }
+    }
+
     /**
      * This method is triggered when the "Search" button is pressed.
      * It scrapes Google Books and displays the top 5 search results in the ListView.
@@ -147,9 +163,10 @@ public class AddBookSearchDelete {
 
         System.out.println("Add Book button pressed for collection: " + selectedCollection.getCollectionName());
 
-        // Get the title from the selected search result in searchResultsListView
+        // Get the title and image from the selected search result in searchResultsListView
         int selectedIndex = searchResultsListView.getSelectionModel().getSelectedIndex();
         String titleFromSearch = searchResults.get(selectedIndex).get("title");
+        String imageUrlFromSearch = searchResults.get(selectedIndex).get("imageUrl"); // Image URL from scrapeGoogleBooks
 
         // Run the process for scraping the rest of the book details on a background thread
         new Thread(() -> {
@@ -171,7 +188,6 @@ public class AddBookSearchDelete {
 
                 String publisher = bookDetails.get("Publisher");
                 String pageCountStr = bookDetails.get("Page Count");
-                String base64Image = bookDetails.get("ImageBase64");
                 byte[] imageBytes;
 
                 // Debugging: Print the book details being processed
@@ -183,6 +199,7 @@ public class AddBookSearchDelete {
                 System.out.println("Publication Date: " + publicationDate);
                 System.out.println("Publisher: " + publisher);
                 System.out.println("Page Count: " + pageCountStr);
+                System.out.println("Image URL: " + imageUrlFromSearch);
 
                 // Handle null values for title
                 if (title == null || title.isEmpty()) {
@@ -210,9 +227,9 @@ public class AddBookSearchDelete {
                     System.err.println("Error parsing page count: " + pageCountStr);
                 }
 
-                // Handle image: if base64 is not found, use default image
-                if (base64Image != null) {
-                    imageBytes = java.util.Base64.getDecoder().decode(base64Image);
+                // Handle image: if imageUrl is not empty, download it; otherwise, use default image
+                if (imageUrlFromSearch != null && !imageUrlFromSearch.isEmpty()) {
+                    imageBytes = downloadImage(imageUrlFromSearch); // Use a helper method to download the image
                 } else {
                     imageBytes = loadDefaultImage(); // Use default image if scraping fails
                 }

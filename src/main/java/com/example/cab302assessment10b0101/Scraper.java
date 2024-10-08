@@ -37,6 +37,13 @@ public class Scraper {
             String bookTitle = result.select("h3").text();
             String bookUrl = result.select("a").attr("href");
 
+            // Image extraction
+            Element imageElement = result.select("a.rGhul img").first();
+            String imageUrl = "";
+            if (imageElement != null) {
+                imageUrl = imageElement.attr("src");
+            }
+
             if (!bookUrl.startsWith("http")) {
                 bookUrl = "https://books.google.com" + bookUrl;
             }
@@ -44,6 +51,8 @@ public class Scraper {
             Map<String, String> book = new HashMap<>();
             book.put("title", bookTitle);
             book.put("url", bookUrl);
+            book.put("imageUrl", imageUrl); // Add the image URL to the map
+
 
             books.add(book);
 
@@ -99,16 +108,6 @@ public class Scraper {
         String publicationDateRaw = doc.select("span:contains(Published)").next().text();
         String formattedPublicationDate = formatDateString(publicationDateRaw);
         bookDetails.put("Publication Date", formattedPublicationDate);
-
-        // Scrape image (base64 encoded or default)
-        Element imageElement = doc.select("img[src^='data:image/jpeg;base64']").first();
-        if (imageElement != null) {
-            String base64Image = imageElement.attr("src").split(",")[1]; // Extract base64 part
-            bookDetails.put("ImageBase64", base64Image);
-        } else {
-            // If no image is found, use the default image
-            bookDetails.put("Image", "The-Fellowship-Of-The-Ring-Book-Cover-by-JRR-Tolkien_1-480.jpg");
-        }
 
         return bookDetails;
     }
