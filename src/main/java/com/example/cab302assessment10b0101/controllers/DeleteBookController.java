@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.MenuOptions;
+import com.example.cab302assessment10b0101.views.ViewFactory;
 
 import java.sql.SQLException;
 
@@ -41,12 +43,9 @@ public class DeleteBookController {
     public void deleteBook(Book book) {
         System.out.println("Attempting to delete book with id: " +book.getId());
         try {
-            //Book selectedBook = BookDAO.getInstance().getBookByName(book.getTitle());
-            //int loanId = LoanDAO.getInstance().getLoanIdByUserAndBook(UserManager.getInstance().getCurrentUser().getId(), selectedBook.getId());
-            //Loan loan = LoanDAO.getInstance().getLoanById(loanId);
-            //LoanDAO.getInstance().deleteLoan(loan);
             BookDAO.getInstance().deleteBook(book.getTitle());
             System.out.println("Book deleted successfully.");
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
         } catch (SQLException e) {
             System.out.println("Failed to delete the book: " + e.getMessage());
         }

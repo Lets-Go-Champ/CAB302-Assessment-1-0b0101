@@ -31,7 +31,7 @@ public class LoanDAO {
                 "borrowerName TEXT NOT NULL," +
                 "borrowerContact TEXT," +
                 "issueDate TEXT," +
-                "FOREIGN KEY (bookId) REFERENCES Books(id) ON DELETE CASCADE" +
+                "FOREIGN KEY (bookId) REFERENCES Books(bookId) ON DELETE CASCADE" +
                 ");";
 
         try (Statement createTable = connection.createStatement()) {
