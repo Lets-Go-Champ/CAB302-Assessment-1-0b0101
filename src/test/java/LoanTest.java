@@ -21,7 +21,7 @@ public class LoanTest {
      */
     @BeforeEach
     public void setUp() {
-        book = new Book(1, "Effective Java", 123456, "Joshua Bloch", "Definitely a Book", "2008-05-08", "Addison-Wesley", 416, "A must-read", null, "Unread");
+        book = new Book(1, "Effective Java", "123456", "Joshua Bloch", "Definitely a Book", "2008-05-08", "Addison-Wesley", 416, "A must-read", null, "Unread");
         loan = new Loan(1, "John Doe", "1234567890", book, LocalDate.now());
     }
 
@@ -46,7 +46,7 @@ public class LoanTest {
         loan.setUserId(2);
         loan.setBorrower("Jane Doe");
         loan.setBorrowerContact("0987654321");
-        Book newBook = new Book(2, "Clean Code", 789101, "Robert C. Martin", "One of the books of all time", "2008-08-11", "Prentice Hall", 464, "Essential for developers", null, "Unread");
+        Book newBook = new Book(2, "Clean Code", "789101", "Robert C. Martin", "One of the books of all time", "2008-08-11", "Prentice Hall", 464, "Essential for developers", null, "Unread");
         loan.setBook(newBook);
         loan.setDate(LocalDate.now().plusDays(1));
 

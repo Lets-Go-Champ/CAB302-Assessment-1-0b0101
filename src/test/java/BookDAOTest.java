@@ -32,7 +32,7 @@ public class BookDAOTest {
      */
     @Test
     public void testInsertBook() {
-        Book book = new Book(3, "Test Title", 1, "Test Author", "Test Description",
+        Book book = new Book(3, "Test Title", "1234567890", "Test Author", "Test Description",
                 "2020-01-01", "Test Publisher", 500, "Test Notes", null, "Unread");
         mockBookDAO.insert(book);
 
@@ -50,9 +50,9 @@ public class BookDAOTest {
     @Test
     public void testGetAllBooks() {
         // Insert multiple books
-        mockBookDAO.insert(new Book(12, "Book 1", 123, "Author 1", "Description 1",
+        mockBookDAO.insert(new Book(12, "Book 1", "1234567890", "Author 1", "Description 1",
                 "2020-01-01", "Publisher 1", 500, "Notes 1", null, "Unread"));
-        mockBookDAO.insert(new Book(13, "Book 2", 1234, "Author 2", "Description 2",
+        mockBookDAO.insert(new Book(13, "Book 2", "2234567890", "Author 2", "Description 2",
                 "2020-01-01", "Publisher 2", 500, "Notes 2", null, "Read"));
 
         // Retrieve all books
@@ -71,9 +71,9 @@ public class BookDAOTest {
     @Test
     public void testGetAllByCollection() {
         // Insert books with the same collectionId
-        mockBookDAO.insert(new Book(1, "Book 1", 123, "Author 1", "Description 1",
+        mockBookDAO.insert(new Book(1, "Book 1", "1234567890", "Author 1", "Description 1",
                 "2020-01-01", "Publisher 1", 500, "Notes 1", null, "Read"));
-        mockBookDAO.insert(new Book(1, "Book 2", 1234, "Author 2", "Description 2",
+        mockBookDAO.insert(new Book(1, "Book 2", "2234567890", "Author 2", "Description 2",
                 "2020-01-01", "Publisher 2", 500, "Notes 2", null, "Read"));
 
         // Retrieve all books by collectionId
@@ -90,7 +90,7 @@ public class BookDAOTest {
      * Verifies that books with missing data can still be inserted and retrieved.
      */    @Test
     public void testInsertBookWithNullFields() {
-        Book book = new Book(7, "Test Title", 142, null, null,
+        Book book = new Book(7, "Test Title", "1234567890", null, null,
                 "2020-01-01", "Test Publisher", 500, null, null, "Unread");
         mockBookDAO.insert(book);
 
@@ -108,7 +108,7 @@ public class BookDAOTest {
     @Test
     public void testUpdateBook() {
         // Insert a book
-        Book book = new Book(1, "Book 1", 123, "Author 1", "Description 1",
+        Book book = new Book(1, "Book 1", "1234567890", "Author 1", "Description 1",
                 "2020-01-01", "Publisher 1", 500, "Notes 1", null, "Unread");
         mockBookDAO.insert(book);
 
@@ -134,7 +134,7 @@ public class BookDAOTest {
     public void testInsertBookWithLongStrings() {
         String longTitle = "This is a very long title that exceeds the usual length...";
         String longAuthor = "Author with a very long name that goes beyond normal limits...";
-        Book book = new Book(1, longTitle, 1, longAuthor, null,
+        Book book = new Book(1, longTitle, "1234567890", longAuthor, null,
                 "2020-01-01", "Test Publisher", 500, "Test Notes", null, "Unread");
         mockBookDAO.insert(book);
 
@@ -150,7 +150,7 @@ public class BookDAOTest {
      */
     @Test
     public void testInsertBookWithNegativePages() {
-        Book book = new Book(1, "Test Title", 1, "Test Author",
+        Book book = new Book(1, "Test Title", "1234567890", "Test Author",
                 "Test Description", "2020-01-01", "Test Publisher",
                 -100, "Test Notes", null, "Unread");
         mockBookDAO.insert(book);
@@ -166,9 +166,9 @@ public class BookDAOTest {
      */
     @Test
     public void testInsertBooksWithSameId() {
-        Book book1 = new Book(1, "Test Title 1", 1, "Test Author",
+        Book book1 = new Book(1, "Test Title 1", "1234567890", "Test Author",
                 "Test Description", "2020-01-01", "Test Publisher", 500, "Test Notes", null, "Unread");
-        Book book2 = new Book(1, "Test Title 2", 2, "Test Author",
+        Book book2 = new Book(1, "Test Title 2", "1234567890", "Test Author",
                 "Test Description", "2020-01-01", "Test Publisher", 500, "Test Notes", null, "Unread");
 
         mockBookDAO.insert(book1);
@@ -184,7 +184,7 @@ public class BookDAOTest {
      */
     @Test
     public void testInsertBookWithInvalidReadingStatus() {
-        Book book = new Book(1, "Test Title", 1, "Test Author",
+        Book book = new Book(1, "Test Title", "1234567890", "Test Author",
                 "Test Description", "2020-01-01", "Test Publisher",
                 -100, "Test Notes", null, "Readed");
         mockBookDAO.insert(book);
