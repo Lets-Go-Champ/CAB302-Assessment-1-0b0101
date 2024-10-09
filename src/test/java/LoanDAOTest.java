@@ -21,8 +21,8 @@ public class LoanDAOTest {
     @BeforeEach
     public void setUp() {
         loanDAO = new MockLoanDAO();
-        book1 = new Book(1, "Effective Java", 1234567890, "Joshua Bloch", "Definitely a Book", "2008-05-08", "SomePublisher", 416, "A must-read", null, "Unread");
-        book2 = new Book(2, "Clean Code", 1234567890, "Robert C. Martin", "One of the books of all time", "2008-08-11", "SomePublisher", 464, "Essential for developers", null, "Unread");
+        book1 = new Book(1, "Effective Java", "1234567890", "Joshua Bloch", "Definitely a Book", "2008-05-08", "SomePublisher", 416, "A must-read", null, "Unread");
+        book2 = new Book(2, "Clean Code", "1234567890", "Robert C. Martin", "One of the books of all time", "2008-08-11", "SomePublisher", 464, "Essential for developers", null, "Unread");
     }
 
     /**
