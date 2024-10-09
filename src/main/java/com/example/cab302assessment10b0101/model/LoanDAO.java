@@ -31,7 +31,7 @@ public class LoanDAO {
                 "borrowerName TEXT NOT NULL," +
                 "borrowerContact TEXT," +
                 "issueDate TEXT," +
-                "FOREIGN KEY (bookId) REFERENCES Books(id)" +
+                "FOREIGN KEY (bookId) REFERENCES Books(bookId) ON DELETE CASCADE" +
                 ");";
 
         try (Statement createTable = connection.createStatement()) {
@@ -87,6 +87,30 @@ public class LoanDAO {
             System.err.println("Error retrieving loans: " + e.getMessage());
         }
         return loans;
+    }
+
+    public Loan getLoanById(int loanId) {
+        String query = "SELECT * FROM Loans WHERE id = ?";
+        Loan loan = null;
+        try (PreparedStatement getAll = connection.prepareStatement(query)) {
+            getAll.setInt(1, loanId);
+
+            ResultSet rs = getAll.executeQuery();
+
+            while (rs.next()) {
+                Book book = bookDAO.getBookById(rs.getInt("bookId"));
+                loan = new Loan(
+                        rs.getInt("userId"),
+                        rs.getString("borrowerName"),
+                        rs.getString("borrowerContact"),
+                        book,
+                        LocalDate.parse(rs.getString("issueDate"))
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving loans: " + e.getMessage());
+        }
+        return loan;
     }
 
     public void deleteLoan(Loan loan) throws SQLException {
