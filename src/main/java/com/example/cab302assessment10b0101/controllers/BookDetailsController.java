@@ -80,12 +80,13 @@ public class BookDetailsController {
     }
 
     /**
-     * Handles the action triggered when the delete button is clicked.
+     * Handles the deletion process when the delete button is clicked.
      * <p>
-     * This method checks if a book is currently selected for deletion. If no book is selected,
-     * it displays an error alert to the user. If a book is selected, it shows a confirmation
-     * dialog asking the user to confirm the deletion. If the user confirms, the book is deleted
-     * and a success alert is displayed.
+     * This method first checks if a book is selected. If no book is selected, it shows an error alert
+     * to inform the user. If a book is selected, a confirmation dialog is presented asking the user
+     * to confirm the deletion and reminding them to rescind any associated loans before proceeding.
+     * Upon user confirmation, the selected book is deleted, the view is switched back to the "My Books" page,
+     * and a success alert is shown to notify the user that the book was deleted.
      * </p>
      *
      * @param actionEvent The ActionEvent triggered by the delete button click.
@@ -103,7 +104,7 @@ public class BookDetailsController {
         // Show confirmation dialog
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Book");
-        alert.setHeaderText("Are you sure you want to delete this book?");
+        alert.setHeaderText("Are you sure you want to delete this book? Please make sure you rescind the associated loan before deleting the book.");
         alert.setContentText("This action cannot be undone.");
 
         // Wait for user response
@@ -112,6 +113,9 @@ public class BookDetailsController {
             // User clicked OK, proceed with deletion
             DeleteBookController deleteBookController = new DeleteBookController();
             deleteBookController.deleteBook(currentBook);
+
+            // After deletion, switch back to the "My Books" page
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
 
             // Show success alert
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
