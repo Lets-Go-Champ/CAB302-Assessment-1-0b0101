@@ -89,10 +89,12 @@ public class LoginController {
 
         //if login is successful
         if (currentUser != null) {
+            // Clear any previous session data before assigning new user data
+            UserManager.getInstance().setCurrentUser(null);  // Clear current user session
             // Set the current user in UserManager
             UserManager.getInstance().setCurrentUser(currentUser);
-            //System.out.println(currentUser);
-            //System.out.println(currentUser.getId());
+            System.out.println(currentUser);
+            System.out.println(currentUser.getId());
 
             // Close the login stage and display the main application view
             Stage stage = (Stage) loginButton.getScene().getWindow();
@@ -103,6 +105,7 @@ public class LoginController {
             showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
 }
+
     /**
      * Handles the process of opening the account creation window when the create account button is clicked.
      */
@@ -159,6 +162,5 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }
 

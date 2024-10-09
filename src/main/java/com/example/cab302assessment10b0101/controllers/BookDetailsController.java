@@ -1,6 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -48,6 +50,9 @@ public class BookDetailsController {
     private Label isbnLabel; //Label to display the book's ISBN
 
     @FXML
+    private Label readingStatusLabel; //Label to display the book's ISBN
+
+    @FXML
     private Book currentBook;
 
 
@@ -61,25 +66,27 @@ public class BookDetailsController {
      */
     public void setData(Book book){
         this.currentBook = book;
-        mainTitle.setText(book.getTitle()); //Set the main page title to the book title
-        publicationDateLabel.setText(book.getPublicationDate()); //Set the publication date label to the book's publication date
-        publisherLabel.setText(book.getPublisher()); //Set the publisher label to the book's publisher
-        titleLabel.setText(book.getTitle()); //Set the book title label to the book title
-        isbnLabel.setText(book.getISBNAsString()); //Set the ISBN label to the book's ISBN
-        authorLabel.setText(book.getAuthor()); //Set the author label to the book's author
-        pagesLabel.setText(book.getPagesAsString()); //Set the pages label to the book's number of pages
-        notesLabel.setText(book.getNotes()); //Set the notes label to the book's notes
-        descriptionLabel.setText(book.getDescription()); //Set the description label to the book's description
-        bookCoverImage.setImage(book.getImage()); //Set ImageView to the book's cover image.
+        mainTitle.setText(book.getTitle()); // Set the main page title to the book title
+        publicationDateLabel.setText(book.getPublicationDate()); // Set the publication date label to the book's publication date
+        publisherLabel.setText(book.getPublisher()); // Set the publisher label to the book's publisher
+        titleLabel.setText(book.getTitle()); // Set the book title label to the book title
+        isbnLabel.setText(book.getISBNAsString()); // Set the ISBN label to the book's ISBN
+        authorLabel.setText(book.getAuthor()); // Set the author label to the book's author
+        pagesLabel.setText(book.getPagesAsString()); // Set the pages label to the book's number of pages
+        notesLabel.setText(book.getNotes()); // Set the notes label to the book's notes
+        descriptionLabel.setText(book.getDescription()); // Set the description label to the book's description
+        bookCoverImage.setImage(book.getImage()); // Set ImageView to the book's cover image.
+        readingStatusLabel.setText(book.getReadingStatus()); // Set the reading status label to the book's reading status
     }
 
     /**
-     * Handles the action triggered when the delete button is clicked.
+     * Handles the deletion process when the delete button is clicked.
      * <p>
-     * This method checks if a book is currently selected for deletion. If no book is selected,
-     * it displays an error alert to the user. If a book is selected, it shows a confirmation
-     * dialog asking the user to confirm the deletion. If the user confirms, the book is deleted
-     * and a success alert is displayed.
+     * This method first checks if a book is selected. If no book is selected, it shows an error alert
+     * to inform the user. If a book is selected, a confirmation dialog is presented asking the user
+     * to confirm the deletion and reminding them to rescind any associated loans before proceeding.
+     * Upon user confirmation, the selected book is deleted, the view is switched back to the "My Books" page,
+     * and a success alert is shown to notify the user that the book was deleted.
      * </p>
      *
      * @param actionEvent The ActionEvent triggered by the delete button click.
@@ -97,7 +104,7 @@ public class BookDetailsController {
         // Show confirmation dialog
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Book");
-        alert.setHeaderText("Are you sure you want to delete this book?");
+        alert.setHeaderText("Are you sure you want to delete this book? Please make sure you rescind the associated loan before deleting the book.");
         alert.setContentText("This action cannot be undone.");
 
         // Wait for user response
@@ -107,6 +114,9 @@ public class BookDetailsController {
             DeleteBookController deleteBookController = new DeleteBookController();
             deleteBookController.deleteBook(currentBook);
 
+            // After deletion, switch back to the "My Books" page
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
+
             // Show success alert
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setTitle("Book Deleted");
@@ -114,6 +124,10 @@ public class BookDetailsController {
             successAlert.setContentText("The book has been successfully deleted.");
             successAlert.showAndWait();
         }
+    }
+    @FXML
+    private void handleEditBookButton(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS);
     }
 }
 

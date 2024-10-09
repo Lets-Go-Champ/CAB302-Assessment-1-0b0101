@@ -3,6 +3,7 @@ package com.example.cab302assessment10b0101.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * The DatabaseConnector class manages the connection to the SQLite database.
@@ -14,14 +15,27 @@ public class DatabaseConnector {
 
     /**
      * Private constructor to prevent direct instantiation.
-     * Initialises the database connection to the SQLite database.
+     * Initializes the database connection to the SQLite database and enables foreign keys.
      */
     private DatabaseConnector() {
         String url = "jdbc:sqlite:database.db";
         try {
             instance = DriverManager.getConnection(url);
+            enableForeignKeys(instance);
         } catch (SQLException sqlEx) {
             System.err.println(sqlEx);
+        }
+    }
+
+    /**
+     * Enables foreign key constraints in SQLite.
+     *
+     * @param connection The active database connection.
+     * @throws SQLException If enabling foreign keys fails.
+     */
+    private void enableForeignKeys(Connection connection) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("PRAGMA foreign_keys = ON;");
         }
     }
 

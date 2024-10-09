@@ -5,6 +5,8 @@ public enum MenuOptions {
     ADDCOLLECTION,
     ADDBOOK,
     BOOKDETAILS,
+    EDITBOOKDETAILS,
+    PROFILE,
     LENDING,
     LOGOUT
 }

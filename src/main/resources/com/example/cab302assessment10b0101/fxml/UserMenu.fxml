@@ -22,7 +22,7 @@
          <Button fx:id="myBooksBtn" onAction="#onMyBooksClicked" text="My Books" />
          <Button fx:id="addCollectionBtn" onAction="#onAddCollectionClicked" text="Add Collection" />
          <Button fx:id="addBookBtn" onAction="#onAddBookClicked" text="Add Book" />
-         <Button fx:id="lendingBtn" text="Lending" />
+         <Button fx:id="lendingBtn" onAction="#onLendingClicked" text="Lending" />
          <Button fx:id="logoutButton" text="Logout" onAction="#onLogoutClicked" >
             <VBox.margin>
                <Insets top="200.0" />

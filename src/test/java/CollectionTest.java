@@ -87,8 +87,6 @@ public class CollectionTest {
         assertEquals(10, collection.getId());
     }
 
-
-
     /**
      * Tests the validation of setting an empty collection name.
      * Ensures that setting an empty name throws an IllegalArgumentException.
@@ -100,5 +98,4 @@ public class CollectionTest {
         });
         assertEquals("Collection name cannot be empty", exception.getMessage());
     }
-
 }

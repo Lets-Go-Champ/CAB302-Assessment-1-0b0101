@@ -30,6 +30,8 @@ public class LibraHomeApp extends Application {
         // Initialize BookDAO and create the Book table
         BookDAO.getInstance().createTable();
 
+        LoanDAO.getInstance().createTable();
+
         // Initialize ViewFactory and get the login screen view
         ViewManager.getInstance().getViewFactory().getLoginScreen();
     }
