@@ -47,7 +47,7 @@ public class BookDAO {
                             "bookId INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "collectionId INTEGER," +
                             "title TEXT NOT NULL," +
-                            "isbn INTEGER," +
+                            "isbn Text," +
                             "author TEXT," +
                             "description TEXT," +
                             "publicationDate TEXT," +
@@ -77,7 +77,7 @@ public class BookDAO {
             );
             insertBook.setInt(1, book.getCollectionId());
             insertBook.setString(2, book.getTitle());
-            insertBook.setInt(3, book.getISBN());
+            insertBook.setString(3, book.getISBN());
             insertBook.setString(4, book.getAuthor());
             insertBook.setString(5, book.getDescription());
             insertBook.setString(6, book.getPublicationDate());
@@ -104,7 +104,7 @@ public class BookDAO {
             );
             updateBook.setInt(1, book.getCollectionId());
             updateBook.setString(2, book.getTitle());
-            updateBook.setInt(3, book.getISBN());
+            updateBook.setString(3, book.getISBN());
             updateBook.setString(4, book.getAuthor());
             updateBook.setString(5, book.getDescription());
             updateBook.setString(6, book.getPublicationDate());
@@ -136,7 +136,7 @@ public class BookDAO {
                                 rs.getInt("collectionId"),
                                 rs.getInt("bookId"),
                                 rs.getString("title"),
-                                rs.getInt("isbn"),
+                                rs.getString("isbn"),
                                 rs.getString("author"),
                                 rs.getString("description"),
                                 rs.getString("publicationDate"),
@@ -178,7 +178,7 @@ public class BookDAO {
                         rs.getInt("collectionId"),
                         rs.getInt("bookId"),
                         rs.getString("title"),
-                        rs.getInt("isbn"),
+                        rs.getString("isbn"),
                         rs.getString("author"),
                         rs.getString("description"),
                         rs.getString("publicationDate"),
@@ -228,7 +228,7 @@ public class BookDAO {
                         rs.getInt("collectionId"),
                         rs.getInt("bookId"),
                         rs.getString("title"),
-                        rs.getInt("isbn"),
+                        rs.getString("isbn"),
                         rs.getString("author"),
                         rs.getString("description"),
                         rs.getString("publicationDate"),
@@ -255,7 +255,7 @@ public class BookDAO {
                         rs.getInt("bookId"),
                         rs.getInt("collectionId"),
                         rs.getString("title"),
-                        rs.getInt("isbn"),
+                        rs.getString("isbn"),
                         rs.getString("author"),
                         rs.getString("description"),
                         rs.getString("publicationDate"),

@@ -63,14 +63,15 @@ public class ViewFactory {
      * @return AnchorPane representing the My Book view.
      */
     public AnchorPane getMyBooksView() {
-        if (myBooksView == null) {
-            try{
-                myBooksView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BooksDisplay.fxml")).load();
-            } catch (Exception e){
-                System.out.println("Error loading MyBooksView: " + e.getMessage());
-            }
+        try {
+            // Always reload the FXML to ensure a fresh view and controller each time
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/BooksDisplay.fxml"));
+            myBooksView = loader.load();  // Load the view each time
+            loader.getController(); // Get a fresh controller instance
+        } catch (Exception e) {
+            System.out.println("Error loading MyBooksView: " + e.getMessage());
         }
-        return myBooksView;
+        return myBooksView; // Return the AnchorPane directly
     }
 
     /**
