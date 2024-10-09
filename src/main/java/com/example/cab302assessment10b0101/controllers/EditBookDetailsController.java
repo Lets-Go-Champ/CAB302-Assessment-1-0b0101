@@ -214,7 +214,7 @@ public class EditBookDetailsController implements Initializable {
         originalTitle = book.getTitle();
         setTitleTextField(book.getTitle());
         setCollectionChoiceBox(book.getCollectionId());
-        setIsbnTextField(Integer.toString(book.getISBN()));
+        setIsbnTextField(book.getISBN());
         setAuthorTextField(book.getAuthor());
         setDescriptionTextField(book.getDescription());
         setPublisherTextField(book.getPublisher());
@@ -372,7 +372,7 @@ public class EditBookDetailsController implements Initializable {
     private void updateBook(int collectionId, String title, String isbn, String author, String description,
                             String publisher, String publicationDate, String pages, String note, String readingStatus) {
 
-        Book newBook = new Book(collectionId, title, Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
+        Book newBook = new Book(collectionId, title, isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
         BookDAO.getInstance().update(newBook, originalTitle);
         clearFields();
     }

@@ -204,11 +204,11 @@ public class AddBookManuallyController implements Initializable {
         if (isbn == null || isbn.length() != 10) {
             return false;
         }
-        // Check if the ISBN is numeric and fits within the range of an int
-        try {
-            Integer.parseInt(isbn);
-        } catch (NumberFormatException e) {
-            return false;
+        // Check if all characters in the string are digits
+        for (int i = 0; i < isbn.length(); i++) {
+            if (!Character.isDigit(isbn.charAt(i))) {
+                return false;
+            }
         }
         return true;
     }
@@ -320,7 +320,7 @@ public class AddBookManuallyController implements Initializable {
 
         //If image conversion succeeds create a new book and insert it into the database
         if (imageBytes.length != 0) {
-            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
+            Book newBook = new Book(collectionId, title,  isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
             BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:
