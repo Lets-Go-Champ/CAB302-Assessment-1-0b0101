@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,12 +36,6 @@ public class Scraper {
             String bookTitle = result.select("h3").text();
             String bookUrl = result.select("a").attr("href");
 
-            // Image extraction
-            Element imageElement = result.select("a.rGhul img").first();
-            String imageUrl = "";
-            if (imageElement != null) {
-                imageUrl = imageElement.attr("src");
-            }
 
             if (!bookUrl.startsWith("http")) {
                 bookUrl = "https://books.google.com" + bookUrl;
@@ -51,8 +44,6 @@ public class Scraper {
             Map<String, String> book = new HashMap<>();
             book.put("title", bookTitle);
             book.put("url", bookUrl);
-            book.put("imageUrl", imageUrl); // Add the image URL to the map
-
 
             books.add(book);
 
@@ -104,6 +95,11 @@ public class Scraper {
         }
         bookDetails.put("Description", description);
 
+        // Fetch book cover image using the ISBN from Open Library API
+        String imageUrl = "https://covers.openlibrary.org/b/isbn/" + firstIsbn + "-M.jpg";
+        System.out.println("Cover Image URL: " + imageUrl);  // For verification
+        bookDetails.put("imageUrl", imageUrl); // Store the cover image URL in the map
+
         // Scrape publication date (adjusted)
         String publicationDateRaw = doc.select("span:contains(Published)").next().text();
         String formattedPublicationDate = formatDateString(publicationDateRaw);
@@ -116,8 +112,8 @@ public class Scraper {
 
 
     /**
-     * Helper method to format date strings from "14 September 2008" to "14/9/2008".
-     * If only the year is provided (e.g., "2008"), it assumes "01/01/YYYY".
+     * Helper method to format date strings from "14 September 2008" to "14-9-2008".
+     * If only the year is provided (e.g., "2008"), it assumes "01-01-YYYY".
      *
      * @param dateStr The date string to format.
      * @return The formatted date string.
@@ -132,7 +128,7 @@ public class Scraper {
             Date date = inputFormatFull.parse(dateStr);
             return outputFormat.format(date);
         } catch (ParseException e) {
-            // If only the year is provided (e.g., "2008"), assume 01/01/YYYY
+            // If only the year is provided (e.g., "2008"), assume 01-01-YYYY
             try {
                 Date yearOnly = inputFormatYear.parse(dateStr);
                 Calendar calendar = Calendar.getInstance();

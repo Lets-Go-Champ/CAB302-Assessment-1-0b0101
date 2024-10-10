@@ -17,9 +17,13 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
-import java.io.InputStream;
 import java.net.URL;
-import java.io.IOException;
+import javafx.scene.image.Image;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
 /**
  * The AddBookSearchDelete controller handles the logic for the search functionality
  * and retrieving detailed book information.
@@ -93,15 +97,32 @@ public class AddBookSearchDelete {
 
 
     /**
-     * Downloads an image from a given URL using Apache Commons IO and returns it as a byte array.
+     * Downloads an image from a given URL and returns it as a byte array.
+     * If the image is too small (e.g., below a certain width or height threshold),
+     * or if an error occurs during the download process, the default image is returned instead.
      *
      * @param imageUrl The URL of the image to download.
-     * @return A byte array representing the downloaded image.
+     * @return A byte array representing the downloaded image or the default image if the downloaded image is too small or an error occurs.
      * @throws IOException If an error occurs during the download process.
      */
     private byte[] downloadImage(String imageUrl) throws IOException {
         try (InputStream inputStream = new URL(imageUrl).openStream()) {
-            return IOUtils.toByteArray(inputStream); // Download the image and convert it to a byte array
+            // Read the image from the InputStream
+            BufferedImage bufferedImage = ImageIO.read(inputStream);
+
+            // Check if the image is too small (due to API size bug)
+            if (bufferedImage != null && (bufferedImage.getWidth() < 50 || bufferedImage.getHeight() < 50)) {
+                System.out.println("Image too small, using default image.");
+                return loadDefaultImage();  // Load and return the default image
+            }
+
+            // If the image is large enough, return its byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            System.err.println("Error downloading image: " + e.getMessage());
+            return loadDefaultImage();  // Use default image if there's an error
         }
     }
 
@@ -163,10 +184,9 @@ public class AddBookSearchDelete {
 
         System.out.println("Add Book button pressed for collection: " + selectedCollection.getCollectionName());
 
-        // Get the title and image from the selected search result in searchResultsListView
+        // Get the title from the selected search result in searchResultsListView
         int selectedIndex = searchResultsListView.getSelectionModel().getSelectedIndex();
         String titleFromSearch = searchResults.get(selectedIndex).get("title");
-        String imageUrlFromSearch = searchResults.get(selectedIndex).get("imageUrl"); // Image URL from scrapeGoogleBooks
 
         // Run the process for scraping the rest of the book details on a background thread
         new Thread(() -> {
@@ -175,45 +195,32 @@ public class AddBookSearchDelete {
                 Map<String, String> bookDetails = scraper.scrapeBookDetails(selectedBookUrl);
 
                 // Use the title from the search result, and the rest of the details from scrapeBookDetails
-                String title = titleFromSearch;  // Preserving the title from scrapeGoogleBooks
+                String title = titleFromSearch;
                 String isbnStr = bookDetails.get("ISBN");
                 String author = bookDetails.get("Author");
                 String description = bookDetails.get("Description");
-
                 String publicationDate = bookDetails.get("Publication Date");
-                // Handle null or empty publication date
-                if (publicationDate == null || publicationDate.isEmpty()) {
-                    publicationDate = "Unknown";
-                }
-
                 String publisher = bookDetails.get("Publisher");
                 String pageCountStr = bookDetails.get("Page Count");
+
+                // Image URL retrieved from the Scraper class
+                String imageUrl = bookDetails.get("imageUrl");
                 byte[] imageBytes;
 
-                // Debugging: Print the book details being processed
-                System.out.println("Book Details:");
-                System.out.println("Title: " + title);
-                System.out.println("ISBN: " + isbnStr);
-                System.out.println("Author: " + author);
-                System.out.println("Description: " + description);
-                System.out.println("Publication Date: " + publicationDate);
-                System.out.println("Publisher: " + publisher);
-                System.out.println("Page Count: " + pageCountStr);
-                System.out.println("Image URL: " + imageUrlFromSearch);
-
-                // Handle null values for title
-                if (title == null || title.isEmpty()) {
-                    Platform.runLater(() -> showAlert("Error", "Failed to retrieve the book title.", AlertType.ERROR));
-                    return;
+                // Download the image from Open Library API or set a default image
+                if (imageUrl != null && !imageUrl.isEmpty()) {
+                    imageBytes = downloadImage(imageUrl);
+                } else {
+                    imageBytes = loadDefaultImage();
                 }
 
-                // Parse ISBN and page count, handle invalid formats
-                int isbn = 0; // Default to 0 if parsing fails
-                int pages = 0; // Default to 0 if parsing fails
+                // Parse ISBN and page count
+                int isbn = 0;
+                int pages = 0;
 
                 try {
                     if (isbnStr != null && !isbnStr.isEmpty()) {
-                        isbn = Integer.parseInt(isbnStr);  // Now it can be handled as a string
+                        isbn = Integer.parseInt(isbnStr);
                     }
                 } catch (NumberFormatException e) {
                     System.err.println("Error parsing ISBN: " + isbnStr);
@@ -227,13 +234,6 @@ public class AddBookSearchDelete {
                     System.err.println("Error parsing page count: " + pageCountStr);
                 }
 
-                // Handle image: if imageUrl is not empty, download it; otherwise, use default image
-                if (imageUrlFromSearch != null && !imageUrlFromSearch.isEmpty()) {
-                    imageBytes = downloadImage(imageUrlFromSearch); // Use a helper method to download the image
-                } else {
-                    imageBytes = loadDefaultImage(); // Use default image if scraping fails
-                }
-
                 // Use "No Description Found" as the default if description is empty
                 if (description == null || description.isEmpty()) {
                     description = "No Description Found";
@@ -242,7 +242,7 @@ public class AddBookSearchDelete {
                 // Create the book object and insert it into the database
                 Book newBook = new Book(
                         selectedCollection.getId(),
-                        title,  // Title from search result
+                        title,
                         isbn,
                         author,
                         description,
@@ -270,21 +270,22 @@ public class AddBookSearchDelete {
         }).start();
     }
 
-
+    /**
+     * Loads a default image in case downloading the cover image fails.
+     *
+     * @return A byte array representing the default image.
+     */
     private byte[] loadDefaultImage() {
         try {
-            // Load the default image from resources
             InputStream is = getClass().getResourceAsStream("/com/example/cab302assessment10b0101/images/Default.jpg");
-
             if (is == null) {
                 System.err.println("Default image not found in resources.");
                 return null;
             }
-
-            return is.readAllBytes();
+            return IOUtils.toByteArray(is);
         } catch (IOException e) {
             System.err.println("Error loading default image: " + e.getMessage());
-            return null; // Return null if there's an error loading the default image
+            return null;
         }
     }
 
