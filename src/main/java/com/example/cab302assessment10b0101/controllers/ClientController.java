@@ -1,8 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +20,9 @@ public class ClientController implements Initializable {
     //This is a reference to the BorderPane element in the FXML file which is the main layout container.
     @FXML
     private BorderPane mainBorderPane;
+
+    @FXML
+    private FontAwesomeIconView profileIcon;
 
     /**
      * Initializes the controller class. This method is called automatically after the FXML file has been loaded.
@@ -49,10 +55,21 @@ public class ClientController implements Initializable {
                 //If user clicks on edit book, update border pane center to display the edit book details page
                 case EDITBOOKDETAILS: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getEditBookDetailsView());
                     break;
+                //If user clicks on lending, update border pane center to display the lending page
+                case LENDING: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getLendingView());
+                    break;
+                //If user clicks on profile, update border pane center to display the user details page
+                case PROFILE: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getProfileView());
+                    break;
                 //Update border pane center to display my books page view on default
                 default: mainBorderPane.setCenter(ViewManager.getInstance().getViewFactory().getMyBooksView());
                     break;
             }
         });
+        profileIcon.setOnMouseClicked(event -> getProfileView());
+
+    }
+    public void getProfileView() {
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.PROFILE);
     }
 }

@@ -1,8 +1,7 @@
 package com.example.cab302assessment10b0101.views;
-import com.example.cab302assessment10b0101.controllers.BookDetailsController;
-import com.example.cab302assessment10b0101.controllers.ClientController;
-import com.example.cab302assessment10b0101.controllers.EditBookDetailsController;
+import com.example.cab302assessment10b0101.controllers.*;
 import com.example.cab302assessment10b0101.model.Book;
+import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +26,8 @@ public class ViewFactory {
     private AnchorPane addBookView;
     private AnchorPane booksDetailsView;
     private AnchorPane editBookDetailsView;
+    private AnchorPane profileView;
+    private AnchorPane lendingView;
 
     /**
      * Constructor for ViewFactory.
@@ -58,9 +59,8 @@ public class ViewFactory {
 
     /**
      * Loads and returns the My Books view.
-     * This method reloads the FXML and initializes a fresh MyBooksController each time to ensure
-     * that book collections and details are properly refreshed.
-     * @return AnchorPane representing the My Books view.
+     * Only loads the FXML the first time this method is called. Subsequent calls reuse the same view.
+     * @return AnchorPane representing the My Book view.
      */
     public AnchorPane getMyBooksView() {
         try {
@@ -171,6 +171,33 @@ public class ViewFactory {
         return editBookDetailsView;
     }
 
+    public AnchorPane getLendingView(){
+        try {
+            // Always reload the FXML to ensure a fresh view and controller each time
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/main-lending-page.fxml"));
+            lendingView = loader.load();  // Load the view each time
+            loader.getController(); // Get a fresh controller instance
+        } catch (Exception e) {
+            System.out.println("Error loading LendingView: " + e.getMessage());
+        }
+        return lendingView; // Return the AnchorPane directly
+    }
+
+    public AnchorPane getProfileView() {
+        if (profileView == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/Profile.fxml"));
+                profileView = loader.load();
+
+                ProfileController controller = loader.getController();
+                String currentUserUsername = UserManager.getInstance().getCurrentUser().getUsername();
+                String currentUserPassword = UserManager.getInstance().getCurrentUser().getPassword();
+                controller.populateFields(currentUserUsername, currentUserPassword);
+            } catch (Exception e) { e.printStackTrace(); }
+        }
+        return profileView;
+    }
+
     /**
      * Displays the login screen.
      * Loads the login FXML and creates a new stage for the login window.
@@ -178,8 +205,14 @@ public class ViewFactory {
     public void getLoginScreen() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/login.fxml"));
         createStage(loader);
+        myBooksView = null;
+        addCollectionView = null;
+        addBookView = null;
+        booksDetailsView = null;
+        editBookDetailsView = null;
+        profileView = null;
+        lendingView= null;
     }
-
 
     /**
      * Displays the client screen.

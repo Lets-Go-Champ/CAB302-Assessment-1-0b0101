@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="230" minWidth="500" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../styles/changeUserDetails.css" fx:controller="com.example.cab302assessment10b0101.controllers.ChangeUsernameController">
+
+    <!-- Headings -->
+    <Label layoutX="135" layoutY="14" text="Change Username" alignment="CENTER" styleClass="heading"> </Label>
+    <Label layoutX="175" layoutY="73" text="New Username" alignment="CENTER" styleClass="sub_heading"> </Label>
+
+    <!-- Update Username field -->
+    <TextField fx:id="newUsernameTextField" layoutX="135" layoutY="106" prefHeight="45" prefWidth="225" styleClass="text_field"/>
+
+    <!-- Buttons -->
+    <Button fx:id="updateButton" layoutX="135" layoutY="160" mnemonicParsing="false" text="Save" onAction="#handleUpdateUsername"/>
+    <Button fx:id="cancelButton" layoutX="260" layoutY="160" mnemonicParsing="false" text="Cancel" onAction="#handleCancel"/>
+</AnchorPane>

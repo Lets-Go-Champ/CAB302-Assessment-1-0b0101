@@ -16,7 +16,7 @@ public class Book {
     private int bookId;
     private int collectionId;
     private StringProperty title;
-    private IntegerProperty isbn;
+    private StringProperty isbn;
     private StringProperty author;
     private StringProperty description;
     private StringProperty publicationDate;
@@ -42,11 +42,11 @@ public class Book {
      * @param image           The image associated with the book as a byte array.
      * @param readingStatus   The current reading status of the book.
      */
-    public Book(int bookId, int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image, String readingStatus) {
+    public Book(int bookId, int collectionId, String title, String isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image, String readingStatus) {
         this.bookId = bookId;
         this.collectionId = collectionId;
         this.title = new SimpleStringProperty(title);
-        this.isbn = new SimpleIntegerProperty(isbn);
+        this.isbn = new SimpleStringProperty(isbn);
         this.author = new SimpleStringProperty(author);
         this.description = new SimpleStringProperty(description);
         this.publicationDate = new SimpleStringProperty(publicationDate);
@@ -73,10 +73,10 @@ public class Book {
      * @param image           The image associated with the book as a byte array.
      * @param readingStatus   The current reading status of the book.
      */
-    public Book(int collectionId, String title, int isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image, String readingStatus) {
+    public Book(int collectionId, String title, String isbn, String author, String description, String publicationDate, String publisher, Integer pages, String notes, byte[] image, String readingStatus) {
         this.collectionId = collectionId;
         this.title = new SimpleStringProperty(title);
-        this.isbn = new SimpleIntegerProperty(isbn);
+        this.isbn = new SimpleStringProperty(isbn);
         this.author = new SimpleStringProperty(author);
         this.description = new SimpleStringProperty(description);
         this.publicationDate = new SimpleStringProperty(publicationDate);
@@ -109,7 +109,7 @@ public class Book {
      * Gets the ISBN of the book.
      * @return The ISBN as an int.
      */
-    public int getISBN() {
+    public String getISBN() {
         return isbn.get();
     }
 
@@ -227,7 +227,7 @@ public class Book {
      * Sets the ISBN of the book.
      * @param isbn The ISBN to set as an IntegerProperty.
      */
-    public void setISBN(IntegerProperty isbn) {
+    public void setISBN(StringProperty isbn) {
         this.isbn = isbn;
     }
 

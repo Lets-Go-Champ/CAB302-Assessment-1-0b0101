@@ -1,7 +1,9 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.Book;
-import com.example.cab302assessment10b0101.model.BookDAO;
+import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.MenuOptions;
+import com.example.cab302assessment10b0101.views.ViewFactory;
+
 import java.sql.SQLException;
 
 /**
@@ -39,13 +41,11 @@ public class DeleteBookController {
      * @throws IllegalArgumentException if the provided book is null.
      */
     public void deleteBook(Book book) {
-        System.out.println("Attempting to delete book with ISBN: " + book.getISBNAsString());
-        if (book == null) {
-            throw new IllegalArgumentException("Cannot delete a null book.");
-        }
+        System.out.println("Attempting to delete book with id: " +book.getId());
         try {
-            bookDao.deleteBook(book.getISBNAsString());
+            BookDAO.getInstance().deleteBook(book.getTitle());
             System.out.println("Book deleted successfully.");
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
         } catch (SQLException e) {
             System.out.println("Failed to delete the book: " + e.getMessage());
         }

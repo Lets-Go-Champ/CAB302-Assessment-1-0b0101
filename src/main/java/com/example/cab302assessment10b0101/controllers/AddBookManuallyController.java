@@ -61,7 +61,7 @@ public class AddBookManuallyController implements Initializable {
     final String noTitleErrorMessage = "Please enter a Title.";
     final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
-    final String invalidISBNMessage = "The ISBN must only contain digits 0-9";
+    final String invalidISBNMessage = "The ISBN must be 10 digits long and only contain digits 0-9.";
     final String noAuthorErrorMessage = "Please enter an Author.";
     final String noDescriptionMessage = "Please enter a description";
     final String noPublisherMessage = "Please enter a publisher.";
@@ -194,17 +194,22 @@ public class AddBookManuallyController implements Initializable {
     }
 
     /**
-     * Validates if the ISBN consists of only digits.
+     * Validates if the ISBN consists of exactly 10 digits and is numeric.
      *
      * @param isbn The ISBN string.
      * @return True if valid, otherwise false.
      */
     private boolean isValidISBN(String isbn) {
-        try { Integer.parseInt(isbn); }
-        catch (Exception e ) { return false; }
-
-        // Function assumes that an integer value is a valid ISBN
-        // Functionality for further validating and ISBN can be implemented in future
+        // Check if ISBN is exactly 10 digits long
+        if (isbn == null || isbn.length() != 10) {
+            return false;
+        }
+        // Check if all characters in the string are digits
+        for (int i = 0; i < isbn.length(); i++) {
+            if (!Character.isDigit(isbn.charAt(i))) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -315,7 +320,7 @@ public class AddBookManuallyController implements Initializable {
 
         //If image conversion succeeds create a new book and insert it into the database
         if (imageBytes.length != 0) {
-            Book newBook = new Book(collectionId, title,  Integer.parseInt(isbn), author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
+            Book newBook = new Book(collectionId, title,  isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
             BookDAO.getInstance().insert(newBook);
 
             // Print the results to console for testing:

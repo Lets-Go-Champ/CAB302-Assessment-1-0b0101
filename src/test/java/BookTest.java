@@ -22,9 +22,9 @@ public class BookTest {
     @BeforeEach
     public void setUp() {
         byte[] image = new byte[0];  // Initializing an empty byte array for the image
-        book = new Book(1, 1, "The Great Test", 123456, "Jackson",
+        book = new Book(1, 1, "The Great Test", "1234567890", "Jackson",
                 "A thrilling adventure", "01-01-2020", "BestPublisher",
-                500, "My favourite book", image);
+                500, "My favourite book", image, "unread");
     }
 
     /**
@@ -67,7 +67,8 @@ public class BookTest {
      */
     @Test
     public void testGetISBN() {
-        assertEquals(123456, book.getISBN());
+        // Use a string to represent the ISBN
+        assertEquals("1234567890", book.getISBN());
     }
 
     /**
@@ -75,9 +76,9 @@ public class BookTest {
      */
     @Test
     public void testSetISBN() {
-        SimpleIntegerProperty newISBN = new SimpleIntegerProperty(654321);
+        SimpleStringProperty newISBN = new SimpleStringProperty("6543212378");
         book.setISBN(newISBN);
-        assertEquals(654321, book.getISBN());
+        assertEquals("6543212378", book.getISBN());
     }
 
     /**
