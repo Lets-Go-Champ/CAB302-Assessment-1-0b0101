@@ -1,45 +1,36 @@
 
-/* Background */
-.login-container {
+/* Logo Properties */
+
+.logo-container {
     -fx-background-color: #247373;
 }
 
-/* LibraHome Label */
 .logo-label {
     -fx-fill: white;
     -fx-font-weight: Bold;
     -fx-font-size: 50;
 }
 
-/* Logo Icon */
 .logo {
     -fx-fill: white;
 }
 
-.login_logo_container FontAwesomeIconView {
-    -fx-font-size: 2em;
-    -fx-fill: #D3D3D3;
+
+/* Log-in Properties */
+
+.login-container {
+    -fx-background-color: white;
 }
 
-.login_form_container {
-    -fx-background-color: #FFFFFF;
+.login-title {
+    -fx-font-size: 36;
+    -fx-font-family: "Impact";
+
 }
 
-
-.login_logo_container Text {
-    -fx-font-size: 4em;
-    -fx-fill: #FFFFFF;
-}
-
-
-/*login form styling */
-.login_form_container Text {
-    -fx-spacing: 25;
-    -fx-alignment: top_left;
-}
-
-.login_form_container Label {
+.login-headings {
     -fx-spacing: 1.3em;
+    -fx-font-size: 16;
     -fx-font-weight: bold;
 }
 

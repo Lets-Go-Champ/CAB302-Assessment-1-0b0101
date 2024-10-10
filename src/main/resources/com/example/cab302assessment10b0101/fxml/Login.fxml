@@ -18,7 +18,7 @@
             fx:controller="com.example.cab302assessment10b0101.controllers.LoginController">
 
    <!-- Logo Details -->
-   <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" styleClass="login-container"
+   <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" styleClass="logo-container"
          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="298.0"
          AnchorPane.topAnchor="0.0">
 
@@ -29,32 +29,40 @@
       <FontAwesomeIconView glyphName="BOOK" size="70" text="" styleClass="logo"/>
    </VBox>
 
+
    <!-- Login Details -->
    <VBox alignment="CENTER" layoutX="326.0" layoutY="-0.8" prefHeight="400.0" prefWidth="302.0"
-         styleClass="login_form_container" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="-1.0"
+         styleClass="login-container" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="-1.0"
          AnchorPane.topAnchor="-1.0">
-      <Label alignment="CENTER" styleClass="login_logo_container_title" text="Login" textAlignment="CENTER">
+
+      <!-- Title -->
+      <Label text="Login" alignment="CENTER" styleClass="login-title" textAlignment="CENTER">
          <font>
             <Font size="36.0"/>
          </font>
       </Label>
+
+
       <VBox spacing="5.0">
-         <Label alignment="TOP_LEFT" text="Username:"/>
+         <Label alignment="TOP_LEFT" text="Username:" styleClass="login-headings"/>
          <TextField fx:id="usernameTextField" styleClass="input_field">
             <VBox.margin>
                <Insets bottom="20.0"/>
             </VBox.margin>
          </TextField>
-         <Label text="Password:"/>
+         <Label text="Password:" styleClass="login-headings"/>
          <PasswordField fx:id="passwordTextField" styleClass="input_field">
             <VBox.margin>
                <Insets bottom="20.0"/>
             </VBox.margin>
          </PasswordField>
+
+         <!-- Buttons -->
          <HBox alignment="CENTER" spacing="10.0">
             <Button fx:id="createAccountButton" mnemonicParsing="false" text="Create Account"/>
             <Button fx:id="loginButton" mnemonicParsing="false" text="Login"/>
          </HBox>
+
          <!-- The fx:id is added here to reference the Label in the controller -->
          <Label fx:id="errorLabel" styleClass="error_label" text="Error: " visible="false"/>
          <VBox.margin>
