@@ -24,8 +24,8 @@ public class ChangeUsernameController {
     final String usernameExistsMessage = "The entered username is assigned to another user.";
     final String successfulUpdateMessage = "Username updated successfully!";
 
-    // The original username for the current user
-    final private String originalUsername = UserManager.getInstance().getCurrentUser().getUsername();
+    // The ID of the current user
+    final int userID = UserManager.getInstance().getCurrentUser().getId();
 
 
     // Updates the username if all fields are valid
@@ -37,7 +37,7 @@ public class ChangeUsernameController {
         if ( newUsername.isEmpty() ) { showAlert("Error", noUsernameMessage, Alert.AlertType.ERROR); return; }
 
         // Update the username
-        UserDAO.getInstance().updateUsername(newUsername, originalUsername);
+        UserDAO.getInstance().updateUsername(newUsername, userID);
         showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
         ((Stage) updateButton.getScene().getWindow()).close();
     }
