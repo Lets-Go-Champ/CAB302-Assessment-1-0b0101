@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
@@ -125,12 +124,11 @@ public class LoginController {
             dialogStage.initOwner(createAccountButton.getScene().getWindow());
             // Set the scene (create account form)
             dialogStage.setScene(scene);
-
             // Show the dialog and wait for it to close
             dialogStage.showAndWait();
         } catch (IOException e) {
             // Debugging Tool
-            e.printStackTrace();
+            System.out.println("Error handling Create Account: " + e.getMessage());
             showAlert("Error", "Could not load the create account window.", AlertType.ERROR);
         }
     }
