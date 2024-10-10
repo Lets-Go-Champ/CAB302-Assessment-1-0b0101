@@ -25,13 +25,12 @@
 .login-title {
     -fx-font-size: 36;
     -fx-font-family: "Impact";
-
 }
 
 .login-headings {
     -fx-spacing: 1.3em;
     -fx-font-size: 16;
-    -fx-font-weight: bold;
+    -fx-font-weight: Bold;
 }
 
 .input_field {
@@ -40,9 +39,13 @@
     -fx-font-size: 1.2em;
 }
 
-.login_form_container Button {
-    -fx-pref-height: 35;
-    -fx-font-size: 1.2em;
+.login-buttons {
+    -fx-pref-height: 40;
+    -fx-pref-width: 120;
+    -fx-text-size: 14;
+    -fx-text-fill: white;
+    -fx-font-weight: Bold;
+    -fx-background-color: #247373;
 }
 
 .login_form_container Button:hover {
