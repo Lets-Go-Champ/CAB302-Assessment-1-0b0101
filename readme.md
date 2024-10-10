@@ -1,25 +1,53 @@
-# LibraHome - Home Library Catalogue
+# LibraHome
 
-## Project Overview
-
-**LibraHome** is a JavaFX-based application designed to efficiently manage a personal collection of books. The application offers users a comprehensive tool to catalog their home library, track borrowed books, and interact with their collection through various features such as web scraping for book information, rating and reviews, and wish lists.
+**LibraHome** is a JavaFX-based application designed to efficiently manage a personal collection of books. The application allows users to catalog their home library, track borrowed books, and interact with their collection through various features such as web scraping for book information, rating and reviews, and wish lists.
 
 ## Features
 
-- **Book Management:** Add, edit, delete book entries, including title, author, genre, publication date, ISBN, and personal comments or annotations.
-- **Search and Filter:** Search by title, author, or genre and filter books by multiple criteria.
-- **Categorization:** Organize books into custom categories or shelves.
-- **Book Details View:** Detailed view of each book entry with options to edit or delete.
-- **Borrowing Tracking:** Track books lent out with borrower details and return date reminders.
-- **Reading Tracking:** Track reading progress with start and end dates, and current page number.
-- **Reading History:** Maintain a log of finished books with ratings and completion dates.
-- **Wish Lists:** Create and manage wish lists for future book purchases or reads.
-- **Borrower Reminders:** Send notifications for approaching return dates.
-- **Data Exporting:** Export catalogue, reading history, and wish lists to CSV or XML.
-- **Web Scraping for Book Information:** Retrieve and populate book details and cover images from external sources.
-- **User Management:** Account creation and login with password security.
-- **Analytics Dashboard:** Report and visualize reading statistics and book data.
-- **User Interface and Experience:** Intuitive design, customizable views, and responsive layout.
+- **Book Management:**
+    - Add collections to organize books.
+    - Add books manually or using the web scraping tool powered by jSOUP to retrieve book information from online sources.
+    - Edit, delete, or loan individual books.
+    - For each book, users can input the title, author, publisher, ISBN, publication date, description, notes, and upload a cover image.
+- **Search and Sort:**
+    - Search for books by title, author, publisher, or publication date.
+    - Sort books alphabetically by title, author, or by publication date (oldest to newest).
+- **Borrowing Management:**
+    - Track books lent out, including borrower details and return date reminders.
+- **Reading History:**
+    - Track reading progress, including start and end dates.
+    - Maintain a log of completed books with ratings.
+- **Wish Lists:**
+    - Create and manage lists for future book purchases or reading.
+- **Web Scraping:**
+    - Retrieve and populate book details and cover images from online sources via the integrated web scraping tool (jSOUP).
+- **User Interface:**
+    - Built using JavaFX, with UI designed in Scene Builder for a responsive and intuitive user experience.
+
+## Screenshots
+
+### Login Page
+![Login Page](src/main/resources/cover.png)
+
+### Book Details Page
+![Book Details Page](src/main/resources/bookDetail.png)
+
+### Book Lending Page
+![Book Lending Page](src/main/resources/bookLoan.png)
+
+## Technologies Used
+
+- **JavaFX** for the user interface.
+- **jSOUP** for web scraping book details.
+- **SQLite** for local database storage.
+- **Scene Builder** for designing the user interface.
+
+## How to Use
+
+1. **Adding Books**: Users can add books manually or via the web scraping tool, providing details like the title, author, ISBN, etc.
+2. **Managing Collections**: Organize your books into collections or shelves.
+3. **Borrowing and Lending**: Keep track of books you have lent out and receive reminders for due dates.
+4. **Searching and Sorting**: Easily search and sort your books by various criteria.
 
 ## Project Structure
 
