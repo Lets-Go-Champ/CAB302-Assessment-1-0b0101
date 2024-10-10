@@ -95,7 +95,6 @@ public class AddBookSearchDelete {
         }
     }
 
-
     /**
      * Downloads an image from a given URL and returns it as a byte array.
      * If the image is too small (e.g., below a certain width or height threshold),

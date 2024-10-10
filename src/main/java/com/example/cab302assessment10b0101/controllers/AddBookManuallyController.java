@@ -194,14 +194,14 @@ public class AddBookManuallyController implements Initializable {
     }
 
     /**
-     * Validates if the ISBN consists of exactly 10 digits and is numeric.
+     * Validates if the ISBN consists of exactly 10 or 13 digits and is numeric.
      *
      * @param isbn The ISBN string.
      * @return True if valid, otherwise false.
      */
     private boolean isValidISBN(String isbn) {
-        // Check if ISBN is exactly 10 digits long
-        if (isbn == null || isbn.length() != 10) {
+        // Check if ISBN is exactly 10 or 13 digits long
+        if (isbn == null || (isbn.length() != 10 && isbn.length() != 13)) {
             return false;
         }
         // Check if all characters in the string are digits

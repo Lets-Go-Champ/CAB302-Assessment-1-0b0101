@@ -36,7 +36,6 @@ public class Scraper {
             String bookTitle = result.select("h3").text();
             String bookUrl = result.select("a").attr("href");
 
-
             if (!bookUrl.startsWith("http")) {
                 bookUrl = "https://books.google.com" + bookUrl;
             }
