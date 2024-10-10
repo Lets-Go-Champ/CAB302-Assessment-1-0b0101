@@ -12,26 +12,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/login.css" xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302assessment10b0101.controllers.LoginController">
-   <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" styleClass="login_container"
+
+   <!-- Logo Details -->
+   <VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" styleClass="login-container"
          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="298.0"
          AnchorPane.topAnchor="0.0">
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome">
-         <font>
-            <Font size="50.0"/>
-         </font>
-      </Text>
-      <FontAwesomeIconView glyphName="BOOK" size="70" text=""/>
-<!--      <ImageView fitWidth="100" fitHeight="100">-->
-<!--         <image>-->
-<!--            <Image url="@/com/example/cab302assessment10b0101/download.png" />-->
-<!--         </image>-->
-<!--      </ImageView>-->
+
+      <!-- Label -->
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LibraHome" styleClass="logo-label"> </Text>
+
+      <!-- Icon -->
+      <FontAwesomeIconView glyphName="BOOK" size="70" text="" styleClass="logo"/>
    </VBox>
+
+   <!-- Login Details -->
    <VBox alignment="CENTER" layoutX="326.0" layoutY="-0.8" prefHeight="400.0" prefWidth="302.0"
          styleClass="login_form_container" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="-1.0"
          AnchorPane.topAnchor="-1.0">

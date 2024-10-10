@@ -1,16 +1,19 @@
-.login_container {
-    -fx-background-color: #EEEEEE;
+
+/* Background */
+.login-container {
+    -fx-background-color: #247373;
 }
 
-/* login logo container styles */
-.login_logo_container {
-    -fx-background-color:#D3D3D3;
-    -fx-alignment: center;
+/* LibraHome Label */
+.logo-label {
+    -fx-fill: white;
+    -fx-font-weight: Bold;
+    -fx-font-size: 50;
 }
 
-.login_logo_container Text {
-    -fx-font-size: 2em;
-    -fx-fill: #D3D3D3;
+/* Logo Icon */
+.logo {
+    -fx-fill: white;
 }
 
 .login_logo_container FontAwesomeIconView {
@@ -21,15 +24,10 @@
 .login_form_container {
     -fx-background-color: #FFFFFF;
 }
+
+
 .login_logo_container Text {
     -fx-font-size: 4em;
-    -fx-fill: #FFFFFF;
-}
-
-.login_logo_container_title Text {
-    -fx-font-size: 15em;
-    -fx-font-fill: red;
-
     -fx-fill: #FFFFFF;
 }
 
