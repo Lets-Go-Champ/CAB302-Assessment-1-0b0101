@@ -213,17 +213,8 @@ public class AddBookSearchDelete {
                     imageBytes = loadDefaultImage();
                 }
 
-                // Parse ISBN and page count
-                int isbn = 0;
+                // Parse page count
                 int pages = 0;
-
-                try {
-                    if (isbnStr != null && !isbnStr.isEmpty()) {
-                        isbn = Integer.parseInt(isbnStr);
-                    }
-                } catch (NumberFormatException e) {
-                    System.err.println("Error parsing ISBN: " + isbnStr);
-                }
 
                 try {
                     if (pageCountStr != null && !pageCountStr.isEmpty()) {
