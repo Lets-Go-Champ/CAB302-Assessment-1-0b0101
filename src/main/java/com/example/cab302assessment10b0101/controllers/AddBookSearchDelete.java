@@ -243,7 +243,7 @@ public class AddBookSearchDelete {
                 Book newBook = new Book(
                         selectedCollection.getId(),
                         title,
-                        isbn,
+                        isbnStr,
                         author,
                         description,
                         publicationDate,
