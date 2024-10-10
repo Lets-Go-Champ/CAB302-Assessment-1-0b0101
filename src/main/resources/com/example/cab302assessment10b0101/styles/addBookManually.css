@@ -1,0 +1,88 @@
+
+/* Title (Add Book) */
+.title {
+    -fx-font-family: "Impact";
+    -fx-font-size: 40;
+    -fx-text-fill: #247373;
+}
+
+/* Tabs (Search, Add Manually) */
+.tab {
+    -fx-background-color: none;
+    -fx-font-family: "Impact";
+}
+
+/* Tab Sizing */
+.tab-pane:top {
+    -fx-tab-min-height: 40;
+    -fx-font-size: 20;
+}
+
+/* Tab Background */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: none;
+}
+
+/* Selected Tab Highlight */
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+    -fx-border-color: #247373;
+    -fx-border-width: 0 0 4 0;
+}
+
+/* Labels */
+.manualAdd_labels {
+    -fx-font-family: "Impact";
+    -fx-font-size: 20;
+    -fx-padding: 20 0 0 0;
+}
+
+/* TextFields */
+.tab-pane:top .tab-content-area .text-field {
+    -fx-font-size: 16;
+}
+
+/* Choice Boxes */
+.choice-box {
+    -fx-font-weight: Bold;
+    -fx-font-fill: black;
+    -fx-font-size: 16;
+}
+
+/* Date Picker Window Sizing */
+.date-picker {
+    -fx-font-size: 12;
+}
+
+/* addImage/saveBook buttons */
+.button {
+    -fx-font-family: "Impact";
+    -fx-text-fill: #247373;
+    -fx-font-size: 16;
+    -fx-pref-width: 120;
+    -fx-pref-height: 40;
+}
+
+/* Scroll Bar */
+.scroll-bar:vertical {
+    -fx-font-size: 12;
+    -fx-background-color: none;
+    -fx-padding: 2em;
+}
+
+/* Scroll Bar Thumb */
+.scroll-bar:vertical .thumb {
+    -fx-font-size: 12;
+    -fx-background-color : #247373;
+    -fx-background-radius : 2em;
+}
+
+/* Scroll Bar Arrows */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: #247373;
+}
+
+/* Remove gray border */
+.scroll-pane {
+    -fx-background-color: transparent;
+}

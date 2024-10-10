@@ -1,48 +1,36 @@
-.login_container {
-    -fx-background-color: #EEEEEE;
+
+/* Logo Properties */
+
+.logo-container {
+    -fx-background-color: #247373;
 }
 
-/* login logo container styles */
-.login_logo_container {
-    -fx-background-color:#D3D3D3;
-    -fx-alignment: center;
+.logo-label {
+    -fx-fill: white;
+    -fx-font-weight: Bold;
+    -fx-font-size: 50;
 }
 
-.login_logo_container Text {
-    -fx-font-size: 2em;
-    -fx-fill: #D3D3D3;
-}
-
-.login_logo_container FontAwesomeIconView {
-    -fx-font-size: 2em;
-    -fx-fill: #D3D3D3;
-}
-
-.login_form_container {
-    -fx-background-color: #FFFFFF;
-}
-.login_logo_container Text {
-    -fx-font-size: 4em;
-    -fx-fill: #FFFFFF;
-}
-
-.login_logo_container_title Text {
-    -fx-font-size: 15em;
-    -fx-font-fill: red;
-
-    -fx-fill: #FFFFFF;
+.logo {
+    -fx-fill: white;
 }
 
 
-/*login form styling */
-.login_form_container Text {
-    -fx-spacing: 25;
-    -fx-alignment: top_left;
+/* Log-in Properties */
+
+.login-container {
+    -fx-background-color: white;
 }
 
-.login_form_container Label {
+.login-title {
+    -fx-font-size: 36;
+    -fx-font-family: "Impact";
+}
+
+.login-headings {
     -fx-spacing: 1.3em;
-    -fx-font-weight: bold;
+    -fx-font-size: 16;
+    -fx-font-weight: Bold;
 }
 
 .input_field {
@@ -51,9 +39,13 @@
     -fx-font-size: 1.2em;
 }
 
-.login_form_container Button {
-    -fx-pref-height: 35;
-    -fx-font-size: 1.2em;
+.login-buttons {
+    -fx-pref-height: 40;
+    -fx-pref-width: 120;
+    -fx-text-size: 14;
+    -fx-text-fill: white;
+    -fx-font-weight: Bold;
+    -fx-background-color: #247373;
 }
 
 .login_form_container Button:hover {
