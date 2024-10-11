@@ -43,6 +43,8 @@
 .menu_container Button {
     /* Border */
     -fx-background-insets: 1 1 1 1;
+    -fx-border-colour: white;
+    -fx-border-radius: 2;
     -fx-border-width: 3;
     -fx-border-color: #DDDDDD;
     -fx-pref-width: 140;
