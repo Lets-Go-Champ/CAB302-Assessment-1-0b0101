@@ -3,10 +3,13 @@ package com.example.cab302assessment10b0101.controllers;
 import com.example.cab302assessment10b0101.model.Collection;
 import com.example.cab302assessment10b0101.model.CollectionDAO;
 import com.example.cab302assessment10b0101.model.UserManager;
+import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,6 +33,7 @@ public class AddCollectionController implements Initializable {
     @FXML
     private Button cancelBtn; //Button to cancel
 
+
     /**
      * Initializes the controller when the view is loaded. Sets event handlers for the
      * save and cancel buttons.
@@ -44,7 +48,10 @@ public class AddCollectionController implements Initializable {
 
         //Set the action for the cancel button (currently does nothing)
         cancelBtn.setOnAction(e -> {
+            // Switch back to the "My Books" page
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
         });
+
     }
 
     /**
