@@ -70,15 +70,15 @@ public class ProfileController {
 
     // Updates the Instance and refreshes the values displayed in the textFields
     private void reload() {
-        // Update the Instance to reflect new user credentials
+
         int currentUserID = UserManager.getInstance().getCurrentUser().getId();
         for ( User user : UserDAO.getInstance().getAll() ) {
             if ( user.getId() == currentUserID ) {
-                UserManager.getInstance().setCurrentUser(user);
+
+                // Update the textFields
+                setUsernameTextField(user.getUsername());
+                setPasswordTextField(user.getPassword());
             }
         }
-        // Update the textFields
-        setUsernameTextField(UserManager.getInstance().getCurrentUser().getUsername());
-        setPasswordTextField(UserManager.getInstance().getCurrentUser().getPassword());
     }
 }

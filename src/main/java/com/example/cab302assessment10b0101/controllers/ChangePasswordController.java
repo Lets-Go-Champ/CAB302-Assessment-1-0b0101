@@ -23,8 +23,8 @@ public class ChangePasswordController {
     final String noPasswordMessage = "Please enter a new password.";
     final String successfulUpdateMessage = "Password updated successfully!";
 
-    // The username of the current user
-    final private String username = UserManager.getInstance().getCurrentUser().getUsername();
+    // The ID of the current user
+    final int userID = UserManager.getInstance().getCurrentUser().getId();
 
 
     // Updates the password if all fields are valid
@@ -35,7 +35,7 @@ public class ChangePasswordController {
         if ( newPassword.isEmpty() ) { showAlert("Error", noPasswordMessage, Alert.AlertType.ERROR); return; }
 
         // Update the password
-        UserDAO.getInstance().updatePassword(newPassword, username);
+        UserDAO.getInstance().updatePassword(newPassword, userID);
         showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
         ((Stage) updateButton.getScene().getWindow()).close();
     }
