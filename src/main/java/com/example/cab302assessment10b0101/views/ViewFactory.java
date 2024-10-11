@@ -2,12 +2,12 @@ package com.example.cab302assessment10b0101.views;
 import com.example.cab302assessment10b0101.controllers.*;
 import com.example.cab302assessment10b0101.model.Book;
 import com.example.cab302assessment10b0101.model.UserManager;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 /**
  * The ViewFactory class is responsible for managing and displaying different views
@@ -193,7 +193,9 @@ public class ViewFactory {
                 String currentUserUsername = UserManager.getInstance().getCurrentUser().getUsername();
                 String currentUserPassword = UserManager.getInstance().getCurrentUser().getPassword();
                 controller.populateFields(currentUserUsername, currentUserPassword);
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                System.out.println("Error loading ProfileView: " + e.getMessage());
+            }
         }
         return profileView;
     }
@@ -212,6 +214,27 @@ public class ViewFactory {
         editBookDetailsView = null;
         profileView = null;
         lendingView= null;
+    }
+
+    /**
+     * Opens the Create Account window.
+     * This method handles the UI logic for creating a new account.
+     * @param createAccountButton The button that triggered the creation of this account.
+     */
+    public void handleCreateAccount(Button createAccountButton) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/CreateAccountPopup.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Account");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(createAccountButton.getScene().getWindow());
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+        } catch (Exception e) {
+            System.out.println("Error handling Create Account: " + e.getMessage());
+        }
     }
 
     /**
