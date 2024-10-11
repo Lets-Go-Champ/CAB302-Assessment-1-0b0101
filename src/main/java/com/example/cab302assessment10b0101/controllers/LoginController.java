@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -45,12 +46,12 @@ public class LoginController {
         String password = passwordTextField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Login Error", "Please enter both username and password.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Login Error", "Please enter both username and password.", Alert.AlertType.ERROR);
             return;
         }
 
         if (!isValidLogin(username, password)) {
-            showAlert("Login Error", "Username and password do not match any existing account.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Login Error", "Username and password do not match any existing account.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -68,20 +69,12 @@ public class LoginController {
             ViewManager.getInstance().getViewFactory().closeStage(stage);
             ViewManager.getInstance().getViewFactory().getClientScreen();
         } else {
-            showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
         }
     }
 
     private boolean isValidLogin(String username, String password) {
         return UserDAO.getInstance().getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
-    }
-
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

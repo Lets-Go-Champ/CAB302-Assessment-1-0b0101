@@ -1,15 +1,12 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.Collection;
-import com.example.cab302assessment10b0101.model.CollectionDAO;
-import com.example.cab302assessment10b0101.model.UserManager;
-import com.example.cab302assessment10b0101.model.ViewManager;
+import com.example.cab302assessment10b0101.Alert.AlertManager;
+import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -65,19 +62,15 @@ public class AddCollectionController implements Initializable {
 
         //Check if the collection name is empty and if it is show error
         if (collectionName.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Collection name cannot be empty.");
+            AlertManager.getInstance().showAlert("Error", "Collection name cannot be empty.", Alert.AlertType.INFORMATION);
             return;
         }
-        //System.out.println("\nCreating Collection...");
 
         //Get the current user's ID
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
 
-        //System.out.println("Current User ID = " + currentUserId + "\n");
-
         //Create a new collection object with the current user ID, collection name, and description
         Collection newCollection = new Collection(currentUserId, collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
-        //System.out.println("New collection = " + newCollection);
 
         //Insert the new collection into the database
         CollectionDAO.getInstance().insert(newCollection);
@@ -87,7 +80,7 @@ public class AddCollectionController implements Initializable {
 
         // Clear input fields and show success alert
         clearFields();
-        showAlert(Alert.AlertType.INFORMATION, "Success", "Collection saved successfully!");
+        AlertManager.getInstance().showAlert("Success", "Collection saved successfully!", Alert.AlertType.INFORMATION);
     }
 
     /**
@@ -96,20 +89,5 @@ public class AddCollectionController implements Initializable {
     private void clearFields() {
         CollectionNameTextField.clear();
         DescriptionTextField.clear();
-    }
-
-    /**
-     * Shows an alert dialog with the specified type, title, and message.
-     *
-     * @param alertType The type of alert.
-     * @param title     The title of the alert dialog.
-     * @param message   The message content of the alert dialog.
-     */
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

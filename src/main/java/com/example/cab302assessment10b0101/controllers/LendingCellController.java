@@ -1,13 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.Loan;
-import com.example.cab302assessment10b0101.model.LoanDAO;
 import com.example.cab302assessment10b0101.model.LoanService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;

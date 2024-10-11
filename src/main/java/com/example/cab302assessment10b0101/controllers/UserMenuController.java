@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.UserManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
@@ -84,13 +85,7 @@ public class UserMenuController implements Initializable {
      * Displays a confirmation alert indicating successful logout.
      */
     private void showLogoutSuccessAlert() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Logout Successful");
-        alert.setHeaderText(null);
-        alert.setContentText("You have been logged out successfully.");
-
-        // Show the alert and wait
-        alert.showAndWait();
+        AlertManager.getInstance().showAlert("Logout Successful", "You have been logged out successfully.", Alert.AlertType.INFORMATION);
     }
 
     /**

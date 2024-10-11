@@ -3,11 +3,7 @@ package com.example.cab302assessment10b0101.controllers;
 import com.example.cab302assessment10b0101.model.LoanService;
 import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class LendingPageController {
 
