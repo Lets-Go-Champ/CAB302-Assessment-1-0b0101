@@ -58,6 +58,9 @@ public class MyBooksController implements Initializable {
         // Add sorting options to the ChoiceBox
         filterChoiceBox.setItems(FXCollections.observableArrayList("Title", "Author", "Publication Date"));
 
+        // Set the default sorting option to "Title"
+        filterChoiceBox.getSelectionModel().select("Title");
+
         // Handle sorting when an option is selected
         filterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
