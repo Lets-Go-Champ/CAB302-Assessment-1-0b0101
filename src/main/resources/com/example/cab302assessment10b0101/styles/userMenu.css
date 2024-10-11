@@ -7,12 +7,12 @@
 
 /* Logo */
 .menu_title_container FontAwesomeIconView {
-    -fx-fill: #247373;
+    -fx-fill: white;
 }
 
 /* Logo Text */
 .menu_title_container Text {
-    -fx-fill: #247373;
+    -fx-fill: white;
     -fx-font-size: 2.5em;
     -fx-font-family: "Impact";
 }
@@ -21,12 +21,12 @@
 
 .menu_container {
     -fx-alignment: center;
-    -fx-background-color: #DDDDDD;
+    -fx-background-color: #247373;
 }
 
 .logo_container {
     -fx-alignment: center;
-    -fx-background-color: #DDDDDD;
+    -fx-background-color: #247373;
 }
 
 .menu_container {
@@ -43,10 +43,8 @@
 .menu_container Button {
     /* Border */
     -fx-background-insets: 1 1 1 1;
-    -fx-background-color: white;
-    -fx-border-width: 0.1em;
-    -fx-border-radius: 0.2em;
-    -fx-border-color: #247373;
+    -fx-border-width: 3;
+    -fx-border-color: #DDDDDD;
     -fx-pref-width: 140;
     -fx-pref-height: 45;
 
