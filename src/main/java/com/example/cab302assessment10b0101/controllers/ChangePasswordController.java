@@ -32,8 +32,8 @@ public class ChangePasswordController {
     public void handleUpdatePassword() {
         String newPassword = newPasswordTextField.getText();
 
-        // Password pattern: at least 6 characters long, one uppercase letter, one lowercase letter
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z]).{6,}$";
+        // Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$";
 
         // Perform validation
         if (newPassword.isEmpty()) {
@@ -43,7 +43,7 @@ public class ChangePasswordController {
 
         // Check if the new password meets the validation criteria
         else if (!newPassword.matches(passwordPattern)) {
-            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, and one lowercase letter.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character.", Alert.AlertType.ERROR);
             return;
         }
 

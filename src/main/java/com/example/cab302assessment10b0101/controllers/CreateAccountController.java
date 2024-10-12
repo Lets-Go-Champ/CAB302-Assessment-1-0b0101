@@ -42,8 +42,8 @@ public class CreateAccountController {
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
-        // Password pattern: at least 6 characters long, one uppercase letter, one lowercase letter
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z]).{6,}$";
+        // Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$";
 
         // Check if any of the fields are empty
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -51,7 +51,7 @@ public class CreateAccountController {
         }
         // Check password validity
         else if (!password.matches(passwordPattern)) {
-            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, and one lowercase letter.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character", Alert.AlertType.ERROR);
         }
         // Check if password and confirm password match
         else if (!password.equals(confirmPassword)) {
