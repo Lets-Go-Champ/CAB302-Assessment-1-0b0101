@@ -14,7 +14,6 @@
 <AnchorPane minHeight="730" minWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.MyBooksController">
     <Line endX="815.0" layoutX="121.0" layoutY="178.0" startX="-100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
     <ChoiceBox fx:id="collectionsChoiceBox" layoutX="20.0" layoutY="21.0" prefHeight="48.0" prefWidth="248.0" />
-    <!-- Filter ChoiceBox with FontAwesome Filter Icon -->
     <HBox alignment="CENTER" layoutX="809.0" layoutY="93.0" prefHeight="48.0" prefWidth="180.0">
         <children>
             <ChoiceBox fx:id="filterChoiceBox" prefHeight="48.0" prefWidth="126.0" />
