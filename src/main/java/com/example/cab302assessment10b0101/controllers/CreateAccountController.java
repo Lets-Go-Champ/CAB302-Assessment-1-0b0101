@@ -42,30 +42,31 @@ public class CreateAccountController {
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
+        // Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$";
+
         // Check if any of the fields are empty
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            AlertManager.getInstance().showAlert("Input Error", "All fields must be filled.", AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Input Error", "All fields must be filled.", Alert.AlertType.ERROR);
         }
-
-        // Check password and confirm password fields match
+        // Check password validity
+        else if (!password.matches(passwordPattern)) {
+            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character", Alert.AlertType.ERROR);
+        }
+        // Check if password and confirm password match
         else if (!password.equals(confirmPassword)) {
-            AlertManager.getInstance().showAlert("Input Error", "Passwords do not match.", AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Input Error", "Passwords do not match.", Alert.AlertType.ERROR);
         }
-
-        //Check username is not already in the system
+        // Check if the username is already in use
         else if (isUsernameDuplicate(username)) {
-            AlertManager.getInstance().showAlert("Warning", "Username already in use.", AlertType.WARNING);
+            AlertManager.getInstance().showAlert("Warning", "Username already in use.", Alert.AlertType.WARNING);
         }
-        //If all values are valid, craete a new user and insert into the database
+        // If all validations pass, create the new user and insert it into the database
         else {
-            //Create new user with input username and password
             User newUser = new User(username, password);
-
-            //Insert new user into the database
             UserDAO.getInstance().insert(newUser);
-            //System.out.println("User created: " + newUser);
 
-            //close stage window
+            // Close the current window after account creation
             ((Stage) createButton.getScene().getWindow()).close();
         }
     }

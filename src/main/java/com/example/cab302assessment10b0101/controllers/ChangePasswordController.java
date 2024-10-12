@@ -32,14 +32,26 @@ public class ChangePasswordController {
     public void handleUpdatePassword() {
         String newPassword = newPasswordTextField.getText();
 
+        // Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$";
+
         // Perform validation
-        if ( newPassword.isEmpty() ) {
-            AlertManager.getInstance().showAlert("Error", noPasswordMessage, Alert.AlertType.ERROR); return;
+        if (newPassword.isEmpty()) {
+            AlertManager.getInstance().showAlert("Error", "Password cannot be empty.", Alert.AlertType.ERROR);
+            return;
         }
 
-        // Update the password
-        UserDAO.getInstance().updatePassword(newPassword, userID);
-        AlertManager.getInstance().showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
+        // Check if the new password meets the validation criteria
+        else if (!newPassword.matches(passwordPattern)) {
+            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // If validation passes, update the password
+        UserDAO.getInstance().updatePassword(newPassword,userID);
+        AlertManager.getInstance().showAlert("Success", "Password successfully updated!", Alert.AlertType.INFORMATION);
+
+        // Close the current window
         ((Stage) updateButton.getScene().getWindow()).close();
     }
 
