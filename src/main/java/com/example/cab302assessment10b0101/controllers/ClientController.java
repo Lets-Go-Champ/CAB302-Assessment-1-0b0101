@@ -5,7 +5,6 @@ import com.example.cab302assessment10b0101.views.MenuOptions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import java.net.URL;
 import java.util.ResourceBundle;

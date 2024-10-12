@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -149,7 +150,7 @@ public class EditBookDetailsController implements Initializable {
 
             // Update the book
             updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
-            showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
         }
     }
 
@@ -177,7 +178,7 @@ public class EditBookDetailsController implements Initializable {
 
         // If parsedDate is not null, update the DatePicker; otherwise, handle error
         if (parsedDate != null) { setDateDatePicker(parsedDate); }
-        else { showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
+        else { AlertManager.getInstance().showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
     }
 
     /**
@@ -240,19 +241,19 @@ public class EditBookDetailsController implements Initializable {
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes, String readingStatus) {
 
-        if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
-        if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
-        if ( titleExists(title) ) { showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
-        if ( isbn.isEmpty() ) { showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
-        if ( !isValidISBN(isbn) ) { showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
-        if ( author.isEmpty() ) { showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
-        if ( description.isEmpty() ) { showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false; }
-        if ( publisher.isEmpty() ) { showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false; }
-        if ( pages.isEmpty() ) { showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false; }
-        if ( !isPagesValid(pages) ) { showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
-        if ( notes.isEmpty() ) { showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
-        if ( image == null ) { showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
-        if (readingStatus == null || readingStatus.isEmpty()) { showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
+        if ( !collectionSelected() ) { AlertManager.getInstance().showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
+        if ( title.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
+        if ( titleExists(title) ) { AlertManager.getInstance().showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
+        if ( isbn.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
+        if ( !isValidISBN(isbn) ) { AlertManager.getInstance().showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
+        if ( author.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
+        if ( description.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false; }
+        if ( publisher.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false; }
+        if ( pages.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false; }
+        if ( !isPagesValid(pages) ) { AlertManager.getInstance().showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
+        if ( notes.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
+        if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
+        if (readingStatus == null || readingStatus.isEmpty()) { AlertManager.getInstance().showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
         return true;
     }
 
@@ -343,7 +344,9 @@ public class EditBookDetailsController implements Initializable {
             alert.setGraphic(imageView);
             alert.showAndWait();
 
-        } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
+        } catch (Exception e) {
+            AlertManager.getInstance().showAlert("Error", noImageUploadMessage, AlertType.ERROR);
+        }
     }
 
     /**
@@ -354,7 +357,9 @@ public class EditBookDetailsController implements Initializable {
         try {
             Path path = Paths.get(imagePath);
             return Files.readAllBytes(path);
-        } catch (Exception e) {showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];}
+        } catch (Exception e) {
+            AlertManager.getInstance().showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];
+        }
     }
 
     /**
@@ -375,20 +380,6 @@ public class EditBookDetailsController implements Initializable {
         Book newBook = new Book(collectionId, title, isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
         BookDAO.getInstance().update(newBook, originalTitle);
         clearFields();
-    }
-
-    /**
-     * Shows an alert dialog with the specified type, title, and message.
-     * @param title     The title of the alert dialog.
-     * @param message   The message content of the alert dialog.
-     * @param alertType The type of alert.
-     */
-    private void showAlert(String title, String message, AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     /**

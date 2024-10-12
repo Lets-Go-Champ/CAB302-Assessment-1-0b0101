@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -98,14 +99,11 @@ public class AddBookManuallyController implements Initializable {
      */
     @FXML
     private void handleAddBook() {
-        //System.out.println("\nAdding Book...");
         //Get the selected collection's name
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
-        //System.out.println("Collection Name = " + collectionName);
         //Get the selected collection's ID
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
-        //System.out.println("CollectionID = " + collectionId);
         if ( collectionId == -1 ) {
             System.out.println("No such collection Id"); return;
         }
@@ -124,7 +122,7 @@ public class AddBookManuallyController implements Initializable {
 
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
-        catch (Exception e) { showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
+        catch (Exception e) { AlertManager.getInstance().showAlert("Error: No Date", noDateMessage, AlertType.ERROR); return; }
 
         // Format the publication Date as a String (YYYY-MM-DD)
         String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
@@ -137,7 +135,7 @@ public class AddBookManuallyController implements Initializable {
 
             // Save the book to the database
             saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
-            showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
         }
     }
 
@@ -177,19 +175,19 @@ public class AddBookManuallyController implements Initializable {
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes, String readingStatus) {
 
-        if ( !collectionSelected() ) { showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
-        if ( title.isEmpty() ) { showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
-        if ( titleExists(title) ) { showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
-        if ( isbn.isEmpty() ) { showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
-        if ( !isValidISBN(isbn) ) { showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
-        if ( author.isEmpty() ) { showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
-        if ( description.isEmpty() ) { showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false; }
-        if ( publisher.isEmpty() ) { showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false; }
-        if ( pages.isEmpty() ) { showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false; }
-        if ( !isPagesValid(pages) ) { showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
-        if ( notes.isEmpty() ) { showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
-        if ( image == null ) { showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
-        if (readingStatus == null || readingStatus.isEmpty()) { showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
+        if ( !collectionSelected() ) { AlertManager.getInstance().showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
+        if ( title.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
+        if ( titleExists(title) ) { AlertManager.getInstance().showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
+        if ( isbn.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
+        if ( !isValidISBN(isbn) ) { AlertManager.getInstance().showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
+        if ( author.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
+        if ( description.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false; }
+        if ( publisher.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false; }
+        if ( pages.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false; }
+        if ( !isPagesValid(pages) ) { AlertManager.getInstance().showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
+        if ( notes.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
+        if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
+        if (readingStatus == null || readingStatus.isEmpty()) { AlertManager.getInstance().showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
         return true;
     }
 
@@ -282,7 +280,9 @@ public class AddBookManuallyController implements Initializable {
             alert.setGraphic(imageView);
             alert.showAndWait();
 
-        } catch (Exception e) { showAlert("Error", noImageUploadMessage, AlertType.ERROR);}
+        } catch (Exception e) {
+            AlertManager.getInstance().showAlert("Error", noImageUploadMessage, AlertType.ERROR);
+        }
     }
 
     /**
@@ -295,9 +295,10 @@ public class AddBookManuallyController implements Initializable {
         try {
             Path path = Paths.get(imagePath);
             return Files.readAllBytes(path);
-        } catch (Exception e) {showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];}
+        } catch (Exception e) {
+            AlertManager.getInstance().showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];
+        }
     }
-
 
     /**
      * Save the book to the database
@@ -322,40 +323,8 @@ public class AddBookManuallyController implements Initializable {
         if (imageBytes.length != 0) {
             Book newBook = new Book(collectionId, title,  isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
             BookDAO.getInstance().insert(newBook);
-
-            // Print the results to console for testing:
-            /*
-            System.out.println("Book Saved Successfully! Details: " + "\n" +
-                    "Collection ID: " + collectionId + "\n" +
-                    "ISBN: " + isbn + "\n" +
-                    "Title: " + title + "\n" +
-                    "Author: " + author + "\n" +
-                    "Description: " + description + "\n" +
-                    "Publication Date: " + publicationDate + "\n" +
-                    "Publisher: " + publisher + "\n" +
-                    "Pages: " + pages + "\n" +
-                    "Note: " + note + "\n" +
-                    "Image: " + imageBytes.toString()
-            );
-            */
-            //Clear fields after book is saved to the database
             clearFields();
         }
-    }
-
-    /**
-     * Displays an alert dialog with the provided message.
-     *
-     * @param title     The title of the alert.
-     * @param message   The message of the alert.
-     * @param alertType The type of alert.
-     */
-    private void showAlert(String title, String message, AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     /**

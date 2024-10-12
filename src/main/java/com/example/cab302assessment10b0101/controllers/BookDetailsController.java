@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.Book;
 import com.example.cab302assessment10b0101.model.ViewManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
@@ -9,7 +10,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
-import java.awt.event.ActionEvent;
 import java.util.Optional;
 
 /**
@@ -55,9 +55,6 @@ public class BookDetailsController {
     @FXML
     private Book currentBook;
 
-
-
-
     /**
      * Sets the book data of a given book to be displayed in the UI.
      * This method updates each UI element with the corresponding data from the Book object.
@@ -93,22 +90,14 @@ public class BookDetailsController {
      */
     public void handleDeleteButtonAction(javafx.event.ActionEvent actionEvent) {
         if (currentBook == null) {
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Error");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("No book is selected for deletion.");
-            errorAlert.showAndWait();
+            AlertManager.getInstance().showAlert("Error", "No book is selected for deletion", Alert.AlertType.ERROR);
             return;  // Exit the method if there is no book to delete
         }
 
         // Show confirmation dialog
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Book");
-        alert.setHeaderText("Are you sure you want to delete this book? Please make sure you rescind the associated loan before deleting the book.");
-        alert.setContentText("This action cannot be undone.");
+        Optional<ButtonType> result = AlertManager.getInstance().showConfirmation("Delete Book", "Are you sure you want to delete this book?\n\nThis action cannot be undone.");
 
-        // Wait for user response
-        Optional<ButtonType> result = alert.showAndWait();
+        // Check if the user clicked OK
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // User clicked OK, proceed with deletion
             DeleteBookController deleteBookController = new DeleteBookController();
@@ -118,11 +107,7 @@ public class BookDetailsController {
             ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
 
             // Show success alert
-            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-            successAlert.setTitle("Book Deleted");
-            successAlert.setHeaderText(null);
-            successAlert.setContentText("The book has been successfully deleted.");
-            successAlert.showAndWait();
+            AlertManager.getInstance().showAlert("Book Deleted", "The book has been successfully deleted.", Alert.AlertType.INFORMATION);
         }
     }
     @FXML
@@ -130,6 +115,3 @@ public class BookDetailsController {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS);
     }
 }
-
-
-

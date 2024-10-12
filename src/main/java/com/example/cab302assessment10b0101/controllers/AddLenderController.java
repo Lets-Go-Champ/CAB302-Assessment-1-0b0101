@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -83,53 +84,45 @@ public class AddLenderController implements Initializable {
 
         if (firstName == null || firstName.isEmpty()) {
             String noFirstNameErrorMsg = "First name cannot be empty";
-            showAlert("Error: First Name Field", noFirstNameErrorMsg, Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: First Name Field", noFirstNameErrorMsg, Alert.AlertType.ERROR);
             return false;
         }
 
         if (lastName == null || lastName.isEmpty()) {
             String noLastNameErrorMsg = "Last name cannot be empty";
-            showAlert("Error: Last Name Field", noLastNameErrorMsg, Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: Last Name Field", noLastNameErrorMsg, Alert.AlertType.ERROR);
             return false;
         }
 
         if (contactField == null || contactField.isEmpty()) {
-            showAlert("Error: Contact Field", "Contact cannot be empty", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: Contact Field", "Contact cannot be empty", Alert.AlertType.ERROR);
             return false;
         }
         else if (!isValidEmail(contactField)){
             String invalidContactErrorMsg = "Invalid Contact format. Please make sure its in the form of username@example.com ";
-            showAlert("Error: Contact Field", invalidContactErrorMsg, Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: Contact Field", invalidContactErrorMsg, Alert.AlertType.ERROR);
             return false;
         }
 
         if (address == null || address.isEmpty()) {
             String noAddressErrorMsg = "Address cannot be empty";
-            showAlert("Error: Address Field", noAddressErrorMsg, Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: Address Field", noAddressErrorMsg, Alert.AlertType.ERROR);
             return false;
         }
 
         if (bookName.isEmpty()){
             String noBookErrorMsg = "Book cannot be empty";
-            showAlert("Error: Book Field", noBookErrorMsg, Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: Book Field", noBookErrorMsg, Alert.AlertType.ERROR);
             return false;
         } else if (BookDAO.getInstance().getBookByName(bookName) == null) {
             String noBookMatchErrorMsg = "That book does not exist in your collection";
-            showAlert("Error: Book Field",noBookMatchErrorMsg, Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error: Book Field",noBookMatchErrorMsg, Alert.AlertType.ERROR);
             return false;
         }
 
         return true;
     }
 
-
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     private boolean isValidEmail(String email) {
         EmailValidator validator = EmailValidator.getInstance();
