@@ -2,6 +2,7 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -109,7 +110,6 @@ public class AddBookManuallyController implements Initializable {
         }
 
         //Get the input values from the fields
-        //System.out.println("collection ID = " + collectionId);
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
@@ -145,7 +145,6 @@ public class AddBookManuallyController implements Initializable {
     private void populateReadingStatus() {
         ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
         readingStatusChoiceBox.setItems(readingStatusOptions);
-        // readingStatusChoiceBox.getSelectionModel().selectFirst(); // Set default selection, still debating if this is good practice
     }
 
     /**
@@ -156,8 +155,16 @@ public class AddBookManuallyController implements Initializable {
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionChoiceBox.setItems(collections);
 
-        // Optionally set a default value
-        if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
+        // Populate the choice box if collections exist
+        if (!collections.isEmpty()) {
+            collectionChoiceBox.getSelectionModel().selectFirst(); // Set default selection
+        } else {
+            // Delay showing the alert until the scene is ready
+            Platform.runLater(() -> {
+                // Create a blocking modal alert
+                AlertManager.getInstance().showModalAlert("No Collections Found", "You must create a collection before adding books.", AlertType.WARNING);
+            });
+        }
     }
 
     /**
