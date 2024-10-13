@@ -77,7 +77,10 @@
                                 <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="360"/>
 
                                 <!-- Buttons -->
-                                <HBox alignment="CENTER_RIGHT" prefHeight="100" prefWidth="200">
+                                <HBox alignment="CENTER_RIGHT" spacing="20" prefHeight="100" prefWidth="200">
+                                    <VBox.margin>
+                                        <Insets top="10"/>
+                                    </VBox.margin>
                                     <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128"> </Button>
                                     <Button fx:id="addBookButton" text="Add Book" mnemonicParsing="false" > </Button>
                                 </HBox>

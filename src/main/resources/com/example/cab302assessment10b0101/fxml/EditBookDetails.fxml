@@ -68,8 +68,11 @@
                 <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="360"/>
 
                 <!-- Buttons -->
-                <HBox alignment="CENTER_RIGHT" prefHeight="100" prefWidth="200">
-                    <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128" > </Button>
+                <HBox alignment="CENTER_RIGHT" prefHeight="100" prefWidth="200" spacing="20">
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                    <Button fx:id="addImageButton" text="Update Image" mnemonicParsing="false" layoutX="39" layoutY="1128" > </Button>
                     <Button fx:id="updateBookButton" text="Update" mnemonicParsing="false" > </Button>
                 </HBox>
 
