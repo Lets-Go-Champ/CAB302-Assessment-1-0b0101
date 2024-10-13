@@ -14,8 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="730" prefWidth="960" stylesheets="@../styles/addBookManually.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
+<AnchorPane prefHeight="730" prefWidth="960" stylesheets="@../styles/addBookManually.css" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
 
     <VBox prefHeight="730" prefWidth="960">
 
@@ -36,11 +36,11 @@
                     <!-- Add Manually Tab -->
                     <Tab text="Manual Entry">
                         <AnchorPane prefHeight="800" prefWidth="911">
-                            <VBox layoutY="14" prefHeight="639" prefWidth="394" AnchorPane.leftAnchor="20">
+                            <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
 
                                 <!-- Collection -->
                                 <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
-                                <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="360"/>
+                                <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="395"/>
 
                                 <!-- Title -->
                                 <Label text="Title" styleClass="manualAdd_labels"> </Label>
@@ -62,7 +62,7 @@
                                 <Label text="Publisher" styleClass="manualAdd_labels"> </Label>
                                 <TextField fx:id="publisherTextField"/>
                                 <Label text="Publish Date" styleClass="manualAdd_labels"> </Label>
-                                <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="360"/>
+                                <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="395"/>
 
                                 <!-- Pages -->
                                 <Label text="Pages" styleClass="manualAdd_labels"> </Label>
@@ -74,7 +74,7 @@
 
                                 <!-- Reading Status -->
                                 <Label text="Reading Status" styleClass="manualAdd_labels"> </Label>
-                                <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="360"/>
+                                <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="395"/>
 
                                 <!-- Buttons -->
                                 <HBox alignment="CENTER_RIGHT" spacing="20" prefHeight="100" prefWidth="200">
