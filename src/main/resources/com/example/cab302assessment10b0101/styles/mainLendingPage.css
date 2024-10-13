@@ -1,0 +1,36 @@
+
+/* Title (Lending) */
+.title {
+    -fx-font-family: "Impact";
+    -fx-font-size: 40;
+    -fx-text-fill: #247373;
+}
+
+/* Tabs (Lending, Add Lender) */
+.tab {
+    -fx-background-color: none;
+    -fx-font-family: "Impact";
+}
+
+/* Tab Sizing */
+.tab-pane:top {
+    -fx-tab-min-height: 40;
+    -fx-tab-min-width: 105;
+    -fx-font-size: 20;
+}
+
+/* Tab Background */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: none;
+}
+
+/* Selected Tab Highlight */
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+    -fx-border-color: #247373;
+    -fx-border-width: 0 0 4 0;
+}
+
+/* Remove gray border */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
