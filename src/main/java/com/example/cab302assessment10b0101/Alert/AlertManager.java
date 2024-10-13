@@ -44,4 +44,17 @@ public class AlertManager {
         return alert.showAndWait();
     }
 
+    // Method to show a blocking modal alert
+    public void showModalAlert(String title, String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Set modality to block interaction with other windows until the alert is acknowledged
+        alert.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+
+        // Show the alert and wait for user response
+        alert.showAndWait();
+    }
 }
