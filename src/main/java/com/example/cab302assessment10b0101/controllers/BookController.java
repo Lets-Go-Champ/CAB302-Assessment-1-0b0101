@@ -4,7 +4,6 @@ import com.example.cab302assessment10b0101.model.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 
 /**
  * The BookController class is responsible for displaying book data within a view.

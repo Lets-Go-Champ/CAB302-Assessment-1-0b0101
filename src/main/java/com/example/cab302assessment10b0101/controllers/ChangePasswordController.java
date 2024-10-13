@@ -20,10 +20,6 @@ public class ChangePasswordController {
     public Button updateButton;
     public Button cancelButton;
 
-    // Messages for input validation and notification
-    final String noPasswordMessage = "Please enter a new password.";
-    final String successfulUpdateMessage = "Password updated successfully!";
-
     // The ID of the current user
     final int userID = UserManager.getInstance().getCurrentUser().getId();
 
