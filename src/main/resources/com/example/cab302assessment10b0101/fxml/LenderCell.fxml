@@ -9,38 +9,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<AnchorPane prefHeight="150" prefWidth="730" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox alignment="CENTER" prefHeight="150" prefWidth="730" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="15">
 
-<!-- SecretWord1! -->
+      <!-- Cover Image -->
+      <ImageView fx:id="loanBookCoverImage" fitHeight="150" fitWidth="157" pickOnBounds="true"> </ImageView>
 
-<AnchorPane prefHeight="150.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
-   <HBox alignment="CENTER" prefHeight="150.0" prefWidth="730.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="15.0">
-      <ImageView fx:id="loanBookCoverImage" fitHeight="150.0" fitWidth="157.0" pickOnBounds="true">
-      </ImageView>
-      <VBox alignment="CENTER" prefHeight="150.0" prefWidth="173.0" HBox.hgrow="ALWAYS">
-         <Label fx:id="loanBookTitle" text="Title" >
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
-         <Label fx:id="loanBookAuthor" text="Author">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
-         <Label fx:id="loanBorrowerName" text="Person">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
+      <!-- Loan Details -->
+      <VBox alignment="CENTER" prefHeight="150" prefWidth="173" HBox.hgrow="ALWAYS">
+         <Label fx:id="loanBookTitle" text="Title"> <font><Font size="18"/></font> </Label>
+         <Label fx:id="loanBookAuthor" text="Author"> <font><Font size="18"/></font> </Label>
+         <Label fx:id="loanBorrowerName" text="Person"><font><Font size="18"/></font> </Label>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="150.0" prefWidth="161.0">
-         <Button fx:id="rescindLoanBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="264.0" text="Rescind Loan">
-            <font>
-               <Font size="17.0" />
-            </font>
-            <VBox.margin>
-               <Insets right="5.0" />
-            </VBox.margin>
+
+      <!-- Cancel Button -->
+      <VBox alignment="CENTER" prefHeight="150" prefWidth="161">
+         <Button fx:id="rescindLoanBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="59" prefWidth="264" text="Rescind Loan">
+            <font> <Font size="18"/> </font>
+            <VBox.margin> <Insets right="5"/> </VBox.margin>
          </Button>
       </VBox>
    </HBox>
