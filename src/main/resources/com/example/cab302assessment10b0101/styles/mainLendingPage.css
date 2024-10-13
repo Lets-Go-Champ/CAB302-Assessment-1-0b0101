@@ -34,3 +34,23 @@
 .scroll-pane {
     -fx-background-color: transparent;
 }
+
+/* Scroll Bar */
+.scroll-bar:vertical {
+    -fx-font-size: 12;
+    -fx-background-color: none;
+    -fx-padding: 2em;
+}
+
+/* Scroll Bar Thumb */
+.scroll-bar:vertical .thumb {
+    -fx-font-size: 12;
+    -fx-background-color : #247373;
+    -fx-background-radius : 2em;
+}
+
+/* Scroll Bar Arrows */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: #247373;
+}

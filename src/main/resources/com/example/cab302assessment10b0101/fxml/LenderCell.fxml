@@ -7,25 +7,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="150" prefWidth="730" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
-   <HBox alignment="CENTER" prefHeight="150" prefWidth="730" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="15">
+   <HBox alignment="CENTER" prefHeight="150" prefWidth="730" stylesheets="@../styles/lenderCell.css"
+         AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="15">
 
       <!-- Cover Image -->
       <ImageView fx:id="loanBookCoverImage" fitHeight="150" fitWidth="157" pickOnBounds="true"> </ImageView>
 
       <!-- Loan Details -->
       <VBox alignment="CENTER" prefHeight="150" prefWidth="173" HBox.hgrow="ALWAYS">
-         <Label fx:id="loanBookTitle" text="Title"> <font><Font size="18"/></font> </Label>
-         <Label fx:id="loanBookAuthor" text="Author"> <font><Font size="18"/></font> </Label>
-         <Label fx:id="loanBorrowerName" text="Person"><font><Font size="18"/></font> </Label>
+         <Label fx:id="loanBookTitle" text="Title" styleClass="headings"> </Label>
+         <Label fx:id="loanBookAuthor" text="Author" styleClass="headings"> </Label>
+         <Label fx:id="loanBorrowerName" text="Person" styleClass="headings"> </Label>
       </VBox>
 
       <!-- Cancel Button -->
       <VBox alignment="CENTER" prefHeight="150" prefWidth="161">
-         <Button fx:id="rescindLoanBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="59" prefWidth="264" text="Rescind Loan">
-            <font> <Font size="18"/> </font>
+         <Button text="Rescind Loan" fx:id="rescindLoanBtn" alignment="CENTER" mnemonicParsing="false">
             <VBox.margin> <Insets right="5"/> </VBox.margin>
          </Button>
       </VBox>

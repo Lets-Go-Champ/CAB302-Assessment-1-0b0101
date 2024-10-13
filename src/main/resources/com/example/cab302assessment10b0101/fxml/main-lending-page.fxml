@@ -4,12 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302assessment10b0101.controllers.LendingPageController" stylesheets="@../styles/mainLendingPage.css">
 
-    <VBox prefHeight="730" prefWidth="960">
-
+    <VBox>
         <!-- Title -->
         <Label text="Lending" styleClass="title">
             <VBox.margin>
