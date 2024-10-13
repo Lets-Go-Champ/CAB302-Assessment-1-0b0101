@@ -1,54 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddLenderController">
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1115.0" prefWidth="911.0">
-        <VBox prefHeight="448.0" prefWidth="514.0" spacing="20.0">
-            <HBox alignment="CENTER" prefHeight="59.0" prefWidth="466.0" spacing="20.0">
+<ScrollPane hbarPolicy="NEVER" prefHeight="535.0" prefWidth="898.0" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.cab302assessment10b0101.controllers.AddLenderController" stylesheets="@../styles/addLender.css">
+
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="911.0">
+        <VBox prefHeight="448.0" prefWidth="514.0">
+
+            <!-- Lender Name -->
+            <HBox alignment="CENTER" prefHeight="59.0" prefWidth="466.0">
+
+                <!-- First Name -->
                 <VBox prefHeight="100.0" prefWidth="220.0" HBox.hgrow="ALWAYS">
-                    <Label text="First Name">
-                        <font>
-                            <Font size="19.0" />
-                        </font>
-                    </Label>
-                    <TextField fx:id="firstNameField" prefHeight="26.0" prefWidth="154.0" />
+                    <Label text="First Name" styleClass="headings"> </Label>
+                    <TextField fx:id="firstNameField" prefHeight="26.0" prefWidth="154.0" styleClass="text-field"/>
                 </VBox>
+
+                <!-- Last Name -->
                 <VBox prefHeight="100.0" prefWidth="220.0" HBox.hgrow="ALWAYS">
-                    <Label text="Last Name">
-                        <font>
-                            <Font size="19.0" />
-                        </font>
-                    </Label>
-                    <TextField fx:id="lastNameField" />
+                    <Label text="Last Name" styleClass="headings"> </Label>
+                    <TextField fx:id="lastNameField" styleClass="text-field" />
                 </VBox>
             </HBox>
-            <Label text="Email Address">
-                <font>
-                    <Font size="19.0" />
-                </font>
-            </Label>
-            <TextField fx:id="emailField" />
-            <Label text="Home Address">
-                <font>
-                    <Font size="19.0" />
-                </font>
-            </Label>
-            <TextField fx:id="addressField" />
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="79.0" prefWidth="466.0" spacing="20.0">
-                <VBox prefHeight="53.0" prefWidth="417.0" spacing="20.0">
-                    <Label text="Book Name">
-                        <font>
-                            <Font size="19.0" />
-                        </font>
-                    </Label>
-                    <TextField fx:id="bookNameField" prefHeight="26.0" prefWidth="416.0" />
+
+            <!-- Email Address -->
+            <Label text="Email Address" styleClass="headings"> </Label>
+            <TextField fx:id="emailField" styleClass="text-field"/>
+
+            <!-- Home Address -->
+            <Label text="Home Address" styleClass="headings"> </Label>
+            <TextField fx:id="addressField" styleClass="text-field"/>
+
+            <!-- Book Name -->
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="79.0" prefWidth="466.0">
+                <VBox prefHeight="53.0" prefWidth="417.0">
+                    <Label text="Book Name" styleClass="headings"> </Label>
+                    <TextField fx:id="bookNameField" prefHeight="26.0" prefWidth="416.0" styleClass="text-field"/>
                 </VBox>
+
+                <!-- Add Button -->
                 <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="110.0" text="Add Lender" onAction="#handleAddLender" />
             </HBox>
+
         </VBox>
     </AnchorPane>
 </ScrollPane>
