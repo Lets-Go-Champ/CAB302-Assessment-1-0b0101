@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;

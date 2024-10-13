@@ -6,7 +6,6 @@ import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
 
 /**
  * The CreateAccountController class handles the logic for creating a new user account.
@@ -76,7 +75,6 @@ public class CreateAccountController {
      */
     @FXML
     private void handleCancel() {
-        // Close the window when the cancel button is clicked
         ((Stage) cancelButton.getScene().getWindow()).close();
     }
 

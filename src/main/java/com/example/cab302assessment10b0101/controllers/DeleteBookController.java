@@ -24,7 +24,6 @@ public class DeleteBookController {
      * </p>
      */
     public DeleteBookController() {
-        // Use the singleton instance of BookDAO
         this.bookDao = BookDAO.getInstance();
     }
 
