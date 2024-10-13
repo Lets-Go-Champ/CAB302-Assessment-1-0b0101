@@ -10,7 +10,7 @@
     <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" hbarPolicy="NEVER">
         <AnchorPane minHeight="0.0" minWidth="0.0">
             <!-- Ensure the ListView fills all the space -->
-            <ListView fx:id="loanListView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+            <ListView fx:id="loanListView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
 
             <!-- Empty state view for when there are no loans -->
             <VBox fx:id="emptyStateView" alignment="CENTER" managed="false" spacing="10" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

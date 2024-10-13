@@ -19,9 +19,6 @@
 
         <!-- Contents -->
         <AnchorPane prefHeight="641" prefWidth="960" VBox.vgrow="ALWAYS">
-            <VBox.margin>
-                <Insets left="40"/>
-            </VBox.margin>
 
             <!-- Tabs -->
             <TabPane fx:id="lendingTabPane" tabClosingPolicy="UNAVAILABLE" >
