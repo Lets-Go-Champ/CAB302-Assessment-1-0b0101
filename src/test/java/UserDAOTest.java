@@ -1,4 +1,5 @@
 import com.example.cab302assessment10b0101.model.*;
+import javafx.beans.property.SimpleStringProperty;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class UserDAOTest {
         User user = new User("testUser", "testPassword");
         userDAO.insert(user);
 
-        user.setUserName("updatedUser");
+        user.setUserName(new SimpleStringProperty("updatedUser"));
         user.setPassword("updatedPassword");
         userDAO.update(user);
 
