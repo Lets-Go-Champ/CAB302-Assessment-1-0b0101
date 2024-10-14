@@ -27,11 +27,11 @@
             <VBox.margin>
                 <Insets left="20"/>
             </VBox.margin>
-            <VBox layoutY="14" prefHeight="639" prefWidth="394" AnchorPane.leftAnchor="20">
+            <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
 
                 <!-- Collection -->
                 <Label text="Add to Collection" styleClass="labels"> </Label>
-                <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="360"/>
+                <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="395"/>
 
                 <!-- Title -->
                 <Label text="Title" styleClass="labels"> </Label>
@@ -53,7 +53,7 @@
                 <Label text="Publisher" styleClass="labels"> </Label>
                 <TextField fx:id="publisherTextField"/>
                 <Label text="Publish Date" styleClass="labels"> </Label>
-                <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="360"/>
+                <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="395"/>
 
                 <!-- Pages -->
                 <Label text="Pages" styleClass="labels"> </Label>
@@ -65,11 +65,14 @@
 
                 <!-- Reading Status -->
                 <Label text="Reading Status" styleClass="labels"> </Label>
-                <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="360"/>
+                <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="395"/>
 
                 <!-- Buttons -->
-                <HBox alignment="CENTER_RIGHT" prefHeight="100" prefWidth="200">
-                    <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128" > </Button>
+                <HBox alignment="CENTER_RIGHT" prefHeight="100" prefWidth="200" spacing="20">
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                    <Button fx:id="addImageButton" text="Update Image" mnemonicParsing="false" layoutX="39" layoutY="1128" > </Button>
                     <Button fx:id="updateBookButton" text="Update" mnemonicParsing="false" > </Button>
                 </HBox>
 
