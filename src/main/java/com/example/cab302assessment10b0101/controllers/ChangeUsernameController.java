@@ -43,6 +43,7 @@ public class ChangeUsernameController {
 
         // Update the username
         UserDAO.getInstance().updateUsername(newUsername, userID);
+        UserManager.getInstance().getCurrentUser().setUsername(newUsername);
         AlertManager.getInstance().showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
         ((Stage) updateButton.getScene().getWindow()).close();
     }
