@@ -1,5 +1,7 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,7 +11,7 @@ import javafx.collections.ObservableList;
  */
 public class User {
     private int id;
-    private String username;
+    private StringProperty username;
     private String password;
 
     private ObservableList<Collection> collections;
@@ -23,7 +25,8 @@ public class User {
      */
     public User(int id, String userName, String password) {
         this.id = id;
-        this.username = userName;
+        this.username = new SimpleStringProperty(userName);;
+
         this.password = password;
         this.collections = FXCollections.observableArrayList();
     }
@@ -36,7 +39,7 @@ public class User {
      * @param password The password of the user.
      */
     public User(String userName, String password) {
-        this.username = userName;
+        this.username = new SimpleStringProperty(userName);
         this.password = password;
         this.collections = FXCollections.observableArrayList();
     }
@@ -58,6 +61,15 @@ public class User {
      * @return The username of the user.
      */
     public String getUsername() {
+        return username.get();
+    }
+
+    /**
+     * Retrieves the username property of the user.
+     *
+     * @return The username of the user.
+     */
+    public StringProperty getUsernameProperty() {
         return username;
     }
 
@@ -104,7 +116,7 @@ public class User {
      *
      * @param userName The new username of the user.
      */
-    public void setUserName(String userName) {
+    public void setUserName(StringProperty userName) {
         this.username = userName;
     }
 
