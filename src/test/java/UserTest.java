@@ -1,5 +1,7 @@
 import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.Collection;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +47,8 @@ public class UserTest {
      */
     @Test
     public void testSetUsername() {
-        user.setUserName("newUser");
+        user.setUserName(new SimpleStringProperty("newUser") {
+        });
         assertEquals("newUser", user.getUsername());
     }
 
