@@ -16,23 +16,46 @@ import java.io.IOException;
  */
 public class ProfileController {
 
+    // FXML UI elements bound to the corresponding elements in the view
     @FXML
     public TextField usernameTextField;
     public TextField passwordTextField;
     public Button changeUsernameButton;
     public Button changePasswordButton;
 
-    // Updates the displayed username and password
-    private void setUsernameTextField(String username) { usernameTextField.setText(username); }
-    private void setPasswordTextField(String password) { passwordTextField.setText(password); }
+    /**
+     * Sets the username in the username text field.
+     *
+     * @param username The username to display in the text field.
+     */
+    private void setUsernameTextField(String username) {
+        usernameTextField.setText(username);
+    }
 
-    // Populates the textFields
+    /**
+     * Sets the password in the password text field.
+     *
+     * @param password The password to display in the text field.
+     */
+    private void setPasswordTextField(String password) {
+        passwordTextField.setText(password);
+    }
+
+    /**
+     * Populates the username and password fields with the provided values.
+     *
+     * @param username The username to display.
+     * @param password The password to display.
+     */
     public void populateFields(String username, String password) {
         setUsernameTextField(username);
         setPasswordTextField(password);
     }
 
-    // Switches views to changeUsername. Updates the username and instance
+    /**
+     * Handles the process of updating the username by opening a modal window
+     * for the user to change their username. Reloads the profile after changes.
+     */
     public void handleUpdateUsername() {
         try {
             // Load the ChangeUsernamePopup.fxml file for account updating
@@ -46,11 +69,16 @@ public class ProfileController {
             dialogStage.initOwner(changeUsernameButton.getScene().getWindow());
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            System.out.println("Error updating username in ProfileController: " + e.getMessage());
+        }
         reload();
     }
 
-    // Switches views to changePassword. Updates the password and instance
+    /**
+     * Handles the process of updating the password by opening a modal window
+     * for the user to change their password. Reloads the profile after changes.
+     */
     public void handleUpdatePassword() {
         try {
             // Load the ChangePasswordPopup.fxml file for account updating
@@ -64,17 +92,22 @@ public class ProfileController {
             dialogStage.initOwner(changePasswordButton.getScene().getWindow());
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            System.out.println("Error updating password in ProfileController: " + e.getMessage());
+        }
         reload();
     }
 
-    // Updates the Instance and refreshes the values displayed in the textFields
+    /**
+     * Reloads the profile data by retrieving the current user's information
+     * and updating the displayed values in the username and password fields.
+     */
     private void reload() {
-
         int currentUserID = UserManager.getInstance().getCurrentUser().getId();
+
+        // Iterate through all users and find the one matching the current user's ID
         for ( User user : UserDAO.getInstance().getAll() ) {
             if ( user.getId() == currentUserID ) {
-
                 // Update the textFields
                 setUsernameTextField(user.getUsername());
                 setPasswordTextField(user.getPassword());

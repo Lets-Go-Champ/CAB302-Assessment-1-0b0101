@@ -114,6 +114,14 @@ public class Book {
     }
 
     /**
+     * Gets the ISBN as a String.
+     * @return The ISBN as a String.
+     */
+    public String getISBNAsString() {
+        return String.valueOf(isbn.get());
+    }
+
+    /**
      * Gets the ID of the collection this book belongs to.
      * @return The collection ID as an int.
      */
@@ -274,7 +282,6 @@ public class Book {
         this.pages = pages;
     }
 
-
     /**
      * Sets additional notes about the book.
      * @param notes The notes to set as a StringProperty.
@@ -289,14 +296,6 @@ public class Book {
      */
     public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    /**
-     * Gets the ISBN as a String.
-     * @return The ISBN as a String.
-     */
-    public String getISBNAsString() {
-        return String.valueOf(isbn.get());
     }
 
     /**

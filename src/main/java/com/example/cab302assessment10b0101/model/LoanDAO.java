@@ -2,7 +2,6 @@ package com.example.cab302assessment10b0101.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -134,7 +133,6 @@ public class LoanDAO {
      * @return The loan ID if found, or -1 if no loan exists for the given user and book.
      * @throws SQLException If a database access error occurs.
      */
-
     public int getLoanIdByUserAndBook(int userId, int bookId) {
         String query = "SELECT id FROM Loans WHERE user_id = ? AND book_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {

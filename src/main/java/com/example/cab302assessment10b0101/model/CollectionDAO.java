@@ -52,7 +52,7 @@ public class CollectionDAO {
                             ");"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.out.println("Error creating collection table: " + ex.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class CollectionDAO {
             insertCollection.setString(3, collection.getCollectionDescription());
             insertCollection.execute();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.out.println("Error inserting into collection table: " + ex.getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ public class CollectionDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collections: " + e.getMessage());
+            System.err.println("Error retrieving all collections: " + e.getMessage());
         }
         return collections;
     }
@@ -125,7 +125,7 @@ public class CollectionDAO {
                 collectionId = rs.getInt("collectionId"); // Get the collectionId from the result set
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collections: " + e.getMessage());
+            System.err.println("Error retrieving collections by User and Collection Name: " + e.getMessage());
         }
 
 
@@ -155,7 +155,7 @@ public class CollectionDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collections: " + e.getMessage());
+            System.err.println("Error retrieving collections by User: " + e.getMessage());
         }
         return collections;
     }
