@@ -98,7 +98,7 @@ public class ViewFactory {
     public AnchorPane getAddBookView(){
         if (addBookView == null) {
             try{
-                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
+                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookPage.fxml")).load();
             } catch (Exception e){
                 System.out.println("Error loading AddBookView: " + e.getMessage());
             }

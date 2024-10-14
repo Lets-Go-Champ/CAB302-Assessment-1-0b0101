@@ -42,9 +42,4 @@ public class LoanService {
         loans.remove(loan);
         refreshLoans();
     }
-
-    public void setCurrentUserId(int userId) {
-        this.currentUserId = userId;
-        loadLoans(); // Reload loans for the new user
-    }
 }
