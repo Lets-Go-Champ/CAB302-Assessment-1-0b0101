@@ -2,6 +2,7 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -31,6 +32,7 @@ import com.example.cab302assessment10b0101.model.BookDAO;
  * It retrieves data from the UI, validates it, and stores the book information in the database.
  */
 public class AddBookManuallyController implements Initializable {
+
 
 
     //FXML UI components used for adding book details
@@ -67,6 +69,9 @@ public class AddBookManuallyController implements Initializable {
     @FXML
     private VBox addBookForm; //content to display if there are collections
 
+    @FXML
+    private Hyperlink addCollectionLink;
+
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
@@ -102,6 +107,7 @@ public class AddBookManuallyController implements Initializable {
     private void setupEventHandlers() {
         addImageButton.setOnAction(e -> handleUploadImage()); //Handles image upload
         addBookButton.setOnAction(event -> handleAddBook()); //Handles adding the book
+        addCollectionLink.setOnAction(event -> handleAddCollectionLink()); //Handles clicking on add collection link
     }
 
     /**
@@ -155,6 +161,10 @@ public class AddBookManuallyController implements Initializable {
     private void populateReadingStatus() {
         ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
         readingStatusChoiceBox.setItems(readingStatusOptions);
+    }
+
+    private void handleAddCollectionLink(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
     }
 
     /**

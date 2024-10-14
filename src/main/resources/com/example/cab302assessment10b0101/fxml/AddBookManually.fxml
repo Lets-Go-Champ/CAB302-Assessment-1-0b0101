@@ -14,12 +14,14 @@
 <?import javafx.scene.layout.VBox?>
 
 
+<?import javafx.scene.control.Hyperlink?>
 <AnchorPane prefHeight="730" prefWidth="960" stylesheets="@../styles/addBookManually.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
 
-    <VBox prefHeight="730" prefWidth="960" fx:id="emptyStateView" alignment="CENTER" managed="false" spacing="10" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox prefHeight="730" prefWidth="960" fx:id="emptyStateView" alignment="CENTER" managed="false" spacing="10" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" translateY="-100">
         <Label style="-fx-font-size: 18px;" text="You must create a collection before trying to add books" />
-
+        <!-- Hyperlink for navigating to the Add Collection page -->
+        <Hyperlink fx:id="addCollectionLink" text="Click here to add a collection" />
     </VBox>
 
     <VBox prefHeight="730" prefWidth="960" fx:id="addBookForm">
