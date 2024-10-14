@@ -3,8 +3,6 @@ package com.example.cab302assessment10b0101.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.SQLException;
-
 public class LoanService {
     private final LoanDAO loanDAO;
     private int currentUserId; // Add this to keep track of the current user
@@ -37,7 +35,7 @@ public class LoanService {
         loans.add(loan);
     }
 
-    public void removeLoan(Loan loan) throws SQLException {
+    public void removeLoan(Loan loan) {
         loanDAO.deleteLoan(loan);
         loans.remove(loan);
         refreshLoans();

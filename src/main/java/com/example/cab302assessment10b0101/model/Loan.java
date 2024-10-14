@@ -9,7 +9,6 @@ import java.time.LocalDate;
  * This class uses JavaFX property bindings to allow the data to be easily bound to UI elements.
  */
 public class Loan {
-
     // Property bindings for loan attributes
     private final IntegerProperty id = new SimpleIntegerProperty(this, "id"); // Unique loan ID
     private final IntegerProperty userId = new SimpleIntegerProperty(this, "userId"); // ID of the user who owns the loan
