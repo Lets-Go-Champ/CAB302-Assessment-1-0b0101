@@ -2,7 +2,9 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -29,6 +32,8 @@ import com.example.cab302assessment10b0101.model.BookDAO;
  * It retrieves data from the UI, validates it, and stores the book information in the database.
  */
 public class AddBookManuallyController implements Initializable {
+
+
 
     //FXML UI components used for adding book details
     @FXML
@@ -58,6 +63,15 @@ public class AddBookManuallyController implements Initializable {
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
 
+    @FXML
+    private VBox emptyStateView; //if there are no collections
+
+    @FXML
+    private VBox addBookForm; //content to display if there are collections
+
+    @FXML
+    private Hyperlink addCollectionLink;
+
     //Error messages for input validation
     final String noCollectionMessage = "Please select a collection.";
     final String noTitleErrorMessage = "Please enter a Title.";
@@ -84,6 +98,7 @@ public class AddBookManuallyController implements Initializable {
         setupEventHandlers();
         populateCollections();
         populateReadingStatus();
+        setupBindings();
     }
 
     /**
@@ -92,6 +107,7 @@ public class AddBookManuallyController implements Initializable {
     private void setupEventHandlers() {
         addImageButton.setOnAction(e -> handleUploadImage()); //Handles image upload
         addBookButton.setOnAction(event -> handleAddBook()); //Handles adding the book
+        addCollectionLink.setOnAction(event -> handleAddCollectionLink()); //Handles clicking on add collection link
     }
 
     /**
@@ -147,6 +163,10 @@ public class AddBookManuallyController implements Initializable {
         readingStatusChoiceBox.setItems(readingStatusOptions);
     }
 
+    private void handleAddCollectionLink(){
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
+    }
+
     /**
      * Populates the collection dropdown with the current user's collections.
      */
@@ -158,14 +178,25 @@ public class AddBookManuallyController implements Initializable {
         // Populate the choice box if collections exist
         if (!collections.isEmpty()) {
             collectionChoiceBox.getSelectionModel().selectFirst(); // Set default selection
-        } else {
-            // Delay showing the alert until the scene is ready
-            Platform.runLater(() -> {
-                // Create a blocking modal alert
-                AlertManager.getInstance().showModalAlert("No Collections Found", "You must create a collection before adding books.", AlertType.WARNING);
-            });
         }
     }
+
+    private void setupBindings() {
+        // Bind the visibility of the empty state view to whether the collectionChoiceBox has items
+        emptyStateView.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> collectionChoiceBox.getItems().isEmpty(),
+                collectionChoiceBox.getItems()
+        ));
+        emptyStateView.managedProperty().bind(emptyStateView.visibleProperty());
+
+        // Bind the visibility of the addBookForm to whether the collectionChoiceBox has items
+        addBookForm.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> !collectionChoiceBox.getItems().isEmpty(),
+                collectionChoiceBox.getItems()
+        ));
+        addBookForm.managedProperty().bind(addBookForm.visibleProperty());
+    }
+
 
     /**
      * Validates if all the field values entered for a book are valid
