@@ -26,7 +26,6 @@ public class Collection {
         this.collectionDescription = collectionDescription;
     }
 
-
     /**
      * Constructs a new Collection object with a specified user ID, name, and description.
      *
