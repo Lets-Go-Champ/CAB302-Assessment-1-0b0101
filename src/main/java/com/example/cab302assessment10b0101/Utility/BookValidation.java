@@ -63,7 +63,7 @@ public class BookValidation {
         if ( pages.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Page Count", noPagesMessage, Alert.AlertType.ERROR); return false; }
         if ( !isPagesValid(pages) ) { AlertManager.getInstance().showAlert("Error: Invalid Page Count", invalidPagesMessage, Alert.AlertType.ERROR); return false; }
         if ( notes.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Note", noNoteMessage, Alert.AlertType.ERROR); return false; }
-        if (readingStatus == null || readingStatus.isEmpty()) { AlertManager.getInstance().showAlert("Error: No Reading Status", noReadingStatusMessage, Alert.AlertType.ERROR); return false; }
+        if ( readingStatus == null || readingStatus.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Reading Status", noReadingStatusMessage, Alert.AlertType.ERROR); return false; }
         return true;
     }
 
@@ -93,7 +93,7 @@ public class BookValidation {
      */
     private boolean isPagesValid(String pages) {
         try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 ); }
-        catch (Exception e ) { return false; }
+        catch ( Exception e ) { return false; }
     }
 
     /**
@@ -106,9 +106,9 @@ public class BookValidation {
         List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
 
         // Iterate over each book in the User's collection to determine if the title is in use
-        for (Collection collection : userCollections) {
+        for ( Collection collection : userCollections ) {
             ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
-            for (Book book : books) { if (book.getTitle().equals(title)) { return true; } }
+            for ( Book book : books ) { if (book.getTitle().equals(title)) { return true; } }
         }
         return false;
     }

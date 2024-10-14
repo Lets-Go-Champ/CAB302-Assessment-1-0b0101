@@ -103,7 +103,6 @@ public class AddBookManuallyController implements Initializable {
 
         // Get the selected collection's ID
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
-        if ( collectionId == -1 ) { System.out.println("No such collection Id"); return; }
 
         // Get the input values from the fields
         String title = titleTextField.getText();
@@ -118,13 +117,13 @@ public class AddBookManuallyController implements Initializable {
 
         // Ensure that a date is selected
         try { publicationDate.getDayOfMonth();}
-        catch (Exception e) { AlertManager.getInstance().showAlert("Error: No Date", "Please enter a publication date.", AlertType.ERROR); return; }
+        catch ( Exception e ) { AlertManager.getInstance().showAlert("Error: No Date", "Please enter a publication date.", AlertType.ERROR); return; }
 
         // Format the publication Date as a String (YYYY-MM-DD)
         String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
         String publicationMonth = String.valueOf(dateDatePicker.getValue().getMonthValue());
         String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
-        String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
+        String formattedDate = publicationYear + "-" + publicationMonth + "-" + publicationDay;
 
         // Pre-Validate fields (increase processing speed)
         if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
@@ -217,7 +216,7 @@ public class AddBookManuallyController implements Initializable {
             alert.setGraphic(imageView);
             alert.showAndWait();
 
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             AlertManager.getInstance().showAlert("Error", "Could not load an image.", AlertType.ERROR);
         }
     }
@@ -231,7 +230,7 @@ public class AddBookManuallyController implements Initializable {
         try {
             Path path = Paths.get(imagePath);
             return Files.readAllBytes(path);
-        } catch (Exception e) {
+        } catch ( Exception e ) {
             AlertManager.getInstance().showAlert("Error", "Could not convert the image to a byte array.", AlertType.ERROR); return new byte[0];
         }
     }
@@ -256,7 +255,7 @@ public class AddBookManuallyController implements Initializable {
         byte[] imageBytes = imageToBytes(imagePath);
 
         // If image conversion succeeds create a new book and insert it into the database
-        if (imageBytes.length != 0) {
+        if ( imageBytes.length != 0 ) {
             Book newBook = new Book(collectionId, title, isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
             BookDAO.getInstance().insert(newBook);
             clearFields();
