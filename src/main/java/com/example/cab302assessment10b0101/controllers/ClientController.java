@@ -1,10 +1,12 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.model.UserManager;
 import com.example.cab302assessment10b0101.model.ViewManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,6 +34,8 @@ public class ClientController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        setUpBindingOfUser();
+
         // Add the listener to listen for changed to the selected menu item. Based on the value of the new selected menu item the center of the BorderPane is updated to show the corresponding view.
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().addListener((observableValue, oldVal, newVal) -> {
 
@@ -66,9 +70,17 @@ public class ClientController implements Initializable {
             }
         });
         profileIcon.setOnMouseClicked(event -> getProfileView());
+        userLabel.setOnMouseClicked(event -> getProfileView());
 
     }
     public void getProfileView() {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.PROFILE);
+    }
+
+    @FXML
+    private Label userLabel;
+
+    private void setUpBindingOfUser(){
+        userLabel.textProperty().bind(UserManager.getInstance().getCurrentUser().getUsernameProperty());
     }
 }
