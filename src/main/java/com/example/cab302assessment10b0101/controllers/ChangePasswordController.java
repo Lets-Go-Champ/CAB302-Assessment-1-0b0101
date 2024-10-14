@@ -1,6 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.Alert.AlertManager;
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.fxml.FXML;
