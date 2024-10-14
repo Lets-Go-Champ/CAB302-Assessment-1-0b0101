@@ -70,6 +70,7 @@ public class ClientController implements Initializable {
             }
         });
         profileIcon.setOnMouseClicked(event -> getProfileView());
+        userLabel.setOnMouseClicked(event -> getProfileView());
 
     }
     public void getProfileView() {
