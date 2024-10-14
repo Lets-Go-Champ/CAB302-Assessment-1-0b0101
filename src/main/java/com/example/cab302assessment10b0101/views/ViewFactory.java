@@ -233,6 +233,7 @@ public class ViewFactory {
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initOwner(createAccountButton.getScene().getWindow());
             dialogStage.setScene(scene);
+            dialogStage.setResizable(false);
             dialogStage.showAndWait();
         } catch (Exception e) {
             System.out.println("Error handling Create Account: " + e.getMessage());
