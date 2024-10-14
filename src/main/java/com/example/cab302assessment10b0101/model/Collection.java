@@ -116,4 +116,14 @@ public class Collection {
     public void setCollectionDescription(String description) {
         this.collectionDescription = description;
     }
+
+    /**
+     * Returns a string representation of the collection for testing purposes.
+     *
+     * @return The name of the collection.
+     */
+    @Override
+    public String toString() {
+        return collectionName;
+    }
 }
