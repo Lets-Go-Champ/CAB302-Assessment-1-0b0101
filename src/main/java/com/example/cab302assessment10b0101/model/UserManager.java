@@ -46,7 +46,6 @@ public class UserManager {
     /**
      * Logs out the current user by setting the current user to null.
      */
-    // Log out the current user
     public void logOut() {
         this.currentUser = null;
     }

@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
  */
 public class ClientController implements Initializable {
 
-    //This is a reference to the BorderPane element in the FXML file which is the main layout container.
     @FXML
     private BorderPane mainBorderPane;
 
@@ -71,8 +70,8 @@ public class ClientController implements Initializable {
         });
         profileIcon.setOnMouseClicked(event -> getProfileView());
         userLabel.setOnMouseClicked(event -> getProfileView());
-
     }
+
     public void getProfileView() {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.PROFILE);
     }

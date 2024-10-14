@@ -5,9 +5,7 @@ import com.example.cab302assessment10b0101.model.Book;
 import com.example.cab302assessment10b0101.model.ViewManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
 import java.util.Optional;
@@ -89,9 +87,10 @@ public class BookDetailsController {
      * @param actionEvent The ActionEvent triggered by the delete button click.
      */
     public void handleDeleteButtonAction(javafx.event.ActionEvent actionEvent) {
+        // Exit the method if there is no book to delete
         if (currentBook == null) {
             AlertManager.getInstance().showAlert("Error", "No book is selected for deletion", Alert.AlertType.ERROR);
-            return;  // Exit the method if there is no book to delete
+            return;
         }
 
         // Show confirmation dialog

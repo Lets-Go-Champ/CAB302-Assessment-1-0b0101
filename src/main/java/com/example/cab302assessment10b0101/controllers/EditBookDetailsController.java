@@ -92,6 +92,7 @@ public class EditBookDetailsController implements Initializable {
             if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
         }
     }
+
     // Sets the fields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
     private void setTitleTextField(String title) { titleTextField.setText(title); }
@@ -147,7 +148,6 @@ public class EditBookDetailsController implements Initializable {
 
         // Ensure all fields have values
         if (validateFields(title, isbn, author, description, publisher, pages, notes, readingStatus)) {
-
             // Update the book
             updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             AlertManager.getInstance().showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
@@ -240,7 +240,6 @@ public class EditBookDetailsController implements Initializable {
      */
     private boolean validateFields(String title, String isbn, String author, String description,
                                    String publisher, String pages, String notes, String readingStatus) {
-
         if ( !collectionSelected() ) { AlertManager.getInstance().showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
         if ( title.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
         if ( titleExists(title) ) { AlertManager.getInstance().showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }

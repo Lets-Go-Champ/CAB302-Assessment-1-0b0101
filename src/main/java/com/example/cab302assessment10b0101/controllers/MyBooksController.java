@@ -173,8 +173,6 @@ public class MyBooksController implements Initializable {
         if (selectedCollection != null) {
             // Force reloading the books for the selected collection
             loadBooks(selectedCollection);
-        } else {
-            System.out.println("No collection selected.");
         }
     }
 
@@ -300,7 +298,5 @@ public class MyBooksController implements Initializable {
             updateBookGrid(filteredBooks);
         }
     }
-
-
 }
 
