@@ -26,7 +26,6 @@ public class User {
     public User(int id, String userName, String password) {
         this.id = id;
         this.username = new SimpleStringProperty(userName);;
-
         this.password = password;
         this.collections = FXCollections.observableArrayList();
     }
@@ -119,6 +118,11 @@ public class User {
     public void setUserName(StringProperty userName) {
         this.username = userName;
     }
+
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
 
     /**
      * Sets the password of the user.
