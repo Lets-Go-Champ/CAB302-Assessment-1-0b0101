@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,9 +8,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.image.ImageView?>
-
 <?import javafx.scene.control.TextArea?>
-<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookSearchController">
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookSearchController">
+    <AnchorPane>
     <VBox prefWidth="800" layoutX="20.0" layoutY="20.0" spacing="10">
     <Label text="Add to Collection">
         <font>
@@ -30,14 +30,14 @@
             <Button fx:id="searchButton" text="Search" prefHeight="25.0" prefWidth="100.0" onAction="#handleSearchButton"/>
         </HBox>
 
-        <!-- Area for displaying detailed search results with larger image and text to the right -->
         <Label text="Search Results:"/>
         <HBox spacing="10">
             <!-- Book Image on the left -->
-            <ImageView fx:id="bookImageView" fitHeight="250.0" fitWidth="180.0"/>
+            <ImageView fx:id="bookImageView" fitHeight="300.0" fitWidth="220.0"/>
 
             <!-- Book Details on the right -->
             <VBox spacing="10" alignment="TOP_RIGHT">
+            <VBox spacing="10" style="-fx-padding: 0 0 0 120;"> <!-- Add 50px padding on the left -->
                 <Label fx:id="bookTitleLabel" text="Title: "/>
                 <Label fx:id="bookAuthorLabel" text="Author: "/>
                 <Label fx:id="bookPublisherLabel" text="Publisher: "/>
@@ -45,6 +45,7 @@
                 <Label fx:id="bookPagesLabel" text="Pages: "/>
                 <Label fx:id="bookPublishedDateLabel" text="Published Date: "/>
                 <Label fx:id="bookDescriptionLabel" text="Description: "/>
+            </VBox>
             </VBox>
         </HBox>
 
@@ -59,4 +60,8 @@
             <Button fx:id="addBookButton" text="Add Book" prefHeight="40.0" prefWidth="150.0" disable="true" onAction="#handleAddBookButton"/>
         </HBox>
     </VBox>
-</AnchorPane>
+    </AnchorPane>
+
+    <!-- Overlay ProgressIndicator centered in StackPane -->
+    <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+</StackPane>
