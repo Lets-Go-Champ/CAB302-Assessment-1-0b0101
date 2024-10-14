@@ -31,7 +31,9 @@
                 <TabPane prefHeight="910" prefWidth="960" tabMinWidth="105" tabClosingPolicy="UNAVAILABLE">
 
                     <!-- Search Tab -->
-                    <Tab text="Search"> <AnchorPane prefHeight="636" prefWidth="839"/> </Tab>
+                    <Tab text="Search">
+                        <fx:include source="AddBookSearch.fxml"/>
+                    </Tab>
 
                     <!-- Add Manually Tab -->
                     <Tab text="Manual Entry">
