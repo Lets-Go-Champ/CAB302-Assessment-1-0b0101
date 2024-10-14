@@ -1,4 +1,5 @@
 package com.example.cab302assessment10b0101.views;
+
 import com.example.cab302assessment10b0101.controllers.*;
 import com.example.cab302assessment10b0101.model.Book;
 import com.example.cab302assessment10b0101.model.UserManager;
@@ -201,7 +202,7 @@ public class ViewFactory {
     }
 
     /**
-     * Displays the login screen.
+     * Displays the login screen. and clears all previous pages.
      * Loads the login FXML and creates a new stage for the login window.
      */
     public void getLoginScreen() {

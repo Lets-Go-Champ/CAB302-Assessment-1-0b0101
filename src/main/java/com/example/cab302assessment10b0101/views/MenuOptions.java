@@ -8,5 +8,4 @@ public enum MenuOptions {
     EDITBOOKDETAILS,
     PROFILE,
     LENDING,
-    LOGOUT
 }

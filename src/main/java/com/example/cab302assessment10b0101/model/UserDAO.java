@@ -52,7 +52,7 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.out.println("Error creating table in User Database: " + ex.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class UserDAO {
             insertUser.setString(2, user.getPassword());
             insertUser.execute();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.out.println("Error inserting into User Database: " + ex.getMessage());
         }
     }
 
@@ -88,7 +88,9 @@ public class UserDAO {
             updateUsername.setString(1, newUsername);
             updateUsername.setInt(2, userID);
             updateUsername.execute();
-        } catch (SQLException ex) { System.err.println(ex); }
+        } catch (SQLException ex) {
+            System.out.println("Error updating username in User Database: " + ex.getMessage());
+        }
     }
 
     /**
@@ -105,7 +107,9 @@ public class UserDAO {
             updatePassword.setString(1, newPassword);
             updatePassword.setInt(2, userID);
             updatePassword.execute();
-        } catch (SQLException ex) { System.err.println(ex); }
+        } catch (SQLException ex) {
+            System.out.println("Error updating password in User Database: " + ex.getMessage());
+        }
     }
 
     /**
@@ -132,7 +136,7 @@ public class UserDAO {
                 return null; // No user found
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error validating credentials: " + e.getMessage());
             return null;
         }
     }
@@ -157,7 +161,7 @@ public class UserDAO {
                 );
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.out.println("Error getting all users in the User Database: " + ex.getMessage());
         }
         return user;
     }

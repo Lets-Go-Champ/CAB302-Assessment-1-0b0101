@@ -125,20 +125,4 @@ public class User {
     public void addCollection(Collection collection) {
         collections.add(collection);
     }
-
-    /**
-     * Returns a string representation of the User object.
-     * The string includes the user's ID, username, and password.
-     *
-     * @return A string formatted as "User{id=X, userName='Y', password='Z'}",
-     *         where X is the user's ID, Y is the username, and Z is the password.
-     */
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
