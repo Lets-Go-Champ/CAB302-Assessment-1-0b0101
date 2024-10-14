@@ -7,6 +7,7 @@ import javafx.beans.property.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.*;
 
@@ -99,7 +100,7 @@ public class ViewFactory {
     public AnchorPane getAddBookView(){
         if (addBookView == null) {
             try{
-                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
+                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookPage.fxml")).load();
             } catch (Exception e){
                 System.out.println("Error loading AddBookView: " + e.getMessage());
             }
@@ -264,6 +265,8 @@ public class ViewFactory {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("LibraHome");
+        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/cab302assessment10b0101/images/stageIcon.png"))));
+        stage.setResizable(false);
         stage.show();
     }
 
