@@ -231,15 +231,9 @@ public class AddBookSearchController {
         String publisher = bookDetails.get("Publisher");
         String pageCountStr = bookDetails.get("Page Count");
 
-        // Handle image download or set default image
-        byte[] imageBytes; // Declare the variable here
-        String imageUrl = bookDetails.get("imageUrl");
+        // Retrieve the preloaded image bytes from the Scraper (instead of downloading it again)
+        byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Use cached image bytes
 
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            imageBytes = scraper.downloadImage(imageUrl);  // Download the image
-        } else {
-            imageBytes = scraper.loadDefaultImage();  // Load default image if no URL found
-        }
         // Create the book object and insert it into the database
         Book newBook = new Book(
                 selectedCollection.getId(),
@@ -255,8 +249,13 @@ public class AddBookSearchController {
                 "" // Reading status
         );
 
-        BookDAO.getInstance().insert(newBook); // Insert the book into the database
+        // Insert the book into the database
+        BookDAO.getInstance().insert(newBook);
+
+        // Show a success message or reset UI if necessary
+        showAlert("Success", "Book added successfully!", Alert.AlertType.INFORMATION);
     }
+
 
 
     /**
