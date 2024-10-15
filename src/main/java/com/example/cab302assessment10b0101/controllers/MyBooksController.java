@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.scene.control.ComboBox;
@@ -63,8 +64,9 @@ public class MyBooksController implements Initializable {
 
         // Set up search functionality
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterBooks(newValue.trim());  // Trim whitespace from search input
+            filterBooks(newValue.trim());
         });
+
 
         // Add sorting options to the ComboBox
         filterComboBox.getItems().addAll("Title", "Author", "Publication Date");
@@ -337,33 +339,35 @@ public class MyBooksController implements Initializable {
      */
     private void filterBooks(String query) {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        // Exit if no collection is selected
         if (selectedCollection == null) return;
 
-        // Get the current user
         User currentUser = UserManager.getInstance().getCurrentUser();
-
-        // Retrieve the collection ID from the CollectionDAO based on the user and collection name
         String collectionName = selectedCollection.getCollectionName();
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-        // Fetch all books by the collection ID
         ObservableList<Book> allBooks = BookDAO.getInstance().getAllByCollection(collectionId);
 
         if (query == null || query.trim().isEmpty()) {
-            // If the search field is empty, show all books
+            // Show all books if the search field is empty
             updateBookGrid(allBooks);
         } else {
-            // Filter books by title (ignoring case)
+            // Split the search query into words
+            String[] searchTerms = query.toLowerCase().split("\\s+");
+
+            // Filter the books by checking if any term matches title, author, etc.
             ObservableList<Book> filteredBooks = FXCollections.observableArrayList(
                     allBooks.stream()
-                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                                    book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
-                                    book.getPublisher().toLowerCase().contains(query.toLowerCase()) ||
-                                    String.valueOf(book.getISBN()).contains(query) ||
-                                    book.getPublicationDate().toLowerCase().contains(query.toLowerCase()))
+                            .filter(book -> Arrays.stream(searchTerms)
+                                    .allMatch(term ->
+                                            book.getTitle().toLowerCase().contains(term) ||
+                                                    book.getAuthor().toLowerCase().contains(term) ||
+                                                    book.getPublisher().toLowerCase().contains(term) ||
+                                                    String.valueOf(book.getISBN()).contains(term) ||
+                                                    book.getPublicationDate().toLowerCase().contains(term))
+                            )
                             .collect(Collectors.toList())
             );
+
             // Display the filtered books
             updateBookGrid(filteredBooks);
         }
