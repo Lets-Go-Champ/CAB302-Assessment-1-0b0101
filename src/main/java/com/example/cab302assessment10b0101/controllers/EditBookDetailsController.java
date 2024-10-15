@@ -92,8 +92,8 @@ public class EditBookDetailsController extends BookForm implements Initializable
      * Handles the update image action when the update image button is clicked.
      */
     private void handleUpdateImage() {
-        setCoverImage(uploadImage());
-        setImageBytes(imageToBytes(image.getUrl()));
+        Image newImage = uploadImage();
+        if ( newImage != null ) { setCoverImage(newImage); setImageBytes(imageToBytes(image.getUrl())); }
     }
 
     /**
@@ -124,7 +124,8 @@ public class EditBookDetailsController extends BookForm implements Initializable
         if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
 
         // Ensure all remaining fields have values
-        if ( BookValidation.getInstance().validFields(title, originalTitle, isbn, author, description, publisher, pages, notes, readingStatus) ) {
+        boolean isNewTitle = ( !title.equals(originalTitle) );
+        if ( BookValidation.getInstance().validFields(title, isNewTitle, isbn, author, description, publisher, pages, notes, readingStatus) ) {
             // Update the book
             updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             AlertManager.getInstance().showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
