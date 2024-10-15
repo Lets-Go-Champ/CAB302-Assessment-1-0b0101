@@ -1,9 +1,8 @@
-package com.example.cab302assessment10b0101.Alert;
+package com.example.cab302assessment10b0101.Utility;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-
 import java.util.Optional;
 
 /**
