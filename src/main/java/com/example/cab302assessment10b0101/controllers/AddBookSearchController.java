@@ -141,7 +141,7 @@ public class AddBookSearchController {
 
                     // Load the image
                     String imageUrl = bookDetails.get("imageUrl");
-                    byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? downloadImage(imageUrl) : loadDefaultImage();
+                    byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? scraper.downloadImage(imageUrl) : scraper.loadDefaultImage();
                     if (imageBytes != null) {
                         try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
                             bookImageView.setImage(new Image(inputStream));
@@ -185,7 +185,7 @@ public class AddBookSearchController {
 
 
     private void loadPreloadedBookDetails(Map<String, String> bookDetails) {
-        // Use the preloaded details to update the UI without making new API calls
+        // Use the preloaded details to update the UI
         bookTitleLabel.setText("Title: " + bookDetails.get("title"));
         bookAuthorLabel.setText("Author: " + bookDetails.getOrDefault("Author", "No Author"));
         bookIsbnLabel.setText("ISBN: " + bookDetails.getOrDefault("ISBN", "No ISBN"));
@@ -194,21 +194,16 @@ public class AddBookSearchController {
         bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
         bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
 
-        // Handle the image display
-        String imageUrl = bookDetails.get("imageUrl");
-        byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? downloadImage(imageUrl) : loadDefaultImage();
-
+        // Load the preloaded image bytes from Scraper's imageBytesList
+        byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Get image bytes using the current index
         if (imageBytes != null) {
             try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
-                bookImageView.setImage(new Image(inputStream));  // Set the image in ImageView
+                bookImageView.setImage(new Image(inputStream));  // Display cached image
             } catch (IOException e) {
                 System.err.println("Error displaying image: " + e.getMessage());
             }
-        } else {
-            System.err.println("Error: Image bytes are null, setting default image failed.");
         }
     }
-
 
 
     @FXML
@@ -241,9 +236,9 @@ public class AddBookSearchController {
         String imageUrl = bookDetails.get("imageUrl");
 
         if (imageUrl != null && !imageUrl.isEmpty()) {
-            imageBytes = downloadImage(imageUrl);  // Download the image
+            imageBytes = scraper.downloadImage(imageUrl);  // Download the image
         } else {
-            imageBytes = loadDefaultImage();  // Load default image if no URL found
+            imageBytes = scraper.loadDefaultImage();  // Load default image if no URL found
         }
         // Create the book object and insert it into the database
         Book newBook = new Book(
@@ -283,30 +278,7 @@ public class AddBookSearchController {
     }
 
 
-    private byte[] downloadImage(String imageUrl) {
-        try (InputStream inputStream = new URL(imageUrl).openStream()) {
-            BufferedImage bufferedImage = ImageIO.read(inputStream);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", baos);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            System.err.println("Error downloading image: " + e.getMessage());
-            return loadDefaultImage();  // Load the default image if downloading fails
-        }
-    }
 
-    /**
-     * Loads a default image in case downloading the cover image fails.
-     */
-    private byte[] loadDefaultImage() {
-        try {
-            InputStream is = getClass().getResourceAsStream("/com/example/cab302assessment10b0101/images/Default.jpg");
-            return IOUtils.toByteArray(is);
-        } catch (IOException e) {
-            System.err.println("Error loading default image: " + e.getMessage());
-            return null;
-        }
-    }
 
     /**
      * Displays an alert dialog with the provided message.

@@ -1,10 +1,17 @@
 package com.example.cab302assessment10b0101;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,6 +23,8 @@ import java.util.Map;
  * and detailed information about a specific book.
  */
 public class Scraper {
+
+    public List<byte[]> imageBytesList = new ArrayList<>();  // Declare the imageBytesList
 
     /**
      * Scrapes the top 5 search results from Google Books based on the input query.
@@ -31,46 +40,43 @@ public class Scraper {
         Elements searchResults = doc.select(".bHexk");
 
         List<Map<String, String>> books = new ArrayList<>();
-        int scrapeCount = 0;  // Initialize counter for limiting scrapeBookDetails calls
+        imageBytesList.clear();  // Clear the list before starting a new search
+        int scrapeCount = 0;
 
         for (Element result : searchResults) {
             String bookTitle = result.select("h3").text();
             String bookUrl = result.select("a").attr("href");
 
-            // Ensure we only process up to 5 books
             if (scrapeCount >= 5) {
                 break;
             }
 
-            // Validate the URL
             if (bookUrl == null || bookUrl.isEmpty()) {
                 System.err.println("Skipping book with empty URL: " + bookTitle);
-                continue;  // Skip this result if the URL is empty
+                continue;
             }
 
             if (!bookUrl.startsWith("http")) {
                 bookUrl = "https://books.google.com" + bookUrl;
             }
 
-            // Print out the book URL for debugging
             System.out.println("Book URL: " + bookUrl);
 
-            // Call scrapeBookDetails to fetch all the necessary details for the book
+            // Fetch the book details
             Map<String, String> bookDetails = scrapeBookDetails(bookUrl);
-            bookDetails.put("title", bookTitle);  // Add the title from search results
+            bookDetails.put("title", bookTitle);
 
-            // Add the book details to the list
+            // Download and store image bytes
+            String imageUrl = bookDetails.get("imageUrl");
+            byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? downloadImage(imageUrl) : loadDefaultImage();
+            imageBytesList.add(imageBytes);
+
             books.add(bookDetails);
-
-            // Increment the scrape count after successfully scraping details
             scrapeCount++;
         }
 
         return books;
     }
-
-
-
 
     /**
      * Scrapes detailed information about a specific book from Google Books.
@@ -133,8 +139,30 @@ public class Scraper {
         return bookDetails;
     }
 
+    public byte[] downloadImage(String imageUrl) {
+        try (InputStream inputStream = new URL(imageUrl).openStream()) {
+            BufferedImage bufferedImage = ImageIO.read(inputStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            System.err.println("Error downloading image: " + e.getMessage());
+            return loadDefaultImage();  // Load the default image if downloading fails
+        }
+    }
 
-
+    /**
+     * Loads a default image in case downloading the cover image fails.
+     */
+    public byte[] loadDefaultImage() {
+        try {
+            InputStream is = getClass().getResourceAsStream("/com/example/cab302assessment10b0101/images/Default.jpg");
+            return IOUtils.toByteArray(is);
+        } catch (IOException e) {
+            System.err.println("Error loading default image: " + e.getMessage());
+            return null;
+        }
+    }
 
     /**
      * Helper method to format date strings from "14 September 2008" to "14-9-2008".
