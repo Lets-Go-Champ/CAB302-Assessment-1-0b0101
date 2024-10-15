@@ -37,38 +37,37 @@
             <!-- Scrollable Section (Search results, book details, etc.) -->
             <ScrollPane prefHeight="550" prefWidth="900" hbarPolicy="NEVER" vbarPolicy="ALWAYS" fitToWidth="true" fitToHeight="true">
                 <AnchorPane prefHeight="800" prefWidth="950">
-                    <VBox layoutY="14" prefHeight="639" prefWidth="900" AnchorPane.leftAnchor="20">
+                    <VBox layoutY="14" prefHeight="639" prefWidth="900" AnchorPane.leftAnchor="20" fx:id="bookDetailsContainer">
                         <!-- Content inside the ScrollPane -->
-                        <Label text="Search Results:"/>
+                        <Label text="Search Results:" fx:id="searchResultsLabel" visible="false"/>
                         <HBox spacing="10">
                             <!-- Book Image on the left -->
                             <ImageView fx:id="bookImageView" fitHeight="300.0" fitWidth="250.0"/>
                             <!-- Book Details on the right -->
                             <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 0 0 0 70;">
-                                <Label fx:id="bookTitleLabel" text="Title: "/>
-                                <Label fx:id="bookAuthorLabel" text="Author: "/>
-                                <Label fx:id="bookPublisherLabel" text="Publisher: "/>
-                                <Label fx:id="bookIsbnLabel" text="ISBN: "/>
-                                <Label fx:id="bookPagesLabel" text="Pages: "/>
-                                <Label fx:id="bookPublishedDateLabel" text="Published Date: "/>
-                                <Label fx:id="bookDescriptionLabel" text="Description: "/>
+                                <Label fx:id="bookTitleLabel" text="Title: " visible="false"/>
+                                <Label fx:id="bookAuthorLabel" text="Author: " visible="false"/>
+                                <Label fx:id="bookPublisherLabel" text="Publisher: " visible="false"/>
+                                <Label fx:id="bookIsbnLabel" text="ISBN: " visible="false"/>
+                                <Label fx:id="bookPagesLabel" text="Pages: " visible="false"/>
+                                <Label fx:id="bookPublishedDateLabel" text="Published Date: " visible="false"/>
+                                <Label fx:id="bookDescriptionLabel" text="Description: " visible="false"/>
                             </VBox>
                         </HBox>
 
                         <!-- Notes Section -->
-                        <Label text="Add a Note:"/>
-                        <!-- Explicitly limiting the TextArea size and overriding any conflicting styles -->
+                        <Label text="Add a Note:" fx:id="addNoteLabel" visible="false"/>
                         <TextArea fx:id="notesTextArea"
                                   prefHeight="50.0" maxHeight="50.0" minHeight="50.0"
                                   prefWidth="500.0" maxWidth="600.0" minWidth="600.0"
                                   style="-fx-max-height: 50; -fx-min-height: 50; -fx-pref-height: 50;"
-                                  promptText="Enter any notes here..."/>
+                                  promptText="Enter any notes here..." visible="false"/>
 
                         <!-- Buttons Section -->
                         <HBox spacing="10">
-                            <Button fx:id="prevButton" text="Previous" prefHeight="40.0" prefWidth="150.0" onAction="#handlePrevButton" disable="true"/>
-                            <Button fx:id="nextButton" text="Next" prefHeight="40.0" prefWidth="150.0" onAction="#handleNextButton" disable="true"/>
-                            <Button fx:id="addBookButton" text="Add Book" prefHeight="40.0" prefWidth="150.0" disable="true" onAction="#handleAddBookButton"/>
+                            <Button fx:id="prevButton" text="Previous" prefHeight="40.0" prefWidth="150.0" onAction="#handlePrevButton" disable="true" visible="false"/>
+                            <Button fx:id="nextButton" text="Next" prefHeight="40.0" prefWidth="150.0" onAction="#handleNextButton" disable="true" visible="false"/>
+                            <Button fx:id="addBookButton" text="Add Book" prefHeight="40.0" prefWidth="150.0" disable="true" onAction="#handleAddBookButton" visible="false"/>
                         </HBox>
                     </VBox>
                 </AnchorPane>
@@ -79,3 +78,5 @@
     <!-- Overlay ProgressIndicator centered in StackPane -->
     <ProgressIndicator fx:id="progressIndicator" visible="false"/>
 </StackPane>
+
+

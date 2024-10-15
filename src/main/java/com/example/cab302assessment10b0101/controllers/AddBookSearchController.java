@@ -9,17 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.scene.layout.VBox;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.io.IOUtils;
+
 
 public class AddBookSearchController {
 
@@ -39,6 +35,15 @@ public class AddBookSearchController {
     private Label bookTitleLabel, bookAuthorLabel, bookIsbnLabel, bookPublisherLabel, bookPagesLabel, bookPublishedDateLabel, bookDescriptionLabel;
 
     @FXML
+    private VBox bookDetailsContainer;
+
+    @FXML
+    private Label searchResultsLabel;
+
+    @FXML
+    private Label addNoteLabel;
+
+    @FXML
     private TextArea notesTextArea;
 
     private Scraper scraper;
@@ -51,7 +56,6 @@ public class AddBookSearchController {
 
     @FXML
     private ProgressIndicator progressIndicator;
-
 
     @FXML
     public void initialize() {
@@ -95,35 +99,53 @@ public class AddBookSearchController {
                 Platform.runLater(() -> {
                     if (!searchResults.isEmpty()) {
                         currentIndex = 0;
-                        loadBookDetails(searchResults.get(currentIndex).get("url"));
+                        loadPreloadedBookDetails(searchResults.get(currentIndex));  // Load the first book's details
+
+                        // Make the hidden sections visible after search
+                        bookDetailsContainer.setVisible(true);
+                        searchResultsLabel.setVisible(true);
+                        addNoteLabel.setVisible(true);
+                        notesTextArea.setVisible(true);
+                        prevButton.setVisible(true);
+                        nextButton.setVisible(searchResults.size() > 1);  // Only show 'Next' if more than 1 result
+                        addBookButton.setVisible(true);
+                        showBookDetails();
                         prevButton.setDisable(true);
                         nextButton.setDisable(searchResults.size() <= 1);
                         addBookButton.setDisable(false);
+
+                        progressIndicator.setVisible(false);  // Stop progress indicator
+
                     } else {
                         showAlert("Error", "No results found.", Alert.AlertType.ERROR);
+                        progressIndicator.setVisible(false);  // Stop progress indicator
+
                     }
                     searchButton.setDisable(false);
                 });
             } catch (IOException e) {
                 Platform.runLater(() -> showAlert("Error", "Failed to retrieve search results.", Alert.AlertType.ERROR));
-                searchButton.setDisable(false);
+                progressIndicator.setVisible(false);  // Stop progress indicator in case of error
             }
+            searchButton.setDisable(false);
         }).start();
     }
 
     private void loadBookDetails(String bookUrl) {
+        if (bookUrl == null || bookUrl.isEmpty()) {
+            System.err.println("Error: Attempting to load a null or empty book URL.");
+            return;
+        }
+
+        System.out.println("Loading book details for URL: " + bookUrl);
+
         new Thread(() -> {
             try {
-                // Fetch the full book details from the URL
                 Map<String, String> bookDetails = scraper.scrapeBookDetails(bookUrl);
 
-                // Get the title from the search result (already scraped in the search method)
-                String titleFromSearch = searchResults.get(currentIndex).get("title");  // Get the title from search results
-
                 Platform.runLater(() -> {
-                    // Use title from search results for consistency
-                    bookTitleLabel.setText("Title: " + titleFromSearch);
-
+                    // Update the UI with the details
+                    bookTitleLabel.setText("Title: " + bookDetails.get("title"));
                     bookAuthorLabel.setText("Author: " + bookDetails.getOrDefault("Author", "No Author"));
                     bookIsbnLabel.setText("ISBN: " + bookDetails.getOrDefault("ISBN", "No ISBN"));
                     bookPublisherLabel.setText("Publisher: " + bookDetails.getOrDefault("Publisher", "No Publisher"));
@@ -131,11 +153,9 @@ public class AddBookSearchController {
                     bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
                     bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
 
-                    // Load the book cover image
+                    // Load the image
                     String imageUrl = bookDetails.get("imageUrl");
-                    byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? downloadImage(imageUrl) : loadDefaultImage();
-
-                    // Convert the byte[] to an InputStream and load the image in the ImageView
+                    byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? scraper.downloadImage(imageUrl) : scraper.loadDefaultImage();
                     if (imageBytes != null) {
                         try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
                             bookImageView.setImage(new Image(inputStream));
@@ -143,8 +163,6 @@ public class AddBookSearchController {
                             System.err.println("Error displaying image: " + e.getMessage());
                         }
                     }
-                    // Stop the progress indicator after the UI is updated
-                    progressIndicator.setVisible(false);
                 });
             } catch (IOException e) {
                 Platform.runLater(() -> showAlert("Error", "Failed to retrieve book details.", Alert.AlertType.ERROR));
@@ -152,22 +170,17 @@ public class AddBookSearchController {
         }).start();
     }
 
-
     @FXML
     public void handleNextButton() {
         if (currentIndex < searchResults.size() - 1) {
             currentIndex++;
-            new Thread(() -> {
-                loadBookDetails(searchResults.get(currentIndex).get("url"));
+            loadPreloadedBookDetails(searchResults.get(currentIndex));
 
-                Platform.runLater(() -> {
-                    prevButton.setDisable(currentIndex == 0);
-                    nextButton.setDisable(currentIndex == searchResults.size() - 1);
+            // Enable the prev button when we're not on the first book anymore
+            prevButton.setDisable(false);
 
-                    // Hide the progress indicator when done
-                    progressIndicator.setVisible(false);
-                });
-            }).start();
+            // Disable the next button if we're on the last book
+            nextButton.setDisable(currentIndex == searchResults.size() - 1);
         }
     }
 
@@ -175,21 +188,34 @@ public class AddBookSearchController {
     public void handlePrevButton() {
         if (currentIndex > 0) {
             currentIndex--;
+            loadPreloadedBookDetails(searchResults.get(currentIndex));
 
-            new Thread(() -> {
-                loadBookDetails(searchResults.get(currentIndex).get("url"));
-
-                Platform.runLater(() -> {
-                    prevButton.setDisable(currentIndex == 0);
-                    nextButton.setDisable(currentIndex == searchResults.size() - 1);
-
-                    // Hide the progress indicator when done
-                    progressIndicator.setVisible(false);
-                });
-            }).start();
+            // Enable/disable next button appropriately
+            nextButton.setDisable(false);  // Re-enable the next button if moving back
+            prevButton.setDisable(currentIndex == 0);  // Disable prev button if on the first book
         }
     }
 
+    private void loadPreloadedBookDetails(Map<String, String> bookDetails) {
+        // Use the preloaded details to update the UI
+        bookTitleLabel.setText("Title: " + bookDetails.get("title"));
+        bookAuthorLabel.setText("Author: " + bookDetails.getOrDefault("Author", "No Author"));
+        bookIsbnLabel.setText("ISBN: " + bookDetails.getOrDefault("ISBN", "No ISBN"));
+        bookPublisherLabel.setText("Publisher: " + bookDetails.getOrDefault("Publisher", "No Publisher"));
+        bookPagesLabel.setText("Pages: " + bookDetails.getOrDefault("Page Count", "No Pages"));
+        bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
+        bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
+
+        // Load the preloaded image bytes from Scraper's imageBytesList
+        byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Get image bytes using the current index
+        if (imageBytes != null) {
+            try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
+                bookImageView.setImage(new Image(inputStream));  // Display cached image
+            } catch (IOException e) {
+                System.err.println("Error displaying image: " + e.getMessage());
+            }
+        }
+    }
 
     @FXML
     public void handleAddBookButton() {
@@ -204,134 +230,68 @@ public class AddBookSearchController {
             return;
         }
 
-        // Disable the Add Book button and show progress
-        addBookButton.setDisable(true);
-        progressIndicator.setVisible(true);
-
-        // Get the selected book details
+        // Get the preloaded book details
         Map<String, String> bookDetails = searchResults.get(currentIndex);
 
-        // Retrieve the title from the search results (already scraped)
-        String titleFromSearch = bookDetails.get("title");
+        String isbnStr = bookDetails.get("ISBN");
 
-        new Thread(() -> {
-            try {
-                // Use scrapeBookDetails to fetch the rest of the information from the selectedBookUrl
-                Map<String, String> fullBookDetails = scraper.scrapeBookDetails(bookDetails.get("url"));
+        // Fetch all books from the selected collection only
+        ObservableList<Book> booksInCollection = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
 
-                // Use the title from the search result, and the rest of the details from scrapeBookDetails
-                String title = titleFromSearch;  // We use the title from the initial search
-                String isbnStr = fullBookDetails.get("ISBN");
-                String author = fullBookDetails.get("Author");
-                String description = fullBookDetails.get("Description");
-                String publicationDate = fullBookDetails.get("Publication Date");
-                String publisher = fullBookDetails.get("Publisher");
-                String pageCountStr = fullBookDetails.get("Page Count");
+        // Check if a book with the same ISBN already exists in the selected collection
+        boolean isDuplicate = booksInCollection.stream().anyMatch(book -> book.getISBN().equals(isbnStr));
 
-                // Image URL retrieved from the Scraper class
-                String imageUrl = fullBookDetails.get("imageUrl");
-                byte[] imageBytes;
-
-                // Download the image from Open Library API or set a default image
-                if (imageUrl != null && !imageUrl.isEmpty()) {
-                    imageBytes = downloadImage(imageUrl);
-                } else {
-                    imageBytes = loadDefaultImage();
-                }
-
-                // Parse page count
-                int pages = 0;
-                if (pageCountStr != null && !pageCountStr.isEmpty()) {
-                    pages = Integer.parseInt(pageCountStr);
-                }
-
-                // Use "No Description Found" as the default if description is empty
-                if (description == null || description.isEmpty()) {
-                    description = "No Description Found";
-                }
-
-                // Create the book object and insert it into the database
-                Book newBook = new Book(
-                        selectedCollection.getId(),
-                        title,  // Use the title from the search
-                        isbnStr,
-                        author,
-                        description,
-                        publicationDate,
-                        publisher,
-                        pages,
-                        "", // Notes are empty for now
-                        imageBytes,
-                        "" // Reading status not set
-                );
-
-                BookDAO.getInstance().insert(newBook); // Insert the book into the database
-
-                // Update UI on the main thread
-                Platform.runLater(() -> {
-                    showAlert("Success", "Book added successfully to the collection.", Alert.AlertType.INFORMATION);
-
-                    // Reset the fields after successful addition
-                    resetBookDetailsDisplay();
-
-                    addBookButton.setDisable(false);
-                    progressIndicator.setVisible(false);
-                });
-
-            } catch (IOException e) {
-                Platform.runLater(() -> showAlert("Error", "Failed to retrieve book details.", Alert.AlertType.ERROR));
-                addBookButton.setDisable(false);
-                progressIndicator.setVisible(false);
-            } catch (NumberFormatException e) {
-                Platform.runLater(() -> showAlert("Error", "Invalid number format in book details.", Alert.AlertType.ERROR));
-                addBookButton.setDisable(false);
-                progressIndicator.setVisible(false);
-            }
-        }).start();
-    }
-
-    /**
-     * Resets the book details display and disables navigation buttons.
-     */
-    private void resetBookDetailsDisplay() {
-        bookTitleLabel.setText("Title: ");
-        bookAuthorLabel.setText("Author: ");
-        bookIsbnLabel.setText("ISBN: ");
-        bookPublisherLabel.setText("Publisher: ");
-        bookPagesLabel.setText("Pages: ");
-        bookPublishedDateLabel.setText("Published Date: ");
-        bookDescriptionLabel.setText("Description: ");
-        bookImageView.setImage(null);  // Optionally reset the image
-        notesTextArea.clear();  // Clear any notes
-        prevButton.setDisable(true);  // Disable navigation buttons
-        nextButton.setDisable(true);
-        addBookButton.setDisable(true);  // Disable add book button until a new search is done
-    }
-
-
-    private byte[] downloadImage(String imageUrl) {
-        try (InputStream inputStream = new URL(imageUrl).openStream()) {
-            BufferedImage bufferedImage = ImageIO.read(inputStream);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", baos);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            System.err.println("Error downloading image: " + e.getMessage());
-            return loadDefaultImage();  // Load the default image if downloading fails
+        if (isDuplicate) {
+            showAlert("Error", "A book with the same ISBN already exists in this collection!", Alert.AlertType.ERROR);
+            return;  // Stop the process if duplicate is found
         }
+
+        // Use the preloaded details directly to add the book to the database
+        String title = bookDetails.get("title");
+        String author = bookDetails.get("Author");
+        String description = bookDetails.get("Description");
+        String publicationDate = bookDetails.get("Publication Date");
+        String publisher = bookDetails.get("Publisher");
+        String pageCountStr = bookDetails.get("Page Count");
+
+        // Retrieve the preloaded image bytes from the Scraper (instead of downloading it again)
+        byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Use cached image bytes
+
+        // Create the book object and insert it into the database
+        Book newBook = new Book(
+                selectedCollection.getId(),
+                title,
+                isbnStr,
+                author,
+                description,
+                publicationDate,
+                publisher,
+                Integer.parseInt(pageCountStr),
+                "", // Notes
+                imageBytes,
+                "" // Reading status
+        );
+
+        // Insert the book into the database
+        BookDAO.getInstance().insert(newBook);
+
+        // Show a success message or reset UI if necessary
+        showAlert("Success", "Book added successfully!", Alert.AlertType.INFORMATION);
     }
 
-    /**
-     * Loads a default image in case downloading the cover image fails.
-     */
-    private byte[] loadDefaultImage() {
-        try {
-            InputStream is = getClass().getResourceAsStream("/com/example/cab302assessment10b0101/images/Default.jpg");
-            return IOUtils.toByteArray(is);
-        } catch (IOException e) {
-            System.err.println("Error loading default image: " + e.getMessage());
-            return null;
-        }
+    private void showBookDetails() {
+        // Set all the labels and text area to visible after search
+        bookTitleLabel.setVisible(true);
+        bookAuthorLabel.setVisible(true);
+        bookPublisherLabel.setVisible(true);
+        bookIsbnLabel.setVisible(true);
+        bookPagesLabel.setVisible(true);
+        bookPublishedDateLabel.setVisible(true);
+        bookDescriptionLabel.setVisible(true);
+
+        // Make notes section visible
+        addNoteLabel.setVisible(true);
+        notesTextArea.setVisible(true);
     }
 
     /**
