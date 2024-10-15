@@ -3,7 +3,6 @@ package com.example.cab302assessment10b0101.controllers;
 import com.example.cab302assessment10b0101.Alert.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,8 +31,6 @@ import com.example.cab302assessment10b0101.model.BookDAO;
  * It retrieves data from the UI, validates it, and stores the book information in the database.
  */
 public class AddBookManuallyController implements Initializable {
-
-
 
     //FXML UI components used for adding book details
     @FXML
@@ -196,7 +193,6 @@ public class AddBookManuallyController implements Initializable {
         ));
         addBookForm.managedProperty().bind(addBookForm.visibleProperty());
     }
-
 
     /**
      * Validates if all the field values entered for a book are valid

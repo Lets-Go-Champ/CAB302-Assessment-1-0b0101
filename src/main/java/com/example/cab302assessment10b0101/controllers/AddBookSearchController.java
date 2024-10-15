@@ -4,11 +4,11 @@ import com.example.cab302assessment10b0101.Scraper;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.VBox;
 import java.io.ByteArrayInputStream;
@@ -77,38 +77,41 @@ public class AddBookSearchController {
     public void initialize() {
         scraper = new Scraper();
         populateCollections();
+        setupEventHandler();
+        setupBindings();
     }
 
     private void populateCollections() {
         // Check if there are any collections
         User currentUser = UserManager.getInstance().getCurrentUser();
-        List<Collection> collections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+        ObservableList<Collection> collections = currentUser.getCollections();
+        collectionChoiceBoxSearch.setItems(collections);
 
-        if (collections.isEmpty()) {
-            // Show empty state if no collections
-            emptyStateView.setVisible(true);
-            emptyStateView.setManaged(true); // Ensure the empty state takes space
-            addBookForm.setVisible(false);
-            addBookForm.setManaged(false);   // Ensure the form doesn't take space
-
-            // Set the action for the hyperlink to navigate to the "Add Collection" page
-            addCollectionLink.setOnAction(event -> handleAddCollectionLink());
-        } else {
-            // Show form if collections are available
-            emptyStateView.setVisible(false);
-            emptyStateView.setManaged(false);
-            addBookForm.setVisible(true);
-            addBookForm.setManaged(true);   // Ensure the form is visible and takes space
-
-            // Populate the collection choice box
-            ObservableList<Collection> observableCollections = FXCollections.observableArrayList(collections);
-            collectionChoiceBoxSearch.setItems(observableCollections);
-            if (!observableCollections.isEmpty()) {
-                collectionChoiceBoxSearch.getSelectionModel().selectFirst();
-            }
+        if (!collections.isEmpty()) {
+            collectionChoiceBoxSearch.getSelectionModel().selectFirst();
         }
     }
 
+    private void setupEventHandler() {
+        // Set the action for the hyperlink to navigate to the "Add Collection" page
+        addCollectionLink.setOnAction(event -> handleAddCollectionLink());
+    }
+
+    private void setupBindings() {
+        // Bind the visibility of the emptyStateView to whether the collectionChoiceBox has items
+        emptyStateView.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> collectionChoiceBoxSearch.getItems().isEmpty(),
+                collectionChoiceBoxSearch.getItems()
+        ));
+        emptyStateView.managedProperty().bind(emptyStateView.visibleProperty());
+
+        // Bind the visibility of the addBookForm to whether the collectionChoiceBox has items
+        addBookForm.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> !collectionChoiceBoxSearch.getItems().isEmpty(),
+                collectionChoiceBoxSearch.getItems()
+        ));
+        addBookForm.managedProperty().bind(addBookForm.visibleProperty());
+    }
 
     @FXML
     public void handleSearchButton() {
