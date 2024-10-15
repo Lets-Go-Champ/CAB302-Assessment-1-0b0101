@@ -9,17 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.scene.layout.VBox;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.io.IOUtils;
+
 
 public class AddBookSearchController {
 
@@ -39,6 +35,15 @@ public class AddBookSearchController {
     private Label bookTitleLabel, bookAuthorLabel, bookIsbnLabel, bookPublisherLabel, bookPagesLabel, bookPublishedDateLabel, bookDescriptionLabel;
 
     @FXML
+    private VBox bookDetailsContainer;
+
+    @FXML
+    private Label searchResultsLabel;
+
+    @FXML
+    private Label addNoteLabel;
+
+    @FXML
     private TextArea notesTextArea;
 
     private Scraper scraper;
@@ -51,7 +56,6 @@ public class AddBookSearchController {
 
     @FXML
     private ProgressIndicator progressIndicator;
-
 
     @FXML
     public void initialize() {
@@ -96,6 +100,16 @@ public class AddBookSearchController {
                     if (!searchResults.isEmpty()) {
                         currentIndex = 0;
                         loadPreloadedBookDetails(searchResults.get(currentIndex));  // Load the first book's details
+
+                        // Make the hidden sections visible after search
+                        bookDetailsContainer.setVisible(true);
+                        searchResultsLabel.setVisible(true);
+                        addNoteLabel.setVisible(true);
+                        notesTextArea.setVisible(true);
+                        prevButton.setVisible(true);
+                        nextButton.setVisible(searchResults.size() > 1);  // Only show 'Next' if more than 1 result
+                        addBookButton.setVisible(true);
+                        showBookDetails();
                         prevButton.setDisable(true);
                         nextButton.setDisable(searchResults.size() <= 1);
                         addBookButton.setDisable(false);
@@ -156,7 +170,6 @@ public class AddBookSearchController {
         }).start();
     }
 
-
     @FXML
     public void handleNextButton() {
         if (currentIndex < searchResults.size() - 1) {
@@ -183,7 +196,6 @@ public class AddBookSearchController {
         }
     }
 
-
     private void loadPreloadedBookDetails(Map<String, String> bookDetails) {
         // Use the preloaded details to update the UI
         bookTitleLabel.setText("Title: " + bookDetails.get("title"));
@@ -204,7 +216,6 @@ public class AddBookSearchController {
             }
         }
     }
-
 
     @FXML
     public void handleAddBookButton() {
@@ -268,28 +279,20 @@ public class AddBookSearchController {
         showAlert("Success", "Book added successfully!", Alert.AlertType.INFORMATION);
     }
 
+    private void showBookDetails() {
+        // Set all the labels and text area to visible after search
+        bookTitleLabel.setVisible(true);
+        bookAuthorLabel.setVisible(true);
+        bookPublisherLabel.setVisible(true);
+        bookIsbnLabel.setVisible(true);
+        bookPagesLabel.setVisible(true);
+        bookPublishedDateLabel.setVisible(true);
+        bookDescriptionLabel.setVisible(true);
 
-
-    /**
-     * Resets the book details display and disables navigation buttons.
-     */
-    private void resetBookDetailsDisplay() {
-        bookTitleLabel.setText("Title: ");
-        bookAuthorLabel.setText("Author: ");
-        bookIsbnLabel.setText("ISBN: ");
-        bookPublisherLabel.setText("Publisher: ");
-        bookPagesLabel.setText("Pages: ");
-        bookPublishedDateLabel.setText("Published Date: ");
-        bookDescriptionLabel.setText("Description: ");
-        bookImageView.setImage(null);  // Optionally reset the image
-        notesTextArea.clear();  // Clear any notes
-        prevButton.setDisable(true);  // Disable navigation buttons
-        nextButton.setDisable(true);
-        addBookButton.setDisable(true);  // Disable add book button until a new search is done
+        // Make notes section visible
+        addNoteLabel.setVisible(true);
+        notesTextArea.setVisible(true);
     }
-
-
-
 
     /**
      * Displays an alert dialog with the provided message.

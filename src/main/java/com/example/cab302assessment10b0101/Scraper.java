@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -140,16 +141,26 @@ public class Scraper {
     }
 
     public byte[] downloadImage(String imageUrl) {
-        try (InputStream inputStream = new URL(imageUrl).openStream()) {
-            BufferedImage bufferedImage = ImageIO.read(inputStream);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", baos);
-            return baos.toByteArray();
+        try {
+            URL url = new URL(imageUrl);
+            // Open the connection and set the timeout
+            URLConnection connection = url.openConnection();
+            connection.setConnectTimeout(1500);  // 1.5 seconds to establish connection
+            connection.setReadTimeout(1500);     // 1.5 seconds to read data
+
+            // Start downloading the image
+            try (InputStream inputStream = connection.getInputStream()) {
+                BufferedImage bufferedImage = ImageIO.read(inputStream);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage, "jpg", baos);
+                return baos.toByteArray();
+            }
         } catch (IOException e) {
-            System.err.println("Error downloading image: " + e.getMessage());
+            System.err.println("Error downloading image: " + e.getMessage() + ". Using default image instead.");
             return loadDefaultImage();  // Load the default image if downloading fails
         }
     }
+
 
     /**
      * Loads a default image in case downloading the cover image fails.
