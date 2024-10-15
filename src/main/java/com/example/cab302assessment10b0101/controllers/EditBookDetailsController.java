@@ -10,20 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
-
-import com.example.cab302assessment10b0101.model.BookDAO;
 
 /**
  * The EditBookDetailsController class manages the user interface for editing book details
@@ -31,41 +22,39 @@ import com.example.cab302assessment10b0101.model.BookDAO;
  * book information in the database. The controller is linked to the corresponding FXML
  * file for the edit book screen.
  */
-public class EditBookDetailsController implements Initializable {
+public class EditBookDetailsController extends BookForm implements Initializable {
 
     // FXML UI elements that are linked to the corresponding elements in the view
     @FXML
-    private ChoiceBox<Collection> collectionChoiceBox; //Dropdown for choosing a collection
+    private ChoiceBox<Collection> collectionChoiceBox; // Dropdown for choosing a collection
     @FXML
-    private TextField isbnTextField; //Input field for ISBN
+    private TextField isbnTextField; // Input field for ISBN
     @FXML
-    private TextField titleTextField; //Input field for book title
+    private TextField titleTextField; // Input field for book title
     @FXML
-    private TextField authorTextField; //Input field for book author
+    private TextField authorTextField; // Input field for book author
     @FXML
-    private TextField descriptionTextField; //Input field for book description
+    private TextField descriptionTextField; // Input field for book description
     @FXML
-    private TextField publisherTextField; //Input field for publisher
+    private TextField publisherTextField; // Input field for publisher
     @FXML
-    private DatePicker dateDatePicker; //Date picker for publication date
+    private DatePicker dateDatePicker; // Date picker for publication date
     @FXML
-    private TextField pagesTextField; //Input field for page count
+    private TextField pagesTextField; // Input field for page count
     @FXML
-    private TextField notesTextField; //Input field for user notes
+    private TextField notesTextField; // Input field for user notes
     @FXML
-    private Button updateBookButton; //Button to add the book
+    private Button updateBookButton; // Button to add the book
     @FXML
-    private Button addImageButton; //Button to upload a book cover image
+    private Button addImageButton; // Button to upload a book cover image
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
-
+    @FXML
     private Image image; // Image field for storing the uploaded book cover image
     private byte[] imageBytes; // Image as a byte array for storing/uploading the image
     private String originalTitle; // The original title of the book, before being updated.
 
     // Error messages for input validation
-    final String noImageUploadMessage = "Could not load an image.";
-    final String failedImageConversionMessage = "Could note convert the image to a byte array.";
     final String dateParseErrorMessage = "Failed to parse the Book's date.";
     final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
 
@@ -95,8 +84,16 @@ public class EditBookDetailsController implements Initializable {
      * Sets up the event handlers for the buttons.
      */
     private void setupEventHandlers() {
-        addImageButton.setOnAction(e -> handleUploadImage());
+        addImageButton.setOnAction(event -> handleUpdateImage());
         updateBookButton.setOnAction(event -> handleEditBook());
+    }
+
+    /**
+     * Handles the update image action when the update image button is clicked.
+     */
+    private void handleUpdateImage() {
+        setCoverImage(uploadImage());
+        setImageBytes(imageToBytes(image.getUrl()));
     }
 
     /**
@@ -105,6 +102,7 @@ public class EditBookDetailsController implements Initializable {
     @FXML
     private void handleEditBook() {
 
+        // Get the input values from the fields
         String collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName();
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
         String title = titleTextField.getText();
@@ -122,8 +120,11 @@ public class EditBookDetailsController implements Initializable {
         String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
-        // Ensure all fields have values
-        if (BookValidation.getInstance().validFields(title, originalTitle, isbn, author, description, publisher, pages, notes, readingStatus)) {
+        // Pre-Validate fields (increase processing speed)
+        if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
+
+        // Ensure all remaining fields have values
+        if ( BookValidation.getInstance().validFields(title, originalTitle, isbn, author, description, publisher, pages, notes, readingStatus) ) {
             // Update the book
             updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             AlertManager.getInstance().showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
@@ -155,7 +156,7 @@ public class EditBookDetailsController implements Initializable {
         }
 
         // If parsedDate is not null, update the DatePicker; otherwise, handle error
-        if (parsedDate != null) { setDateDatePicker(parsedDate); }
+        if ( parsedDate != null ) { setDateDatePicker(parsedDate); }
         else { AlertManager.getInstance().showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
     }
 
@@ -187,7 +188,7 @@ public class EditBookDetailsController implements Initializable {
         collectionChoiceBox.setItems(collections);
 
         // Optionally set a default value
-        if (!collections.isEmpty()) { collectionChoiceBox.getSelectionModel().selectFirst(); }
+        if ( !collections.isEmpty() ) { collectionChoiceBox.getSelectionModel().selectFirst(); }
     }
 
     /**
@@ -215,53 +216,6 @@ public class EditBookDetailsController implements Initializable {
         }
     }
 
-    /**
-     * Handles the upload of an image file and sets it as the book's cover image.
-     * If the upload fails, an alert is shown to the user.
-     */
-    private void handleUploadImage() {
-        try {
-            // Create a window to upload the image
-            FileChooser fileChooser = new FileChooser();
-            Stage dialogStage = new Stage();
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
-                    new FileChooser.ExtensionFilter("PNG Files", "*.png")
-            );
-            File selectedFile = fileChooser.showOpenDialog(dialogStage);
-
-            // Save the contents of the image
-            image = new Image(String.valueOf(selectedFile));
-            String imagePath = image.getUrl();
-            imageBytes = imageToBytes(imagePath);
-
-            // Display the image that was uploaded
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(300);
-            imageView.setFitHeight(400);
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Image Loaded Successfully!");
-            alert.setHeaderText("The selected image was successfully loaded.");
-            alert.setGraphic(imageView);
-            alert.showAndWait();
-
-        } catch (Exception e) {
-            AlertManager.getInstance().showAlert("Error", noImageUploadMessage, AlertType.ERROR);
-        }
-    }
-
-    /**
-     * Handles turning an image into a BLOB for input into the database.
-     * If the upload fails, an alert is shown to the user.
-     */
-    private byte[] imageToBytes(String imagePath) {
-        try {
-            Path path = Paths.get(imagePath);
-            return Files.readAllBytes(path);
-        } catch (Exception e) {
-            AlertManager.getInstance().showAlert("Error", failedImageConversionMessage, AlertType.ERROR); return new byte[0];
-        }
-    }
 
     /**
      * Updates the book in the database
@@ -278,6 +232,7 @@ public class EditBookDetailsController implements Initializable {
     private void updateBook(int collectionId, String title, String isbn, String author, String description,
                             String publisher, String publicationDate, String pages, String note, String readingStatus) {
 
+        // Update the book in the database
         Book newBook = new Book(collectionId, title, isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
         BookDAO.getInstance().update(newBook, originalTitle);
         clearFields();

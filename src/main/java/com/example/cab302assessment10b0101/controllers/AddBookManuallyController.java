@@ -97,7 +97,7 @@ public class AddBookManuallyController extends BookForm implements Initializable
         // Get the selected collection's ID
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
-        // Get the input values from the fields
+        // Get the remaining input values from the fields
         String title = titleTextField.getText();
         String isbn = isbnTextField.getText();
         String author = authorTextField.getText();
