@@ -194,8 +194,21 @@ public class AddBookSearchController {
         bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
         bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
 
-        // Load the image in a similar way using bookDetails.get("imageUrl")
+        // Handle the image display
+        String imageUrl = bookDetails.get("imageUrl");
+        byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? downloadImage(imageUrl) : loadDefaultImage();
+
+        if (imageBytes != null) {
+            try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
+                bookImageView.setImage(new Image(inputStream));  // Set the image in ImageView
+            } catch (IOException e) {
+                System.err.println("Error displaying image: " + e.getMessage());
+            }
+        } else {
+            System.err.println("Error: Image bytes are null, setting default image failed.");
+        }
     }
+
 
 
     @FXML
