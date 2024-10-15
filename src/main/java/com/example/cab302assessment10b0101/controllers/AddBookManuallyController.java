@@ -13,15 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -30,7 +23,7 @@ import java.util.ResourceBundle;
  * The AddBookManuallyController class handles the manual addition of a book in the system.
  * It retrieves data from the UI, validates it, and stores the book information in the database.
  */
-public class AddBookManuallyController implements Initializable {
+public class AddBookManuallyController extends BookForm implements Initializable {
 
     // FXML UI components used for adding book details
     @FXML
@@ -73,7 +66,7 @@ public class AddBookManuallyController implements Initializable {
      * Initializes the controller, setting up event handlers and populating the collections list.
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         setupEventHandlers();
         populateCollections();
         populateReadingStatus();
@@ -84,7 +77,7 @@ public class AddBookManuallyController implements Initializable {
      * Sets up the event handlers for the buttons on the page.
      */
     private void setupEventHandlers() {
-        addImageButton.setOnAction(e -> handleUploadImage()); // Handles image upload
+        addImageButton.setOnAction(e -> image = uploadImage()); // Handles image upload
         addBookButton.setOnAction(event -> handleAddBook()); // Handles adding the book
         addCollectionLink.setOnAction(event -> handleAddCollectionLink()); // Handles clicking on add collection link
     }
@@ -116,7 +109,7 @@ public class AddBookManuallyController implements Initializable {
         String readingStatus = readingStatusChoiceBox.getSelectionModel().getSelectedItem();
 
         // Ensure that a date is selected
-        try { publicationDate.getDayOfMonth();}
+        try { publicationDate.getDayOfMonth(); }
         catch ( Exception e ) { AlertManager.getInstance().showAlert("Error: No Date", "Please enter a publication date.", AlertType.ERROR); return; }
 
         // Format the publication Date as a String (YYYY-MM-DD)
@@ -158,7 +151,7 @@ public class AddBookManuallyController implements Initializable {
         collectionChoiceBox.setItems(collections);
 
         // Populate the choice box if collections exist
-        if (!collections.isEmpty()) {
+        if ( !collections.isEmpty() ) {
             collectionChoiceBox.getSelectionModel().selectFirst(); // Set default selection
         }
     }
@@ -184,56 +177,6 @@ public class AddBookManuallyController implements Initializable {
      * @return True if a collection is selected, otherwise false.
      */
     private boolean collectionSelected() { return collectionChoiceBox.getSelectionModel().getSelectedItem() != null; }
-
-    /**
-     * Handles the image upload process.
-     */
-    private void handleUploadImage() {
-        try {
-            // FileChooser for uploading a book image.
-            FileChooser fileChooser = new FileChooser();
-
-            // Create a window to upload the image
-            Stage dialogStage = new Stage();
-
-            // Set allowed file types
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
-                    new FileChooser.ExtensionFilter("PNG Files", "*.png")
-            );
-            File selectedFile = fileChooser.showOpenDialog(dialogStage);
-
-            // Display the image that was uploaded
-            image = new Image(String.valueOf(selectedFile));
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(300);
-            imageView.setFitHeight(400);
-
-            // Display success message with an image preview
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Image Loaded Successfully!");
-            alert.setHeaderText("The selected image was successfully loaded.");
-            alert.setGraphic(imageView);
-            alert.showAndWait();
-
-        } catch ( Exception e ) {
-            AlertManager.getInstance().showAlert("Error", "Could not load an image.", AlertType.ERROR);
-        }
-    }
-
-    /**
-     * Converts the image file at the specified path to a byte array.
-     * @param imagePath The file path of the image.
-     * @return A byte array of the image or an empty array if conversion fails.
-     */
-    private byte[] imageToBytes(String imagePath) {
-        try {
-            Path path = Paths.get(imagePath);
-            return Files.readAllBytes(path);
-        } catch ( Exception e ) {
-            AlertManager.getInstance().showAlert("Error", "Could not convert the image to a byte array.", AlertType.ERROR); return new byte[0];
-        }
-    }
 
     /**
      * Save the book to the database
