@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Scraper class is responsible for scraping Google Books search results
@@ -120,6 +122,7 @@ public class Scraper {
         bookDetails.put("Author", doc.select("span:contains(Author)").next().text());
         bookDetails.put("Page Count", doc.select("span:contains(Page count)").next().text());
 
+
         // Scrape description
         String description = doc.select(".bHexk").text();
         if (description.isEmpty()) {
@@ -128,16 +131,39 @@ public class Scraper {
         bookDetails.put("Description", description);
 
         // Fetch book cover image using the ISBN from Open Library API
-        String imageUrl = "https://covers.openlibrary.org/b/isbn/" + firstIsbn + "-M.jpg";
+        //String imageUrl = "https://covers.openlibrary.org/b/isbn/" + firstIsbn + "-M.jpg";
+        //System.out.println("Cover Image URL: " + imageUrl);  // For verification
+        //bookDetails.put("imageUrl", imageUrl); // Store the cover image URL in the map
+
+        String bookId = extractBookId(bookUrl);
+
+        System.out.println(doc.id());
+        String imageUrl = "https://books.google.com/books/content?id=" + bookId + "&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
         System.out.println("Cover Image URL: " + imageUrl);  // For verification
-        bookDetails.put("imageUrl", imageUrl); // Store the cover image URL in the map
+        bookDetails.put("imageUrl", imageUrl);
+
+
+
+
 
         // Scrape publication date (adjusted)
         String publicationDateRaw = doc.select("span:contains(Published)").next().text();
         String formattedPublicationDate = formatDateString(publicationDateRaw);
         bookDetails.put("Publication Date", formattedPublicationDate);
 
+
+
         return bookDetails;
+    }
+
+    // Helper method to extract book ID from the URL
+    private String extractBookId(String bookUrl){
+        Pattern pattern = Pattern.compile("id=([^&]+)");
+        Matcher matcher = pattern.matcher(bookUrl);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";  // Return empty string if ID not found
     }
 
     public byte[] downloadImage(String imageUrl) {
