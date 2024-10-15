@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * The Book class represents a book entity in the library management system.
@@ -24,8 +25,34 @@ public class Book {
     private StringProperty publicationDate;
     // Method to get publication date as LocalDate
     public LocalDate getPublicationDateAsLocalDate() {
-        if (publicationDate == null || publicationDate.get() == null) return null; // Check if the property is null or empty
-        return LocalDate.parse(publicationDate.get(), DateTimeFormatter.ISO_DATE); // Use .get() to retrieve the String value
+        if (publicationDate == null || publicationDate.get() == null)
+            return null; // Check if the property is null or empty
+
+        String dateString = publicationDate.get();  // Get the string value of the date
+
+        // Define the two possible date formats
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("MM-dd-yyyy"); // Format for MM-dd-yyyy
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Format for yyyy-MM-dd
+        DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-d");  // Format for yyyy-MM-d (one-digit day)
+
+
+        // Try parsing with the first format
+        try {
+            return LocalDate.parse(dateString, formatter1);
+        } catch (DateTimeParseException e1) {
+            // If the first format fails, try the second one
+            try {
+                return LocalDate.parse(dateString, formatter2);
+            } catch (DateTimeParseException e2) {
+                // If the second format fails, try the third one
+                try {
+                    return LocalDate.parse(dateString, formatter3);
+                } catch (DateTimeParseException e3) {
+                    System.err.println("Error parsing date: " + dateString + ". None of the formats match.");
+                    return null;  // Handle the parsing error if none of the formats work
+                }
+            }
+        }
     }
     private StringProperty publisher;
     private IntegerProperty pages;

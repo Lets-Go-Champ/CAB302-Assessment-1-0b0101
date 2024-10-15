@@ -193,8 +193,12 @@ public class MyBooksController implements Initializable {
                 LocalDate date1 = b1.getPublicationDateAsLocalDate();
                 LocalDate date2 = b2.getPublicationDateAsLocalDate();
 
-                if (date1 == null) return 1; // Push nulls to the end
+                // Handle null values (null dates are pushed to the end)
+                if (date1 == null && date2 == null) return 0;  // Both dates are null
+                if (date1 == null) return 1;  // Push nulls to the end
                 if (date2 == null) return -1; // Push nulls to the end
+
+                // Compare actual dates
                 return date1.compareTo(date2);
             });
 
@@ -208,6 +212,7 @@ public class MyBooksController implements Initializable {
             updateBookGrid(books);
         }
     }
+
 
 
     /**
