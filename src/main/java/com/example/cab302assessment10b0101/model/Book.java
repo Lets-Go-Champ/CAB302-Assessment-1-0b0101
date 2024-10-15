@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The Book class represents a book entity in the library management system.
@@ -20,6 +22,11 @@ public class Book {
     private StringProperty author;
     private StringProperty description;
     private StringProperty publicationDate;
+    // Method to get publication date as LocalDate
+    public LocalDate getPublicationDateAsLocalDate() {
+        if (publicationDate == null || publicationDate.get() == null) return null; // Check if the property is null or empty
+        return LocalDate.parse(publicationDate.get(), DateTimeFormatter.ISO_DATE); // Use .get() to retrieve the String value
+    }
     private StringProperty publisher;
     private IntegerProperty pages;
     private StringProperty notes;

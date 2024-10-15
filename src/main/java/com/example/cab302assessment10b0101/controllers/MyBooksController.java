@@ -2,19 +2,28 @@ package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.control.ListView;
+import javafx.util.Callback;
+
+
 
 /**
  * The MyBooksController class displays the user's book collections
@@ -34,7 +43,8 @@ public class MyBooksController implements Initializable {
     private TextField searchTextField;
 
     @FXML
-    private ChoiceBox<String> filterChoiceBox; //Dropdown for selecting a filter
+    private ComboBox<String> filterComboBox;
+
 
     /**
      * This method is called automatically after the FXML file has been loaded.
@@ -53,16 +63,36 @@ public class MyBooksController implements Initializable {
 
         // Set up search functionality
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterBooks(newValue);  // Call method to filter books based on search query
+            filterBooks(newValue.trim());  // Trim whitespace from search input
         });
-        // Add sorting options to the ChoiceBox
-        filterChoiceBox.setItems(FXCollections.observableArrayList("Title", "Author", "Publication Date"));
 
-        // Set the default sorting option to "Title"
-        filterChoiceBox.getSelectionModel().select("Title");
+        // Add sorting options to the ComboBox
+        filterComboBox.getItems().addAll("Title", "Author", "Publication Date");
 
-        // Handle sorting when an option is selected
-        filterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        // Set the default value with "Sort by"
+        filterComboBox.setButtonCell(createCustomButtonCell("Sort by"));
+        filterComboBox.setPromptText("Sort by");
+
+        // Update the ComboBox items to display text
+        filterComboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(item);
+                        }
+                    }
+                };
+            }
+        });
+
+        // Add listener to handle selection and sorting
+        filterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 switch (newValue) {
                     case "Title":
@@ -78,6 +108,24 @@ public class MyBooksController implements Initializable {
             }
         });
     }
+
+    // Method to create a ListCell with the "Sort by" text
+    private ListCell<String> createCustomButtonCell(String text) {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(text);  // Show "Sort by" by default
+                } else {
+                    setText(item);  // Show the selected item text
+                }
+            }
+        };
+    }
+
+
+
 
     /**
      * Sorts the books by title in the currently selected collection and updates the book grid.
@@ -132,13 +180,33 @@ public class MyBooksController implements Initializable {
             // Get all books from the collection
             ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
 
-            // Sort by publication date
-            FXCollections.sort(books, (b1, b2) -> b1.getPublicationDate().compareTo(b2.getPublicationDate()));
+            // Log books before sorting
+            System.out.println("Books before sorting:");
+            for (Book book : books) {
+                System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
+            }
+
+            // Sort by publication date, handling null values
+            FXCollections.sort(books, (b1, b2) -> {
+                LocalDate date1 = b1.getPublicationDateAsLocalDate();
+                LocalDate date2 = b2.getPublicationDateAsLocalDate();
+
+                if (date1 == null) return 1; // Push nulls to the end
+                if (date2 == null) return -1; // Push nulls to the end
+                return date1.compareTo(date2);
+            });
+
+            // Log books after sorting
+            System.out.println("Books after sorting:");
+            for (Book book : books) {
+                System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
+            }
 
             // Update the book grid with sorted books
             updateBookGrid(books);
         }
     }
+
 
     /**
      * Sets up event handlers for handling user interactions with the UI.
@@ -173,6 +241,8 @@ public class MyBooksController implements Initializable {
         if (selectedCollection != null) {
             // Force reloading the books for the selected collection
             loadBooks(selectedCollection);
+        } else {
+            System.out.println("No collection selected.");
         }
     }
 
@@ -298,5 +368,7 @@ public class MyBooksController implements Initializable {
             updateBookGrid(filteredBooks);
         }
     }
+
+
 }
 
