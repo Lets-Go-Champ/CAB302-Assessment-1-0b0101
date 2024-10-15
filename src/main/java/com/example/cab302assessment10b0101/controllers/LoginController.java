@@ -68,32 +68,28 @@ public class LoginController {
             return;
         }
 
-        // Validate the login credentials
-        if (!isValidLogin(username, password)) {
-            AlertManager.getInstance().showAlert("Login Error", "Username and password do not match any existing account.", Alert.AlertType.ERROR);
-            return;
-        }
-
-        // Get the user from the database based on validated credentials
+        // Get the user from the database based on the provided credentials
         UserDAO userDAO = UserDAO.getInstance();
         User currentUser = userDAO.validateCredentials(username, password);
+
+        // Check if the user exists (i.e., username and password match exactly)
+        if (currentUser == null) {
+            // Display an error if login failed
+            AlertManager.getInstance().showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
+            return;
+        }
 
         // Load the collections associated with the current user
         List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
         currentUser.setCollections(FXCollections.observableArrayList(userCollections));
 
-        // If the user is valid, proceed with login
-        if (currentUser != null) {
-            UserManager.getInstance().setCurrentUser(null);
-            UserManager.getInstance().setCurrentUser(currentUser);
+        // Set the current user in the UserManager
+        UserManager.getInstance().setCurrentUser(currentUser);
 
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            ViewManager.getInstance().getViewFactory().closeStage(stage);
-            ViewManager.getInstance().getViewFactory().getClientScreen();
-        } else {
-            // Display an error if login failed
-            AlertManager.getInstance().showAlert("Login Error", "Invalid username or password.", Alert.AlertType.ERROR);
-        }
+        // Close the login stage and open the main application window
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        ViewManager.getInstance().getViewFactory().closeStage(stage);
+        ViewManager.getInstance().getViewFactory().getClientScreen();
     }
 
     /**
