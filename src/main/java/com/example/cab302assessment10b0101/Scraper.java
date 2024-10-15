@@ -130,20 +130,13 @@ public class Scraper {
         }
         bookDetails.put("Description", description);
 
-        // Fetch book cover image using the ISBN from Open Library API
-        //String imageUrl = "https://covers.openlibrary.org/b/isbn/" + firstIsbn + "-M.jpg";
-        //System.out.println("Cover Image URL: " + imageUrl);  // For verification
-        //bookDetails.put("imageUrl", imageUrl); // Store the cover image URL in the map
+        // Retrieve book cover image using the book ID from document
 
         String bookId = extractBookId(bookUrl);
 
-        System.out.println(doc.id());
         String imageUrl = "https://books.google.com/books/content?id=" + bookId + "&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
         System.out.println("Cover Image URL: " + imageUrl);  // For verification
         bookDetails.put("imageUrl", imageUrl);
-
-
-
 
 
         // Scrape publication date (adjusted)
