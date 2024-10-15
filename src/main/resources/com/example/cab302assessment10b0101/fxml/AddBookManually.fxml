@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ProgressIndicator?>
+
 <AnchorPane prefHeight="730" prefWidth="960" stylesheets="@../styles/addBookManually.css" xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.AddBookManuallyController">
 
@@ -23,58 +25,62 @@
     <VBox prefHeight="730" prefWidth="960" fx:id="addBookForm">
         <AnchorPane prefHeight="641" prefWidth="960">
             <ScrollPane prefHeight="600" prefWidth="935" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
-                        <AnchorPane prefHeight="800" prefWidth="911">
-                            <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
+                <AnchorPane prefHeight="800" prefWidth="911">
+                    <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
 
-                                <!-- Collection -->
-                                <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
-                                <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="395"/>
+                        <!-- Collection -->
+                        <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
+                        <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="395"/>
 
-                                <!-- Title -->
-                                <Label text="Title" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="titleTextField"/>
+                        <!-- Title -->
+                        <Label text="Title" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="titleTextField"/>
 
-                                <!-- ISBN -->
-                                <Label text="ID/ISBN" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="isbnTextField"/>
+                        <!-- ISBN -->
+                        <Label text="ID/ISBN" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="isbnTextField"/>
 
-                                <!-- Author -->
-                                <Label text="Author" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="authorTextField"/>
+                        <!-- Author -->
+                        <Label text="Author" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="authorTextField"/>
 
-                                <!-- Description -->
-                                <Label text="Description" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="descriptionTextField"/>
+                        <!-- Description -->
+                        <Label text="Description" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="descriptionTextField"/>
 
-                                <!-- Publisher/Date -->
-                                <Label text="Publisher" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="publisherTextField"/>
-                                <Label text="Publish Date" styleClass="manualAdd_labels"> </Label>
-                                <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="395"/>
+                        <!-- Publisher/Date -->
+                        <Label text="Publisher" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="publisherTextField"/>
+                        <Label text="Publish Date" styleClass="manualAdd_labels"> </Label>
+                        <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="395"/>
 
-                                <!-- Pages -->
-                                <Label text="Pages" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="pagesTextField"/>
+                        <!-- Pages -->
+                        <Label text="Pages" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="pagesTextField"/>
 
-                                <!-- Notes -->
-                                <Label text="Notes" styleClass="manualAdd_labels"> </Label>
-                                <TextField fx:id="notesTextField"/>
+                        <!-- Notes -->
+                        <Label text="Notes" styleClass="manualAdd_labels"> </Label>
+                        <TextField fx:id="notesTextField"/>
 
-                                <!-- Reading Status -->
-                                <Label text="Reading Status" styleClass="manualAdd_labels"> </Label>
+                        <!-- Reading Status -->
+                        <Label text="Reading Status" styleClass="manualAdd_labels"> </Label>
                                 <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="395"/>
 
-                                <!-- Buttons -->
-                                <HBox alignment="CENTER_RIGHT" spacing="20" prefHeight="100" prefWidth="200">
-                                    <VBox.margin>
-                                        <Insets top="10"/>
-                                    </VBox.margin>
-                                    <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128"> </Button>
-                                    <Button fx:id="addBookButton" text="Add Book" mnemonicParsing="false" > </Button>
-                                </HBox>
-                            </VBox>
-                        </AnchorPane>
+                        <!-- Buttons -->
+                        <HBox alignment="CENTER_RIGHT" spacing="20" prefHeight="100" prefWidth="200">
+                            <VBox.margin>
+                                <Insets top="10"/>
+                            </VBox.margin>
+                            <Button fx:id="addImageButton" text="Add Image" mnemonicParsing="false" layoutX="39" layoutY="1128"> </Button>
+                            <Button fx:id="addBookButton" text="Add Book" mnemonicParsing="false" > </Button>
+                        </HBox>
+
+                    </VBox>
+                </AnchorPane>
             </ScrollPane>
         </AnchorPane>
     </VBox>
+
+    <!-- Overlay ProgressIndicator -->
+    <ProgressIndicator fx:id="progressIndicator" layoutX="200" layoutY="200" visible="false"/>
 </AnchorPane>

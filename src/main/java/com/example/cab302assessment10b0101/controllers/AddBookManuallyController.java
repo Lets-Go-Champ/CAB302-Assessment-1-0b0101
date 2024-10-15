@@ -52,6 +52,8 @@ public class AddBookManuallyController extends BookForm implements Initializable
     private Image image; // Image field for storing the uploaded book cover image
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
+    @FXML
+    private ProgressIndicator progressIndicator; // ProgressIndicator when uploading an image
 
     @FXML
     private VBox emptyStateView; // If there are no collections
@@ -77,9 +79,15 @@ public class AddBookManuallyController extends BookForm implements Initializable
      * Sets up the event handlers for the buttons on the page.
      */
     private void setupEventHandlers() {
-        addImageButton.setOnAction(e -> image = uploadImage()); // Handles image upload
+        addImageButton.setOnAction(e -> handleUploadImage()); // Handles image upload
         addBookButton.setOnAction(event -> handleAddBook()); // Handles adding the book
         addCollectionLink.setOnAction(event -> handleAddCollectionLink()); // Handles clicking on add collection link
+    }
+
+    private void handleUploadImage() {
+        progressIndicator.setVisible(true);
+        image = uploadImage();
+        progressIndicator.setVisible(false);
     }
 
     /**

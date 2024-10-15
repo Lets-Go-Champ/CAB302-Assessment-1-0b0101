@@ -50,6 +50,8 @@ public class EditBookDetailsController extends BookForm implements Initializable
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
     @FXML
+    private ProgressIndicator progressIndicator; // ProgressIndicator when uploading an image
+    @FXML
     private Image image; // Image field for storing the uploaded book cover image
     private byte[] imageBytes; // Image as a byte array for storing/uploading the image
     private String originalTitle; // The original title of the book, before being updated.
@@ -74,7 +76,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
      * Initializes the controller, setting up event handlers and populating the collections list.
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         setupEventHandlers();
         populateCollections();
         populateReadingStatus();
@@ -92,7 +94,9 @@ public class EditBookDetailsController extends BookForm implements Initializable
      * Handles the update image action when the update image button is clicked.
      */
     private void handleUpdateImage() {
+        progressIndicator.setVisible(true);
         Image newImage = uploadImage();
+        progressIndicator.setVisible(false);
         if ( newImage != null ) { setCoverImage(newImage); setImageBytes(imageToBytes(image.getUrl())); }
     }
 
