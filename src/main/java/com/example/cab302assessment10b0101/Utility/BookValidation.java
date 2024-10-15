@@ -41,7 +41,8 @@ public class BookValidation {
 
     /**
      * Validates if all the field values entered for a book are valid
-     * @param title The title of the book
+     * @param newTitle The new title of the book
+     * @param originalTitle The original title of the book
      * @param isbn The ISBN of the book
      * @param author The author of the book
      * @param description The description of the book
@@ -51,10 +52,10 @@ public class BookValidation {
      * @param readingStatus The current reading status of the book
      * @return True if all fields are valid, False otherwise
      */
-    public boolean validFields(String title, String isbn, String author, String description, String publisher, String pages, String notes, String readingStatus) {
+    public boolean validFields(String newTitle, String originalTitle, String isbn, String author, String description, String publisher, String pages, String notes, String readingStatus) {
 
-        if ( title.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Title", noTitleErrorMessage, Alert.AlertType.ERROR); return false; }
-        if ( titleExists(title) ) { AlertManager.getInstance().showAlert("Error: Title Exists", titleExistsMessage, Alert.AlertType.ERROR); return false; }
+        if ( newTitle.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Title", noTitleErrorMessage, Alert.AlertType.ERROR); return false; }
+        if ( titleExists(newTitle, originalTitle) ) { AlertManager.getInstance().showAlert("Error: Title Exists", titleExistsMessage, Alert.AlertType.ERROR); return false; }
         if ( isbn.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No ISBN", noISBNMessage, Alert.AlertType.ERROR); return false; }
         if ( !isValidISBN(isbn) ) { AlertManager.getInstance().showAlert("Error: Invalid ISBN", invalidISBNMessage, Alert.AlertType.ERROR); return false; }
         if ( author.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Author", noAuthorErrorMessage, Alert.AlertType.ERROR); return false; }
@@ -87,7 +88,6 @@ public class BookValidation {
 
     /**
      * Validates if the pages count is a positive integer.
-     *
      * @param pages The page count as a string.
      * @return True if valid, otherwise false.
      */
@@ -98,17 +98,21 @@ public class BookValidation {
 
     /**
      * Determines if the given title is already assigned to a Book in the Users Books
-     * @param title The new title for a book
+     * @param newTitle The new title for a book
+     * @param originalTitle The original title for a book
      * @return True if title is assigned to another book; false otherwise
      */
-    private boolean titleExists(String title) {
+    private boolean titleExists(String newTitle, String originalTitle) {
         User currentUser = UserManager.getInstance().getCurrentUser();
         List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
 
-        // Iterate over each book in the User's collection to determine if the title is in use
-        for ( Collection collection : userCollections ) {
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
-            for ( Book book : books ) { if (book.getTitle().equals(title)) { return true; } }
+        // If the title has been changed...
+        if ( !newTitle.equals(originalTitle) ) {
+            // Iterate over each book in the User's collection to determine if the title is in use
+            for (Collection collection : userCollections) {
+                ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
+                for (Book book : books) { if (book.getTitle().equals(newTitle)) { return true; } }
+            }
         }
         return false;
     }

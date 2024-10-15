@@ -1,6 +1,7 @@
 package com.example.cab302assessment10b0101.controllers;
 
 import com.example.cab302assessment10b0101.Utility.AlertManager;
+import com.example.cab302assessment10b0101.Utility.BookValidation;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +21,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.cab302assessment10b0101.model.BookDAO;
@@ -59,39 +59,15 @@ public class EditBookDetailsController implements Initializable {
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
 
-    private Image image; //Image field for storing the uploaded book cover image
-    private byte[] imageBytes; //Image as a byte array for storing/uploading the image
+    private Image image; // Image field for storing the uploaded book cover image
+    private byte[] imageBytes; // Image as a byte array for storing/uploading the image
+    private String originalTitle; // The original title of the book, before being updated.
 
-    private String originalTitle; //The original title of the book, before being updated.
-
-    //Error messages for input validation
-    final String noCollectionMessage = "Please select a collection.";
-    final String noTitleErrorMessage = "Please enter a Title.";
-    final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
-    final String noISBNMessage = "Please enter an ISBN.";
-    final String invalidISBNMessage = "The ISBN must be 10 digits long and only contain digits 0-9.";
-    final String noAuthorErrorMessage = "Please enter an Author.";
-    final String noDescriptionMessage = "Please enter a description";
-    final String noPublisherMessage = "Please enter a publisher.";
-    final String noPagesMessage = "Please enter a page count.";
-    final String invalidPagesMessage = "Please enter a valid page count ( >0).";
-    final String noNoteMessage = "Please enter a note.";
-    final String noImageMessage = "Please select a cover image.";
+    // Error messages for input validation
     final String noImageUploadMessage = "Could not load an image.";
     final String failedImageConversionMessage = "Could note convert the image to a byte array.";
+    final String dateParseErrorMessage = "Failed to parse the Book's date.";
     final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
-    final String noReadingStatusMessage = "Please select a reading status.";
-
-    /**
-     * Sets the selected collection in the ChoiceBox based on the collection ID.
-     *
-     * @param collectionID The ID of the collection to set.
-     */
-    private void setCollectionChoiceBox(int collectionID) {
-        for ( Collection collection : CollectionDAO.getInstance().getAll() ) {
-            if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
-        }
-    }
 
     // Sets the fields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
@@ -147,7 +123,7 @@ public class EditBookDetailsController implements Initializable {
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
         // Ensure all fields have values
-        if (validateFields(title, isbn, author, description, publisher, pages, notes, readingStatus)) {
+        if (BookValidation.getInstance().validFields(title, originalTitle, isbn, author, description, publisher, pages, notes, readingStatus)) {
             // Update the book
             updateBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             AlertManager.getInstance().showAlert("Success", "Book has been updated successfully!", AlertType.INFORMATION);
@@ -173,12 +149,33 @@ public class EditBookDetailsController implements Initializable {
         // Try each formatter in the array
         for (DateTimeFormatter formatter : formatters) {
             try { parsedDate = LocalDate.parse(date, formatter); break; }
-            catch (DateTimeParseException e) {}
+            catch ( DateTimeParseException e ) {
+                AlertManager.getInstance().showAlert("Error: Date Parse", dateParseErrorMessage, AlertType.ERROR);
+            }
         }
 
         // If parsedDate is not null, update the DatePicker; otherwise, handle error
         if (parsedDate != null) { setDateDatePicker(parsedDate); }
         else { AlertManager.getInstance().showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
+    }
+
+    /**
+     * Populates the fields with the book's existing details
+     */
+    public void populateFields(Book book) {
+        originalTitle = book.getTitle();
+        setTitleTextField(book.getTitle());
+        setCollectionChoiceBox(book.getCollectionId());
+        setIsbnTextField(book.getISBN());
+        setAuthorTextField(book.getAuthor());
+        setDescriptionTextField(book.getDescription());
+        setPublisherTextField(book.getPublisher());
+        formatDate(book.getPublicationDate());
+        setPagesTextField(Integer.toString(book.getPages()));
+        setNotesTextField(book.getNotes());
+        setCoverImage(book.getImage());
+        setImageBytes(book.getBytes());
+        setReadingStatusChoiceBox(book.getReadingStatus());
     }
 
     /**
@@ -209,108 +206,13 @@ public class EditBookDetailsController implements Initializable {
     }
 
     /**
-     * Populates the fields with the book's existing details
+     * Sets the selected collection in the ChoiceBox based on the collection ID.
+     * @param collectionID The ID of the collection to set.
      */
-    public void populateFields(Book book) {
-        originalTitle = book.getTitle();
-        setTitleTextField(book.getTitle());
-        setCollectionChoiceBox(book.getCollectionId());
-        setIsbnTextField(book.getISBN());
-        setAuthorTextField(book.getAuthor());
-        setDescriptionTextField(book.getDescription());
-        setPublisherTextField(book.getPublisher());
-        formatDate(book.getPublicationDate());
-        setPagesTextField(Integer.toString(book.getPages()));
-        setNotesTextField(book.getNotes());
-        setCoverImage(book.getImage());
-        setImageBytes(book.getBytes());
-        setReadingStatusChoiceBox(book.getReadingStatus());
-    }
-
-    /**
-     * Determines if all the fields entered for a book are valid
-     * @param title The title of the book
-     * @param isbn The ISBN of the book
-     * @param author The author of the book
-     * @param description The description of the book
-     * @param publisher The publisher of the book
-     * @param pages The book's page count
-     * @param notes The user added notes for the book
-     * @return True if all fields are valid, False otherwise
-     */
-    private boolean validateFields(String title, String isbn, String author, String description,
-                                   String publisher, String pages, String notes, String readingStatus) {
-        if ( !collectionSelected() ) { AlertManager.getInstance().showAlert("Error: No Collection", noCollectionMessage, AlertType.ERROR); return false; }
-        if ( title.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Title", noTitleErrorMessage, AlertType.ERROR); return false; }
-        if ( titleExists(title) ) { AlertManager.getInstance().showAlert("Error: Title Exists", titleExistsMessage, AlertType.ERROR); return false; }
-        if ( isbn.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No ISBN", noISBNMessage, AlertType.ERROR); return false; }
-        if ( !isValidISBN(isbn) ) { AlertManager.getInstance().showAlert("Error: Invalid ISBN", invalidISBNMessage, AlertType.ERROR); return false; }
-        if ( author.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Author", noAuthorErrorMessage, AlertType.ERROR); return false; }
-        if ( description.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Description", noDescriptionMessage, AlertType.ERROR); return false; }
-        if ( publisher.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Publisher", noPublisherMessage, AlertType.ERROR); return false; }
-        if ( pages.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Page Count", noPagesMessage, AlertType.ERROR); return false; }
-        if ( !isPagesValid(pages) ) { AlertManager.getInstance().showAlert("Error: Invalid Page Count", invalidPagesMessage, AlertType.ERROR); return false; }
-        if ( notes.isEmpty() ) { AlertManager.getInstance().showAlert("Error: No Note", noNoteMessage, AlertType.ERROR); return false; }
-        if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", noImageMessage, AlertType.ERROR); return false; }
-        if (readingStatus == null || readingStatus.isEmpty()) { AlertManager.getInstance().showAlert("Error: No Reading Status", noReadingStatusMessage, AlertType.ERROR); return false; }
-        return true;
-    }
-
-    /**
-     * Validates if the ISBN consists of exactly 10 digits and is numeric.
-     *
-     * @param isbn The ISBN string.
-     * @return True if valid, otherwise false.
-     */
-    private boolean isValidISBN(String isbn) {
-        // Check if ISBN is exactly 10 digits long
-        if (isbn == null || isbn.length() != 10) {
-            return false;
+    private void setCollectionChoiceBox(int collectionID) {
+        for ( Collection collection : CollectionDAO.getInstance().getAll() ) {
+            if ( collection.getId() == collectionID ) { collectionChoiceBox.setValue(collection); }
         }
-        // Check if the ISBN is numeric and fits within the range of an int
-        try {
-            Integer.parseInt(isbn);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Checks if the provided pages value is valid (greater than zero)
-     * @param pages The page count to validate
-     * @return True if pages is a valid number greater than zero, False otherwise
-     */
-    private boolean isPagesValid(String pages) {
-        try { int pagesToInt = Integer.parseInt(pages); return ( pagesToInt > 0 );}
-        catch (Exception e ) { return false; }
-    }
-
-    /**
-     * Determines if the given title is already assigned to a Book in the Users Books
-     * @param title The new title for a book
-     * @return True if title is assigned to another book; false otherwise
-     */
-    private boolean titleExists(String title) {
-        User currentUser = UserManager.getInstance().getCurrentUser();
-        List<Collection> userCollections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
-
-        if ( !title.equals(originalTitle) ) {
-            // Iterate over each book in the User's collection to determine if the title is in use
-            for (Collection collection : userCollections) {
-                ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collection.getId());
-                for (Book book : books) { if (book.getTitle().equals(title)) { return true; } }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if a collection is selected in the ChoiceBox
-     * @return True if a collection is selected, False otherwise
-     */
-    private boolean collectionSelected() {
-        return collectionChoiceBox.getSelectionModel().getSelectedItem() != null;
     }
 
     /**

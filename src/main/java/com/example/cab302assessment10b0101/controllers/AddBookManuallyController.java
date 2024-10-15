@@ -129,7 +129,7 @@ public class AddBookManuallyController implements Initializable {
         if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
 
         // Validate remaining input fields
-        if ( BookValidation.getInstance().validFields(title, isbn, author, description, publisher, pages, notes, readingStatus) ) {
+        if ( BookValidation.getInstance().validFields(title, title, isbn, author, description, publisher, pages, notes, readingStatus) ) {
 
             // Save the book to the database
             saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
