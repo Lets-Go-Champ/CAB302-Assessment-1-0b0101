@@ -31,28 +31,46 @@ public class Scraper {
         Elements searchResults = doc.select(".bHexk");
 
         List<Map<String, String>> books = new ArrayList<>();
+        int scrapeCount = 0;  // Initialize counter for limiting scrapeBookDetails calls
 
         for (Element result : searchResults) {
             String bookTitle = result.select("h3").text();
             String bookUrl = result.select("a").attr("href");
 
+            // Ensure we only process up to 5 books
+            if (scrapeCount >= 5) {
+                break;
+            }
+
+            // Validate the URL
+            if (bookUrl == null || bookUrl.isEmpty()) {
+                System.err.println("Skipping book with empty URL: " + bookTitle);
+                continue;  // Skip this result if the URL is empty
+            }
+
             if (!bookUrl.startsWith("http")) {
                 bookUrl = "https://books.google.com" + bookUrl;
             }
 
-            Map<String, String> book = new HashMap<>();
-            book.put("title", bookTitle);
-            book.put("url", bookUrl);
+            // Print out the book URL for debugging
+            System.out.println("Book URL: " + bookUrl);
 
-            books.add(book);
+            // Call scrapeBookDetails to fetch all the necessary details for the book
+            Map<String, String> bookDetails = scrapeBookDetails(bookUrl);
+            bookDetails.put("title", bookTitle);  // Add the title from search results
 
-            if (books.size() >= 5) {
-                break;
-            }
+            // Add the book details to the list
+            books.add(bookDetails);
+
+            // Increment the scrape count after successfully scraping details
+            scrapeCount++;
         }
 
         return books;
     }
+
+
+
 
     /**
      * Scrapes detailed information about a specific book from Google Books.
@@ -62,6 +80,14 @@ public class Scraper {
      * @throws IOException If there's an error during the scraping process.
      */
     public Map<String, String> scrapeBookDetails(String bookUrl) throws IOException {
+        // Log the URL being used in the scraping process
+        System.out.println("Attempting to scrape details from URL: " + bookUrl);
+
+        // Ensure the URL is not empty
+        if (bookUrl == null || bookUrl.isEmpty()) {
+            throw new IOException("Error: The book URL is empty.");
+        }
+
         // Connect to the book URL and fetch the HTML document
         Document doc = Jsoup.connect(bookUrl).get();
 

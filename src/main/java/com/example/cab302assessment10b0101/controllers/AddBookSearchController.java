@@ -95,35 +95,43 @@ public class AddBookSearchController {
                 Platform.runLater(() -> {
                     if (!searchResults.isEmpty()) {
                         currentIndex = 0;
-                        loadBookDetails(searchResults.get(currentIndex).get("url"));
+                        loadPreloadedBookDetails(searchResults.get(currentIndex));  // Load the first book's details
                         prevButton.setDisable(true);
                         nextButton.setDisable(searchResults.size() <= 1);
                         addBookButton.setDisable(false);
+
+                        progressIndicator.setVisible(false);  // Stop progress indicator
+
                     } else {
                         showAlert("Error", "No results found.", Alert.AlertType.ERROR);
+                        progressIndicator.setVisible(false);  // Stop progress indicator
+
                     }
                     searchButton.setDisable(false);
                 });
             } catch (IOException e) {
                 Platform.runLater(() -> showAlert("Error", "Failed to retrieve search results.", Alert.AlertType.ERROR));
-                searchButton.setDisable(false);
+                progressIndicator.setVisible(false);  // Stop progress indicator in case of error
             }
+            searchButton.setDisable(false);
         }).start();
     }
 
     private void loadBookDetails(String bookUrl) {
+        if (bookUrl == null || bookUrl.isEmpty()) {
+            System.err.println("Error: Attempting to load a null or empty book URL.");
+            return;
+        }
+
+        System.out.println("Loading book details for URL: " + bookUrl);
+
         new Thread(() -> {
             try {
-                // Fetch the full book details from the URL
                 Map<String, String> bookDetails = scraper.scrapeBookDetails(bookUrl);
 
-                // Get the title from the search result (already scraped in the search method)
-                String titleFromSearch = searchResults.get(currentIndex).get("title");  // Get the title from search results
-
                 Platform.runLater(() -> {
-                    // Use title from search results for consistency
-                    bookTitleLabel.setText("Title: " + titleFromSearch);
-
+                    // Update the UI with the details
+                    bookTitleLabel.setText("Title: " + bookDetails.get("title"));
                     bookAuthorLabel.setText("Author: " + bookDetails.getOrDefault("Author", "No Author"));
                     bookIsbnLabel.setText("ISBN: " + bookDetails.getOrDefault("ISBN", "No ISBN"));
                     bookPublisherLabel.setText("Publisher: " + bookDetails.getOrDefault("Publisher", "No Publisher"));
@@ -131,11 +139,9 @@ public class AddBookSearchController {
                     bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
                     bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
 
-                    // Load the book cover image
+                    // Load the image
                     String imageUrl = bookDetails.get("imageUrl");
                     byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? downloadImage(imageUrl) : loadDefaultImage();
-
-                    // Convert the byte[] to an InputStream and load the image in the ImageView
                     if (imageBytes != null) {
                         try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
                             bookImageView.setImage(new Image(inputStream));
@@ -143,8 +149,6 @@ public class AddBookSearchController {
                             System.err.println("Error displaying image: " + e.getMessage());
                         }
                     }
-                    // Stop the progress indicator after the UI is updated
-                    progressIndicator.setVisible(false);
                 });
             } catch (IOException e) {
                 Platform.runLater(() -> showAlert("Error", "Failed to retrieve book details.", Alert.AlertType.ERROR));
@@ -157,17 +161,13 @@ public class AddBookSearchController {
     public void handleNextButton() {
         if (currentIndex < searchResults.size() - 1) {
             currentIndex++;
-            new Thread(() -> {
-                loadBookDetails(searchResults.get(currentIndex).get("url"));
+            loadPreloadedBookDetails(searchResults.get(currentIndex));
 
-                Platform.runLater(() -> {
-                    prevButton.setDisable(currentIndex == 0);
-                    nextButton.setDisable(currentIndex == searchResults.size() - 1);
+            // Enable the prev button when we're not on the first book anymore
+            prevButton.setDisable(false);
 
-                    // Hide the progress indicator when done
-                    progressIndicator.setVisible(false);
-                });
-            }).start();
+            // Disable the next button if we're on the last book
+            nextButton.setDisable(currentIndex == searchResults.size() - 1);
         }
     }
 
@@ -175,19 +175,26 @@ public class AddBookSearchController {
     public void handlePrevButton() {
         if (currentIndex > 0) {
             currentIndex--;
+            loadPreloadedBookDetails(searchResults.get(currentIndex));
 
-            new Thread(() -> {
-                loadBookDetails(searchResults.get(currentIndex).get("url"));
-
-                Platform.runLater(() -> {
-                    prevButton.setDisable(currentIndex == 0);
-                    nextButton.setDisable(currentIndex == searchResults.size() - 1);
-
-                    // Hide the progress indicator when done
-                    progressIndicator.setVisible(false);
-                });
-            }).start();
+            // Enable/disable next button appropriately
+            nextButton.setDisable(false);  // Re-enable the next button if moving back
+            prevButton.setDisable(currentIndex == 0);  // Disable prev button if on the first book
         }
+    }
+
+
+    private void loadPreloadedBookDetails(Map<String, String> bookDetails) {
+        // Use the preloaded details to update the UI without making new API calls
+        bookTitleLabel.setText("Title: " + bookDetails.get("title"));
+        bookAuthorLabel.setText("Author: " + bookDetails.getOrDefault("Author", "No Author"));
+        bookIsbnLabel.setText("ISBN: " + bookDetails.getOrDefault("ISBN", "No ISBN"));
+        bookPublisherLabel.setText("Publisher: " + bookDetails.getOrDefault("Publisher", "No Publisher"));
+        bookPagesLabel.setText("Pages: " + bookDetails.getOrDefault("Page Count", "No Pages"));
+        bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
+        bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
+
+        // Load the image in a similar way using bookDetails.get("imageUrl")
     }
 
 
@@ -204,91 +211,45 @@ public class AddBookSearchController {
             return;
         }
 
-        // Disable the Add Book button and show progress
-        addBookButton.setDisable(true);
-        progressIndicator.setVisible(true);
-
-        // Get the selected book details
+        // Get the preloaded book details
         Map<String, String> bookDetails = searchResults.get(currentIndex);
 
-        // Retrieve the title from the search results (already scraped)
-        String titleFromSearch = bookDetails.get("title");
+        // Use the preloaded details directly to add the book to the database
+        String title = bookDetails.get("title");
+        String isbnStr = bookDetails.get("ISBN");
+        String author = bookDetails.get("Author");
+        String description = bookDetails.get("Description");
+        String publicationDate = bookDetails.get("Publication Date");
+        String publisher = bookDetails.get("Publisher");
+        String pageCountStr = bookDetails.get("Page Count");
 
-        new Thread(() -> {
-            try {
-                // Use scrapeBookDetails to fetch the rest of the information from the selectedBookUrl
-                Map<String, String> fullBookDetails = scraper.scrapeBookDetails(bookDetails.get("url"));
+        // Handle image download or set default image
+        byte[] imageBytes; // Declare the variable here
+        String imageUrl = bookDetails.get("imageUrl");
 
-                // Use the title from the search result, and the rest of the details from scrapeBookDetails
-                String title = titleFromSearch;  // We use the title from the initial search
-                String isbnStr = fullBookDetails.get("ISBN");
-                String author = fullBookDetails.get("Author");
-                String description = fullBookDetails.get("Description");
-                String publicationDate = fullBookDetails.get("Publication Date");
-                String publisher = fullBookDetails.get("Publisher");
-                String pageCountStr = fullBookDetails.get("Page Count");
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            imageBytes = downloadImage(imageUrl);  // Download the image
+        } else {
+            imageBytes = loadDefaultImage();  // Load default image if no URL found
+        }
+        // Create the book object and insert it into the database
+        Book newBook = new Book(
+                selectedCollection.getId(),
+                title,
+                isbnStr,
+                author,
+                description,
+                publicationDate,
+                publisher,
+                Integer.parseInt(pageCountStr),
+                "", // Notes
+                imageBytes,
+                "" // Reading status
+        );
 
-                // Image URL retrieved from the Scraper class
-                String imageUrl = fullBookDetails.get("imageUrl");
-                byte[] imageBytes;
-
-                // Download the image from Open Library API or set a default image
-                if (imageUrl != null && !imageUrl.isEmpty()) {
-                    imageBytes = downloadImage(imageUrl);
-                } else {
-                    imageBytes = loadDefaultImage();
-                }
-
-                // Parse page count
-                int pages = 0;
-                if (pageCountStr != null && !pageCountStr.isEmpty()) {
-                    pages = Integer.parseInt(pageCountStr);
-                }
-
-                // Use "No Description Found" as the default if description is empty
-                if (description == null || description.isEmpty()) {
-                    description = "No Description Found";
-                }
-
-                // Create the book object and insert it into the database
-                Book newBook = new Book(
-                        selectedCollection.getId(),
-                        title,  // Use the title from the search
-                        isbnStr,
-                        author,
-                        description,
-                        publicationDate,
-                        publisher,
-                        pages,
-                        "", // Notes are empty for now
-                        imageBytes,
-                        "" // Reading status not set
-                );
-
-                BookDAO.getInstance().insert(newBook); // Insert the book into the database
-
-                // Update UI on the main thread
-                Platform.runLater(() -> {
-                    showAlert("Success", "Book added successfully to the collection.", Alert.AlertType.INFORMATION);
-
-                    // Reset the fields after successful addition
-                    resetBookDetailsDisplay();
-
-                    addBookButton.setDisable(false);
-                    progressIndicator.setVisible(false);
-                });
-
-            } catch (IOException e) {
-                Platform.runLater(() -> showAlert("Error", "Failed to retrieve book details.", Alert.AlertType.ERROR));
-                addBookButton.setDisable(false);
-                progressIndicator.setVisible(false);
-            } catch (NumberFormatException e) {
-                Platform.runLater(() -> showAlert("Error", "Invalid number format in book details.", Alert.AlertType.ERROR));
-                addBookButton.setDisable(false);
-                progressIndicator.setVisible(false);
-            }
-        }).start();
+        BookDAO.getInstance().insert(newBook); // Insert the book into the database
     }
+
 
     /**
      * Resets the book details display and disables navigation buttons.
