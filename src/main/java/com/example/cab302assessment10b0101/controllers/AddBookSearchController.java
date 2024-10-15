@@ -222,9 +222,21 @@ public class AddBookSearchController {
         // Get the preloaded book details
         Map<String, String> bookDetails = searchResults.get(currentIndex);
 
+        String isbnStr = bookDetails.get("ISBN");
+
+        // Fetch all books from the selected collection only
+        ObservableList<Book> booksInCollection = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+
+        // Check if a book with the same ISBN already exists in the selected collection
+        boolean isDuplicate = booksInCollection.stream().anyMatch(book -> book.getISBN().equals(isbnStr));
+
+        if (isDuplicate) {
+            showAlert("Error", "A book with the same ISBN already exists in this collection!", Alert.AlertType.ERROR);
+            return;  // Stop the process if duplicate is found
+        }
+
         // Use the preloaded details directly to add the book to the database
         String title = bookDetails.get("title");
-        String isbnStr = bookDetails.get("ISBN");
         String author = bookDetails.get("Author");
         String description = bookDetails.get("Description");
         String publicationDate = bookDetails.get("Publication Date");
