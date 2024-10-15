@@ -204,20 +204,20 @@ public class Scraper {
     private String formatDateString(String dateStr) {
         SimpleDateFormat inputFormatFull = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
         SimpleDateFormat inputFormatYear = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");  // Database format
 
         try {
             // Try parsing full date (e.g., "14 September 2008")
             Date date = inputFormatFull.parse(dateStr);
-            return outputFormat.format(date);
+            return outputFormat.format(date);  // Convert to yyyy-MM-dd format
         } catch (ParseException e) {
             // If only the year is provided (e.g., "2008"), assume 01-01-YYYY
             try {
                 Date yearOnly = inputFormatYear.parse(dateStr);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(yearOnly);
-                calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.MONTH, Calendar.JANUARY);
+                calendar.set(Calendar.DAY_OF_MONTH, 1);  // Set default day to 1
+                calendar.set(Calendar.MONTH, Calendar.JANUARY);  // Set default month to January
                 return outputFormat.format(calendar.getTime());
             } catch (ParseException ex) {
                 // Handle unexpected formats by returning the original string
