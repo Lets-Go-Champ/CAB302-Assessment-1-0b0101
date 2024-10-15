@@ -52,6 +52,7 @@ public class AddBookManuallyController extends BookForm implements Initializable
     private Image image; // Image field for storing the uploaded book cover image
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
+
     @FXML
     private ProgressIndicator progressIndicator; // ProgressIndicator when uploading an image
 
@@ -60,7 +61,7 @@ public class AddBookManuallyController extends BookForm implements Initializable
 
     @FXML
     private VBox addBookForm; // Content to display if there are collections
-
+  
     @FXML
     private Hyperlink addCollectionLink;
 
@@ -164,6 +165,9 @@ public class AddBookManuallyController extends BookForm implements Initializable
         }
     }
 
+    /**
+     * Sets up bindings for the state view to the collectionChoiceBox
+     */
     private void setupBindings() {
         // Bind the visibility of the empty state view to whether the collectionChoiceBox has items
         emptyStateView.visibleProperty().bind(Bindings.createBooleanBinding(
