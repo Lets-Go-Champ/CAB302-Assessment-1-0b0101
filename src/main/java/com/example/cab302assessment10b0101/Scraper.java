@@ -47,7 +47,7 @@ public class Scraper {
             String bookTitle = result.select("h3").text();
             String bookUrl = result.select("a").attr("href");
 
-            if (scrapeCount >= 2) {
+            if (scrapeCount >= 5) {
                 break;
             }
 
