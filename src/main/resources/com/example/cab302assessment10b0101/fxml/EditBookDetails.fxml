@@ -8,6 +8,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -27,6 +28,7 @@
             <VBox.margin>
                 <Insets left="20"/>
             </VBox.margin>
+
             <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
 
                 <!-- Collection -->
@@ -79,4 +81,7 @@
             </VBox>
         </ScrollPane>
     </VBox>
+
+    <!-- Overlay ProgressIndicator -->
+    <ProgressIndicator fx:id="progressIndicator" layoutX="200" layoutY="300" visible="false"/>
 </AnchorPane>

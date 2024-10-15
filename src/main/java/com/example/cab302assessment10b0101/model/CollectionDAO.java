@@ -127,8 +127,6 @@ public class CollectionDAO {
         } catch (SQLException e) {
             System.err.println("Error retrieving collections by User and Collection Name: " + e.getMessage());
         }
-
-
         return collectionId;
     }
 

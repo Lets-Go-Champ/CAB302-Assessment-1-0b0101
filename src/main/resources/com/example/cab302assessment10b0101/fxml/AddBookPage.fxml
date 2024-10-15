@@ -21,7 +21,7 @@
             </VBox.margin>
             <TabPane fx:id="addBookTabPane" prefHeight="730" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Search">
-                    <!-- <fx:include source="SearchBookTab.fxml"/>-->
+                    <fx:include source="AddBookSearch.fxml"/>
                 </Tab>
                 <Tab text="Manual Entry">
                     <fx:include source="AddBookManually.fxml"/>
