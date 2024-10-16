@@ -12,48 +12,50 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../styles/addBookManually.css"
            fx:controller="com.example.cab302assessment10b0101.controllers.AddBookSearchController">
 
-    <AnchorPane prefHeight="730" prefWidth="960">
+    <ScrollPane maxHeight="600" prefWidth="900" hbarPolicy="NEVER" vbarPolicy="ALWAYS" translateY="-40">
 
-        <VBox prefHeight="730" prefWidth="960" fx:id="emptyStateView" alignment="CENTER" managed="false" spacing="10" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" translateY="-100">
-            <Label style="-fx-font-size: 18px;" text="You must create a collection before trying to add books"/>
-            <Hyperlink fx:id="addCollectionLink" text="Click here to add a collection" onAction="#handleAddCollectionLink"/>
-        </VBox>
+        <AnchorPane prefHeight="730" prefWidth="960">
+
+            <VBox prefHeight="730" prefWidth="960" fx:id="emptyStateView" alignment="CENTER" managed="false" spacing="10" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" translateY="-100">
+                <Label style="-fx-font-size: 18px;" text="You must create a collection before trying to add books"/>
+                <Hyperlink fx:id="addCollectionLink" text="Click here to add a collection" onAction="#handleAddCollectionLink"/>
+            </VBox>
 
 
-        <!-- The existing search and form -->
-        <VBox prefHeight="730" prefWidth="960" spacing="10" fx:id="addBookForm">
 
-            <!-- Collection and Search Section -->
-            <Label text="Add to Collection">
-                <font>
-                    <Font name="System Bold" size="24.0"/>
-                </font>
-            </Label>
-            <ChoiceBox fx:id="collectionChoiceBoxSearch" prefHeight="25.0" prefWidth="352.0"/>
+            <!-- The existing search and form -->
+            <VBox prefHeight="730" prefWidth="960" fx:id="addBookForm" AnchorPane.leftAnchor="15">
 
-            <!-- Search Bar Section -->
-            <Label text="Search Book by Title:"/>
-            <HBox spacing="10">
-                <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="400.0" promptText="Enter book title"/>
-                <Button fx:id="searchButton" text="Search" prefHeight="25.0" prefWidth="100.0" onAction="#handleSearchButton"/>
-            </HBox>
 
-            <!-- Scrollable Section (Search results, book details, etc.) -->
-            <ScrollPane prefHeight="550" prefWidth="900" hbarPolicy="NEVER" vbarPolicy="ALWAYS" fitToWidth="true" fitToHeight="true">
+                <!-- Collection and Search Section -->
+                <Label text="Add to Collection" styleClass="headings"> </Label>
+                <ChoiceBox fx:id="collectionChoiceBoxSearch" prefHeight="25" prefWidth="350"/>
+
+
+                <!-- Search Bar Section -->
+                <Label text="Search Book by Title:" styleClass="headings"/>
+                <HBox spacing="10">
+                    <TextField fx:id="searchTextField" prefHeight="25" prefWidth="350" promptText="Enter book title"/>
+                    <Button fx:id="searchButton" text="Search" prefHeight="25" prefWidth="100" onAction="#handleSearchButton"/>
+                </HBox>
+
+
+                <!-- Search Contents -->
                 <AnchorPane prefHeight="800" prefWidth="950">
                     <VBox layoutY="14" prefHeight="639" prefWidth="900" AnchorPane.leftAnchor="20" fx:id="bookDetailsContainer">
-                        <!-- Content inside the ScrollPane -->
+
+
+                        <!-- Search Results -->
                         <Label text="Search Results:" fx:id="searchResultsLabel" visible="false"/>
                         <HBox spacing="10">
                             <!-- Book Image on the left -->
-                            <ImageView fx:id="bookImageView" fitHeight="300.0" fitWidth="250.0"/>
+                            <ImageView fx:id="bookImageView" fitHeight="300" fitWidth="250"/>
                             <!-- Book Details on the right -->
-                            <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 0 0 0 70;">
+                            <VBox spacing="10" style="-fx-padding: 0 0 0 70;">
                                 <Label fx:id="bookTitleLabel" text="Title: " visible="false"/>
                                 <Label fx:id="bookAuthorLabel" text="Author: " visible="false"/>
                                 <Label fx:id="bookPublisherLabel" text="Publisher: " visible="false"/>
@@ -64,26 +66,30 @@
                             </VBox>
                         </HBox>
 
+
                         <!-- Notes Section -->
-                        <Label text="Add a Note:" fx:id="addNoteLabel" visible="false"/>
+                        <Label text="Add a Note:" fx:id="addNoteLabel" visible="false" styleClass="headings"/>
                         <TextArea fx:id="notesTextArea"
-                                  prefHeight="50.0" maxHeight="50.0" minHeight="50.0"
-                                  prefWidth="500.0" maxWidth="600.0" minWidth="600.0"
-                                  style="-fx-max-height: 50; -fx-min-height: 50; -fx-pref-height: 50;"
+                                  prefHeight="60" maxHeight="60" minHeight="60"
+                                  prefWidth="350" maxWidth="350" minWidth="350"
+                                  style="-fx-max-height: 60; -fx-min-height: 60; -fx-pref-height: 60; -fx-font-size: 16;"
                                   promptText="Enter any notes here..." visible="false"/>
 
+
                         <!-- Buttons Section -->
-                        <HBox spacing="10">
-                            <Button fx:id="prevButton" text="Previous" prefHeight="40.0" prefWidth="150.0" onAction="#handlePrevButton" disable="true" visible="false"/>
-                            <Button fx:id="nextButton" text="Next" prefHeight="40.0" prefWidth="150.0" onAction="#handleNextButton" disable="true" visible="false"/>
-                            <Button fx:id="addBookButton" text="Add Book" prefHeight="40.0" prefWidth="150.0" disable="true" onAction="#handleAddBookButton" visible="false"/>
+                        <HBox spacing="120">
+                            <HBox spacing="15">
+                                <Button fx:id="prevButton" text="Previous" onAction="#handlePrevButton" disable="true" visible="false"/>
+                                <Button fx:id="nextButton" text="Next" onAction="#handleNextButton" disable="true" visible="false"/>
+                            </HBox>
+                            <Button fx:id="addBookButton" text="Add Book" disable="true" onAction="#handleAddBookButton" visible="false"/>
                         </HBox>
                     </VBox>
                 </AnchorPane>
-            </ScrollPane>
-        </VBox>
-    </AnchorPane>
+            </VBox>
+        </AnchorPane>
+    </ScrollPane>
 
     <!-- Overlay ProgressIndicator centered in StackPane -->
-    <ProgressIndicator fx:id="progressIndicator" visible="false" translateY="-100"/>
+    <ProgressIndicator fx:id="progressIndicator" visible="false" translateY="-100" translateX="-50"/>
 </StackPane>

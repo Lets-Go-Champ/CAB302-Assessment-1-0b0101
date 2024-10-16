@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 
 /**
  * Controller class responsible for handling book search, display, and addition to collections.
@@ -92,6 +93,7 @@ public class AddBookSearchController {
 
         collectionChoiceBoxSearch.setItems(null);  // Clear old items
         collectionChoiceBoxSearch.setItems(collections);  // Populate with updated collections
+
 
         if (!collections.isEmpty()) {
             collectionChoiceBoxSearch.getSelectionModel().selectFirst();  // Select the first one by default
