@@ -112,4 +112,14 @@ public class BookFormController {
         addImageButton.setOnAction(e -> imageUploadHandler.run());
         addBookButton.setOnAction(e -> addBookHandler.run());
     }
+
+    /**
+     * Checks if a collection is selected in the provided ChoiceBox.
+     *
+     * @param collectionChoiceBox The ChoiceBox containing collections.
+     * @return True if a collection is selected, otherwise false.
+     */
+    public boolean collectionSelected(ChoiceBox<Collection> collectionChoiceBox) {
+        return collectionChoiceBox.getSelectionModel().getSelectedItem() == null;
+    }
 }

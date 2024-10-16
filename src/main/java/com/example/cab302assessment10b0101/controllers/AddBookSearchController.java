@@ -195,12 +195,6 @@ public class AddBookSearchController {
     }
 
     /**
-     * Checks if a collection is selected in the dropdown.
-     * @return True if a collection is selected, otherwise false.
-     */
-    private boolean collectionSelected() { return collectionChoiceBoxSearch.getSelectionModel().getSelectedItem() != null; }
-
-    /**
      * Handles the event when the user clicks the "Add Book" button.
      * Validates the selection and adds the book to the chosen collection if it doesn't already exist.
      */
@@ -209,7 +203,7 @@ public class AddBookSearchController {
 
         // Get the selected collection's name (if any)
         String collectionName;
-        if ( collectionSelected() ) { collectionName = collectionChoiceBoxSearch.getSelectionModel().getSelectedItem().getCollectionName(); }
+        if (BookFormController.getInstance().collectionSelected(collectionChoiceBoxSearch)) { collectionName = collectionChoiceBoxSearch.getSelectionModel().getSelectedItem().getCollectionName(); }
         else { AlertManager.getInstance().showAlert("Error: No Collection", "Please select a collection.", Alert.AlertType.ERROR); return; }
 
         // Get the selected collection's ID

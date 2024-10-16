@@ -4,8 +4,6 @@ import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.Utility.BookValidation;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.model.BookDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -92,7 +90,7 @@ public class AddBookManuallyController extends BookForm implements Initializable
     private void handleAddBook() {
         // Get the selected collection's name (if any)
         String collectionName;
-        if ( collectionSelected() ) { collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName(); }
+        if (BookFormController.getInstance().collectionSelected(collectionChoiceBox)) { collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName(); }
         else { AlertManager.getInstance().showAlert("Error: No Collection", "Please select a collection.", Alert.AlertType.ERROR); return; }
 
         // Get the selected collection's ID
@@ -130,20 +128,6 @@ public class AddBookManuallyController extends BookForm implements Initializable
             AlertManager.getInstance().showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
         }
     }
-
-    /**
-     * Populates the reading status choice box with options: Unread, Reading, Read.
-     */
-    private void populateReadingStatus() {
-        ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
-        readingStatusChoiceBox.setItems(readingStatusOptions);
-    }
-
-    /**
-     * Checks if a collection is selected in the dropdown.
-     * @return True if a collection is selected, otherwise false.
-     */
-    private boolean collectionSelected() { return collectionChoiceBox.getSelectionModel().getSelectedItem() != null; }
 
     /**
      * Save the book to the database
