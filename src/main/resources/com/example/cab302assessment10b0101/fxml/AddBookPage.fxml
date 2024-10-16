@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane prefHeight="730" prefWidth="960" stylesheets="@../styles/addBookManually.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <VBox prefHeight="730" prefWidth="960">
+
+
+        <!-- Title -->
         <Label text="Add Book" styleClass="title">
             <font>
                 <Font size="30.0" />
@@ -15,17 +20,19 @@
                 <Insets left="40" top="20"/>
             </VBox.margin>
         </Label>
+
+
+        <!-- Contents -->
         <AnchorPane prefHeight="641" prefWidth="960">
             <VBox.margin>
-                <Insets left="40" />
+                <Insets left="20" />
             </VBox.margin>
-            <TabPane fx:id="addBookTabPane" prefHeight="730" prefWidth="960" tabClosingPolicy="UNAVAILABLE">
-                <Tab text="Search">
-                    <fx:include source="AddBookSearch.fxml"/>
-                </Tab>
-                <Tab text="Manual Entry">
-                    <fx:include source="AddBookManually.fxml"/>
-                </Tab>
+
+
+            <!-- Tabs -->
+            <TabPane fx:id="addBookTabPane" prefHeight="730" prefWidth="935" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Search"> <fx:include source="AddBookSearch.fxml"/> </Tab>
+                <Tab text="Manual Entry"> <fx:include source="AddBookManually.fxml"/> </Tab>
             </TabPane>
         </AnchorPane>
     </VBox>
