@@ -28,7 +28,7 @@
                 <!-- Search Bar Section -->
                 <Label text="Search Book by Title:" styleClass="headings"/>
                 <HBox spacing="10">
-                    <TextField fx:id="searchTextField" prefHeight="25" prefWidth="400" promptText="Enter book title"/>
+                    <TextField fx:id="searchTextField" prefHeight="25" prefWidth="350" promptText="Enter book title"/>
                     <Button fx:id="searchButton" text="Search" prefHeight="25" prefWidth="100" onAction="#handleSearchButton"/>
                 </HBox>
 
@@ -56,15 +56,17 @@
                         <!-- Notes Section -->
                         <Label text="Add a Note:" fx:id="addNoteLabel" visible="false" styleClass="headings"/>
                         <TextArea fx:id="notesTextArea"
-                                  prefHeight="50.0" maxHeight="50.0" minHeight="50.0"
-                                  prefWidth="500.0" maxWidth="600.0" minWidth="600.0"
-                                  style="-fx-max-height: 50; -fx-min-height: 50; -fx-pref-height: 50;"
+                                  prefHeight="40" maxHeight="40" minHeight="40"
+                                  prefWidth="350" maxWidth="350" minWidth="350"
+                                  style="-fx-max-height: 40; -fx-min-height: 40; -fx-pref-height: 40; -fx-font-size: 16;"
                                   promptText="Enter any notes here..." visible="false"/>
 
                         <!-- Buttons Section -->
-                        <HBox spacing="10">
-                            <Button fx:id="prevButton" text="Previous" onAction="#handlePrevButton" disable="true" visible="false"/>
-                            <Button fx:id="nextButton" text="Next" onAction="#handleNextButton" disable="true" visible="false"/>
+                        <HBox spacing="120">
+                            <HBox spacing="15">
+                                <Button fx:id="prevButton" text="Previous" onAction="#handlePrevButton" disable="true" visible="false"/>
+                                <Button fx:id="nextButton" text="Next" onAction="#handleNextButton" disable="true" visible="false"/>
+                            </HBox>
                             <Button fx:id="addBookButton" text="Add Book" disable="true" onAction="#handleAddBookButton" visible="false"/>
                         </HBox>
                     </VBox>
