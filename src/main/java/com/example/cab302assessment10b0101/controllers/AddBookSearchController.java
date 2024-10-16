@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.Utility.Scraper;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
@@ -86,13 +87,14 @@ public class AddBookSearchController {
      * Populates the collection choice box with the current user's collections.
      */
     private void populateCollections() {
-        // Check if there are any collections
         User currentUser = UserManager.getInstance().getCurrentUser();
         ObservableList<Collection> collections = currentUser.getCollections();
-        collectionChoiceBoxSearch.setItems(collections);
+
+        collectionChoiceBoxSearch.setItems(null);  // Clear old items
+        collectionChoiceBoxSearch.setItems(collections);  // Populate with updated collections
 
         if (!collections.isEmpty()) {
-            collectionChoiceBoxSearch.getSelectionModel().selectFirst();
+            collectionChoiceBoxSearch.getSelectionModel().selectFirst();  // Select the first one by default
         }
     }
 
@@ -277,11 +279,26 @@ public class AddBookSearchController {
     }
 
     /**
+     * Checks if a collection is selected in the dropdown.
+     * @return True if a collection is selected, otherwise false.
+     */
+    private boolean collectionSelected() { return collectionChoiceBoxSearch.getSelectionModel().getSelectedItem() != null; }
+
+    /**
      * Handles the event when the user clicks the "Add Book" button.
      * Validates the selection and adds the book to the chosen collection if it doesn't already exist.
      */
     @FXML
     public void handleAddBookButton() {
+
+        // Get the selected collection's name (if any)
+        String collectionName;
+        if ( collectionSelected() ) { collectionName = collectionChoiceBoxSearch.getSelectionModel().getSelectedItem().getCollectionName(); }
+        else { AlertManager.getInstance().showAlert("Error: No Collection", "Please select a collection.", Alert.AlertType.ERROR); return; }
+
+        // Get the selected collection's ID
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
+
         if (searchResults == null || searchResults.isEmpty()) {
             showAlert("Error", "No book selected.", Alert.AlertType.ERROR);
             return;
@@ -297,7 +314,6 @@ public class AddBookSearchController {
         Map<String, String> bookDetails = searchResults.get(currentIndex);
 
         String isbnStr = bookDetails.get("ISBN");
-        int collectionId = selectedCollection.getId();
 
         // Fetch all books from the selected collection only
         ObservableList<Book> booksInCollection = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
