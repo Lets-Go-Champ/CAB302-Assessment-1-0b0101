@@ -15,5 +15,6 @@ module com.example.cab302assessment10b0101 {
     exports com.example.cab302assessment10b0101;
     exports com.example.cab302assessment10b0101.controllers;
     exports com.example.cab302assessment10b0101.model;
+    exports com.example.cab302assessment10b0101.Utility;
 
 }
