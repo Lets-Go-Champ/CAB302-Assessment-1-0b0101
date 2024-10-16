@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Line?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<AnchorPane minHeight="730" minWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.MyBooksController">
+<AnchorPane minHeight="730" minWidth="960" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.MyBooksController">
     <Line endX="815.0" layoutX="121.0" layoutY="178.0" startX="-100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
     <ChoiceBox fx:id="collectionsChoiceBox" layoutX="20.0" layoutY="21.0" prefHeight="48.0" prefWidth="248.0" />
-    <HBox alignment="CENTER" layoutX="809.0" layoutY="93.0" prefHeight="48.0" prefWidth="180.0">
+    <HBox alignment="CENTER" layoutX="687.0" layoutY="94.0" prefHeight="48.0" prefWidth="297.0" spacing="10">
         <children>
-            <ChoiceBox fx:id="filterChoiceBox" prefHeight="48.0" prefWidth="126.0" />
-            <FontAwesomeIconView glyphName="FILTER" size="30">
-                <HBox.margin>
-                    <Insets right ="80.0" />
-                </HBox.margin>
-            </FontAwesomeIconView>
+            <ComboBox fx:id="filterComboBox" prefHeight="48.0" prefWidth="138.0" />
+            <FontAwesomeIconView glyphName="FILTER" size="24" />
         </children>
     </HBox>
- <ScrollPane layoutX="20.0" layoutY="195.0" prefHeight="529.0" prefWidth="916.0">
+    <ScrollPane layoutX="20.0" layoutY="195.0" prefHeight="529.0" prefWidth="916.0">
    <GridPane fx:id="bookContainer" hgap="10" vgap="10">
     <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200" />
@@ -33,7 +24,7 @@
  </ScrollPane>
    <HBox alignment="CENTER" layoutX="20.0" layoutY="94.0" prefHeight="48.0" prefWidth="353.0">
       <children>
-          <TextField fx:id="searchTextField" prefHeight="48.0" prefWidth="238.0" HBox.hgrow="ALWAYS"/>
+          <TextField fx:id="searchTextField" prefHeight="48.0" prefWidth="238.0" HBox.hgrow="ALWAYS" />
           <FontAwesomeIconView glyphName="SEARCH" size="30" wrappingWidth="17.142857551574707">
             <HBox.margin>
                <Insets left="25.0" />

@@ -1,6 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.Alert.AlertManager;
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -61,12 +62,18 @@ public class AddCollectionController implements Initializable {
 
         //Check if the collection name is empty and if it is show error
         if (collectionName.isEmpty()) {
-            AlertManager.getInstance().showAlert("Error", "Collection name cannot be empty.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Error", "Collection name cannot be empty.", Alert.AlertType.ERROR);
             return;
         }
 
         //Get the current user's ID
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
+
+        // Use getCollectionsByUser to check if the collection already exists
+        if (collectionNameExists(currentUserId, collectionName)) {
+            AlertManager.getInstance().showAlert("Error", "A collection with this name already exists.", Alert.AlertType.ERROR);
+            return;
+        }
 
         //Create a new collection object with the current user ID, collection name, and description
         Collection newCollection = new Collection(currentUserId, collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
@@ -80,6 +87,20 @@ public class AddCollectionController implements Initializable {
         // Clear input fields and show success alert
         clearFields();
         AlertManager.getInstance().showAlert("Success", "Collection saved successfully!", Alert.AlertType.INFORMATION);
+    }
+
+    /**
+     * Checks if a collection with the given name already exists for the user.
+     *
+     * @param userId         The ID of the current user.
+     * @param collectionName The name of the collection to check.
+     * @return True if a collection with the same name exists, false otherwise.
+     */
+    private boolean collectionNameExists(int userId, String collectionName) {
+        List<Collection> collections = CollectionDAO.getInstance().getCollectionsByUser(UserManager.getInstance().getCurrentUser());
+
+        // Check if any collection has the same name
+        return collections.stream().anyMatch(collection -> collection.getCollectionName().equalsIgnoreCase(collectionName));
     }
 
     /**
