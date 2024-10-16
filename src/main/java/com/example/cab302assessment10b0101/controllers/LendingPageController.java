@@ -9,6 +9,7 @@ import javafx.scene.control.TabPane;
 /**
  * The LendingPageController class manages the lending page of the application.
  * It connects the loan view and lender addition controllers with the loan service.
+ * This class ensures that both components can access and manipulate loan data.
  */
 public class LendingPageController {
 

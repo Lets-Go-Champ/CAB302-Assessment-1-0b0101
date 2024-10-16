@@ -74,6 +74,11 @@ public class EditBookDetailsController extends BookForm implements Initializable
 
     /**
      * Initializes the controller, setting up event handlers and populating the collections list.
+     *
+     * @param url            The location used to resolve relative paths for the root object,
+     *                       or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the
+     *                       root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,6 +97,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
 
     /**
      * Handles the update image action when the update image button is clicked.
+     * It manages the visibility of the progress indicator and uploads the image.
      */
     private void handleUpdateImage() {
         progressIndicator.setVisible(true);
@@ -102,6 +108,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
 
     /**
      * Handles the edit book action when the update button is clicked.
+     * This method validates the inputs and updates the book's information in the database.
      */
     @FXML
     private void handleEditBook() {
@@ -124,7 +131,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
         String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
         String formattedDate = publicationYear + "-" +publicationMonth + "-" + publicationDay;
 
-        // Pre-Validate fields (increase processing speed)
+        // Validate image
         if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
 
         // Ensure all remaining fields have values
@@ -166,7 +173,9 @@ public class EditBookDetailsController extends BookForm implements Initializable
     }
 
     /**
-     * Populates the fields with the book's existing details
+     * Populates the fields with the book's existing details.
+     *
+     * @param book The Book object containing the details to populate.
      */
     public void populateFields(Book book) {
         originalTitle = book.getTitle();
@@ -185,7 +194,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
     }
 
     /**
-     * Populates the collections for the current user
+     * Populates the collections for the current user in the collection choice box.
      */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
@@ -205,7 +214,9 @@ public class EditBookDetailsController extends BookForm implements Initializable
     }
 
     /**
-     * Populates the reading status choice box with the reading status from the database
+     * Populates the reading status choice box with the reading status from the database.
+     *
+     * @param readingStatus The reading status to be set in the choice box.
      */
     private void setReadingStatusChoiceBox(String readingStatus) {
         readingStatusChoiceBox.getSelectionModel().select(readingStatus);
@@ -223,7 +234,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
 
 
     /**
-     * Updates the book in the database
+     * Updates the book in the database with the provided details
      * @param title The title of the book
      * @param isbn The isbn of the book (ID)
      * @param author The author of the book
