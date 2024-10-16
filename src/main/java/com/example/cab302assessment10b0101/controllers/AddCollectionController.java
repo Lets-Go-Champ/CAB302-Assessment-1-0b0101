@@ -31,7 +31,6 @@ public class AddCollectionController implements Initializable {
     @FXML
     private Button cancelBtn; //Button to cancel
 
-
     /**
      * Initializes the controller when the view is loaded. Sets event handlers for the
      * save and cancel buttons.

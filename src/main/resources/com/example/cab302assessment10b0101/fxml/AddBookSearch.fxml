@@ -11,13 +11,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.text.Font?>
 
 <StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.example.cab302assessment10b0101.controllers.AddBookSearchController">
 
     <AnchorPane prefHeight="730" prefWidth="960">
-        <VBox prefHeight="730" prefWidth="960" spacing="10">
+
+        <VBox prefHeight="730" prefWidth="960" fx:id="emptyStateView" alignment="CENTER" managed="false" spacing="10" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" translateY="-100">
+            <Label style="-fx-font-size: 18px;" text="You must create a collection before trying to add books"/>
+            <Hyperlink fx:id="addCollectionLink" text="Click here to add a collection" onAction="#handleAddCollectionLink"/>
+        </VBox>
+
+
+        <!-- The existing search and form -->
+        <VBox prefHeight="730" prefWidth="960" spacing="10" fx:id="addBookForm">
 
             <!-- Collection and Search Section -->
             <Label text="Add to Collection">
@@ -76,7 +85,5 @@
     </AnchorPane>
 
     <!-- Overlay ProgressIndicator centered in StackPane -->
-    <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+    <ProgressIndicator fx:id="progressIndicator" visible="false" translateY="-100"/>
 </StackPane>
-
-
