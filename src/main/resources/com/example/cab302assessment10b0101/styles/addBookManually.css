@@ -24,13 +24,13 @@
 }
 
 /* Selected Tab Highlight */
-.tab-pane>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
     -fx-border-color: #247373;
     -fx-border-width: 0 0 4 0;
 }
 
 /* Labels */
-.headings {
+.manualAdd_labels {
     -fx-font-family: "Impact";
     -fx-font-size: 20;
     -fx-padding: 20 0 0 0;
