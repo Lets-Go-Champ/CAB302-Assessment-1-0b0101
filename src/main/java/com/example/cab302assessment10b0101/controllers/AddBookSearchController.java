@@ -297,6 +297,7 @@ public class AddBookSearchController {
         Map<String, String> bookDetails = searchResults.get(currentIndex);
 
         String isbnStr = bookDetails.get("ISBN");
+        int collectionId = selectedCollection.getId();
 
         // Fetch all books from the selected collection only
         ObservableList<Book> booksInCollection = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
@@ -322,7 +323,7 @@ public class AddBookSearchController {
 
         // Create the book object and insert it into the database
         Book newBook = new Book(
-                selectedCollection.getId(),
+                collectionId,
                 title,
                 isbnStr,
                 author,
