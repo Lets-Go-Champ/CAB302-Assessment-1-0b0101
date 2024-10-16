@@ -111,6 +111,15 @@ public class User {
     }
 
     /**
+     * Sets the username of the user.
+     *
+     * @param userName The new username of the user.
+     */
+    public void setUserNameProperty(StringProperty userName) {
+        this.username = userName;
+    }
+
+    /**
      * Updates the username of the user.
      *
      * @param username The new username of the user.
@@ -137,4 +146,11 @@ public class User {
     public void addCollection(Collection collection) {
         collections.add(collection);
     }
+
+    // toString method
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", userName='" + username.get() + "', password='" + password + "'}";
+    }
+
 }

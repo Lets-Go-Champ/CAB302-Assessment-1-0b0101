@@ -49,7 +49,7 @@ public class UserDAOTest {
         User user = new User("testUser", "testPassword");
         userDAO.insert(user);
 
-        user.setUserName(new SimpleStringProperty("updatedUser"));
+        user.setUserNameProperty(new SimpleStringProperty("updatedUser"));
         user.setPassword("updatedPassword");
         userDAO.update(user);
 
