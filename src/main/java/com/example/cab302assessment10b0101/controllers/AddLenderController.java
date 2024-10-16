@@ -36,8 +36,8 @@ public class AddLenderController implements Initializable {
     private TextField bookNameField; // Input field for the book name being lent
 
     // Dependencies used for loan management
-    private LoanService loanService;
-    private LendingPageController mainController;
+    private LoanService loanService; //service for handling loan operations
+    private LendingPageController mainController; //reference to the main lenging page controller
 
     /**
      * Sets the reference to the main controller for refreshing the loan view.

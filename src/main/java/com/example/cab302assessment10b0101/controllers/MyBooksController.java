@@ -377,7 +377,5 @@ public class MyBooksController implements Initializable {
             updateBookGrid(filteredBooks);
         }
     }
-
-
 }
 

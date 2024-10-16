@@ -52,21 +52,21 @@ public class AddBookManuallyController extends BookForm implements Initializable
     private Image image; // Image field for storing the uploaded book cover image
     @FXML
     private ChoiceBox<String> readingStatusChoiceBox; // Dropdown for selecting reading status
-
     @FXML
     private ProgressIndicator progressIndicator; // ProgressIndicator when uploading an image
-
     @FXML
     private VBox emptyStateView; // If there are no collections
-
     @FXML
     private VBox addBookForm; // Content to display if there are collections
-  
     @FXML
-    private Hyperlink addCollectionLink;
+    private Hyperlink addCollectionLink; // Hyperlink to add a new collection
+
 
     /**
-     * Initializes the controller, setting up event handlers and populating the collections list.
+     * Initializes the controller, setting up event handlers and populating the collections and reading lists.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the resource is not specified.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,6 +85,11 @@ public class AddBookManuallyController extends BookForm implements Initializable
         addCollectionLink.setOnAction(event -> handleAddCollectionLink()); // Handles clicking on add collection link
     }
 
+    /**
+     * Handles the image upload process by showing a progress indicator during the upload.
+     * <p>This method shows a visual indication (progress indicator) to the user while the image is being uploaded.
+     * After the upload process completes, the progress indicator is hidden.</p>
+     */
     private void handleUploadImage() {
         progressIndicator.setVisible(true);
         image = uploadImage();
@@ -93,7 +98,8 @@ public class AddBookManuallyController extends BookForm implements Initializable
 
     /**
      * Handles functionality for when the "Add Book" button is clicked.
-     * Validates the user's input and saves the book to the database (if valid).
+     * <p>If validation passes, the book is added to the database. If validation fails, appropriate
+     * error messages are shown to the user.</p>
      */
     @FXML
     private void handleAddBook() {
@@ -112,22 +118,26 @@ public class AddBookManuallyController extends BookForm implements Initializable
         String author = authorTextField.getText();
         String description = descriptionTextField.getText();
         String publisher = publisherTextField.getText();
-        LocalDate publicationDate = dateDatePicker.getValue();
         String pages = pagesTextField.getText();
         String notes = notesTextField.getText();
         String readingStatus = readingStatusChoiceBox.getSelectionModel().getSelectedItem();
 
-        // Ensure that a date is selected
-        try { publicationDate.getDayOfMonth(); }
-        catch ( Exception e ) { AlertManager.getInstance().showAlert("Error: No Date", "Please enter a publication date.", AlertType.ERROR); return; }
+        // Ensure that a publication date is selected
+        if (dateDatePicker.getValue() == null) {
+            AlertManager.getInstance().showAlert("Error: No Date", "Please enter a publication date.", AlertType.ERROR);
+            return;
+        }
+
+        // Extract date components from dateDatePicker
+        LocalDate publicationDate = dateDatePicker.getValue();
+        String publicationDay = String.valueOf(publicationDate.getDayOfMonth());
+        String publicationMonth = String.valueOf(publicationDate.getMonthValue());
+        String publicationYear = String.valueOf(publicationDate.getYear());
 
         // Format the publication Date as a String (YYYY-MM-DD)
-        String publicationDay = String.valueOf(dateDatePicker.getValue().getDayOfMonth());
-        String publicationMonth = String.valueOf(dateDatePicker.getValue().getMonthValue());
-        String publicationYear = String.valueOf(dateDatePicker.getValue().getYear());
         String formattedDate = publicationYear + "-" + publicationMonth + "-" + publicationDay;
 
-        // Pre-Validate fields (increase processing speed)
+        // Ensure image has been uploaded
         if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
 
         // Validate remaining input fields
@@ -147,6 +157,9 @@ public class AddBookManuallyController extends BookForm implements Initializable
         readingStatusChoiceBox.setItems(readingStatusOptions);
     }
 
+    /**
+     * Handles the action for adding a new collection via a hyperlink click.
+     */
     private void handleAddCollectionLink(){
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
     }
@@ -159,14 +172,14 @@ public class AddBookManuallyController extends BookForm implements Initializable
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionChoiceBox.setItems(collections);
 
-        // Populate the choice box if collections exist
+        // Populate the choice box with a default selection if collections exist
         if ( !collections.isEmpty() ) {
             collectionChoiceBox.getSelectionModel().selectFirst(); // Set default selection
         }
     }
 
     /**
-     * Sets up bindings for the state view to the collectionChoiceBox
+     * Sets up bindings for the UI components to display the correct state based on collections.
      */
     private void setupBindings() {
         // Bind the visibility of the empty state view to whether the collectionChoiceBox has items
