@@ -1,13 +1,15 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.Scraper;
+import com.example.cab302assessment10b0101.Utility.AlertManager;
+import com.example.cab302assessment10b0101.Utility.Scraper;
 import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.VBox;
 import java.io.ByteArrayInputStream;
@@ -16,70 +18,116 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Controller class responsible for handling book search, display, and addition to collections.
+ * It interacts with the UI, processes user inputs, and updates the display dynamically.
+ */
 public class AddBookSearchController {
 
+    // FXML elements bound to the UI components in the view
     @FXML
     private TextField searchTextField;
-
     @FXML
     private Button searchButton, prevButton, nextButton, addBookButton;
-
     @FXML
     private ChoiceBox<Collection> collectionChoiceBoxSearch;
-
     @FXML
     private ImageView bookImageView;
-
     @FXML
     private Label bookTitleLabel, bookAuthorLabel, bookIsbnLabel, bookPublisherLabel, bookPagesLabel, bookPublishedDateLabel, bookDescriptionLabel;
-
     @FXML
     private VBox bookDetailsContainer;
-
     @FXML
     private Label searchResultsLabel;
-
     @FXML
     private Label addNoteLabel;
-
+    @FXML
+    private VBox emptyStateView;
+    @FXML
+    private VBox addBookForm;
+    @FXML
+    private Hyperlink addCollectionLink;
     @FXML
     private TextArea notesTextArea;
 
+    // Scraper for fetching book data
     private Scraper scraper;
 
+    // Stores the search results
     private List<Map<String, String>> searchResults;
 
-    private Map<String, String> detailedBookDetails;  // Store the detailed book details here
-
+    // Current index in the search results
     private int currentIndex = 0;
 
+    // Loading symbol used to indicate progress
     @FXML
     private ProgressIndicator progressIndicator;
 
+    /**
+     * Navigates to the "Add Collection" page when the link is clicked.
+     */
+    @FXML
+    private void handleAddCollectionLink() {
+        // Navigate to the add collection page
+        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
+    }
+
+    /**
+     * Initializes the controller by setting up necessary components and event handlers.
+     */
     @FXML
     public void initialize() {
         scraper = new Scraper();
-
-        prevButton.setDisable(true);
-        nextButton.setDisable(true);
-        addBookButton.setDisable(true);
-
         populateCollections();
+        setupEventHandler();
+        setupBindings();
     }
 
+    /**
+     * Populates the collection choice box with the current user's collections.
+     */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
-        List<Collection> collections = CollectionDAO.getInstance().getCollectionsByUser(currentUser);
+        ObservableList<Collection> collections = currentUser.getCollections();
 
-        ObservableList<Collection> observableCollections = FXCollections.observableArrayList(collections);
-        collectionChoiceBoxSearch.setItems(observableCollections);
+        collectionChoiceBoxSearch.setItems(null);  // Clear old items
+        collectionChoiceBoxSearch.setItems(collections);  // Populate with updated collections
 
-        if (!observableCollections.isEmpty()) {
-            collectionChoiceBoxSearch.getSelectionModel().selectFirst();
+        if (!collections.isEmpty()) {
+            collectionChoiceBoxSearch.getSelectionModel().selectFirst();  // Select the first one by default
         }
     }
 
+    /**
+     * Configures the event handler for the "Add Collection" link.
+     */
+    private void setupEventHandler() {
+        // Set the action for the hyperlink to navigate to the "Add Collection" page
+        addCollectionLink.setOnAction(event -> handleAddCollectionLink());
+    }
+
+    /**
+     * Configures bindings to dynamically show or hide UI elements based on collection availability.
+     */
+    private void setupBindings() {
+        // Bind the visibility of the emptyStateView to whether the collectionChoiceBox has items
+        emptyStateView.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> collectionChoiceBoxSearch.getItems().isEmpty(),
+                collectionChoiceBoxSearch.getItems()
+        ));
+        emptyStateView.managedProperty().bind(emptyStateView.visibleProperty());
+
+        // Bind the visibility of the addBookForm to whether the collectionChoiceBox has items
+        addBookForm.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> !collectionChoiceBoxSearch.getItems().isEmpty(),
+                collectionChoiceBoxSearch.getItems()
+        ));
+        addBookForm.managedProperty().bind(addBookForm.visibleProperty());
+    }
+
+    /**
+     * Handles the search operation, querying Google Books using the Scraper.
+     */
     @FXML
     public void handleSearchButton() {
         String query = searchTextField.getText().trim();
@@ -95,7 +143,6 @@ public class AddBookSearchController {
         new Thread(() -> {
             try {
                 searchResults = scraper.scrapeGoogleBooks(query);
-
                 Platform.runLater(() -> {
                     if (!searchResults.isEmpty()) {
                         currentIndex = 0;
@@ -115,11 +162,9 @@ public class AddBookSearchController {
                         addBookButton.setDisable(false);
 
                         progressIndicator.setVisible(false);  // Stop progress indicator
-
                     } else {
                         showAlert("Error", "No results found.", Alert.AlertType.ERROR);
                         progressIndicator.setVisible(false);  // Stop progress indicator
-
                     }
                     searchButton.setDisable(false);
                 });
@@ -131,6 +176,11 @@ public class AddBookSearchController {
         }).start();
     }
 
+    /**
+     * Loads detailed information for the selected book.
+     *
+     * @param bookUrl The URL of the book to load.
+     */
     private void loadBookDetails(String bookUrl) {
         if (bookUrl == null || bookUrl.isEmpty()) {
             System.err.println("Error: Attempting to load a null or empty book URL.");
@@ -170,6 +220,9 @@ public class AddBookSearchController {
         }).start();
     }
 
+    /**
+     * Handles navigation to the next search result in Webscraping.
+     */
     @FXML
     public void handleNextButton() {
         if (currentIndex < searchResults.size() - 1) {
@@ -184,6 +237,9 @@ public class AddBookSearchController {
         }
     }
 
+    /**
+     * Handles navigation to the previous search result in Webscraping.
+     */
     @FXML
     public void handlePrevButton() {
         if (currentIndex > 0) {
@@ -196,6 +252,11 @@ public class AddBookSearchController {
         }
     }
 
+    /**
+     * Loads preloaded book details into the UI components.
+     *
+     * @param bookDetails A map containing the details of the book to be displayed.
+     */
     private void loadPreloadedBookDetails(Map<String, String> bookDetails) {
         // Use the preloaded details to update the UI
         bookTitleLabel.setText("Title: " + bookDetails.get("title"));
@@ -217,8 +278,27 @@ public class AddBookSearchController {
         }
     }
 
+    /**
+     * Checks if a collection is selected in the dropdown.
+     * @return True if a collection is selected, otherwise false.
+     */
+    private boolean collectionSelected() { return collectionChoiceBoxSearch.getSelectionModel().getSelectedItem() != null; }
+
+    /**
+     * Handles the event when the user clicks the "Add Book" button.
+     * Validates the selection and adds the book to the chosen collection if it doesn't already exist.
+     */
     @FXML
     public void handleAddBookButton() {
+
+        // Get the selected collection's name (if any)
+        String collectionName;
+        if ( collectionSelected() ) { collectionName = collectionChoiceBoxSearch.getSelectionModel().getSelectedItem().getCollectionName(); }
+        else { AlertManager.getInstance().showAlert("Error: No Collection", "Please select a collection.", Alert.AlertType.ERROR); return; }
+
+        // Get the selected collection's ID
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
+
         if (searchResults == null || searchResults.isEmpty()) {
             showAlert("Error", "No book selected.", Alert.AlertType.ERROR);
             return;
@@ -259,7 +339,7 @@ public class AddBookSearchController {
 
         // Create the book object and insert it into the database
         Book newBook = new Book(
-                selectedCollection.getId(),
+                collectionId,
                 title,
                 isbnStr,
                 author,
@@ -279,6 +359,10 @@ public class AddBookSearchController {
         showAlert("Success", "Book added successfully!", Alert.AlertType.INFORMATION);
     }
 
+    /**
+     * Displays the book details section after a successful search.
+     * Makes relevant UI components visible to the user.
+     */
     private void showBookDetails() {
         // Set all the labels and text area to visible after search
         bookTitleLabel.setVisible(true);
@@ -295,7 +379,7 @@ public class AddBookSearchController {
     }
 
     /**
-     * Displays an alert dialog with the provided message.
+     * Displays an alert dialog with the provided message. (TO BE REMOVED)
      */
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
