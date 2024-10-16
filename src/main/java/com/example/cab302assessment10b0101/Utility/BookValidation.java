@@ -25,7 +25,6 @@ public class BookValidation {
         return instance;
     }
 
-
     // Error messages for input validation
     final String noTitleErrorMessage = "Please enter a Title.";
     final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";

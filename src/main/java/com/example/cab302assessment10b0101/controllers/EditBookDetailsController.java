@@ -77,17 +77,9 @@ public class EditBookDetailsController extends BookForm implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setupEventHandlers();
-        populateCollections();
-        populateReadingStatus();
-    }
-
-    /**
-     * Sets up the event handlers for the buttons.
-     */
-    private void setupEventHandlers() {
-        addImageButton.setOnAction(event -> handleUpdateImage());
-        updateBookButton.setOnAction(event -> handleEditBook());
+        BookFormController.getInstance().populateCollections(collectionChoiceBox);
+        BookFormController.getInstance().populateReadingStatus(readingStatusChoiceBox);
+        BookFormController.getInstance().setupEventHandlers(addImageButton, updateBookButton, this::handleUpdateImage, this::handleEditBook);
     }
 
     /**
@@ -182,26 +174,6 @@ public class EditBookDetailsController extends BookForm implements Initializable
         setCoverImage(book.getImage());
         setImageBytes(book.getBytes());
         setReadingStatusChoiceBox(book.getReadingStatus());
-    }
-
-    /**
-     * Populates the collections for the current user
-     */
-    private void populateCollections() {
-        User currentUser = UserManager.getInstance().getCurrentUser();
-        ObservableList<Collection> collections = currentUser.getCollections();
-        collectionChoiceBox.setItems(collections);
-
-        // Optionally set a default value
-        if ( !collections.isEmpty() ) { collectionChoiceBox.getSelectionModel().selectFirst(); }
-    }
-
-    /**
-     * Populates the reading status combo box with options: Unread, Reading, Read.
-     */
-    private void populateReadingStatus() {
-        ObservableList<String> readingStatusOptions = FXCollections.observableArrayList("Unread", "Reading", "Read");
-        readingStatusChoiceBox.setItems(readingStatusOptions);
     }
 
     /**

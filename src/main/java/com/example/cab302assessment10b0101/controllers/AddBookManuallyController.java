@@ -4,8 +4,6 @@ import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.Utility.BookValidation;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.model.BookDAO;
-import com.example.cab302assessment10b0101.views.MenuOptions;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -70,21 +68,16 @@ public class AddBookManuallyController extends BookForm implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setupEventHandlers();
-        populateCollections();
-        populateReadingStatus();
-        setupBindings();
+        BookFormController.getInstance().populateCollections(collectionChoiceBox);
+        BookFormController.getInstance().handleAddCollectionLink(addCollectionLink);
+        BookFormController.getInstance().setupBindings(emptyStateView, addBookForm, collectionChoiceBox);
+        BookFormController.getInstance().populateReadingStatus(readingStatusChoiceBox);
+        BookFormController.getInstance().setupEventHandlers(addImageButton, addBookButton, this::handleUploadImage, this::handleAddBook);
     }
 
     /**
-     * Sets up the event handlers for the buttons on the page.
+     * Handles uploading inputted image into the database from the button functionality
      */
-    private void setupEventHandlers() {
-        addImageButton.setOnAction(e -> handleUploadImage()); // Handles image upload
-        addBookButton.setOnAction(event -> handleAddBook()); // Handles adding the book
-        addCollectionLink.setOnAction(event -> handleAddCollectionLink()); // Handles clicking on add collection link
-    }
-
     private void handleUploadImage() {
         progressIndicator.setVisible(true);
         image = uploadImage();
@@ -97,7 +90,6 @@ public class AddBookManuallyController extends BookForm implements Initializable
      */
     @FXML
     private void handleAddBook() {
-
         // Get the selected collection's name (if any)
         String collectionName;
         if ( collectionSelected() ) { collectionName = collectionChoiceBox.getSelectionModel().getSelectedItem().getCollectionName(); }
@@ -147,43 +139,6 @@ public class AddBookManuallyController extends BookForm implements Initializable
         readingStatusChoiceBox.setItems(readingStatusOptions);
     }
 
-    private void handleAddCollectionLink(){
-        ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.ADDCOLLECTION);
-    }
-
-    /**
-     * Populates the collection dropdown with the current user's collections.
-     */
-    private void populateCollections() {
-        User currentUser = UserManager.getInstance().getCurrentUser();
-        ObservableList<Collection> collections = currentUser.getCollections();
-        collectionChoiceBox.setItems(collections);
-
-        // Populate the choice box if collections exist
-        if ( !collections.isEmpty() ) {
-            collectionChoiceBox.getSelectionModel().selectFirst(); // Set default selection
-        }
-    }
-
-    /**
-     * Sets up bindings for the state view to the collectionChoiceBox
-     */
-    private void setupBindings() {
-        // Bind the visibility of the empty state view to whether the collectionChoiceBox has items
-        emptyStateView.visibleProperty().bind(Bindings.createBooleanBinding(
-                () -> collectionChoiceBox.getItems().isEmpty(),
-                collectionChoiceBox.getItems()
-        ));
-        emptyStateView.managedProperty().bind(emptyStateView.visibleProperty());
-
-        // Bind the visibility of the addBookForm to whether the collectionChoiceBox has items
-        addBookForm.visibleProperty().bind(Bindings.createBooleanBinding(
-                () -> !collectionChoiceBox.getItems().isEmpty(),
-                collectionChoiceBox.getItems()
-        ));
-        addBookForm.managedProperty().bind(addBookForm.visibleProperty());
-    }
-
     /**
      * Checks if a collection is selected in the dropdown.
      * @return True if a collection is selected, otherwise false.
@@ -213,20 +168,8 @@ public class AddBookManuallyController extends BookForm implements Initializable
         if ( imageBytes.length != 0 ) {
             Book newBook = new Book(collectionId, title, isbn, author, description, publicationDate, publisher, Integer.parseInt(pages), note, imageBytes, readingStatus);
             BookDAO.getInstance().insert(newBook);
-            clearFields();
+            // Clears the input fields on the page after the book has been saved
+            BookFormController.getInstance().clearFields(titleTextField, isbnTextField, authorTextField, descriptionTextField, publisherTextField, pagesTextField, notesTextField);
         }
-    }
-
-    /**
-     * Clears the input fields on the page after the book has saved.
-     */
-    private void clearFields() {
-        titleTextField.clear();
-        isbnTextField.clear();
-        authorTextField.clear();
-        descriptionTextField.clear();
-        publisherTextField.clear();
-        pagesTextField.clear();
-        notesTextField.clear();
     }
 }
