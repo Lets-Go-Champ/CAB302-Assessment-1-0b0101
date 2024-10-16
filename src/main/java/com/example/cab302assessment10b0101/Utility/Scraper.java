@@ -1,4 +1,4 @@
-package com.example.cab302assessment10b0101;
+package com.example.cab302assessment10b0101.Utility;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
