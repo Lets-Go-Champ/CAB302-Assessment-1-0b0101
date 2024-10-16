@@ -26,7 +26,7 @@
         <AnchorPane prefHeight="641" prefWidth="960">
             <ScrollPane prefHeight="600" prefWidth="935" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                 <AnchorPane prefHeight="800" prefWidth="911">
-                    <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
+                    <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="15" AnchorPane.topAnchor="0">
 
                         <!-- Collection -->
                         <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
