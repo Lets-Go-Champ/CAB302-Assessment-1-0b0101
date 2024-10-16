@@ -149,7 +149,12 @@ public class Scraper {
         return bookDetails;
     }
 
-    // Helper method to extract book ID from the URL
+    /**
+     * Extracts the book ID from the book URL.
+     *
+     * @param bookUrl The URL of the book.
+     * @return The extracted book ID or an empty string if not found.
+     */
     private String extractBookId(String bookUrl){
         Pattern pattern = Pattern.compile("id=([^&]+)");
         Matcher matcher = pattern.matcher(bookUrl);
@@ -159,6 +164,12 @@ public class Scraper {
         return "";  // Return empty string if ID not found
     }
 
+    /**
+     * Downloads the image from the provided URL.
+     *
+     * @param imageUrl The URL of the image.
+     * @return A byte array representing the image, or the default image if the download fails.
+     */
     public byte[] downloadImage(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
@@ -182,7 +193,9 @@ public class Scraper {
 
 
     /**
-     * Loads a default image in case downloading the cover image fails.
+     * Loads a default image if the cover image download fails.
+     *
+     * @return A byte array representing the default image.
      */
     public byte[] loadDefaultImage() {
         try {

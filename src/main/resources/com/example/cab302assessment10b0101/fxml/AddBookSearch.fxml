@@ -85,5 +85,5 @@
     </AnchorPane>
 
     <!-- Overlay ProgressIndicator centered in StackPane -->
-    <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+    <ProgressIndicator fx:id="progressIndicator" visible="false" translateY="-100"/>
 </StackPane>
