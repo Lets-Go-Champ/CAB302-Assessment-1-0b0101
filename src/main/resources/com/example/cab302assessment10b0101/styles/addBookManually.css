@@ -24,7 +24,7 @@
 }
 
 /* Selected Tab Highlight */
-.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
+.tab-pane>.tab-header-area>.headers-region>.tab:selected .focus-indicator {
     -fx-border-color: #247373;
     -fx-border-width: 0 0 4 0;
 }
