@@ -21,7 +21,7 @@ public class DatabaseConnector {
         String url = "jdbc:sqlite:database.db";
         try {
             instance = DriverManager.getConnection(url);
-            enableForeignKeys(instance);
+            enableForeignKeys(instance); //enable use of foreign keys
         } catch (SQLException sqlEx) {
             System.err.println(sqlEx);
         }

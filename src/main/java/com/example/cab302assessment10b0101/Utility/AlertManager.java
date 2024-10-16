@@ -25,7 +25,13 @@ public class AlertManager {
         return instance;
     }
 
-    // Method to show an alert dialog
+    /**
+     * Displays an alert dialog with the specified title and message.
+     *
+     * @param title     The title of the alert dialog.
+     * @param message   The message content to be displayed in the alert.
+     * @param alertType The type of alert to be displayed (e.g., INFORMATION, WARNING).
+     */
     public void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -34,7 +40,14 @@ public class AlertManager {
         alert.showAndWait();
     }
 
-    // Method to show a confirmation dialog and return the user's response (used only when necessary)
+    /**
+     * Displays a confirmation dialog with the specified title and message.
+     * This dialog prompts the user to confirm an action and returns the user's response.
+     *
+     * @param title   The title of the confirmation dialog.
+     * @param message The message content to be displayed in the confirmation dialog.
+     * @return An Optional<ButtonType> representing the user's choice (OK or CANCEL).
+     */
     public Optional<ButtonType> showConfirmation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -43,7 +56,14 @@ public class AlertManager {
         return alert.showAndWait();
     }
 
-    // Method to show a blocking modal alert
+    /**
+     * Displays a blocking modal alert that requires the user to acknowledge it
+     * before interacting with other windows in the application.
+     *
+     * @param title     The title of the modal alert dialog.
+     * @param message   The message content to be displayed in the modal alert.
+     * @param alertType The type of alert to be displayed (e.g., ERROR, WARNING).
+     */
     public void showModalAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

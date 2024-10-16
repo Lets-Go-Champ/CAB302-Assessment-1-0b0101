@@ -129,13 +129,7 @@ public class AddBookManuallyController extends BookForm implements Initializable
         }
 
         // Extract date components from dateDatePicker
-        LocalDate publicationDate = dateDatePicker.getValue();
-        String publicationDay = String.valueOf(publicationDate.getDayOfMonth());
-        String publicationMonth = String.valueOf(publicationDate.getMonthValue());
-        String publicationYear = String.valueOf(publicationDate.getYear());
-
-        // Format the publication Date as a String (YYYY-MM-DD)
-        String formattedDate = publicationYear + "-" + publicationMonth + "-" + publicationDay;
+        String formattedDate = getFormattedDate();
 
         // Ensure image has been uploaded
         if ( image == null ) { AlertManager.getInstance().showAlert("Error: No image", "Please select a cover image.", Alert.AlertType.ERROR); return; }
@@ -147,6 +141,25 @@ public class AddBookManuallyController extends BookForm implements Initializable
             saveBook(collectionId, title, isbn, author, description, publisher, formattedDate, pages, notes, readingStatus);
             AlertManager.getInstance().showAlert("Success", "Book has been added successfully!", AlertType.INFORMATION);
         }
+    }
+
+    /**
+     * Retrieves the formatted publication date from the date picker and returns it as a String.
+     * The date is formatted in the format "YYYY-MM-DD".
+     *
+     * @return A String representing the formatted publication date.
+     *         The date is in the format "YYYY-MM-DD", where YYYY is the year,
+     *         MM is the month (1-12), and DD is the day of the month (1-31).
+     *         If the date picker does not have a value selected, this method may throw a NullPointerException.
+     */
+    private String getFormattedDate() throws NullPointerException {
+        LocalDate publicationDate = dateDatePicker.getValue();
+        String publicationDay = String.valueOf(publicationDate.getDayOfMonth());
+        String publicationMonth = String.valueOf(publicationDate.getMonthValue());
+        String publicationYear = String.valueOf(publicationDate.getYear());
+
+        // Format the publication Date as a String (YYYY-MM-DD)
+        return publicationYear + "-" + publicationMonth + "-" + publicationDay;
     }
 
     /**

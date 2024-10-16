@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
  */
 public class Book {
     private int bookId;
-    private int collectionId;
+    private final int collectionId;
     private StringProperty title;
     private StringProperty isbn;
     private StringProperty author;
@@ -346,13 +346,5 @@ public class Book {
      */
     public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    /**
-     * Sets the current reading status of the book.
-     * @param readingStatus The reading status to set as a StringProperty.
-     */
-    public void setreadingStatus(StringProperty readingStatus) {
-        this.readingStatus = readingStatus;
     }
 }

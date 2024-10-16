@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class MockCollectionDAO implements CollectionDAOInterface {
 
-    private List<Collection> collections = new ArrayList<>();
+    private final List<Collection> collections = new ArrayList<>();
     private int currentId = 1;  // Simulate auto-incrementing ID
 
     /**

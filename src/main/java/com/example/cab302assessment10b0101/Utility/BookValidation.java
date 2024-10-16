@@ -6,8 +6,10 @@ import javafx.scene.control.Alert;
 import java.util.List;
 
 /**
- * The BookValidation class handles the verification of book credentials. These values are
- * parsed and validated by several error-checking and handling functions.
+ * The BookValidation class handles the verification of book credentials.
+ * It provides methods to validate various fields related to a book entry,
+ * including checks for required fields, format validation, and uniqueness
+ * in the user's collection.
  */
 public class BookValidation {
 

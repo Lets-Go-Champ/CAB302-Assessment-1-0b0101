@@ -18,10 +18,10 @@ public class ProfileController {
 
     // FXML UI elements bound to the corresponding elements in the view
     @FXML
-    public TextField usernameTextField;
-    public TextField passwordTextField;
-    public Button changeUsernameButton;
-    public Button changePasswordButton;
+    public TextField usernameTextField; //Text field for displaying username
+    public TextField passwordTextField; //Text field for displaying the password
+    public Button changeUsernameButton; //Button to trigger username change
+    public Button changePasswordButton; //Button to trigger password change
 
     /**
      * Sets the username in the username text field.
@@ -72,7 +72,7 @@ public class ProfileController {
         } catch (IOException e) {
             System.out.println("Error updating username in ProfileController: " + e.getMessage());
         }
-        reload();
+        reload(); //Reload the profile to reflect any changes
     }
 
     /**
@@ -95,7 +95,7 @@ public class ProfileController {
         } catch (IOException e) {
             System.out.println("Error updating password in ProfileController: " + e.getMessage());
         }
-        reload();
+        reload(); //Reload the profile to reflect any changes
     }
 
     /**
@@ -111,6 +111,7 @@ public class ProfileController {
                 // Update the textFields
                 setUsernameTextField(user.getUsername());
                 setPasswordTextField(user.getPassword());
+                break; //stop search once user is found
             }
         }
     }

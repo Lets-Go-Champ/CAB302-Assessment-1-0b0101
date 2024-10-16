@@ -54,7 +54,7 @@ public class Scraper {
                 break;
             }
 
-            if (bookUrl == null || bookUrl.isEmpty()) {
+            if (bookUrl.isEmpty()) {
                 System.err.println("Skipping book with empty URL: " + bookTitle);
                 continue;
             }
@@ -107,7 +107,7 @@ public class Scraper {
         String title = doc.title();
 
         // Clean the title if needed (e.g., remove extra " - Google Books" part)
-        if (title != null && title.contains(" - Google Books")) {
+        if (title.contains(" - Google Books")) {
             title = title.replace(" - Google Books", "").trim();
         }
         bookDetails.put("title", title);

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class MockBookDAO implements BookDAOInterface {
 
-    private List<Book> books = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
     private int currentId = 1;
 
     /**

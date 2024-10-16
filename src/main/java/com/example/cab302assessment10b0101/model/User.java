@@ -111,14 +111,10 @@ public class User {
     }
 
     /**
-     * Sets the username of the user.
+     * Updates the username of the user.
      *
-     * @param userName The new username of the user.
+     * @param username The new username of the user.
      */
-    public void setUserName(StringProperty userName) {
-        this.username = userName;
-    }
-
     public void setUsername(String username) {
         this.username.set(username);
     }
