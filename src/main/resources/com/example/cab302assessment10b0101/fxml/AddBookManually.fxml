@@ -26,44 +26,44 @@
         <AnchorPane prefHeight="641" prefWidth="960">
             <ScrollPane prefHeight="600" prefWidth="935" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
                 <AnchorPane prefHeight="800" prefWidth="911">
-                    <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="20">
+                    <VBox layoutY="14" prefHeight="639" prefWidth="395" AnchorPane.leftAnchor="15" AnchorPane.topAnchor="0">
 
                         <!-- Collection -->
-                        <Label text="Add to Collection" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Add to Collection" styleClass="headings"> </Label>
                         <ChoiceBox fx:id="collectionChoiceBox" prefHeight="25" prefWidth="395"/>
 
                         <!-- Title -->
-                        <Label text="Title" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Title" styleClass="headings"> </Label>
                         <TextField fx:id="titleTextField"/>
 
                         <!-- ISBN -->
-                        <Label text="ID/ISBN" styleClass="manualAdd_labels"> </Label>
+                        <Label text="ID/ISBN" styleClass="headings"> </Label>
                         <TextField fx:id="isbnTextField"/>
 
                         <!-- Author -->
-                        <Label text="Author" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Author" styleClass="headings"> </Label>
                         <TextField fx:id="authorTextField"/>
 
                         <!-- Description -->
-                        <Label text="Description" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Description" styleClass="headings"> </Label>
                         <TextField fx:id="descriptionTextField"/>
 
                         <!-- Publisher/Date -->
-                        <Label text="Publisher" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Publisher" styleClass="headings"> </Label>
                         <TextField fx:id="publisherTextField"/>
-                        <Label text="Publish Date" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Publish Date" styleClass="headings"> </Label>
                         <DatePicker fx:id="dateDatePicker" editable="false" prefHeight="25" prefWidth="395"/>
 
                         <!-- Pages -->
-                        <Label text="Pages" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Pages" styleClass="headings"> </Label>
                         <TextField fx:id="pagesTextField"/>
 
                         <!-- Notes -->
-                        <Label text="Notes" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Notes" styleClass="headings"> </Label>
                         <TextField fx:id="notesTextField"/>
 
                         <!-- Reading Status -->
-                        <Label text="Reading Status" styleClass="manualAdd_labels"> </Label>
+                        <Label text="Reading Status" styleClass="headings"> </Label>
                                 <ChoiceBox fx:id="readingStatusChoiceBox" prefHeight="25" prefWidth="395"/>
 
                         <!-- Buttons -->

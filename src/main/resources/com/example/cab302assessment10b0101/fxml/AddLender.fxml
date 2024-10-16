@@ -3,11 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane hbarPolicy="NEVER" prefHeight="535" prefWidth="898" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="535" prefWidth="898" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302assessment10b0101.controllers.AddLenderController" stylesheets="@../styles/addLender.css">
 
     <AnchorPane minHeight="0" minWidth="0" prefHeight="535" prefWidth="911">
-        <VBox prefHeight="448" prefWidth="514">
+        <VBox prefHeight="448" prefWidth="514" AnchorPane.leftAnchor="35">
 
             <!-- Lender Name -->
             <HBox alignment="CENTER" prefHeight="59" prefWidth="466" spacing="20">
@@ -46,4 +46,4 @@
             </HBox>
         </VBox>
     </AnchorPane>
-</ScrollPane>
+</AnchorPane>
