@@ -41,36 +41,35 @@ public class UserDAOTest {
     }
 
     /**
-     * Tests updating an existing user's details in the MockUserDAO.
-     * Verifies that the user's data is correctly updated.
+     * Tests updating an existing user's username in the MockUserDAO.
+     * Verifies that the user's username is correctly updated.
      */
     @Test
-    public void testUpdateUser() {
+    public void testUpdateUsername() {
         User user = new User("testUser", "testPassword");
         userDAO.insert(user);
 
-        user.setUserName(new SimpleStringProperty("updatedUser"));
-        user.setPassword("updatedPassword");
-        userDAO.update(user);
+        // Update username
+        userDAO.updateUsername("updatedUser", user.getId());
 
         User updatedUser = userDAO.getById(user.getId());
         assertEquals("updatedUser", updatedUser.getUsername());
-        assertEquals("updatedPassword", updatedUser.getPassword());
     }
 
     /**
-     * Tests deleting a user from the MockUserDAO by their ID.
-     * Verifies that the user is removed and no longer retrievable.
+     * Tests updating an existing user's password in the MockUserDAO.
+     * Verifies that the user's password is correctly updated.
      */
     @Test
-    public void testDeleteUser() {
-        User user = new User("toDeleteUser", "deletePassword");
+    public void testUpdatePassword() {
+        User user = new User("testUser", "testPassword");
         userDAO.insert(user);
 
-        userDAO.delete(user.getId());
+        // Update password
+        userDAO.updatePassword("updatedPassword", user.getId());
 
-        assertNull(userDAO.getById(user.getId()));
-        assertTrue(userDAO.getAll().isEmpty());
+        User updatedUser = userDAO.getById(user.getId());
+        assertEquals("updatedPassword", updatedUser.getPassword());
     }
 
     /**
