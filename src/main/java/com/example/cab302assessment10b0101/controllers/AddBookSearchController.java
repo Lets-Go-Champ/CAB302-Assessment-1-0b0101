@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import com.example.cab302assessment10b0101.Utility.AlertManager;
 
 /**
  * Controller class responsible for handling book search, display, and addition to collections.
@@ -135,7 +134,7 @@ public class AddBookSearchController {
         String query = searchTextField.getText().trim();
 
         if (query.isEmpty()) {
-            showAlert("Error", "Please enter a search query.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error", "Please enter a search query.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -165,60 +164,16 @@ public class AddBookSearchController {
 
                         progressIndicator.setVisible(false);  // Stop progress indicator
                     } else {
-                        showAlert("Error", "No results found.", Alert.AlertType.ERROR);
+                        AlertManager.getInstance().showAlert("Error", "No results found.", Alert.AlertType.ERROR);
                         progressIndicator.setVisible(false);  // Stop progress indicator
                     }
                     searchButton.setDisable(false);
                 });
             } catch (IOException e) {
-                Platform.runLater(() -> showAlert("Error", "Failed to retrieve search results.", Alert.AlertType.ERROR));
+                Platform.runLater(() -> AlertManager.getInstance().showAlert("Error", "Failed to retrieve search results.", Alert.AlertType.ERROR));
                 progressIndicator.setVisible(false);  // Stop progress indicator in case of error
             }
             searchButton.setDisable(false);
-        }).start();
-    }
-
-    /**
-     * Loads detailed information for the selected book.
-     *
-     * @param bookUrl The URL of the book to load.
-     */
-    private void loadBookDetails(String bookUrl) {
-        if (bookUrl == null || bookUrl.isEmpty()) {
-            System.err.println("Error: Attempting to load a null or empty book URL.");
-            return;
-        }
-
-        System.out.println("Loading book details for URL: " + bookUrl);
-
-        new Thread(() -> {
-            try {
-                Map<String, String> bookDetails = scraper.scrapeBookDetails(bookUrl);
-
-                Platform.runLater(() -> {
-                    // Update the UI with the details
-                    bookTitleLabel.setText("Title: " + bookDetails.get("title"));
-                    bookAuthorLabel.setText("Author: " + bookDetails.getOrDefault("Author", "No Author"));
-                    bookIsbnLabel.setText("ISBN: " + bookDetails.getOrDefault("ISBN", "No ISBN"));
-                    bookPublisherLabel.setText("Publisher: " + bookDetails.getOrDefault("Publisher", "No Publisher"));
-                    bookPagesLabel.setText("Pages: " + bookDetails.getOrDefault("Page Count", "No Pages"));
-                    bookPublishedDateLabel.setText("Published Date: " + bookDetails.getOrDefault("Publication Date", "No Date"));
-                    bookDescriptionLabel.setText("Description: " + bookDetails.getOrDefault("Description", "No Description"));
-
-                    // Load the image
-                    String imageUrl = bookDetails.get("imageUrl");
-                    byte[] imageBytes = (imageUrl != null && !imageUrl.isEmpty()) ? scraper.downloadImage(imageUrl) : scraper.loadDefaultImage();
-                    if (imageBytes != null) {
-                        try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
-                            bookImageView.setImage(new Image(inputStream));
-                        } catch (IOException e) {
-                            System.err.println("Error displaying image: " + e.getMessage());
-                        }
-                    }
-                });
-            } catch (IOException e) {
-                Platform.runLater(() -> showAlert("Error", "Failed to retrieve book details.", Alert.AlertType.ERROR));
-            }
         }).start();
     }
 
@@ -284,7 +239,9 @@ public class AddBookSearchController {
      * Checks if a collection is selected in the dropdown.
      * @return True if a collection is selected, otherwise false.
      */
-    private boolean collectionSelected() { return collectionChoiceBoxSearch.getSelectionModel().getSelectedItem() != null; }
+    private boolean collectionSelected() {
+        return collectionChoiceBoxSearch.getSelectionModel().getSelectedItem() != null;
+    }
 
     /**
      * Handles the event when the user clicks the "Add Book" button.
@@ -302,13 +259,13 @@ public class AddBookSearchController {
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(UserManager.getInstance().getCurrentUser(), collectionName);
 
         if (searchResults == null || searchResults.isEmpty()) {
-            showAlert("Error", "No book selected.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error", "No book selected.", Alert.AlertType.ERROR);
             return;
         }
 
         Collection selectedCollection = collectionChoiceBoxSearch.getSelectionModel().getSelectedItem();
         if (selectedCollection == null) {
-            showAlert("Error", "No collection selected.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error", "No collection selected.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -324,7 +281,7 @@ public class AddBookSearchController {
         boolean isDuplicate = booksInCollection.stream().anyMatch(book -> book.getISBN().equals(isbnStr));
 
         if (isDuplicate) {
-            showAlert("Error", "A book with the same ISBN already exists in this collection!", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error", "A collection with this name already exists.", Alert.AlertType.ERROR);
             return;  // Stop the process if duplicate is found
         }
 
@@ -358,7 +315,7 @@ public class AddBookSearchController {
         BookDAO.getInstance().insert(newBook);
 
         // Show a success message or reset UI if necessary
-        showAlert("Success", "Book added successfully!", Alert.AlertType.INFORMATION);
+        AlertManager.getInstance().showAlert("Success", "Book added Successfully!", Alert.AlertType.INFORMATION);
     }
 
     /**
@@ -378,16 +335,5 @@ public class AddBookSearchController {
         // Make notes section visible
         addNoteLabel.setVisible(true);
         notesTextArea.setVisible(true);
-    }
-
-    /**
-     * Displays an alert dialog with the provided message. (TO BE REMOVED)
-     */
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }
