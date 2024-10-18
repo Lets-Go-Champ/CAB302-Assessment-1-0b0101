@@ -103,7 +103,7 @@ public class MockBookDAO implements BookDAOInterface {
     public void deleteBook(String title) {
         boolean removed = books.removeIf(book -> book.getTitle().equals(title));
         if (!removed) {
-            throw new IllegalArgumentException("Book with title '" + title + "' not found.");
+            throw new IllegalArgumentException();
         }
     }
 }
