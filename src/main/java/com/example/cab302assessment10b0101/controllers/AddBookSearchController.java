@@ -226,11 +226,11 @@ public class AddBookSearchController {
 
         // Load the preloaded image bytes from Scraper's imageBytesList
         byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Get image bytes using the current index
-        if (imageBytes != null) {
-            try (InputStream inputStream = new ByteArrayInputStream(imageBytes)) {
+        if ( imageBytes != null ) {
+            try ( InputStream inputStream = new ByteArrayInputStream(imageBytes) ) {
                 bookImageView.setImage(new Image(inputStream));  // Display cached image
-            } catch (IOException e) {
-                System.err.println("Error displaying image: " + e.getMessage());
+            } catch ( IOException e ) {
+                AlertManager.getInstance().showAlert("Error: Image Load Failed", "Failed to display the image.", Alert.AlertType.ERROR);
             }
         }
     }
