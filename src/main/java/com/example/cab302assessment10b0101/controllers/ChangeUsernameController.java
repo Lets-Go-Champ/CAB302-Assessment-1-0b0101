@@ -17,8 +17,15 @@ public class ChangeUsernameController {
 
     @FXML
     private TextField newUsernameTextField; //Input field for the new username
-    public Button updateButton; //Button to trigger the username update
-    public Button cancelButton; //Button to cancel the update process
+    /**
+     * Button to trigger the username update process.
+     */
+    public Button updateButton;
+
+    /**
+     * Button to cancel the username update process.
+     */
+    public Button cancelButton;
 
     // Messages for input validation and notification
     final String noUsernameMessage = "Please enter a new username.";

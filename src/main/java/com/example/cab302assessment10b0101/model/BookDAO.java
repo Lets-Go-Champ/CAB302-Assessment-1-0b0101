@@ -97,6 +97,7 @@ public class BookDAO {
      * The book's ID is used to identify which record to update.
      *
      * @param book The Book object containing updated details.
+     * @param originalTitle The Book title.
      */    public void update(Book book, String originalTitle) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(

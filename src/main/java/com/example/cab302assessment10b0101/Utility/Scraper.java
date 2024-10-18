@@ -27,6 +27,9 @@ import java.util.regex.Pattern;
  */
 public class Scraper {
 
+    /**
+     * A list to store byte arrays representing images.
+     */
     public List<byte[]> imageBytesList = new ArrayList<>();  // Declare the imageBytesList
 
     /**

@@ -17,7 +17,11 @@ public class AlertManager {
     // Private constructor to prevent instantiation
     private AlertManager() {}
 
-    // Get the single instance of AlertManager
+    /**
+     * Returns the singleton instance of {@code AlertManager}.
+     *
+     * @return the single instance of {@code AlertManager}.
+     */
     public static AlertManager getInstance() {
         if (instance == null) {
             instance = new AlertManager();
@@ -46,7 +50,7 @@ public class AlertManager {
      *
      * @param title   The title of the confirmation dialog.
      * @param message The message content to be displayed in the confirmation dialog.
-     * @return An Optional<ButtonType> representing the user's choice (OK or CANCEL).
+     * @return An Optional ButtonType representing the user's choice (OK or CANCEL).
      */
     public Optional<ButtonType> showConfirmation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

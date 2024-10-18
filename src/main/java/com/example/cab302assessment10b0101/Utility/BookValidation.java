@@ -19,7 +19,12 @@ public class BookValidation {
     // Private constructor to prevent instantiation
     private BookValidation() {}
 
-    // Get the single instance of BookValidation
+    /**
+     * Retrieves the single instance of the {@code BookValidation} class.
+     * If the instance does not exist, it creates a new one.
+     *
+     * @return The singleton instance of {@code BookValidation}.
+     */
     public static BookValidation getInstance() {
         if (instance == null) {
             instance = new BookValidation();
@@ -44,6 +49,7 @@ public class BookValidation {
     /**
      * Validates if all the field values entered for a book are valid
      * @param title The new title of the book
+     * @param isNewTitle Indicates if the title is new. If true, checks if the title already exists.
      * @param isbn The ISBN of the book
      * @param author The author of the book
      * @param description The description of the book

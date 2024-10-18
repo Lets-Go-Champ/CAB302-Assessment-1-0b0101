@@ -19,8 +19,15 @@ public class ChangePasswordController {
 
     @FXML
     private TextField newPasswordTextField; //Input field for the new password
-    public Button updateButton; //Button to trigger password update
-    public Button cancelButton; //Button to cancel the update process
+    /**
+     * Button to trigger the password update process.
+     */
+    public Button updateButton;
+
+    /**
+     * Button to cancel the password update process.
+     */
+    public Button cancelButton;
 
     // The ID of the current user
     final int userID = UserManager.getInstance().getCurrentUser().getId();

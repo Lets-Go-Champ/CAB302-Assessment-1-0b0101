@@ -19,21 +19,35 @@ import java.util.ResourceBundle;
  */
 public class LendingCellController implements Initializable {
 
-    // FXML UI elements bound to the corresponding elements in the view
+    /**
+     * Label to display the book's title in the loan view.
+     */
     @FXML
-    public Label loanBookTitle; // Label to display the book's title
+    public Label loanBookTitle;
 
+    /**
+     * Label to display the book's author in the loan view.
+     */
     @FXML
-    public Label loanBookAuthor; // Label to display the book's author
+    public Label loanBookAuthor;
 
+    /**
+     * Label to display the borrower's name in the loan view.
+     */
     @FXML
-    public Label loanBorrowerName; // Label to display the borrower's name
+    public Label loanBorrowerName;
 
+    /**
+     * Button to rescind (remove) the loan in the loan view.
+     */
     @FXML
-    public Button rescindLoanBtn; // Button to rescind (remove) the loan
+    public Button rescindLoanBtn;
 
+    /**
+     * ImageView to display the book's cover image in the loan view.
+     */
     @FXML
-    public ImageView loanBookCoverImage; // ImageView to display the book's cover image
+    public ImageView loanBookCoverImage;
 
     // The loan and loan service used by this controller
     private final Loan loan; //the loan object associated with this cell

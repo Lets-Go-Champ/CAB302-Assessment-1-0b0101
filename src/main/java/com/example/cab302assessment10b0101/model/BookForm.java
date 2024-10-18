@@ -18,7 +18,10 @@ import java.nio.file.Paths;
 public class BookForm {
 
     /**
-     * Handles the image upload process.
+     * Allows the user to upload an image file (JPG or PNG) using a file chooser
+     * and displays the uploaded image in a confirmation dialog.
+     *
+     * @return The uploaded {@link Image}, or {@code null} if an error occurs.
      */
     protected Image uploadImage() {
         try {

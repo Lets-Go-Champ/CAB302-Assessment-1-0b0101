@@ -16,12 +16,26 @@ import java.io.IOException;
  */
 public class ProfileController {
 
-    // FXML UI elements bound to the corresponding elements in the view
+    /**
+     * TextField for user to input the username.
+     */
     @FXML
-    public TextField usernameTextField; //Text field for displaying username
-    public TextField passwordTextField; //Text field for displaying the password
-    public Button changeUsernameButton; //Button to trigger username change
-    public Button changePasswordButton; //Button to trigger password change
+    public TextField usernameTextField;
+
+    /**
+     * TextField for user to input the password.
+     */
+    public TextField passwordTextField;
+
+    /**
+     * Button to initiate the username change process.
+     */
+    public Button changeUsernameButton;
+
+    /**
+     * Button to initiate the password change process.
+     */
+    public Button changePasswordButton;
 
     /**
      * Sets the username in the username text field.
