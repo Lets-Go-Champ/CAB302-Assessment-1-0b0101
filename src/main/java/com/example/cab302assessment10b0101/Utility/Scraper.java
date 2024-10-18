@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.Utility;
 
+import javafx.scene.control.Alert;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.jsoup.Jsoup;
@@ -54,16 +55,11 @@ public class Scraper {
                 break;
             }
 
-            if (bookUrl == null || bookUrl.isEmpty()) {
-                System.err.println("Skipping book with empty URL: " + bookTitle);
-                continue;
-            }
+            if (bookUrl == null || bookUrl.isEmpty()) { continue; }
 
             if (!bookUrl.startsWith("http")) {
                 bookUrl = "https://books.google.com" + bookUrl;
             }
-
-            System.out.println("Book URL: " + bookUrl);
 
             // Fetch the book details
             Map<String, String> bookDetails = scrapeBookDetails(bookUrl);
@@ -90,11 +86,10 @@ public class Scraper {
      */
     public Map<String, String> scrapeBookDetails(String bookUrl) throws IOException {
         // Log the URL being used in the scraping process
-        System.out.println("Attempting to scrape details from URL: " + bookUrl);
 
         // Ensure the URL is not empty
         if (bookUrl == null || bookUrl.isEmpty()) {
-            throw new IOException("Error: The book URL is empty.");
+            throw new IOException();
         }
 
         // Connect to the book URL and fetch the HTML document
@@ -135,7 +130,6 @@ public class Scraper {
         String bookId = extractBookId(bookUrl);
 
         String imageUrl = "https://books.google.com/books/content?id=" + bookId + "&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
-        System.out.println("Cover Image URL: " + imageUrl);  // For verification
         bookDetails.put("imageUrl", imageUrl);
 
 
@@ -143,8 +137,6 @@ public class Scraper {
         String publicationDateRaw = doc.select("span:contains(Published)").next().text();
         String formattedPublicationDate = formatDateString(publicationDateRaw);
         bookDetails.put("Publication Date", formattedPublicationDate);
-
-
 
         return bookDetails;
     }
@@ -186,7 +178,7 @@ public class Scraper {
                 return baos.toByteArray();
             }
         } catch (IOException e) {
-            System.err.println("Error downloading image: " + e.getMessage() + ". Using default image instead.");
+            AlertManager.getInstance().showAlert("Error: Image Download Failed ", "Failed to download cover image. Using default image instead.", Alert.AlertType.INFORMATION);
             return loadDefaultImage();  // Load the default image if downloading fails
         }
     }
@@ -202,7 +194,7 @@ public class Scraper {
             InputStream is = getClass().getResourceAsStream("/com/example/cab302assessment10b0101/images/Default.jpg");
             return IOUtils.toByteArray(is);
         } catch (IOException e) {
-            System.err.println("Error loading default image: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to load default image.", Alert.AlertType.ERROR);
             return null;
         }
     }
