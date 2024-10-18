@@ -74,4 +74,36 @@ public class MockBookDAO implements BookDAOInterface {
             }
         }
     }
+
+    /**
+     * Retrieves a book by its ID from the mock data store.
+     * If the book is found, it is returned; otherwise, null is returned.
+     *
+     * @param bookId The ID of the book to retrieve.
+     * @return The Book object with the specified ID, or null if not found.
+     */
+    @Override
+    public Book getBookById(int bookId) {
+        for (Book book : books) {
+            if (book.getId() == bookId) {
+                return book; // Return the book if found
+            }
+        }
+        return null; // Return null if no book is found with the given ID
+    }
+
+    /**
+     * Deletes a book by its title from the mock data store.
+     * If the book is found, it is removed; otherwise, an IllegalArgumentException is thrown.
+     *
+     * @param title The title of the book to delete.
+     * @throws IllegalArgumentException if the book with the specified title is not found.
+     */
+    @Override
+    public void deleteBook(String title) {
+        boolean removed = books.removeIf(book -> book.getTitle().equals(title));
+        if (!removed) {
+            throw new IllegalArgumentException("Book with title '" + title + "' not found.");
+        }
+    }
 }

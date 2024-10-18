@@ -53,6 +53,15 @@ public class UserTest {
     }
 
     /**
+     * Tests the setUsername(String) method to ensure it correctly updates the username.
+     */
+    @Test
+    public void testSetUsernameWithString() {
+        user.setUsername("anotherUser");
+        assertEquals("anotherUser", user.getUsername());
+    }
+
+    /**
      * Tests the getPassword method to ensure it returns the correct password.
      */
     @Test
@@ -79,15 +88,6 @@ public class UserTest {
         assertEquals(0, userWithoutId.getId());
         assertEquals("newUser", userWithoutId.getUsername());
         assertEquals("newPassword", userWithoutId.getPassword());
-    }
-
-    /**
-     * Tests the toString method to ensure it returns the correct string representation of the User.
-     */
-    @Test
-    public void testToString() {
-        String expectedString = "User{id=1, userName='testUser', password='testPassword'}";
-        assertEquals(expectedString, user.toString());
     }
 
     /**

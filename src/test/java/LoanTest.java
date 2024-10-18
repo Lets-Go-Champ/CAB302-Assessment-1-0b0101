@@ -65,4 +65,22 @@ public class LoanTest {
         String dateStr = loan.getDateAsString();
         assertEquals(LocalDate.now().toString(), dateStr);
     }
+
+    /**
+     * Tests the getId and setId methods to ensure the loan ID is set and retrieved correctly.
+     */
+    @Test
+    public void testSetAndGetId() {
+        loan.setId(100);
+        assertEquals(100, loan.getId());
+    }
+
+    /**
+     * Tests the getDateAsString method to ensure it handles null dates properly.
+     */
+    @Test
+    public void testDateAsStringWhenDateIsNull() {
+        loan.setDate(null);
+        assertThrows(NullPointerException.class, () -> loan.getDateAsString());
+    }
 }

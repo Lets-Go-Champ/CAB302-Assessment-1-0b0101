@@ -17,18 +17,21 @@ public interface UserDAOInterface {
     void insert(User user);
 
     /**
-     * Updates an existing user's details in the mock data store.
+     * Updates the username of an existing user.
      *
-     * @param user The User object with updated details.
+     * @param newUsername The new username to set.
+     * @param userId The ID of the user to update.
      */
-    void update(User user);
+    void updateUsername(String newUsername, int userId);
 
     /**
-     * Deletes a user from the mock data store based on their ID.
+     * Updates the password of an existing user.
      *
-     * @param id The ID of the user to be deleted.
+     * @param newPassword The new password to set.
+     * @param userId The ID of the user to update.
      */
-    void delete(int id);
+    void updatePassword(String newPassword, int userId);
+
 
     /**
      * Retrieves all users from the mock data store.

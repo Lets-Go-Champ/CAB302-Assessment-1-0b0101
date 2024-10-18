@@ -116,6 +116,7 @@ public class Collection {
         this.collectionDescription = description;
     }
 
+
     /**
      * Returns a string representation of the collection for testing purposes.
      *
@@ -125,4 +126,6 @@ public class Collection {
     public String toString() {
         return collectionName;
     }
+
+
 }
