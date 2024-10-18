@@ -274,7 +274,7 @@ public class BookTest {
     @Test
     public void testSetReadingStatus() {
         StringProperty newStatus = new SimpleStringProperty("reading");
-        book.setreadingStatus(newStatus);
+        book.setReadingStatus(newStatus);
         assertEquals("reading", book.getReadingStatus());
     }
 

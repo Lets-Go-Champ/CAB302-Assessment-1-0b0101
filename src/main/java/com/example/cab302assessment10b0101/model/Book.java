@@ -325,7 +325,7 @@ public class Book {
      */
     public void setPages(SimpleIntegerProperty pages) {
         if (pages.get() < 0) {
-            throw new IllegalArgumentException("Number of pages cannot be negative");
+            throw new IllegalArgumentException();
         }
         this.pages = pages;
     }
@@ -350,7 +350,7 @@ public class Book {
      * Sets the current reading status of the book.
      * @param readingStatus The reading status to set as a StringProperty.
      */
-    public void setreadingStatus(StringProperty readingStatus) {
+    public void setReadingStatus(StringProperty readingStatus) {
         this.readingStatus = readingStatus;
     }
 }
