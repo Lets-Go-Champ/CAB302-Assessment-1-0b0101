@@ -67,7 +67,6 @@ public class MyBooksController implements Initializable {
             filterBooks(newValue.trim());
         });
 
-
         // Add sorting options to the ComboBox
         filterComboBox.getItems().addAll("Title", "Author", "Publication Date");
 
@@ -138,16 +137,20 @@ public class MyBooksController implements Initializable {
      */
     private void sortBooksByTitle() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection != null) {
-            // Get all books from the collection
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+        if (selectedCollection == null) return; // No collection selected, exit
 
-            // Sort by title
-            FXCollections.sort(books, (b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-            // Update the book grid with sorted books
-            updateBookGrid(books);
-        }
+        // Get all books from the collection using the retrieved collectionId
+        ObservableList<Book> allBooks = BookDAO.getInstance().getAllByCollection(collectionId);
+
+        // Sort by title
+        FXCollections.sort(allBooks, (b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+
+        // Update the book grid with sorted books
+        updateBookGrid(allBooks);
     }
     /**
      * Sorts the books by author in the currently selected collection and updates the book grid.
@@ -158,17 +161,22 @@ public class MyBooksController implements Initializable {
      */
     private void sortBooksByAuthor() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection != null) {
-            // Get all books from the collection
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+        if (selectedCollection == null) return; // No collection selected, exit
 
-            // Sort by author
-            FXCollections.sort(books, (b1, b2) -> b1.getAuthor().compareToIgnoreCase(b2.getAuthor()));
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-            // Update the book grid with sorted books
-            updateBookGrid(books);
-        }
+        // Get all books from the collection using the retrieved collectionId
+        ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
+
+        // Sort by author
+        FXCollections.sort(books, (b1, b2) -> b1.getAuthor().compareToIgnoreCase(b2.getAuthor()));
+
+        // Update the book grid with sorted books
+        updateBookGrid(books);
     }
+
     /**
      * Sorts the books by publication date in the currently selected collection and updates the book grid.
      * <p>
@@ -178,41 +186,44 @@ public class MyBooksController implements Initializable {
      */
     private void sortBooksByPublicationDate() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection != null) {
-            // Get all books from the collection
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+        if (selectedCollection == null) return; // No collection selected, exit
 
-            // Log books before sorting
-            System.out.println("Books before sorting:");
-            for (Book book : books) {
-                System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
-            }
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-            // Sort by publication date, handling null values
-            FXCollections.sort(books, (b1, b2) -> {
-                LocalDate date1 = b1.getPublicationDateAsLocalDate();
-                LocalDate date2 = b2.getPublicationDateAsLocalDate();
+        // Get all books from the collection using the retrieved collectionId
+        ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
 
-                // Handle null values (null dates are pushed to the end)
-                if (date1 == null && date2 == null) return 0;  // Both dates are null
-                if (date1 == null) return 1;  // Push nulls to the end
-                if (date2 == null) return -1; // Push nulls to the end
-
-                // Compare actual dates
-                return date1.compareTo(date2);
-            });
-
-            // Log books after sorting
-            System.out.println("Books after sorting:");
-            for (Book book : books) {
-                System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
-            }
-
-            // Update the book grid with sorted books
-            updateBookGrid(books);
+        // Log books before sorting
+        System.out.println("Books before sorting:");
+        for (Book book : books) {
+            System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
         }
-    }
 
+        // Sort by publication date, handling null values
+        FXCollections.sort(books, (b1, b2) -> {
+            LocalDate date1 = b1.getPublicationDateAsLocalDate();
+            LocalDate date2 = b2.getPublicationDateAsLocalDate();
+
+            // Handle null values (null dates are pushed to the end)
+            if (date1 == null && date2 == null) return 0;  // Both dates are null
+            if (date1 == null) return 1;  // Push nulls to the end
+            if (date2 == null) return -1; // Push nulls to the end
+
+            // Compare actual dates
+            return date1.compareTo(date2);
+        });
+
+        // Log books after sorting
+        System.out.println("Books after sorting:");
+        for (Book book : books) {
+            System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
+        }
+
+        // Update the book grid with sorted books
+        updateBookGrid(books);
+    }
 
 
     /**
@@ -325,17 +336,18 @@ public class MyBooksController implements Initializable {
      */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
-        // Clear existing items in case switching accounts
         collectionsChoiceBox.getItems().clear();
 
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionsChoiceBox.setItems(collections);
 
-        // Optionally set a default value
+        System.out.println("Collections count: " + collections.size()); // Debugging line
+
         if (!collections.isEmpty()) {
             collectionsChoiceBox.getSelectionModel().selectFirst();
         }
     }
+
 
     /**
      * Filters the books based on the search query entered by the user.
