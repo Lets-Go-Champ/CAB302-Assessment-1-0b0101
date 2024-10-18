@@ -1,4 +1,4 @@
-package com.example.cab302assessment10b0101;
+package com.example.cab302assessment10b0101.Utility;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -149,7 +149,12 @@ public class Scraper {
         return bookDetails;
     }
 
-    // Helper method to extract book ID from the URL
+    /**
+     * Extracts the book ID from the book URL.
+     *
+     * @param bookUrl The URL of the book.
+     * @return The extracted book ID or an empty string if not found.
+     */
     private String extractBookId(String bookUrl){
         Pattern pattern = Pattern.compile("id=([^&]+)");
         Matcher matcher = pattern.matcher(bookUrl);
@@ -159,6 +164,12 @@ public class Scraper {
         return "";  // Return empty string if ID not found
     }
 
+    /**
+     * Downloads the image from the provided URL.
+     *
+     * @param imageUrl The URL of the image.
+     * @return A byte array representing the image, or the default image if the download fails.
+     */
     public byte[] downloadImage(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
@@ -182,7 +193,9 @@ public class Scraper {
 
 
     /**
-     * Loads a default image in case downloading the cover image fails.
+     * Loads a default image if the cover image download fails.
+     *
+     * @return A byte array representing the default image.
      */
     public byte[] loadDefaultImage() {
         try {
@@ -204,20 +217,20 @@ public class Scraper {
     private String formatDateString(String dateStr) {
         SimpleDateFormat inputFormatFull = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
         SimpleDateFormat inputFormatYear = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");  // Database format
 
         try {
             // Try parsing full date (e.g., "14 September 2008")
             Date date = inputFormatFull.parse(dateStr);
-            return outputFormat.format(date);
+            return outputFormat.format(date);  // Convert to yyyy-MM-dd format
         } catch (ParseException e) {
             // If only the year is provided (e.g., "2008"), assume 01-01-YYYY
             try {
                 Date yearOnly = inputFormatYear.parse(dateStr);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(yearOnly);
-                calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.MONTH, Calendar.JANUARY);
+                calendar.set(Calendar.DAY_OF_MONTH, 1);  // Set default day to 1
+                calendar.set(Calendar.MONTH, Calendar.JANUARY);  // Set default month to January
                 return outputFormat.format(calendar.getTime());
             } catch (ParseException ex) {
                 // Handle unexpected formats by returning the original string

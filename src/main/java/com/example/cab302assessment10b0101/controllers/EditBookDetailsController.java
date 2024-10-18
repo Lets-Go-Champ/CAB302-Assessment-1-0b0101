@@ -56,10 +56,6 @@ public class EditBookDetailsController extends BookForm implements Initializable
     private byte[] imageBytes; // Image as a byte array for storing/uploading the image
     private String originalTitle; // The original title of the book, before being updated.
 
-    // Error messages for input validation
-    final String dateParseErrorMessage = "Failed to parse the Book's date.";
-    final String formatDateErrorMessage = "Could not format the date; the date has been reset. Please select a new date";
-
     // Sets the fields with the specified values
     private void setIsbnTextField(String isbn) { isbnTextField.setText(isbn); }
     private void setTitleTextField(String title) { titleTextField.setText(title); }
@@ -149,7 +145,6 @@ public class EditBookDetailsController extends BookForm implements Initializable
      * @param date The string date of form YYYY-M(M)-D(D)
      */
     private void formatDate(String date) {
-
         // Define an array of possible date formats
         DateTimeFormatter[] formatters = new DateTimeFormatter[]{
                 DateTimeFormatter.ofPattern("yyyy-M-d"),   // Format for yyyy-M-D
@@ -161,15 +156,22 @@ public class EditBookDetailsController extends BookForm implements Initializable
 
         // Try each formatter in the array
         for (DateTimeFormatter formatter : formatters) {
-            try { parsedDate = LocalDate.parse(date, formatter); break; }
-            catch ( DateTimeParseException e ) {
-                AlertManager.getInstance().showAlert("Error: Date Parse", dateParseErrorMessage, AlertType.ERROR);
+            try {
+                parsedDate = LocalDate.parse(date, formatter);
+                break;  // Exit the loop once a date is successfully parsed
+            } catch (DateTimeParseException ignored) {
+                // Catch the exception but don't alert immediately
             }
         }
 
-        // If parsedDate is not null, update the DatePicker; otherwise, handle error
-        if ( parsedDate != null ) { setDateDatePicker(parsedDate); }
-        else { AlertManager.getInstance().showAlert("Error: Date Format", formatDateErrorMessage, AlertType.ERROR); }
+        // If parsedDate is null, it means none of the formatters worked
+        if (parsedDate == null) {
+            // Show alert only once if no formatter works
+            AlertManager.getInstance().showAlert("Error: Date Format", "Date tied to book formatted incorrectly; Date has been reset.\n\nPlease select a new date.", Alert.AlertType.INFORMATION);
+        } else {
+            // If the date was parsed successfully, update the DatePicker
+            setDateDatePicker(parsedDate);
+        }
     }
 
     /**

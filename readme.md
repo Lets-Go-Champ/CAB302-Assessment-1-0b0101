@@ -15,10 +15,7 @@
 - **Borrowing Management:**
     - Track books lent out, including borrower details and return date reminders.
 - **Reading History:**
-    - Track reading progress, including start and end dates.
-    - Maintain a log of completed books with ratings.
-- **Wish Lists:**
-    - Create and manage lists for future book purchases or reading.
+    - Track reading progress
 - **Web Scraping:**
     - Retrieve and populate book details and cover images from online sources via the integrated web scraping tool (jSOUP).
 - **User Interface:**
@@ -29,11 +26,18 @@
 ### Login Page
 ![Login Page](src/main/resources/cover.png)
 
+### My Book Page
+![My Book Page](src/main/resources/myBookPage.png)
+
 ### Book Details Page
 ![Book Details Page](src/main/resources/bookDetail.png)
 
 ### Book Lending Page
 ![Book Lending Page](src/main/resources/bookLoan.png)
+
+### Web Scraping Page
+![Web Scraping Page](src/main/resources/webScraping.png)
+
 
 ## Technologies Used
 
