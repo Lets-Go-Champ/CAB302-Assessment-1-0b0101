@@ -36,4 +36,20 @@ public interface BookDAOInterface {
      * @param book The updated Book object.
      */
     void update(Book book);  // Adding the update method to the interface
+
+    /**
+     * Retrieves a book by its ID.
+     *
+     * @param bookId The ID of the book to retrieve.
+     * @return The Book object with the specified ID, or null if not found.
+     */
+    Book getBookById(int bookId);
+
+    /**
+     * Deletes a book by its title.
+     *
+     * @param title The title of the book to delete.
+     * @throws IllegalArgumentException if the book is not found.
+     */
+    void deleteBook(String title);
 }

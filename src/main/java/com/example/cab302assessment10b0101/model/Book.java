@@ -56,7 +56,6 @@ public class Book {
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Format for yyyy-MM-dd
         DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-d");  // Format for yyyy-MM-d (one-digit day)
 
-
         // Try parsing with the first format
         try {
             return LocalDate.parse(dateString, formatter1);
@@ -69,7 +68,6 @@ public class Book {
                 try {
                     return LocalDate.parse(dateString, formatter3);
                 } catch (DateTimeParseException e3) {
-                    System.err.println("Error parsing date: " + dateString + ". None of the formats match.");
                     return null;  // Handle the parsing error if none of the formats work
                 }
             }
