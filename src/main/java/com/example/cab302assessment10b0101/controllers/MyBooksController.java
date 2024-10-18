@@ -1,8 +1,8 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;
@@ -19,11 +19,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
-
 
 
 /**
@@ -195,12 +192,6 @@ public class MyBooksController implements Initializable {
         // Get all books from the collection using the retrieved collectionId
         ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
 
-        // Log books before sorting
-        System.out.println("Books before sorting:");
-        for (Book book : books) {
-            System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
-        }
-
         // Sort by publication date, handling null values
         FXCollections.sort(books, (b1, b2) -> {
             LocalDate date1 = b1.getPublicationDateAsLocalDate();
@@ -214,12 +205,6 @@ public class MyBooksController implements Initializable {
             // Compare actual dates
             return date1.compareTo(date2);
         });
-
-        // Log books after sorting
-        System.out.println("Books after sorting:");
-        for (Book book : books) {
-            System.out.println(book.getTitle() + " - Publication Date: " + book.getPublicationDate());
-        }
 
         // Update the book grid with sorted books
         updateBookGrid(books);
@@ -259,8 +244,6 @@ public class MyBooksController implements Initializable {
         if (selectedCollection != null) {
             // Force reloading the books for the selected collection
             loadBooks(selectedCollection);
-        } else {
-            System.out.println("No collection selected.");
         }
     }
 
@@ -325,7 +308,7 @@ public class MyBooksController implements Initializable {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Error updating book grid: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book grid", Alert.AlertType.INFORMATION);
             }
         });
     }
@@ -340,8 +323,6 @@ public class MyBooksController implements Initializable {
 
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionsChoiceBox.setItems(collections);
-
-        System.out.println("Collections count: " + collections.size()); // Debugging line
 
         if (!collections.isEmpty()) {
             collectionsChoiceBox.getSelectionModel().selectFirst();
@@ -389,7 +370,6 @@ public class MyBooksController implements Initializable {
             updateBookGrid(filteredBooks);
         }
     }
-
 
 }
 

@@ -1,9 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.Loan;
 import com.example.cab302assessment10b0101.model.LoanService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -69,8 +71,8 @@ public class LendingCellController implements Initializable {
         rescindLoanBtn.setOnAction(event -> {
             try {
                 handleRescindLoan(loan);
-            } catch (SQLException e) {
-                System.out.println("Error initializing the Lending view controller: " + e.getMessage());
+            } catch ( SQLException e ) {
+                AlertManager.getInstance().showAlert("Initialization Error: ", "Error initializing the Lending view controller.", Alert.AlertType.INFORMATION);
             }
         });
     }
