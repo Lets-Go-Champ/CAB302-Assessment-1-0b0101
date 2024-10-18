@@ -308,7 +308,7 @@ public class MyBooksController implements Initializable {
                     }
                 }
             } catch (IOException e) {
-                AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book grid", Alert.AlertType.INFORMATION);
+                AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book grid", Alert.AlertType.ERROR);
             }
         });
     }

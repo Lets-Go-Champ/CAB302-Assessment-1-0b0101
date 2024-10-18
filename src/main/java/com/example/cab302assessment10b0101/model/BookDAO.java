@@ -63,7 +63,7 @@ public class BookDAO {
                             ");"
             );
         } catch (SQLException ex) {
-            AlertManager.getInstance().showAlert("SQL Error: ", "Failed to create Book Table.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("SQL Error: ", "Failed to create Book Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -91,7 +91,7 @@ public class BookDAO {
             insertBook.setString(11, book.getReadingStatus());
             insertBook.execute();
         } catch (SQLException ex) {
-            AlertManager.getInstance().showAlert("Insert Error: ", "Failed to insert the Book into the Database", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Insert Error: ", "Failed to insert the Book into the Database", Alert.AlertType.ERROR);
         }
     }
 
@@ -119,7 +119,7 @@ public class BookDAO {
             updateBook.setString(12, originalTitle);
             updateBook.execute();
         } catch (SQLException ex) {
-            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book Details.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book Details.", Alert.AlertType.ERROR);
         }
     }
 
@@ -152,7 +152,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return books;
     }
@@ -195,7 +195,7 @@ public class BookDAO {
                 bookCount++;
             }
         } catch (SQLException e) {
-            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return books;
     }
@@ -207,7 +207,7 @@ public class BookDAO {
             pstmt.executeUpdate(); // Execute the update query
 
         } catch (SQLException e) {
-            AlertManager.getInstance().showAlert("Deletion Error: ", "Failed to delete the Book from the Database.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Deletion Error: ", "Failed to delete the Book from the Database.", Alert.AlertType.ERROR);
             throw e; // Optionally rethrow the exception
         }
     }
@@ -238,7 +238,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return null; // Return null if no book is found with the given ID
     }
@@ -265,7 +265,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return null; // Return null if no book is found
     }

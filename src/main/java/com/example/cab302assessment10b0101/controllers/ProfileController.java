@@ -72,7 +72,7 @@ public class ProfileController {
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
         } catch (IOException e) {
-            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Username.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Username.", Alert.AlertType.ERROR);
         }
         reload();
     }
@@ -95,7 +95,7 @@ public class ProfileController {
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
         } catch (IOException e) {
-            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Password.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Password.", Alert.AlertType.ERROR);
         }
         reload();
     }
