@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
  */
 public class Book {
     private int bookId;
-    private int collectionId;
+    private final int collectionId;
     private StringProperty title;
     private StringProperty isbn;
     private StringProperty author;
@@ -40,7 +40,7 @@ public class Book {
      *     <li>yyyy-MM-d  (e.g., 2024-10-7)</li>
      * </ul>
      * If the string doesn't match any of these formats, it returns {@code null}.
-     * </p>
+     *
      *
      * @return the publication date as a {@link LocalDate}, or {@code null} if the date is not formatted correctly.
      * @throws DateTimeParseException if none of the formats match the string representation of the date.
@@ -345,6 +345,7 @@ public class Book {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
 
     /**
      * Sets the current reading status of the book.

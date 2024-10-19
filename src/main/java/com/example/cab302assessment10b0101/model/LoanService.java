@@ -3,6 +3,8 @@ package com.example.cab302assessment10b0101.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 /**
  * The LoanService class provides services for managing loans, including loading,
  * refreshing, adding, and removing loans. It acts as an intermediary between the
@@ -69,12 +71,14 @@ public class LoanService {
     }
 
     /**
-     * Removes a loan from the database and updates the observable list.
-     * The loan list is refreshed after deletion to ensure data consistency.
+     * Removes the specified loan from the database and updates the observable list of loans.
+     * After the deletion, the loan list is refreshed to ensure that the data is consistent
+     * and reflects the current state of the database.
      *
-     * @param loan The Loan object to be removed.
+     * @param loan The Loan object to be removed from the database.
+     * @throws SQLException If there is an error during the database operation.
      */
-    public void removeLoan(Loan loan) {
+    public void removeLoan(Loan loan) throws SQLException {
         loanDAO.deleteLoan(loan);
         loans.remove(loan);
         refreshLoans();

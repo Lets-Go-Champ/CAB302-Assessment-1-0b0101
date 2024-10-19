@@ -91,17 +91,4 @@ public class LoginController {
         ViewManager.getInstance().getViewFactory().closeStage(stage);
         ViewManager.getInstance().getViewFactory().getClientScreen();
     }
-
-    /**
-     * Validates the login credentials by checking if the provided username and password
-     * match any user record in the system.
-     *
-     * @param username The username entered by the user.
-     * @param password The password entered by the user.
-     * @return true if the credentials are valid, false otherwise.
-     */
-    private boolean isValidLogin(String username, String password) {
-        return UserDAO.getInstance().getAll().stream().anyMatch(user ->
-                user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password));
-    }
 }

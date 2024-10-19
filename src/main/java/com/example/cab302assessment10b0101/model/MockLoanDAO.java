@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class MockLoanDAO implements LoanDAOInterface {
 
-    private List<Loan> loans = new ArrayList<>();
+    private final List<Loan> loans = new ArrayList<>();
     private int currentId = 1; // Simulate auto-incrementing ID
 
     /**

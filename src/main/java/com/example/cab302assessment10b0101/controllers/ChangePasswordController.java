@@ -10,21 +10,35 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * The ChangePasswordController class handles updating the user's password.
- * It retrieves data from the UI, validates it, and stores the information in the database.
+ * The ChangePasswordController class handles the functionality for updating
+ * the user's password. It retrieves user input from the UI, validates the
+ * password according to specific criteria, and stores the new password in
+ * the database.
  */
 public class ChangePasswordController {
 
     @FXML
-    private TextField newPasswordTextField;
+    private TextField newPasswordTextField; //Input field for the new password
+    /**
+     * Button to trigger the password update process.
+     */
     public Button updateButton;
+
+    /**
+     * Button to cancel the password update process.
+     */
     public Button cancelButton;
 
     // The ID of the current user
     final int userID = UserManager.getInstance().getCurrentUser().getId();
 
 
-    // Updates the password if all fields are valid
+    /**
+     * Handles the action of updating the user's password. Validates the input
+     * password to ensure it meets complexity requirements. If valid, updates
+     * the password in the database and displays a success alert. Closes the
+     * current window upon successful update.
+     */
     public void handleUpdatePassword() {
         String newPassword = newPasswordTextField.getText();
 
@@ -51,7 +65,10 @@ public class ChangePasswordController {
         ((Stage) updateButton.getScene().getWindow()).close();
     }
 
-    // Returns to the user profile
+    /**
+     * Handles the action of cancelling the password change. Closes the current
+     * window without saving any changes to the password.
+     */
     public void handleCancel() {
         ((Stage) cancelButton.getScene().getWindow()).close();
     }

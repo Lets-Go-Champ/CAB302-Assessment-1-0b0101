@@ -109,6 +109,16 @@ public class BookDetailsController {
             AlertManager.getInstance().showAlert("Book Deleted", "The book has been successfully deleted.", Alert.AlertType.INFORMATION);
         }
     }
+
+    /**
+     * Handles the action of the edit book button. This method is triggered
+     * when the user selects to edit a book's details. It updates the current
+     * view to the edit book details page.
+     *
+     * <p>This method utilizes the ViewManager to change the current menu item
+     * to the EDITBOOKDETAILS option, allowing the user to modify the selected
+     * book's information.</p>
+     */
     @FXML
     private void handleEditBookButton(){
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.EDITBOOKDETAILS);

@@ -19,10 +19,13 @@ import java.util.ResourceBundle;
 public class ClientController implements Initializable {
 
     @FXML
-    private BorderPane mainBorderPane;
+    private BorderPane mainBorderPane; // The main content of the page
 
     @FXML
-    private FontAwesomeIconView profileIcon;
+    private FontAwesomeIconView profileIcon; // Icon for accessing the user profile page
+
+    @FXML
+    private Label userLabel; // Label to display the current user's username
 
     /**
      * Initializes the controller class. This method is called automatically after the FXML file has been loaded.
@@ -68,17 +71,21 @@ public class ClientController implements Initializable {
                     break;
             }
         });
+        //Set up actions for profile icon and user label
         profileIcon.setOnMouseClicked(event -> getProfileView());
         userLabel.setOnMouseClicked(event -> getProfileView());
     }
 
+    /**
+     * Navigates to the profile view by setting the selected menu item to PROFILE.
+     */
     public void getProfileView() {
         ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.PROFILE);
     }
 
-    @FXML
-    private Label userLabel;
-
+    /**
+     * Sets up the binding for the user label to display the current user's username.
+     */
     private void setUpBindingOfUser(){
         userLabel.textProperty().bind(UserManager.getInstance().getCurrentUser().getUsernameProperty());
     }

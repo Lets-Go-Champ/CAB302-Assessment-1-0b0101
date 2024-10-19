@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class MockUserDAO implements UserDAOInterface {
 
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
     private int currentId = 1;  // Simulate auto-incrementing ID
 
     /**

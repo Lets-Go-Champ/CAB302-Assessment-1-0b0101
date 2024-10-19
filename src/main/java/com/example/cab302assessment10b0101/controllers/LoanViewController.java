@@ -19,12 +19,12 @@ public class LoanViewController implements Initializable {
 
     // FXML UI elements linked to corresponding elements in the view
     @FXML
-    private ListView<Loan> loanListView;
+    private ListView<Loan> loanListView; //List view for displaying loans
 
     @FXML
-    private VBox emptyStateView;
+    private VBox emptyStateView; // View displayed when there are no loans
 
-    private LoanService loanService;
+    private LoanService loanService; // Service to manage loan operations
 
     /**
      * Sets the LoanService instance for this controller and loads the loans

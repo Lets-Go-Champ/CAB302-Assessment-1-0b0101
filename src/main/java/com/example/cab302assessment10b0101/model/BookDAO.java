@@ -100,6 +100,7 @@ public class BookDAO {
      * The book's ID is used to identify which record to update.
      *
      * @param book The Book object containing updated details.
+     * @param originalTitle The Book title.
      */    public void update(Book book, String originalTitle) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(
@@ -200,6 +201,12 @@ public class BookDAO {
         return books;
     }
 
+    /**
+     * Deletes a book record from the Books table based on the provided book name.
+     *
+     * @param bookName The title of the book to be deleted.
+     * @throws SQLException If an SQL error occurs during the deletion process.
+     */
     public void deleteBook(String bookName) throws SQLException {
         String sql = "DELETE FROM books WHERE title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -212,6 +219,12 @@ public class BookDAO {
         }
     }
 
+    /**
+     * Retrieves a book record by its unique ID.
+     *
+     * @param bookId The ID of the book to be retrieved.
+     * @return The Book object associated with the given ID, or null if not found.
+     */
     public Book getBookById(int bookId) {
         String query = "SELECT * FROM Books WHERE bookId = ?";
         try (PreparedStatement getBook = connection.prepareStatement(query)) {
@@ -243,6 +256,12 @@ public class BookDAO {
         return null; // Return null if no book is found with the given ID
     }
 
+    /**
+     * Retrieves a book record from the Books table based on the provided book name.
+     *
+     * @param bookName The title of the book to be retrieved.
+     * @return The Book object containing details of the found book, or null if no book is found.
+     */
     public Book getBookByName(String bookName) {
         String query = "SELECT * FROM Books WHERE title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {

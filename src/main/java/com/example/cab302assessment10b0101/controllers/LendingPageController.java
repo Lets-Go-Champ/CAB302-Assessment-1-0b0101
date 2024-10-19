@@ -9,17 +9,27 @@ import javafx.scene.control.TabPane;
 /**
  * The LendingPageController class manages the lending page of the application.
  * It connects the loan view and lender addition controllers with the loan service.
+ * This class ensures that both components can access and manipulate loan data.
  */
 public class LendingPageController {
 
     // Service used to manage loan operations
     private final LoanService loanService;
 
-    // References to the controllers for the loan view and adding lenders
+    /**
+     * Reference to the controller for managing the loan view.
+     */
     public LoanViewController loanViewController;
+
+    /**
+     * Reference to the controller for adding lenders.
+     */
     public AddLenderController addLenderController;
 
-    // FXML UI element linked to the lending page's TabPane
+    /**
+     * FXML UI element linked to the lending page's TabPane,
+     * which holds the different tabs for managing loans and lenders.
+     */
     @FXML
     public TabPane lendingTabPane;
 

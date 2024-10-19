@@ -32,28 +32,32 @@ public class MyBooksController implements Initializable {
 
     // FXML fields for linking the UI elements in the view
     @FXML
-    private ChoiceBox<Collection> collectionsChoiceBox;
+    private ChoiceBox<Collection> collectionsChoiceBox; //Choice box for selection collection
 
     @FXML
     private GridPane bookContainer; // Grid layout for displaying books
 
     @FXML
-    private TextField searchTextField;
+    private TextField searchTextField; //Text field for search queries
 
     @FXML
-    private ComboBox<String> filterComboBox;
+    private ComboBox<String> filterComboBox; //ComboBox for sorting options
 
 
     /**
      * This method is called automatically after the FXML file has been loaded.
      * It initializes the controller, populates the collection dropdown, and loads the books
      * for the default collection if available.
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object is not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         populateCollections();
         setupEventHandlers();
 
+        //Load books for the default collection if available
         Collection defaultCollection = collectionsChoiceBox.getValue();
         if (defaultCollection != null) {
             loadBooks(defaultCollection);
@@ -80,9 +84,9 @@ public class MyBooksController implements Initializable {
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty || item == null) {
-                            setText(null);
+                            setText(null); // Show null text for empty items
                         } else {
-                            setText(item);
+                            setText(item); // Show the selected item text
                         }
                     }
                 };
@@ -94,29 +98,34 @@ public class MyBooksController implements Initializable {
             if (newValue != null) {
                 switch (newValue) {
                     case "Title":
-                        sortBooksByTitle();
+                        sortBooksByTitle(); // Sort books by title
                         break;
                     case "Author":
-                        sortBooksByAuthor();
+                        sortBooksByAuthor(); // Sort books by author
                         break;
                     case "Publication Date":
-                        sortBooksByPublicationDate();
+                        sortBooksByPublicationDate(); // Sort books by publication date
                         break;
                 }
             }
         });
     }
 
-    // Method to create a ListCell with the "Sort by" text
+    /**
+     * Creates a ListCell with the specified text for the ComboBox.
+     *
+     * @param text The text to display when no item is selected.
+     * @return A custom ListCell with the specified text.
+     */
     private ListCell<String> createCustomButtonCell(String text) {
         return new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(text);  // Show "Sort by" by default
+                    setText(text); // Show "Sort by" by default
                 } else {
-                    setText(item);  // Show the selected item text
+                    setText(item); // Show the selected item text
                 }
             }
         };
@@ -370,6 +379,5 @@ public class MyBooksController implements Initializable {
             updateBookGrid(filteredBooks);
         }
     }
-
 }
 

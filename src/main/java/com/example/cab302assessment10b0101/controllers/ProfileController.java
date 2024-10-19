@@ -18,11 +18,25 @@ import java.io.IOException;
  */
 public class ProfileController {
 
-    // FXML UI elements bound to the corresponding elements in the view
+    /**
+     * TextField for user to input the username.
+     */
     @FXML
     public TextField usernameTextField;
+
+    /**
+     * TextField for user to input the password.
+     */
     public TextField passwordTextField;
+
+    /**
+     * Button to initiate the username change process.
+     */
     public Button changeUsernameButton;
+
+    /**
+     * Button to initiate the password change process.
+     */
     public Button changePasswordButton;
 
     /**
@@ -74,7 +88,7 @@ public class ProfileController {
         } catch (IOException e) {
             AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Username.", Alert.AlertType.ERROR);
         }
-        reload();
+        reload(); //Reload the profile to reflect any changes
     }
 
     /**
@@ -97,7 +111,7 @@ public class ProfileController {
         } catch (IOException e) {
             AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Password.", Alert.AlertType.ERROR);
         }
-        reload();
+        reload(); //Reload the profile to reflect any changes
     }
 
     /**
@@ -113,6 +127,7 @@ public class ProfileController {
                 // Update the textFields
                 setUsernameTextField(user.getUsername());
                 setPasswordTextField(user.getPassword());
+                break; //stop search once user is found
             }
         }
     }

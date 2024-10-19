@@ -15,30 +15,45 @@ import java.util.ResourceBundle;
 
 /**
  * The LendingCellController class manages the UI components within each loan cell
- * in the lending list view. It displays information about a loan and provides the
- * ability to rescind (remove) the loan through the associated button.
+ * in the lending list view. It displays information about a loan, including the book
+ * title, author, borrower name, and book cover image. The controller also provides
+ * functionality to rescind (remove) the loan via an associated button.
  */
 public class LendingCellController implements Initializable {
 
-    // FXML UI elements bound to the corresponding elements in the view
+    /**
+     * Label to display the book's title in the loan view.
+     */
     @FXML
-    public Label loanBookTitle; // Label to display the book's title
+    public Label loanBookTitle;
 
+    /**
+     * Label to display the book's author in the loan view.
+     */
     @FXML
-    public Label loanBookAuthor; // Label to display the book's author
+    public Label loanBookAuthor;
 
+    /**
+     * Label to display the borrower's name in the loan view.
+     */
     @FXML
-    public Label loanBorrowerName; // Label to display the borrower's name
+    public Label loanBorrowerName;
 
+    /**
+     * Button to rescind (remove) the loan in the loan view.
+     */
     @FXML
-    public Button rescindLoanBtn; // Button to rescind (remove) the loan
+    public Button rescindLoanBtn;
 
+    /**
+     * ImageView to display the book's cover image in the loan view.
+     */
     @FXML
-    public ImageView loanBookCoverImage; // ImageView to display the book's cover image
+    public ImageView loanBookCoverImage;
 
     // The loan and loan service used by this controller
-    private final Loan loan;
-    private final LoanService loanService;
+    private final Loan loan; //the loan object associated with this cell
+    private final LoanService loanService; //Service for managing loan operations
 
     /**
      * Constructor for LendingCellController, initializing the loan and loanService instances.
@@ -62,9 +77,9 @@ public class LendingCellController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // Set Loan Details
-        loanBookTitle.setText(loan.getBook().getTitle());
-        loanBookAuthor.setText(loan.getBook().getAuthor());
-        loanBorrowerName.setText(loan.getBorrower());
+        loanBookTitle.setText(loan.getBook().getTitle()); //Display the book's title
+        loanBookAuthor.setText(loan.getBook().getAuthor()); //Display the book's author
+        loanBorrowerName.setText(loan.getBorrower()); //Display the borrower's name
         loanBookCoverImage.setImage(loan.getBook().getImage()); // Set ImageView to the book's cover image.
 
         // Handle rescinding Loan

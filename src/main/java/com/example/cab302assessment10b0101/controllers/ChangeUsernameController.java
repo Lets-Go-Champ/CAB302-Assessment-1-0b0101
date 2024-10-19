@@ -16,8 +16,15 @@ import javafx.stage.Stage;
 public class ChangeUsernameController {
 
     @FXML
-    private TextField newUsernameTextField;
+    private TextField newUsernameTextField; //Input field for the new username
+    /**
+     * Button to trigger the username update process.
+     */
     public Button updateButton;
+
+    /**
+     * Button to cancel the username update process.
+     */
     public Button cancelButton;
 
     // Messages for input validation and notification
@@ -29,7 +36,12 @@ public class ChangeUsernameController {
     final int userID = UserManager.getInstance().getCurrentUser().getId();
 
 
-    // Updates the username if all fields are valid
+    /**
+     * Handles the action of updating the user's username. Validates the input
+     * to ensure it is not empty and does not already exist. If valid, updates
+     * the username in the database and the current user object. Displays success
+     * or error alerts as appropriate.
+     */
     public void handleUpdateUsername() {
         String newUsername = newUsernameTextField.getText();
 
@@ -48,10 +60,18 @@ public class ChangeUsernameController {
         ((Stage) updateButton.getScene().getWindow()).close();
     }
 
-    // Returns to the user profile
+    /**
+     * Handles the action of cancelling the username update. Closes the current
+     * window without saving any changes to the username.
+     */
     public void handleCancel() { ((Stage) cancelButton.getScene().getWindow()).close(); }
 
-    // Determines if the username already exists in the database
+    /**
+     * Checks if the provided username already exists in the database.
+     *
+     * @param username The username to check for duplicates.
+     * @return true if the username already exists, false otherwise.
+     */
     private boolean isUsernameDuplicate(String username) {
         return UserDAO.getInstance().getAll().stream().anyMatch(user -> user.getUsername().equalsIgnoreCase(username));
     }

@@ -47,7 +47,7 @@ public class UserTest {
      */
     @Test
     public void testSetUsername() {
-        user.setUserName(new SimpleStringProperty("newUser") {
+        user.setUserNameProperty(new SimpleStringProperty("newUser") {
         });
         assertEquals("newUser", user.getUsername());
     }

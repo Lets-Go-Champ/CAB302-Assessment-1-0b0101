@@ -6,7 +6,6 @@ import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -54,6 +53,9 @@ public class AddCollectionController implements Initializable {
     /**
      * Handles the saving of a new collection. Validates the input, creates a new collection,
      * adds it to the database, and updates the current user's collection list.
+     *
+     * <p>This method checks if the collection name is empty or already exists. If the input is valid,
+     * it creates a new Collection object and saves it to the database.</p>
      */
     private void saveCollection() {
         //Get the input from the text fields and trim extra spaces
@@ -105,6 +107,8 @@ public class AddCollectionController implements Initializable {
 
     /**
      * Clears the input fields after the collection has been saved or cancelled.
+     * <p>This method resets the text fields for collection name and description
+     * to prepare for new input.</p>
      */
     private void clearFields() {
         CollectionNameTextField.clear();

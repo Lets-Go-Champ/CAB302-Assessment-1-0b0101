@@ -20,15 +20,12 @@ public class LoanDAO {
     // Database connection
     private static Connection connection;
 
-    // DAO for accessing book data
-    private BookDAO bookDAO;
 
     /**
      * Constructor to initialize the database connection and dependencies.
      */
     private LoanDAO() {
         connection = DatabaseConnector.getInstance();
-        bookDAO = BookDAO.getInstance();
     }
 
     /**
@@ -112,7 +109,7 @@ public class LoanDAO {
 
             // Loop through the result set and create Loan objects
             while (rs.next()) {
-                Book book = bookDAO.getBookById(rs.getInt("bookId"));
+                Book book = BookDAO.getInstance().getBookById(rs.getInt("bookId"));
                 Loan loan = new Loan(
                         rs.getInt("userId"),
                         rs.getString("borrowerName"),
@@ -133,7 +130,7 @@ public class LoanDAO {
      *
      * @param loan The Loan object to be deleted.
      */
-    public void deleteLoan(Loan loan) {
+    public void deleteLoan(Loan loan) throws SQLException{
         String sql = "DELETE FROM Loans WHERE userId = ? AND bookId = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             // Set user ID and book ID in the prepared statement

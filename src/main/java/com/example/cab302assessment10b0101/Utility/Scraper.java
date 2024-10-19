@@ -28,6 +28,9 @@ import java.util.regex.Pattern;
  */
 public class Scraper {
 
+    /**
+     * A list to store byte arrays representing images.
+     */
     public List<byte[]> imageBytesList = new ArrayList<>();  // Declare the imageBytesList
 
     /**
@@ -54,6 +57,7 @@ public class Scraper {
             if (scrapeCount >= 5) {
                 break;
             }
+
 
             if (bookUrl == null || bookUrl.isEmpty()) { continue; }
 
@@ -102,7 +106,7 @@ public class Scraper {
         String title = doc.title();
 
         // Clean the title if needed (e.g., remove extra " - Google Books" part)
-        if (title != null && title.contains(" - Google Books")) {
+        if (title.contains(" - Google Books")) {
             title = title.replace(" - Google Books", "").trim();
         }
         bookDetails.put("title", title);
