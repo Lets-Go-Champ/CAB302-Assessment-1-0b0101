@@ -1,0 +1,65 @@
+
+/* Title (Add Book) */
+.title_label {
+    -fx-font-family: "Impact";
+    -fx-font-size: 40;
+    -fx-text-fill: #247373;
+}
+
+/* Labels */
+.labels {
+    -fx-font-family: "Impact";
+    -fx-font-size: 20;
+    -fx-padding: 20 0 0 0;
+}
+
+/* TextFields */
+.text-field {
+    -fx-font-size: 16;
+}
+
+/* Choice Boxes */
+.choice-box {
+    -fx-font-weight: Bold;
+    -fx-font-fill: black;
+    -fx-font-size: 16;
+}
+
+/* Date Picker Window Sizing */
+.date-picker {
+    -fx-font-size: 12;
+}
+
+/* addImage/saveBook buttons */
+.button {
+    -fx-font-family: "Impact";
+    -fx-text-fill: #247373;
+    -fx-font-size: 16;
+    -fx-min-width: 10;
+    -fx-min-height: 35;
+}
+
+/* Scroll Bar */
+.scroll-bar:vertical {
+    -fx-font-size: 12;
+    -fx-background-color: none;
+    -fx-padding: 2em;
+}
+
+/* Scroll Bar Thumb */
+.scroll-bar:vertical .thumb {
+    -fx-font-size: 12;
+    -fx-background-color : #247373;
+    -fx-background-radius : 2em;
+}
+
+/* Scroll Bar Arrows */
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: #247373;
+}
+
+/* Remove gray border */
+.scroll-pane {
+    -fx-background-color: transparent;
+}

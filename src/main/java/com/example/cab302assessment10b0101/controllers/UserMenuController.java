@@ -1,11 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.UserManager;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import com.example.cab302assessment10b0101.model.ViewManager;
 import javafx.stage.Stage;
@@ -22,14 +22,6 @@ public class UserMenuController implements Initializable {
     //FXML fields for linking the UI elements in the view
     @FXML
     private Button myBooksBtn; // Button for my Books view
-    @FXML
-    private Button addBookBtn; // Button for add book view
-    @FXML
-    private Button addCollectionBtn; // Button for add collection view
-    @FXML
-    private Button lendingBtn; // Button for lending view (not implemented yet)
-    @FXML
-    private Button logoutBtn; // Button for logout
 
     /**
      * This method is called when the "My Books" button is clicked.
@@ -84,13 +76,7 @@ public class UserMenuController implements Initializable {
      * Displays a confirmation alert indicating successful logout.
      */
     private void showLogoutSuccessAlert() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Logout Successful");
-        alert.setHeaderText(null);
-        alert.setContentText("You have been logged out successfully.");
-
-        // Show the alert and wait
-        alert.showAndWait();
+        AlertManager.getInstance().showAlert("Logout Successful", "You have been logged out successfully.", Alert.AlertType.INFORMATION);
     }
 
     /**

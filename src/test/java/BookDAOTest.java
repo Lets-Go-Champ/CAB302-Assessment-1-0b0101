@@ -193,4 +193,41 @@ public class BookDAOTest {
         assertEquals(1, books.size());
         assertTrue(books.get(0).getPages() < 0);
     }
+
+    /**
+     * Tests retrieving a book by its ID from the MockBookDAO.
+     * Verifies that the correct book is returned based on its ID.
+     */
+    @Test
+    public void testGetBookById() {
+        // Insert a book
+        Book book = new Book(1, "Test Title", "1234567890", "Test Author", "Test Description",
+                "2020-01-01", "Test Publisher", 500, "Test Notes", null, "Unread");
+        mockBookDAO.insert(book);
+
+        // Retrieve the book by its ID
+        Book retrievedBook = mockBookDAO.getBookById(book.getId());
+        assertNotNull(retrievedBook);
+        assertEquals(book.getId(), retrievedBook.getId());
+        assertEquals("Test Title", retrievedBook.getTitle());
+    }
+
+    /**
+     * Tests deleting a book by its title from the MockBookDAO.
+     * Verifies that the book is correctly removed from the mock data store.
+     */
+    @Test
+    public void testDeleteBook() {
+        // Insert a book
+        Book book = new Book(1, "Test Title", "1234567890", "Test Author", "Test Description",
+                "2020-01-01", "Test Publisher", 500, "Test Notes", null, "Unread");
+        mockBookDAO.insert(book);
+
+        // Delete the book by its title
+        mockBookDAO.deleteBook("Test Title");
+
+        // Verify the book is no longer in the mock data store
+        ObservableList<Book> books = mockBookDAO.getAll();
+        assertEquals(0, books.size());
+    }
 }

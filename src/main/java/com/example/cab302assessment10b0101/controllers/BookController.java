@@ -4,7 +4,6 @@ import com.example.cab302assessment10b0101.model.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 
 /**
  * The BookController class is responsible for displaying book data within a view.
@@ -13,9 +12,6 @@ import javafx.scene.layout.VBox;
 public class BookController {
 
     //FXML UI elements that are linked to the corresponding components in the view
-    @FXML
-    private VBox box; //Container for holding the book details (title, author, cover image)
-
     @FXML
     private ImageView bookCoverImage; //Displays the cover image of the book
 
@@ -34,7 +30,6 @@ public class BookController {
      */
     public void setData(Book book){
         if (book != null){
-            //System.out.println("Populating book details for: " + book.getTitle() + " | Thread: " + Thread.currentThread().getName());  // Ensure it's the JavaFX thread
             bookTitle.setText(book.getTitle()); //Sets the label to the book's title
             bookAuthor.setText(book.getAuthor()); //Sets the label to the book's author
             bookCoverImage.setImage(book.getImage()); //Sets the image view to the book's cover image

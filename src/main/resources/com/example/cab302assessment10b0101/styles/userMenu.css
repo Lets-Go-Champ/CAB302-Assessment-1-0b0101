@@ -1,48 +1,55 @@
 /* title container, text and icon */
 .menu_title_container {
     -fx-alignment: top_center;
-     -fx-background-color: #FFFFFF;
-     -fx-background-radius: 20 20 0 0;
+     -fx-background-color: #DDDDDD;
      -fx-padding: 8;
 }
 
+/* Logo */
 .menu_title_container FontAwesomeIconView {
-    -fx-fill: black;
+    -fx-fill: white;
 }
 
+/* Logo Text */
 .menu_title_container Text {
-    -fx-font-size: 2em;
+    -fx-fill: white;
+    -fx-font-size: 2.5em;
+    -fx-font-family: "Impact";
 }
+
+/* Containers */
 
 .menu_container {
     -fx-alignment: center;
-    -fx-background-color: #EEEEEE;
+    -fx-background-color: #247373;
 }
 
 .logo_container {
     -fx-alignment: center;
-    -fx-background-color: #FFFFFF;
-    -fx-background-radius: 10;
+    -fx-background-color: #247373;
 }
-
-
-/*Main Menu Buttons */
 
 .menu_container {
     -fx-spacing: 20;
     -fx-padding: 10 10 10 10;
 }
 
-.menu_container Button {
-    -fx-background-color: white;
-    -fx-pref-width: 140;
-    -fx-alignment: center;
-    -fx-font-size: 1.2em;
-    -fx-pref-height: 45;
+.menu_container Button:hover {
+    -fx-cursor: hand;
 }
 
 
+/* Main Menu Buttons */
+.menu_container Button {
+    /* Border */
+    -fx-background-insets: 1 1 1 1;
+    -fx-border-radius: 2;
+    -fx-border-width: 3;
+    -fx-border-color: #DDDDDD;
+    -fx-pref-width: 140;
+    -fx-pref-height: 45;
 
-.menu_container Button:hover {
-    -fx-cursor: hand;
+    /* Text */
+    -fx-font-family: "Impact";
+    -fx-font-size: 18;
 }

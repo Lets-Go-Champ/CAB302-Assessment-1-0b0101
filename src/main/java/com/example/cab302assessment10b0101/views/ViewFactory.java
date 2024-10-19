@@ -1,13 +1,17 @@
 package com.example.cab302assessment10b0101.views;
+
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.controllers.*;
 import com.example.cab302assessment10b0101.model.Book;
 import com.example.cab302assessment10b0101.model.UserManager;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 /**
  * The ViewFactory class is responsible for managing and displaying different views
@@ -69,7 +73,7 @@ public class ViewFactory {
             myBooksView = loader.load();  // Load the view each time
             loader.getController(); // Get a fresh controller instance
         } catch (Exception e) {
-            System.out.println("Error loading MyBooksView: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Error loading MyBooks view.", Alert.AlertType.ERROR);
         }
         return myBooksView; // Return the AnchorPane directly
     }
@@ -84,7 +88,7 @@ public class ViewFactory {
             try{
                 addCollectionView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddCollection.fxml")).load();
             } catch (Exception e){
-                System.out.println("Error loading AddCollectionView: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Error: ", "Error loading AddCollection view.", Alert.AlertType.ERROR);
             }
         }
         return addCollectionView;
@@ -98,9 +102,9 @@ public class ViewFactory {
     public AnchorPane getAddBookView(){
         if (addBookView == null) {
             try{
-                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookManually.fxml")).load();
+                addBookView = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/AddBookPage.fxml")).load();
             } catch (Exception e){
-                System.out.println("Error loading AddBookView: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Error: ", "Error loading AddBook view.", Alert.AlertType.ERROR);
             }
         }
         return addBookView;
@@ -122,22 +126,15 @@ public class ViewFactory {
 
                 // Set listener on userSelectedBook to update the BookDetailsController when a new book is selected
                 userSelectedBook.addListener((observable, oldBook, newBook) -> {
-                    System.out.println("Book changed: " + (newBook != null ? newBook.getTitle() : "null"));
 
-                    if (newBook != null && controller != null) {
-                        System.out.println("Setting data on BookDetailsController for book: " + newBook.getTitle());
-                        controller.setData(newBook);
-                    }
+                    if (newBook != null && controller != null) { controller.setData(newBook); }
                 });
 
                 // Manually trigger the listener logic for the current value of userSelectedBook
-                if (userSelectedBook.get() != null) {
-                    System.out.println("Manually setting data for the initially selected book: " + userSelectedBook.get().getTitle());
-                    controller.setData(userSelectedBook.get());
-                }
+                if (userSelectedBook.get() != null) { controller.setData(userSelectedBook.get()); }
 
             } catch (Exception e) {
-                System.out.println("Error loading BookDetailsView: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Error: ", "Error loading BookDetails view.", Alert.AlertType.ERROR);
             }
         }
         return booksDetailsView;
@@ -165,7 +162,7 @@ public class ViewFactory {
                 if (userSelectedBook.get() != null) { controller.populateFields(userSelectedBook.get()); }
 
             } catch (Exception e) {
-                System.out.println("Error loading EditBookDetailsView: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Error: ", "Error loading EditBookDetails view.", Alert.AlertType.ERROR);
             }
         }
         return editBookDetailsView;
@@ -178,7 +175,7 @@ public class ViewFactory {
             lendingView = loader.load();  // Load the view each time
             loader.getController(); // Get a fresh controller instance
         } catch (Exception e) {
-            System.out.println("Error loading LendingView: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Error loading Lending view.", Alert.AlertType.ERROR);
         }
         return lendingView; // Return the AnchorPane directly
     }
@@ -193,13 +190,15 @@ public class ViewFactory {
                 String currentUserUsername = UserManager.getInstance().getCurrentUser().getUsername();
                 String currentUserPassword = UserManager.getInstance().getCurrentUser().getPassword();
                 controller.populateFields(currentUserUsername, currentUserPassword);
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                AlertManager.getInstance().showAlert("Error: ", "Error loading Profile view.", Alert.AlertType.ERROR);
+            }
         }
         return profileView;
     }
 
     /**
-     * Displays the login screen.
+     * Displays the login screen. and clears all previous pages.
      * Loads the login FXML and creates a new stage for the login window.
      */
     public void getLoginScreen() {
@@ -212,6 +211,28 @@ public class ViewFactory {
         editBookDetailsView = null;
         profileView = null;
         lendingView= null;
+    }
+
+    /**
+     * Opens the Create Account window.
+     * This method handles the UI logic for creating a new account.
+     * @param createAccountButton The button that triggered the creation of this account.
+     */
+    public void handleCreateAccount(Button createAccountButton) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302assessment10b0101/fxml/CreateAccountPopup.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Create New Account");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(createAccountButton.getScene().getWindow());
+            dialogStage.setScene(scene);
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
+        } catch (Exception e) {
+            AlertManager.getInstance().showAlert("Error: ", "Error handling account creation.", Alert.AlertType.ERROR);
+        }
     }
 
     /**
@@ -235,11 +256,13 @@ public class ViewFactory {
         try {
             scene = new Scene(loader.load());
         } catch (Exception e){
-            System.out.println("Error creating stage: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Error creating stage.", Alert.AlertType.ERROR);
         }
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("LibraHome");
+        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/cab302assessment10b0101/images/stageIcon.png"))));
+        stage.setResizable(false);
         stage.show();
     }
 

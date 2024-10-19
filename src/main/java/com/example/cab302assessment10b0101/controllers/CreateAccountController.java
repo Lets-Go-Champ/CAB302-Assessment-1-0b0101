@@ -1,11 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
 
 /**
  * The CreateAccountController class handles the logic for creating a new user account.
@@ -16,19 +16,19 @@ public class CreateAccountController {
 
     //FXML UI elements that are linked to the corresponding elements in the view
     @FXML
-    private TextField usernameField; //Field for entering a username
+    private TextField usernameField;
 
     @FXML
-    private PasswordField passwordField; //Field for entering a password
+    private PasswordField passwordField;
 
     @FXML
-    private PasswordField confirmPasswordField; //Field for confirming the password
+    private PasswordField confirmPasswordField;
 
     @FXML
-    private Button createButton; //Button to create an account
+    private Button createButton;
 
     @FXML
-    private Button cancelButton; //Button to cancel
+    private Button cancelButton;
 
     /**
      * Handles the account creation logic when the 'Create' button is clicked.
@@ -41,30 +41,31 @@ public class CreateAccountController {
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
+        // Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$";
+
         // Check if any of the fields are empty
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            showAlert("Input Error", "All fields must be filled.", AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Input Error", "All fields must be filled.", Alert.AlertType.ERROR);
         }
-
-        // Check password and confirm password fields match
+        // Check password validity
+        else if (!password.matches(passwordPattern)) {
+            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character", Alert.AlertType.ERROR);
+        }
+        // Check if password and confirm password match
         else if (!password.equals(confirmPassword)) {
-            showAlert("Input Error", "Passwords do not match.", AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Input Error", "Passwords do not match.", Alert.AlertType.ERROR);
         }
-
-        //Check username is not already in the system
+        // Check if the username is already in use
         else if (isUsernameDuplicate(username)) {
-            showAlert("Warning", "Username already in use.", AlertType.WARNING);
+            AlertManager.getInstance().showAlert("Warning", "Username already in use.", Alert.AlertType.WARNING);
         }
-        //If all values are valid, craete a new user and insert into the database
+        // If all validations pass, create the new user and insert it into the database
         else {
-            //Create new user with input username and password
             User newUser = new User(username, password);
-
-            //Insert new user into the database
             UserDAO.getInstance().insert(newUser);
-            //System.out.println("User created: " + newUser);
 
-            //close stage window
+            // Close the current window after account creation
             ((Stage) createButton.getScene().getWindow()).close();
         }
     }
@@ -74,7 +75,6 @@ public class CreateAccountController {
      */
     @FXML
     private void handleCancel() {
-        // Close the window when the cancel button is clicked
         ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
@@ -85,24 +85,8 @@ public class CreateAccountController {
      * @return True if the username is already in use, false otherwise.
      */
     private boolean isUsernameDuplicate(String username) {
-        // Check if the username already exists in the database
         return UserDAO.getInstance().getAll().stream().anyMatch(user ->
                 user.getUsername().equalsIgnoreCase(username));
     }
 
-    /**
-     * Displays an alert dialog with a given title, message, and alert type.
-     * This is used to provide meaningful error messages to the user.
-     *
-     * @param title     The title of the alert dialog.
-     * @param message   The message to display in the alert dialog.
-     * @param alertType The type of alert.
-     */
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }

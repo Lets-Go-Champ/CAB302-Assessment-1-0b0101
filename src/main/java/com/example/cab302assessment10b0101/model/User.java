@@ -1,5 +1,7 @@
 package com.example.cab302assessment10b0101.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,7 +11,7 @@ import javafx.collections.ObservableList;
  */
 public class User {
     private int id;
-    private String username;
+    private StringProperty username;
     private String password;
 
     private ObservableList<Collection> collections;
@@ -23,7 +25,7 @@ public class User {
      */
     public User(int id, String userName, String password) {
         this.id = id;
-        this.username = userName;
+        this.username = new SimpleStringProperty(userName);;
         this.password = password;
         this.collections = FXCollections.observableArrayList();
     }
@@ -36,7 +38,7 @@ public class User {
      * @param password The password of the user.
      */
     public User(String userName, String password) {
-        this.username = userName;
+        this.username = new SimpleStringProperty(userName);
         this.password = password;
         this.collections = FXCollections.observableArrayList();
     }
@@ -58,6 +60,15 @@ public class User {
      * @return The username of the user.
      */
     public String getUsername() {
+        return username.get();
+    }
+
+    /**
+     * Retrieves the username property of the user.
+     *
+     * @return The username of the user.
+     */
+    public StringProperty getUsernameProperty() {
         return username;
     }
 
@@ -104,9 +115,19 @@ public class User {
      *
      * @param userName The new username of the user.
      */
-    public void setUserName(String userName) {
+    public void setUserNameProperty(StringProperty userName) {
         this.username = userName;
     }
+
+    /**
+     * Updates the username of the user.
+     *
+     * @param username The new username of the user.
+     */
+    public void setUsername(String username) {
+        this.username.set(username);
+    }
+
 
     /**
      * Sets the password of the user.
@@ -126,19 +147,10 @@ public class User {
         collections.add(collection);
     }
 
-    /**
-     * Returns a string representation of the User object.
-     * The string includes the user's ID, username, and password.
-     *
-     * @return A string formatted as "User{id=X, userName='Y', password='Z'}",
-     *         where X is the user's ID, Y is the username, and Z is the password.
-     */
+    // toString method
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "User{id=" + id + ", userName='" + username.get() + "', password='" + password + "'}";
     }
+
 }

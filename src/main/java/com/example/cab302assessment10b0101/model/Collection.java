@@ -26,7 +26,6 @@ public class Collection {
         this.collectionDescription = collectionDescription;
     }
 
-
     /**
      * Constructs a new Collection object with a specified user ID, name, and description.
      *
@@ -94,7 +93,7 @@ public class Collection {
      */
     public void setCollectionName(String collectionName) {
         if (collectionName == null || collectionName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Collection name cannot be empty");
+            throw new IllegalArgumentException();
         }
         this.collectionName = collectionName;
     }
@@ -117,6 +116,7 @@ public class Collection {
         this.collectionDescription = description;
     }
 
+
     /**
      * Returns a string representation of the collection for testing purposes.
      *
@@ -126,4 +126,6 @@ public class Collection {
     public String toString() {
         return collectionName;
     }
+
+
 }

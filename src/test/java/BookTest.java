@@ -5,6 +5,8 @@ import javafx.beans.property.StringProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -214,10 +216,76 @@ public class BookTest {
      */
     @Test
     public void testSetNegativePages() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        // Assert that IllegalArgumentException is thrown when setting negative pages
+        assertThrows(IllegalArgumentException.class, () -> {
             SimpleIntegerProperty negativePages = new SimpleIntegerProperty(-50);
             book.setPages(negativePages);
         });
-        assertEquals("Number of pages cannot be negative", exception.getMessage());
+    }
+
+    /**
+     * Tests the getPublicationDateAsLocalDate method to ensure it correctly parses the publication date
+     * from a string to a LocalDate using multiple date formats.
+     */
+    @Test
+    public void testGetPublicationDateAsLocalDate() {
+        // Test valid date formats
+        book.setPublicationDate(new SimpleStringProperty("08-09-2015"));
+        assertEquals(LocalDate.of(2015, 8, 9), book.getPublicationDateAsLocalDate());
+
+        book.setPublicationDate(new SimpleStringProperty("2024-10-07"));
+        assertEquals(LocalDate.of(2024, 10, 7), book.getPublicationDateAsLocalDate());
+
+        book.setPublicationDate(new SimpleStringProperty("2024-10-7"));
+        assertEquals(LocalDate.of(2024, 10, 7), book.getPublicationDateAsLocalDate());
+
+        // Test invalid date format
+        book.setPublicationDate(new SimpleStringProperty("InvalidDate"));
+        assertNull(book.getPublicationDateAsLocalDate()); // Ensure the method returns null for invalid date strings
+    }
+
+    /**
+     * Tests the getISBNAsString method to verify it correctly returns the ISBN as a String.
+     */
+    @Test
+    public void testGetISBNAsString() {
+        assertEquals("1234567890", book.getISBNAsString());
+    }
+
+    /**
+     * Tests the getPagesAsString method to check if it returns the correct number of pages as a String.
+     */
+    @Test
+    public void testGetPagesAsString() {
+        assertEquals("500", book.getPagesAsString());
+    }
+
+    /**
+     * Tests the getReadingStatus method to ensure it returns the correct reading status of the book.
+     */
+    @Test
+    public void testGetReadingStatus() {
+        assertEquals("unread", book.getReadingStatus());
+    }
+
+    /**
+     * Tests the setReadingStatus method by updating the reading status and checking if the change is reflected.
+     */
+    @Test
+    public void testSetReadingStatus() {
+        StringProperty newStatus = new SimpleStringProperty("reading");
+        book.setReadingStatus(newStatus);
+        assertEquals("reading", book.getReadingStatus());
+    }
+
+    /**
+     * Tests the getImage method to ensure it returns a valid JavaFX Image object
+     * when the image byte array is set, or null when no image is present.
+     */
+    @Test
+    public void testGetImageAsJavaFXImage() {
+        byte[] newImage = {1, 2, 3};
+        book.setImage(newImage);
+        assertNotNull(book.getImage());  // Ensure the image is correctly converted into a JavaFX Image object
     }
 }

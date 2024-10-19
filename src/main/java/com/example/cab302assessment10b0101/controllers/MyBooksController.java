@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.application.Platform;
@@ -8,13 +9,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.util.Callback;
+
 
 /**
  * The MyBooksController class displays the user's book collections
@@ -25,27 +32,32 @@ public class MyBooksController implements Initializable {
 
     // FXML fields for linking the UI elements in the view
     @FXML
-    private ChoiceBox<Collection> collectionsChoiceBox;
+    private ChoiceBox<Collection> collectionsChoiceBox; //Choice box for selection collection
 
     @FXML
     private GridPane bookContainer; // Grid layout for displaying books
 
     @FXML
-    private TextField searchTextField;
+    private TextField searchTextField; //Text field for search queries
 
     @FXML
-    private ChoiceBox<String> filterChoiceBox; //Dropdown for selecting a filter
+    private ComboBox<String> filterComboBox; //ComboBox for sorting options
+
 
     /**
      * This method is called automatically after the FXML file has been loaded.
      * It initializes the controller, populates the collection dropdown, and loads the books
      * for the default collection if available.
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object is not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         populateCollections();
         setupEventHandlers();
 
+        //Load books for the default collection if available
         Collection defaultCollection = collectionsChoiceBox.getValue();
         if (defaultCollection != null) {
             loadBooks(defaultCollection);
@@ -53,28 +65,73 @@ public class MyBooksController implements Initializable {
 
         // Set up search functionality
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterBooks(newValue);  // Call method to filter books based on search query
+            filterBooks(newValue.trim());
         });
-        // Add sorting options to the ChoiceBox
-        filterChoiceBox.setItems(FXCollections.observableArrayList("Title", "Author", "Publication Date"));
 
-        // Handle sorting when an option is selected
-        filterChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        // Add sorting options to the ComboBox
+        filterComboBox.getItems().addAll("Title", "Author", "Publication Date");
+
+        // Set the default value with "Sort by"
+        filterComboBox.setButtonCell(createCustomButtonCell());
+        filterComboBox.setPromptText("Sort by");
+
+        // Update the ComboBox items to display text
+        filterComboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null); // Show null text for empty items
+                        } else {
+                            setText(item); // Show the selected item text
+                        }
+                    }
+                };
+            }
+        });
+
+        // Add listener to handle selection and sorting
+        filterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 switch (newValue) {
                     case "Title":
-                        sortBooksByTitle();
+                        sortBooksByTitle(); // Sort books by title
                         break;
                     case "Author":
-                        sortBooksByAuthor();
+                        sortBooksByAuthor(); // Sort books by author
                         break;
                     case "Publication Date":
-                        sortBooksByPublicationDate();
+                        sortBooksByPublicationDate(); // Sort books by publication date
                         break;
                 }
             }
         });
     }
+
+    /**
+     * Creates a ListCell with the specified text for the ComboBox.
+     *
+     * @return A custom ListCell with the specified text.
+     */
+    private ListCell<String> createCustomButtonCell() {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText("Sort by"); // Show "Sort by" by default
+                } else {
+                    setText(item); // Show the selected item text
+                }
+            }
+        };
+    }
+
+
+
 
     /**
      * Sorts the books by title in the currently selected collection and updates the book grid.
@@ -85,16 +142,20 @@ public class MyBooksController implements Initializable {
      */
     private void sortBooksByTitle() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection != null) {
-            // Get all books from the collection
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+        if (selectedCollection == null) return; // No collection selected, exit
 
-            // Sort by title
-            FXCollections.sort(books, (b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-            // Update the book grid with sorted books
-            updateBookGrid(books);
-        }
+        // Get all books from the collection using the retrieved collectionId
+        ObservableList<Book> allBooks = BookDAO.getInstance().getAllByCollection(collectionId);
+
+        // Sort by title
+        FXCollections.sort(allBooks, (b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+
+        // Update the book grid with sorted books
+        updateBookGrid(allBooks);
     }
     /**
      * Sorts the books by author in the currently selected collection and updates the book grid.
@@ -105,17 +166,22 @@ public class MyBooksController implements Initializable {
      */
     private void sortBooksByAuthor() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection != null) {
-            // Get all books from the collection
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+        if (selectedCollection == null) return; // No collection selected, exit
 
-            // Sort by author
-            FXCollections.sort(books, (b1, b2) -> b1.getAuthor().compareToIgnoreCase(b2.getAuthor()));
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-            // Update the book grid with sorted books
-            updateBookGrid(books);
-        }
+        // Get all books from the collection using the retrieved collectionId
+        ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
+
+        // Sort by author
+        FXCollections.sort(books, (b1, b2) -> b1.getAuthor().compareToIgnoreCase(b2.getAuthor()));
+
+        // Update the book grid with sorted books
+        updateBookGrid(books);
     }
+
     /**
      * Sorts the books by publication date in the currently selected collection and updates the book grid.
      * <p>
@@ -125,17 +191,33 @@ public class MyBooksController implements Initializable {
      */
     private void sortBooksByPublicationDate() {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        if (selectedCollection != null) {
-            // Get all books from the collection
-            ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(selectedCollection.getId());
+        if (selectedCollection == null) return; // No collection selected, exit
 
-            // Sort by publication date
-            FXCollections.sort(books, (b1, b2) -> b1.getPublicationDate().compareTo(b2.getPublicationDate()));
+        User currentUser = UserManager.getInstance().getCurrentUser();
+        String collectionName = selectedCollection.getCollectionName();
+        int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-            // Update the book grid with sorted books
-            updateBookGrid(books);
-        }
+        // Get all books from the collection using the retrieved collectionId
+        ObservableList<Book> books = BookDAO.getInstance().getAllByCollection(collectionId);
+
+        // Sort by publication date, handling null values
+        FXCollections.sort(books, (b1, b2) -> {
+            LocalDate date1 = b1.getPublicationDateAsLocalDate();
+            LocalDate date2 = b2.getPublicationDateAsLocalDate();
+
+            // Handle null values (null dates are pushed to the end)
+            if (date1 == null && date2 == null) return 0;  // Both dates are null
+            if (date1 == null) return 1;  // Push nulls to the end
+            if (date2 == null) return -1; // Push nulls to the end
+
+            // Compare actual dates
+            return date1.compareTo(date2);
+        });
+
+        // Update the book grid with sorted books
+        updateBookGrid(books);
     }
+
 
     /**
      * Sets up event handlers for handling user interactions with the UI.
@@ -170,8 +252,6 @@ public class MyBooksController implements Initializable {
         if (selectedCollection != null) {
             // Force reloading the books for the selected collection
             loadBooks(selectedCollection);
-        } else {
-            System.out.println("No collection selected.");
         }
     }
 
@@ -236,7 +316,7 @@ public class MyBooksController implements Initializable {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Error updating book grid: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book grid", Alert.AlertType.ERROR);
             }
         });
     }
@@ -247,17 +327,16 @@ public class MyBooksController implements Initializable {
      */
     private void populateCollections() {
         User currentUser = UserManager.getInstance().getCurrentUser();
-        // Clear existing items in case switching accounts
         collectionsChoiceBox.getItems().clear();
 
         ObservableList<Collection> collections = currentUser.getCollections();
         collectionsChoiceBox.setItems(collections);
 
-        // Optionally set a default value
         if (!collections.isEmpty()) {
             collectionsChoiceBox.getSelectionModel().selectFirst();
         }
     }
+
 
     /**
      * Filters the books based on the search query entered by the user.
@@ -266,38 +345,38 @@ public class MyBooksController implements Initializable {
      */
     private void filterBooks(String query) {
         Collection selectedCollection = collectionsChoiceBox.getSelectionModel().getSelectedItem();
-        // Exit if no collection is selected
         if (selectedCollection == null) return;
 
-        // Get the current user
         User currentUser = UserManager.getInstance().getCurrentUser();
-
-        // Retrieve the collection ID from the CollectionDAO based on the user and collection name
         String collectionName = selectedCollection.getCollectionName();
         int collectionId = CollectionDAO.getInstance().getCollectionsIDByUserAndCollectionName(currentUser, collectionName);
 
-        // Fetch all books by the collection ID
         ObservableList<Book> allBooks = BookDAO.getInstance().getAllByCollection(collectionId);
 
         if (query == null || query.trim().isEmpty()) {
-            // If the search field is empty, show all books
+            // Show all books if the search field is empty
             updateBookGrid(allBooks);
         } else {
-            // Filter books by title (ignoring case)
+            // Split the search query into words
+            String[] searchTerms = query.toLowerCase().split("\\s+");
+
+            // Filter the books by checking if any term matches title, author, etc.
             ObservableList<Book> filteredBooks = FXCollections.observableArrayList(
                     allBooks.stream()
-                            .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                                    book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
-                                    book.getPublisher().toLowerCase().contains(query.toLowerCase()) ||
-                                    String.valueOf(book.getISBN()).contains(query) ||
-                                    book.getPublicationDate().toLowerCase().contains(query.toLowerCase()))
+                            .filter(book -> Arrays.stream(searchTerms)
+                                    .allMatch(term ->
+                                            book.getTitle().toLowerCase().contains(term) ||
+                                                    book.getAuthor().toLowerCase().contains(term) ||
+                                                    book.getPublisher().toLowerCase().contains(term) ||
+                                                    String.valueOf(book.getISBN()).contains(term) ||
+                                                    book.getPublicationDate().toLowerCase().contains(term))
+                            )
                             .collect(Collectors.toList())
             );
+
             // Display the filtered books
             updateBookGrid(filteredBooks);
         }
     }
-
-
 }
 

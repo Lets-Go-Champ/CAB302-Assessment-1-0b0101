@@ -1,13 +1,13 @@
 package com.example.cab302assessment10b0101.controllers;
 
-import com.example.cab302assessment10b0101.model.Collection;
-import com.example.cab302assessment10b0101.model.CollectionDAO;
-import com.example.cab302assessment10b0101.model.UserManager;
+import com.example.cab302assessment10b0101.Utility.AlertManager;
+import com.example.cab302assessment10b0101.model.*;
+import com.example.cab302assessment10b0101.views.MenuOptions;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -44,12 +44,18 @@ public class AddCollectionController implements Initializable {
 
         //Set the action for the cancel button (currently does nothing)
         cancelBtn.setOnAction(e -> {
+            // Switch back to the "My Books" page
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
         });
+
     }
 
     /**
      * Handles the saving of a new collection. Validates the input, creates a new collection,
      * adds it to the database, and updates the current user's collection list.
+     *
+     * <p>This method checks if the collection name is empty or already exists. If the input is valid,
+     * it creates a new Collection object and saves it to the database.</p>
      */
     private void saveCollection() {
         //Get the input from the text fields and trim extra spaces
@@ -58,19 +64,21 @@ public class AddCollectionController implements Initializable {
 
         //Check if the collection name is empty and if it is show error
         if (collectionName.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Collection name cannot be empty.");
+            AlertManager.getInstance().showAlert("Error", "Collection name cannot be empty.", Alert.AlertType.ERROR);
             return;
         }
-        //System.out.println("\nCreating Collection...");
 
         //Get the current user's ID
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
 
-        //System.out.println("Current User ID = " + currentUserId + "\n");
+        // Use getCollectionsByUser to check if the collection already exists
+        if (collectionNameExists(collectionName)) {
+            AlertManager.getInstance().showAlert("Error", "A collection with this name already exists.", Alert.AlertType.ERROR);
+            return;
+        }
 
         //Create a new collection object with the current user ID, collection name, and description
         Collection newCollection = new Collection(currentUserId, collectionName, collectionDescription.isEmpty() ? "" : collectionDescription);
-        //System.out.println("New collection = " + newCollection);
 
         //Insert the new collection into the database
         CollectionDAO.getInstance().insert(newCollection);
@@ -80,29 +88,29 @@ public class AddCollectionController implements Initializable {
 
         // Clear input fields and show success alert
         clearFields();
-        showAlert(Alert.AlertType.INFORMATION, "Success", "Collection saved successfully!");
+        AlertManager.getInstance().showAlert("Success", "Collection saved successfully!", Alert.AlertType.INFORMATION);
+    }
+
+    /**
+     * Checks if a collection with the given name already exists for the user.
+     *
+     * @param collectionName The name of the collection to check.
+     * @return True if a collection with the same name exists, false otherwise.
+     */
+    private boolean collectionNameExists(String collectionName) {
+        List<Collection> collections = CollectionDAO.getInstance().getCollectionsByUser(UserManager.getInstance().getCurrentUser());
+
+        // Check if any collection has the same name
+        return collections.stream().anyMatch(collection -> collection.getCollectionName().equalsIgnoreCase(collectionName));
     }
 
     /**
      * Clears the input fields after the collection has been saved or cancelled.
+     * <p>This method resets the text fields for collection name and description
+     * to prepare for new input.</p>
      */
     private void clearFields() {
         CollectionNameTextField.clear();
         DescriptionTextField.clear();
-    }
-
-    /**
-     * Shows an alert dialog with the specified type, title, and message.
-     *
-     * @param alertType The type of alert.
-     * @param title     The title of the alert dialog.
-     * @param message   The message content of the alert dialog.
-     */
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

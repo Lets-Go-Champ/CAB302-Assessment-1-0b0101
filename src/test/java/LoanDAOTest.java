@@ -91,4 +91,40 @@ public class LoanDAOTest {
         int loanId = loanDAO.getLoanIdByUserAndBook(2, book2.getId());
         assertEquals(-1, loanId);
     }
+
+    /**
+     * Tests deleting a non-existent loan to ensure that the deleteLoan method handles it gracefully.
+     */
+    @Test
+    public void testDeleteNonExistentLoan() {
+        Loan loan = new Loan(1, "John Doe", "1234567890", book1, LocalDate.now());
+        loanDAO.deleteLoan(loan);  // Attempt to delete a loan that hasn't been inserted
+
+        ObservableList<Loan> loans = loanDAO.getAllLoansByUser(1);
+        assertEquals(0, loans.size());  // Ensure that nothing breaks and the DAO remains unchanged
+    }
+
+    /**
+     * Tests inserting a duplicate loan (same user and book) to see how it is handled.
+     */
+    @Test
+    public void testInsertDuplicateLoan() {
+        Loan loan1 = new Loan(1, "John Doe", "1234567890", book1, LocalDate.now());
+        Loan loan2 = new Loan(1, "John Doe", "1234567890", book1, LocalDate.now());
+
+        loanDAO.insertLoan(loan1);
+        loanDAO.insertLoan(loan2);  // Inserting the same loan again
+
+        ObservableList<Loan> loans = loanDAO.getAllLoansByUser(1);
+        assertEquals(2, loans.size());
+    }
+
+    /**
+     * Tests that querying an empty DAO returns an empty list.
+     */
+    @Test
+    public void testGetAllLoansByUserEmpty() {
+        ObservableList<Loan> loans = loanDAO.getAllLoansByUser(1);
+        assertEquals(0, loans.size());  // Ensure no loans are returned for a user in an empty DAO
+    }
 }

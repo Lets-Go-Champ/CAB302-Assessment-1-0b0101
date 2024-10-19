@@ -1,5 +1,6 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.UserDAO;
 import com.example.cab302assessment10b0101.model.UserManager;
 import javafx.fxml.FXML;
@@ -9,51 +10,66 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * The ChangePasswordController class handles updating the user's password.
- * It retrieves data from the UI, validates it, and stores the information in the database.
+ * The ChangePasswordController class handles the functionality for updating
+ * the user's password. It retrieves user input from the UI, validates the
+ * password according to specific criteria, and stores the new password in
+ * the database.
  */
 public class ChangePasswordController {
 
     @FXML
-    private TextField newPasswordTextField;
+    private TextField newPasswordTextField; //Input field for the new password
+    /**
+     * Button to trigger the password update process.
+     */
     public Button updateButton;
+
+    /**
+     * Button to cancel the password update process.
+     */
     public Button cancelButton;
 
-    // Messages for input validation and notification
-    final String noPasswordMessage = "Please enter a new password.";
-    final String successfulUpdateMessage = "Password updated successfully!";
-
-    // The username of the current user
-    final private String username = UserManager.getInstance().getCurrentUser().getUsername();
+    // The ID of the current user
+    final int userID = UserManager.getInstance().getCurrentUser().getId();
 
 
-    // Updates the password if all fields are valid
+    /**
+     * Handles the action of updating the user's password. Validates the input
+     * password to ensure it meets complexity requirements. If valid, updates
+     * the password in the database and displays a success alert. Closes the
+     * current window upon successful update.
+     */
     public void handleUpdatePassword() {
         String newPassword = newPasswordTextField.getText();
 
-        // Perform validation
-        if ( newPassword.isEmpty() ) { showAlert("Error", noPasswordMessage, Alert.AlertType.ERROR); return; }
+        // Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$";
 
-        // Update the password
-        UserDAO.getInstance().updatePassword(newPassword, username);
-        showAlert("Success", successfulUpdateMessage, Alert.AlertType.INFORMATION);
+        // Perform validation
+        if (newPassword.isEmpty()) {
+            AlertManager.getInstance().showAlert("Error", "Password cannot be empty.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Check if the new password meets the validation criteria
+        else if (!newPassword.matches(passwordPattern)) {
+            AlertManager.getInstance().showAlert("Invalid Password", "Password must be at least 6 characters long, contain one uppercase letter, one number, and one special character.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // If validation passes, update the password
+        UserDAO.getInstance().updatePassword(newPassword,userID);
+        AlertManager.getInstance().showAlert("Success", "Password successfully updated!", Alert.AlertType.INFORMATION);
+
+        // Close the current window
         ((Stage) updateButton.getScene().getWindow()).close();
     }
 
-    // Returns to the user profile
-    public void handleCancel() { ((Stage) cancelButton.getScene().getWindow()).close(); }
-
     /**
-     * Shows an alert dialog with the specified type, title, and message.
-     * @param title     The title of the alert dialog.
-     * @param message   The message content of the alert dialog.
-     * @param alertType The type of alert.
+     * Handles the action of cancelling the password change. Closes the current
+     * window without saving any changes to the password.
      */
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    public void handleCancel() {
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 }

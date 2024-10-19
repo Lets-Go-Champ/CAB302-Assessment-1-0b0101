@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class MockUserDAO implements UserDAOInterface {
 
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
     private int currentId = 1;  // Simulate auto-incrementing ID
 
     /**
@@ -28,28 +28,35 @@ public class MockUserDAO implements UserDAOInterface {
     }
 
     /**
-     * Updates an existing user's details in the mock data store.
+     * Updates the username of an existing user in the mock data store.
      *
-     * @param user The User object with updated details.
+     * @param newUsername The new username to set.
+     * @param userId The ID of the user to update.
      */
     @Override
-    public void update(User user) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId() == user.getId()) {
-                users.set(i, user);  // Replace the user in the list
+    public void updateUsername(String newUsername, int userId) {
+        for (User user : users) {
+            if (user.getId() == userId) {
+                user.setUsername(newUsername);  // Update the username
                 break;
             }
         }
     }
 
     /**
-     * Deletes a user from the mock data store by ID.
+     * Updates the password of an existing user in the mock data store.
      *
-     * @param id The ID of the user to be deleted.
+     * @param newPassword The new password to set.
+     * @param userId The ID of the user to update.
      */
     @Override
-    public void delete(int id) {
-        users.removeIf(user -> user.getId() == id);  // Remove user by ID
+    public void updatePassword(String newPassword, int userId) {
+        for (User user : users) {
+            if (user.getId() == userId) {
+                user.setPassword(newPassword);  // Update the password
+                break;
+            }
+        }
     }
 
     /**
@@ -87,8 +94,6 @@ public class MockUserDAO implements UserDAOInterface {
      */
     @Override
     public User validateCredentials(String username, String password) {
-        // Simulate validating credentials by searching
-        // for the user with the provided username and password
         return users.stream()
                 .filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
                 .findFirst()

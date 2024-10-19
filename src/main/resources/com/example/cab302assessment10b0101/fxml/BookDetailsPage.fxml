@@ -7,146 +7,88 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController">
-    <VBox prefHeight="730.0" prefWidth="960.0" spacing="20" style="-fx-background-color: #F5F5F5;" VBox.vgrow="ALWAYS">
+<AnchorPane prefHeight="730" prefWidth="960" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.cab302assessment10b0101.controllers.BookDetailsController" stylesheets="@../styles/bookDetails.css">
+
+    <!-- Contents -->
+    <VBox prefHeight="730" prefWidth="960" spacing="20" VBox.vgrow="ALWAYS">
         <padding>
             <Insets bottom="20" left="20" right="20" top="20" />
         </padding>
+
         <!-- Title -->
-        <Label fx:id="mainTitle" style="-fx-font-size: 24px;" text="Book Title">
-            <font>
-                <Font size="30.0" />
-            </font>
-        </Label>
-        <HBox spacing="40.0">
-            <Button mnemonicParsing="false" text="Edit" onAction="#handleEditBookButton">
-                <font>
-                    <Font size="20.0" />
-                </font>
-            </Button>
-            <Button mnemonicParsing="false" text="Delete" onAction="#handleDeleteButtonAction">
-                <font>
-                    <Font size="20.0" />
-                </font>
-            </Button>
+        <Label text="Book Title" fx:id="mainTitle" styleClass="title" > </Label>
+
+        <!-- Edit/Delete Book -->
+        <HBox spacing="40">
+            <Button text="Edit" mnemonicParsing="false" onAction="#handleEditBookButton"> </Button>
+            <Button text="Delete" mnemonicParsing="false" onAction="#handleDeleteButtonAction"> </Button>
         </HBox>
 
         <!-- Book Details -->
-        <HBox prefHeight="463.0" prefWidth="920.0" spacing="20" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+        <HBox prefHeight="463" prefWidth="920" spacing="40" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+
             <!-- Cover Image -->
-            <ImageView fx:id="bookCoverImage" fitHeight="487.0" fitWidth="362.0" preserveRatio="true" />
+            <ImageView fx:id="bookCoverImage" fitHeight="487" fitWidth="362" preserveRatio="true" />
 
             <!-- Book Info -->
-            <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+
                 <!-- Title -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Title:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="titleLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Title:" styleClass="heading"> </Label>
+                    <Label fx:id="titleLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- Author -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Author:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="authorLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Author:" styleClass="heading"> </Label>
+                    <Label fx:id="authorLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- Publication Date -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Publication Date:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="publicationDateLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Publication Date:" styleClass="heading"> </Label>
+                    <Label fx:id="publicationDateLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- ISBN -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="ISBN:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="isbnLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="ISBN:" styleClass="heading"> </Label>
+                    <Label fx:id="isbnLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- Publisher -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Publisher:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="publisherLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Publisher:" styleClass="heading"> </Label>
+                    <Label fx:id="publisherLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- Pages -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Pages:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="pagesLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Pages:" styleClass="heading"> </Label>
+                    <Label fx:id="pagesLabel" styleClass="details"> </Label>
                 </HBox>
 
-                <!-- Short Description -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Description:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="descriptionLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <!-- Description -->
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Description:" styleClass="heading"> </Label>
+                    <Label fx:id="descriptionLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- Notes -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Notes:">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
-                    <Label fx:id="notesLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                  <font>
-                     <Font size="17.0" />
-                  </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Notes:" styleClass="heading"> </Label>
+                    <Label fx:id="notesLabel" styleClass="details"> </Label>
                 </HBox>
 
                 <!-- Reading Status -->
-                <HBox spacing="10.0" HBox.hgrow="ALWAYS">
-                    <Label text="Reading Status:">
-                        <font>
-                            <Font size="17.0" />
-                        </font></Label>
-                    <Label fx:id="readingStatusLabel" wrapText="true" HBox.hgrow="ALWAYS">
-                        <font>
-                            <Font size="17.0" />
-                        </font></Label>
+                <HBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Reading Status:" styleClass="heading"> </Label>
+                    <Label fx:id="readingStatusLabel" styleClass="details"> </Label>
                 </HBox>
+
             </VBox>
         </HBox>
     </VBox>

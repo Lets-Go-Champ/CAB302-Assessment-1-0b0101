@@ -1,9 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -16,23 +18,60 @@ import java.io.IOException;
  */
 public class ProfileController {
 
+    /**
+     * TextField for user to input the username.
+     */
     @FXML
     public TextField usernameTextField;
+
+    /**
+     * TextField for user to input the password.
+     */
     public TextField passwordTextField;
+
+    /**
+     * Button to initiate the username change process.
+     */
     public Button changeUsernameButton;
+
+    /**
+     * Button to initiate the password change process.
+     */
     public Button changePasswordButton;
 
-    // Updates the displayed username and password
-    private void setUsernameTextField(String username) { usernameTextField.setText(username); }
-    private void setPasswordTextField(String password) { passwordTextField.setText(password); }
+    /**
+     * Sets the username in the username text field.
+     *
+     * @param username The username to display in the text field.
+     */
+    private void setUsernameTextField(String username) {
+        usernameTextField.setText(username);
+    }
 
-    // Populates the textFields
+    /**
+     * Sets the password in the password text field.
+     *
+     * @param password The password to display in the text field.
+     */
+    private void setPasswordTextField(String password) {
+        passwordTextField.setText(password);
+    }
+
+    /**
+     * Populates the username and password fields with the provided values.
+     *
+     * @param username The username to display.
+     * @param password The password to display.
+     */
     public void populateFields(String username, String password) {
         setUsernameTextField(username);
         setPasswordTextField(password);
     }
 
-    // Switches views to changeUsername. Updates the username and instance
+    /**
+     * Handles the process of updating the username by opening a modal window
+     * for the user to change their username. Reloads the profile after changes.
+     */
     public void handleUpdateUsername() {
         try {
             // Load the ChangeUsernamePopup.fxml file for account updating
@@ -46,11 +85,16 @@ public class ProfileController {
             dialogStage.initOwner(changeUsernameButton.getScene().getWindow());
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
-        reload();
+        } catch (IOException e) {
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Username.", Alert.AlertType.ERROR);
+        }
+        reload(); //Reload the profile to reflect any changes
     }
 
-    // Switches views to changePassword. Updates the password and instance
+    /**
+     * Handles the process of updating the password by opening a modal window
+     * for the user to change their password. Reloads the profile after changes.
+     */
     public void handleUpdatePassword() {
         try {
             // Load the ChangePasswordPopup.fxml file for account updating
@@ -64,21 +108,27 @@ public class ProfileController {
             dialogStage.initOwner(changePasswordButton.getScene().getWindow());
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
-        reload();
+        } catch (IOException e) {
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Password.", Alert.AlertType.ERROR);
+        }
+        reload(); //Reload the profile to reflect any changes
     }
 
-    // Updates the Instance and refreshes the values displayed in the textFields
+    /**
+     * Reloads the profile data by retrieving the current user's information
+     * and updating the displayed values in the username and password fields.
+     */
     private void reload() {
-        // Update the Instance to reflect new user credentials
         int currentUserID = UserManager.getInstance().getCurrentUser().getId();
+
+        // Iterate through all users and find the one matching the current user's ID
         for ( User user : UserDAO.getInstance().getAll() ) {
             if ( user.getId() == currentUserID ) {
-                UserManager.getInstance().setCurrentUser(user);
+                // Update the textFields
+                setUsernameTextField(user.getUsername());
+                setPasswordTextField(user.getPassword());
+                break; //stop search once user is found
             }
         }
-        // Update the textFields
-        setUsernameTextField(UserManager.getInstance().getCurrentUser().getUsername());
-        setPasswordTextField(UserManager.getInstance().getCurrentUser().getPassword());
     }
 }

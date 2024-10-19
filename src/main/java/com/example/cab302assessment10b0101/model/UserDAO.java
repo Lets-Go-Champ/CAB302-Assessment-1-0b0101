@@ -1,5 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            AlertManager.getInstance().showAlert("Error: ", "Failed to create User Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -70,7 +73,7 @@ public class UserDAO {
             insertUser.setString(2, user.getPassword());
             insertUser.execute();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            AlertManager.getInstance().showAlert("Error: ", "Failed to insert User into the Database.", Alert.AlertType.ERROR);
         }
     }
 
@@ -78,34 +81,38 @@ public class UserDAO {
      * Updates the username record in the Users table.
      *
      * @param newUsername The new username of the user to be updated
-     * @param originalUsername The original username of the user
+     * @param userID The ID of the user
      */
-    public void updateUsername(String newUsername, String originalUsername) {
+    public void updateUsername(String newUsername, int userID) {
         try {
             PreparedStatement updateUsername = connection.prepareStatement(
-                    "UPDATE Users SET username=? WHERE username=?"
+                    "UPDATE Users SET username=? WHERE userId=?"
             );
             updateUsername.setString(1, newUsername);
-            updateUsername.setString(2, originalUsername);
+            updateUsername.setInt(2, userID);
             updateUsername.execute();
-        } catch (SQLException ex) { System.err.println(ex); }
+        } catch (SQLException ex) {
+            AlertManager.getInstance().showAlert("Error: ", "Failed to update username in the Database.", Alert.AlertType.ERROR);
+        }
     }
 
     /**
      * Updates the password record in the Users table.
      *
      * @param newPassword The new password of the user to be updated
-     * @param username The original username of the user
+     * @param userID The ID of the user
      */
-    public void updatePassword(String newPassword, String username) {
+    public void updatePassword(String newPassword, int userID) {
         try {
             PreparedStatement updatePassword = connection.prepareStatement(
-                    "UPDATE Users SET password=? WHERE username=?"
+                    "UPDATE Users SET password=? WHERE userId=?"
             );
             updatePassword.setString(1, newPassword);
-            updatePassword.setString(2, username);
+            updatePassword.setInt(2, userID);
             updatePassword.execute();
-        } catch (SQLException ex) { System.err.println(ex); }
+        } catch (SQLException ex) {
+            AlertManager.getInstance().showAlert("Error: ", "Failed to update password in the Database.", Alert.AlertType.ERROR);
+        }
     }
 
     /**
@@ -132,7 +139,7 @@ public class UserDAO {
                 return null; // No user found
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            AlertManager.getInstance().showAlert("Error: ", "Failed to validate User credentials.", Alert.AlertType.ERROR);
             return null;
         }
     }
@@ -157,7 +164,7 @@ public class UserDAO {
                 );
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            AlertManager.getInstance().showAlert("Error: ", "Failed to retrieve Users from the Database.", Alert.AlertType.ERROR);
         }
         return user;
     }

@@ -1,7 +1,10 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 
 /**
@@ -60,7 +63,7 @@ public class BookDAO {
                             ");"
             );
         } catch (SQLException ex) {
-            System.err.println("Error creating table: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("SQL Error: ", "Failed to create Book Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -88,7 +91,7 @@ public class BookDAO {
             insertBook.setString(11, book.getReadingStatus());
             insertBook.execute();
         } catch (SQLException ex) {
-            System.err.println("Error inserting book: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Insert Error: ", "Failed to insert the Book into the Database", Alert.AlertType.ERROR);
         }
     }
 
@@ -97,6 +100,7 @@ public class BookDAO {
      * The book's ID is used to identify which record to update.
      *
      * @param book The Book object containing updated details.
+     * @param originalTitle The Book title.
      */    public void update(Book book, String originalTitle) {
         try {
             PreparedStatement updateBook = connection.prepareStatement(
@@ -116,7 +120,7 @@ public class BookDAO {
             updateBook.setString(12, originalTitle);
             updateBook.execute();
         } catch (SQLException ex) {
-            System.err.println("Error updating book: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book Details.", Alert.AlertType.ERROR);
         }
     }
 
@@ -149,7 +153,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving books: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return books;
     }
@@ -172,7 +176,6 @@ public class BookDAO {
             // Execute the query and process the result set
             ResultSet rs = getAll.executeQuery();
 
-            int bookCount = 0;
             while (rs.next()) {
                 Book book = new Book(
                         rs.getInt("collectionId"),
@@ -189,31 +192,37 @@ public class BookDAO {
                         rs.getString("readingStatus")
                 );
                 books.add(book);
-                bookCount++;
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving books: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return books;
     }
 
+    /**
+     * Deletes a book record from the Books table based on the provided book name.
+     *
+     * @param bookName The title of the book to be deleted.
+     * @throws SQLException If an SQL error occurs during the deletion process.
+     */
     public void deleteBook(String bookName) throws SQLException {
         String sql = "DELETE FROM books WHERE title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, bookName); // Set the ISBN to delete
-            int rowsAffected = pstmt.executeUpdate(); // Execute the update query
+            pstmt.executeUpdate(); // Execute the update query
 
-            if (rowsAffected > 0) {
-                System.out.println("Book with book name " + bookName + " deleted successfully.");
-            } else {
-                System.out.println("No book found with book name " + bookName + ".");
-            }
         } catch (SQLException e) {
-            System.err.println("Error deleting book with book name " + bookName + ": " + e.getMessage());
+            AlertManager.getInstance().showAlert("Deletion Error: ", "Failed to delete the Book from the Database.", Alert.AlertType.ERROR);
             throw e; // Optionally rethrow the exception
         }
     }
 
+    /**
+     * Retrieves a book record by its unique ID.
+     *
+     * @param bookId The ID of the book to be retrieved.
+     * @return The Book object associated with the given ID, or null if not found.
+     */
     public Book getBookById(int bookId) {
         String query = "SELECT * FROM Books WHERE bookId = ?";
         try (PreparedStatement getBook = connection.prepareStatement(query)) {
@@ -240,11 +249,17 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving book: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return null; // Return null if no book is found with the given ID
     }
 
+    /**
+     * Retrieves a book record from the Books table based on the provided book name.
+     *
+     * @param bookName The title of the book to be retrieved.
+     * @return The Book object containing details of the found book, or null if no book is found.
+     */
     public Book getBookByName(String bookName) {
         String query = "SELECT * FROM Books WHERE title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -267,7 +282,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving book by name: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return null; // Return null if no book is found
     }

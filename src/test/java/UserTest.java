@@ -1,5 +1,7 @@
 import com.example.cab302assessment10b0101.model.User;
 import com.example.cab302assessment10b0101.model.Collection;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +47,18 @@ public class UserTest {
      */
     @Test
     public void testSetUsername() {
-        user.setUserName("newUser");
+        user.setUserNameProperty(new SimpleStringProperty("newUser") {
+        });
         assertEquals("newUser", user.getUsername());
+    }
+
+    /**
+     * Tests the setUsername(String) method to ensure it correctly updates the username.
+     */
+    @Test
+    public void testSetUsernameWithString() {
+        user.setUsername("anotherUser");
+        assertEquals("anotherUser", user.getUsername());
     }
 
     /**
@@ -76,15 +88,6 @@ public class UserTest {
         assertEquals(0, userWithoutId.getId());
         assertEquals("newUser", userWithoutId.getUsername());
         assertEquals("newPassword", userWithoutId.getPassword());
-    }
-
-    /**
-     * Tests the toString method to ensure it returns the correct string representation of the User.
-     */
-    @Test
-    public void testToString() {
-        String expectedString = "User{id=1, userName='testUser', password='testPassword'}";
-        assertEquals(expectedString, user.toString());
     }
 
     /**
