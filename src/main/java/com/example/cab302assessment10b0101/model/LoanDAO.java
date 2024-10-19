@@ -134,9 +134,16 @@ public class LoanDAO {
     public void deleteLoan(Loan loan) throws SQLException{
         String sql = "DELETE FROM Loans WHERE userId = ? AND bookId = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            // Set user ID and book ID in the prepared statement
+            // Set user ID and book ID in the prepared statement1
             pstmt.setInt(1, loan.getUserId());
+            System.out.println("sql statement user ID = " + loan.getUserId());
             pstmt.setInt(2, loan.getBook().getId());
+            System.out.println("sql statement book ID = " + loan.getBook().getId());
+            System.out.println("The book is = " + loan.getBook().getId() + loan.getBook().getTitle() + loan.getBook().getAuthor());
+
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Rows affected by delete: " + rowsAffected);
+
 
             // Execute the delete statement
             pstmt.executeUpdate();

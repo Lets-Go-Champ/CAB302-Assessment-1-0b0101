@@ -112,6 +112,7 @@ public class Loan {
      * @return The loaned book.
      */
     public Book getBook() {
+        System.out.println("getBook() called. Book = " + book.get() + "which has an ID of: (calling book.getId() = )" + book.get().getId());
         return book.get();
     }
 

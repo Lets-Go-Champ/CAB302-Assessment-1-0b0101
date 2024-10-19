@@ -178,8 +178,8 @@ public class BookDAO {
 
             while (rs.next()) {
                 Book book = new Book(
-                        rs.getInt("collectionId"),
                         rs.getInt("bookId"),
+                        rs.getInt("collectionId"),
                         rs.getString("title"),
                         rs.getString("isbn"),
                         rs.getString("author"),
