@@ -84,9 +84,8 @@ public class BookDetailsController {
      * and a success alert is shown to notify the user that the book was deleted.
      * </p>
      *
-     * @param actionEvent The ActionEvent triggered by the delete button click.
      */
-    public void handleDeleteButtonAction(javafx.event.ActionEvent actionEvent) {
+    public void handleDeleteButtonAction() {
         // Exit the method if there is no book to delete
         if (currentBook == null) {
             AlertManager.getInstance().showAlert("Error", "No book is selected for deletion", Alert.AlertType.ERROR);

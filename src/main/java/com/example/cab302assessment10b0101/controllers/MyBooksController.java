@@ -72,7 +72,7 @@ public class MyBooksController implements Initializable {
         filterComboBox.getItems().addAll("Title", "Author", "Publication Date");
 
         // Set the default value with "Sort by"
-        filterComboBox.setButtonCell(createCustomButtonCell("Sort by"));
+        filterComboBox.setButtonCell(createCustomButtonCell());
         filterComboBox.setPromptText("Sort by");
 
         // Update the ComboBox items to display text
@@ -114,16 +114,15 @@ public class MyBooksController implements Initializable {
     /**
      * Creates a ListCell with the specified text for the ComboBox.
      *
-     * @param text The text to display when no item is selected.
      * @return A custom ListCell with the specified text.
      */
-    private ListCell<String> createCustomButtonCell(String text) {
+    private ListCell<String> createCustomButtonCell() {
         return new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(text); // Show "Sort by" by default
+                    setText("Sort by"); // Show "Sort by" by default
                 } else {
                     setText(item); // Show the selected item text
                 }
