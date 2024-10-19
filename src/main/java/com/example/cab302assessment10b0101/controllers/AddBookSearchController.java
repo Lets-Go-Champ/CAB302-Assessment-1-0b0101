@@ -296,6 +296,9 @@ public class AddBookSearchController {
         // Retrieve the preloaded image bytes from the Scraper (instead of downloading it again)
         byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Use cached image bytes
 
+        // Retrieve notes from the TextArea
+        String notes = notesTextArea.getText().trim();  // Get the entered notes
+
         // Create the book object and insert it into the database
         Book newBook = new Book(
                 collectionId,
@@ -306,7 +309,7 @@ public class AddBookSearchController {
                 publicationDate,
                 publisher,
                 Integer.parseInt(pageCountStr),
-                "", // Notes
+                notes,
                 imageBytes,
                 "" // Reading status
         );
