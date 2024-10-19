@@ -241,6 +241,8 @@ public class AddBookManuallyController extends BookForm implements Initializable
             BookDAO.getInstance().insert(newBook);
             clearFields();
         }
+
+
     }
 
     /**
