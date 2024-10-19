@@ -160,7 +160,7 @@ public class EditBookDetailsController extends BookForm implements Initializable
         // If parsedDate is null, it means none of the formatters worked
         if (parsedDate == null) {
             // Show alert only once if no formatter works
-            AlertManager.getInstance().showAlert("Error: Date Format", "Date tied to book formatted incorrectly; Date has been reset.\n\nPlease select a new date.", Alert.AlertType.INFORMATION);
+            AlertManager.getInstance().showAlert("Error: Date Format", "Date tied to book formatted incorrectly; Date has been reset.\n\nPlease select a new date.", Alert.AlertType.ERROR);
         } else {
             // If the date was parsed successfully, update the DatePicker
             setDateDatePicker(parsedDate);

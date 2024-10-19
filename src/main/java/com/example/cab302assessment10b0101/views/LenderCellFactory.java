@@ -1,9 +1,11 @@
 package com.example.cab302assessment10b0101.views;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.controllers.LendingCellController;
 import com.example.cab302assessment10b0101.model.Loan;
 import com.example.cab302assessment10b0101.model.LoanService;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 
 /**
@@ -56,7 +58,7 @@ public class LenderCellFactory extends ListCell<Loan> {
                 setGraphic(loader.load());
             } catch (Exception e) {
                 // Handle any exceptions during the loading process
-                System.out.println("Error updating item in LenderCellFactory: " + e.getMessage());
+                AlertManager.getInstance().showAlert("Error: ", "Failed to update item(s) in LenderCellFactory.", Alert.AlertType.ERROR);
                 setText("Error loading cell");
             }
         }

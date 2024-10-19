@@ -64,18 +64,15 @@ public class AddLenderController implements Initializable {
     @FXML
     private void handleAddLender() {
         // Check if all required fields are valid
-        if (validLoanFields()) {
+        if ( validLoanFields() ) {
             // Concatenate first and last names to create the lender's full name
             String borrowerName = firstNameField.getText() + " " + lastNameField.getText();
-            System.out.println("This is the borrowerName: " + borrowerName);
 
             // Get the lender's email contact
             String borrowerContact = emailField.getText();
-            System.out.println("This is the borrowerContact: " + borrowerContact);
 
             // Retrieve the book object by name from the database
             Book book = BookDAO.getInstance().getBookByName(bookNameField.getText());
-            System.out.println("This is the book: " + book);
 
             // Get the current date to record when the loan was made
             LocalDate currentDate = LocalDate.now();
@@ -90,7 +87,7 @@ public class AddLenderController implements Initializable {
             clearFields();
 
             // Refresh the loan view if the main controller is set
-            if (mainController != null) {
+            if ( mainController != null ) {
                 mainController.refreshLoans();
             }
         }
@@ -122,37 +119,37 @@ public class AddLenderController implements Initializable {
         String bookName = bookNameField.getText();
 
         // Validate that the first name is not empty
-        if (firstName == null || firstName.isEmpty()) {
+        if ( firstName == null || firstName.isEmpty() ) {
             AlertManager.getInstance().showAlert("Error: First Name Field", "First name cannot be empty", Alert.AlertType.ERROR);
             return false;
         }
 
         // Validate that the last name is not empty
-        if (lastName == null || lastName.isEmpty()) {
+        if ( lastName == null || lastName.isEmpty() ) {
             AlertManager.getInstance().showAlert("Error: Last Name Field", "Last name cannot be empty", Alert.AlertType.ERROR);
             return false;
         }
 
         // Validate that the email field is not empty and contains a valid email format
-        if (contactField == null || contactField.isEmpty()) {
+        if ( contactField == null || contactField.isEmpty() ) {
             AlertManager.getInstance().showAlert("Error: Contact Field", "Contact cannot be empty", Alert.AlertType.ERROR);
             return false;
-        } else if (!isValidEmail(contactField)) {
+        } else if ( !isValidEmail(contactField) ) {
             AlertManager.getInstance().showAlert("Error: Contact Field", "Invalid contact format. Use username@example.com", Alert.AlertType.ERROR);
             return false;
         }
 
         // Validate that the address is not empty
-        if (address == null || address.isEmpty()) {
+        if ( address == null || address.isEmpty() ) {
             AlertManager.getInstance().showAlert("Error: Address Field", "Address cannot be empty", Alert.AlertType.ERROR);
             return false;
         }
 
         // Validate that the book name is not empty and exists in the collection
-        if (bookName.isEmpty()) {
+        if ( bookName.isEmpty() ) {
             AlertManager.getInstance().showAlert("Error: Book Field", "Book cannot be empty", Alert.AlertType.ERROR);
             return false;
-        } else if (BookDAO.getInstance().getBookByName(bookName) == null) {
+        } else if ( BookDAO.getInstance().getBookByName(bookName) == null ) {
             AlertManager.getInstance().showAlert("Error: Book Field", "That book does not exist in your collection", Alert.AlertType.ERROR);
             return false;
         }

@@ -1,7 +1,10 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 
 /**
@@ -60,7 +63,7 @@ public class BookDAO {
                             ");"
             );
         } catch (SQLException ex) {
-            System.err.println("Error creating table: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("SQL Error: ", "Failed to create Book Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -88,7 +91,7 @@ public class BookDAO {
             insertBook.setString(11, book.getReadingStatus());
             insertBook.execute();
         } catch (SQLException ex) {
-            System.err.println("Error inserting book: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Insert Error: ", "Failed to insert the Book into the Database", Alert.AlertType.ERROR);
         }
     }
 
@@ -116,7 +119,7 @@ public class BookDAO {
             updateBook.setString(12, originalTitle);
             updateBook.execute();
         } catch (SQLException ex) {
-            System.err.println("Error updating book: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update the Book Details.", Alert.AlertType.ERROR);
         }
     }
 
@@ -149,7 +152,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving books: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return books;
     }
@@ -192,7 +195,7 @@ public class BookDAO {
                 bookCount++;
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving books: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return books;
     }
@@ -201,15 +204,10 @@ public class BookDAO {
         String sql = "DELETE FROM books WHERE title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, bookName); // Set the ISBN to delete
-            int rowsAffected = pstmt.executeUpdate(); // Execute the update query
+            pstmt.executeUpdate(); // Execute the update query
 
-            if (rowsAffected > 0) {
-                System.out.println("Book with book name " + bookName + " deleted successfully.");
-            } else {
-                System.out.println("No book found with book name " + bookName + ".");
-            }
         } catch (SQLException e) {
-            System.err.println("Error deleting book with book name " + bookName + ": " + e.getMessage());
+            AlertManager.getInstance().showAlert("Deletion Error: ", "Failed to delete the Book from the Database.", Alert.AlertType.ERROR);
             throw e; // Optionally rethrow the exception
         }
     }
@@ -240,7 +238,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving book: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return null; // Return null if no book is found with the given ID
     }
@@ -267,7 +265,7 @@ public class BookDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving book by name: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);
         }
         return null; // Return null if no book is found
     }

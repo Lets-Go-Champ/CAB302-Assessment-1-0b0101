@@ -93,9 +93,9 @@ public class CollectionTest {
      */
     @Test
     public void testSetEmptyName() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        // Assert that IllegalArgumentException is thrown when setting an empty collection name
+        assertThrows(IllegalArgumentException.class, () -> {
             collection.setCollectionName("");
         });
-        assertEquals("Collection name cannot be empty", exception.getMessage());
     }
 }

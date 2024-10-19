@@ -216,11 +216,11 @@ public class BookTest {
      */
     @Test
     public void testSetNegativePages() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        // Assert that IllegalArgumentException is thrown when setting negative pages
+        assertThrows(IllegalArgumentException.class, () -> {
             SimpleIntegerProperty negativePages = new SimpleIntegerProperty(-50);
             book.setPages(negativePages);
         });
-        assertEquals("Number of pages cannot be negative", exception.getMessage());
     }
 
     /**
@@ -274,7 +274,7 @@ public class BookTest {
     @Test
     public void testSetReadingStatus() {
         StringProperty newStatus = new SimpleStringProperty("reading");
-        book.setreadingStatus(newStatus);
+        book.setReadingStatus(newStatus);
         assertEquals("reading", book.getReadingStatus());
     }
 

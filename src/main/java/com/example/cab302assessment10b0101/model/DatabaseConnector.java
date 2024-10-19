@@ -1,5 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
+import javafx.scene.control.Alert;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +26,7 @@ public class DatabaseConnector {
             instance = DriverManager.getConnection(url);
             enableForeignKeys(instance);
         } catch (SQLException sqlEx) {
-            System.err.println(sqlEx);
+            AlertManager.getInstance().showAlert("Error: ", "Failed to connect the Database.", Alert.AlertType.ERROR);
         }
     }
 
