@@ -176,7 +176,6 @@ public class BookDAO {
             // Execute the query and process the result set
             ResultSet rs = getAll.executeQuery();
 
-            int bookCount = 0;
             while (rs.next()) {
                 Book book = new Book(
                         rs.getInt("collectionId"),
@@ -193,7 +192,6 @@ public class BookDAO {
                         rs.getString("readingStatus")
                 );
                 books.add(book);
-                bookCount++;
             }
         } catch (SQLException e) {
             AlertManager.getInstance().showAlert("Retrieval Error: ", "Failed to get Book records from the Database.", Alert.AlertType.ERROR);

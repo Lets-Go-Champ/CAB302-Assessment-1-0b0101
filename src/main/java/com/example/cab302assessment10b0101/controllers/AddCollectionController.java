@@ -72,7 +72,7 @@ public class AddCollectionController implements Initializable {
         int currentUserId = UserManager.getInstance().getCurrentUser().getId();
 
         // Use getCollectionsByUser to check if the collection already exists
-        if (collectionNameExists(currentUserId, collectionName)) {
+        if (collectionNameExists(collectionName)) {
             AlertManager.getInstance().showAlert("Error", "A collection with this name already exists.", Alert.AlertType.ERROR);
             return;
         }
@@ -94,11 +94,10 @@ public class AddCollectionController implements Initializable {
     /**
      * Checks if a collection with the given name already exists for the user.
      *
-     * @param userId         The ID of the current user.
      * @param collectionName The name of the collection to check.
      * @return True if a collection with the same name exists, false otherwise.
      */
-    private boolean collectionNameExists(int userId, String collectionName) {
+    private boolean collectionNameExists(String collectionName) {
         List<Collection> collections = CollectionDAO.getInstance().getCollectionsByUser(UserManager.getInstance().getCurrentUser());
 
         // Check if any collection has the same name
