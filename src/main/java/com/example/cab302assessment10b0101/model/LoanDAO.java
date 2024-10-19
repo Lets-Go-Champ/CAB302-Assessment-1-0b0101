@@ -1,7 +1,10 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -56,7 +59,7 @@ public class LoanDAO {
         try (Statement createTable = connection.createStatement()) {
             createTable.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Error creating Loans table: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to create Loan Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -85,7 +88,7 @@ public class LoanDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println("Error inserting loan: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to insert Loan into the Database.", Alert.AlertType.ERROR);
         }
     }
 
@@ -117,7 +120,7 @@ public class LoanDAO {
                 loans.add(loan);
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving all loans: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to retrieve Loans from the Database.", Alert.AlertType.ERROR);
         }
         return loans;
     }
@@ -126,7 +129,6 @@ public class LoanDAO {
      * Deletes a loan record from the Loans table.
      *
      * @param loan The Loan object to be deleted.
-     * @throws SQLException If an error occurs during the deletion process.
      */
     public void deleteLoan(Loan loan) throws SQLException{
         String sql = "DELETE FROM Loans WHERE userId = ? AND bookId = ?";
@@ -138,7 +140,7 @@ public class LoanDAO {
             // Execute the delete statement
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error deleting Loan: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to delete Loan from the Database.", Alert.AlertType.ERROR);
         }
     }
 }

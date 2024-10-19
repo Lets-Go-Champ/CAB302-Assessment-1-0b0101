@@ -1,5 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-            System.out.println("Error creating table in User Database: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to create User Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -70,7 +73,7 @@ public class UserDAO {
             insertUser.setString(2, user.getPassword());
             insertUser.execute();
         } catch (SQLException ex) {
-            System.out.println("Error inserting into User Database: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to insert User into the Database.", Alert.AlertType.ERROR);
         }
     }
 
@@ -89,7 +92,7 @@ public class UserDAO {
             updateUsername.setInt(2, userID);
             updateUsername.execute();
         } catch (SQLException ex) {
-            System.out.println("Error updating username in User Database: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to update username in the Database.", Alert.AlertType.ERROR);
         }
     }
 
@@ -108,7 +111,7 @@ public class UserDAO {
             updatePassword.setInt(2, userID);
             updatePassword.execute();
         } catch (SQLException ex) {
-            System.out.println("Error updating password in User Database: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to update password in the Database.", Alert.AlertType.ERROR);
         }
     }
 
@@ -136,7 +139,7 @@ public class UserDAO {
                 return null; // No user found
             }
         } catch (SQLException e) {
-            System.out.println("Error validating credentials: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to validate User credentials.", Alert.AlertType.ERROR);
             return null;
         }
     }
@@ -161,7 +164,7 @@ public class UserDAO {
                 );
             }
         } catch (SQLException ex) {
-            System.out.println("Error getting all users in the User Database: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to retrieve Users from the Database.", Alert.AlertType.ERROR);
         }
         return user;
     }

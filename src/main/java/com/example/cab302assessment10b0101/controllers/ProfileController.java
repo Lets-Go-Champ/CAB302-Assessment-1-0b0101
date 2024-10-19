@@ -1,9 +1,11 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -84,7 +86,7 @@ public class ProfileController {
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
         } catch (IOException e) {
-            System.out.println("Error updating username in ProfileController: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Username.", Alert.AlertType.ERROR);
         }
         reload(); //Reload the profile to reflect any changes
     }
@@ -107,7 +109,7 @@ public class ProfileController {
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
         } catch (IOException e) {
-            System.out.println("Error updating password in ProfileController: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Update Error: ", "Failed to update Password.", Alert.AlertType.ERROR);
         }
         reload(); //Reload the profile to reflect any changes
     }

@@ -1,5 +1,8 @@
 package com.example.cab302assessment10b0101.model;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class CollectionDAO {
                             ");"
             );
         } catch (SQLException ex) {
-            System.out.println("Error creating collection table: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to create a Collection Table.", Alert.AlertType.ERROR);
         }
     }
 
@@ -72,7 +75,7 @@ public class CollectionDAO {
             insertCollection.setString(3, collection.getCollectionDescription());
             insertCollection.execute();
         } catch (SQLException ex) {
-            System.out.println("Error inserting into collection table: " + ex.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to insert a Collection into the Database.", Alert.AlertType.ERROR);
         }
     }
 
@@ -96,7 +99,7 @@ public class CollectionDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving all collections: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to retrieve Collections from the Database.", Alert.AlertType.ERROR);
         }
         return collections;
     }
@@ -125,7 +128,7 @@ public class CollectionDAO {
                 collectionId = rs.getInt("collectionId"); // Get the collectionId from the result set
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collections by User and Collection Name: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to retrieve Collections from the Database.", Alert.AlertType.ERROR);
         }
         return collectionId;
     }
@@ -153,7 +156,7 @@ public class CollectionDAO {
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Error retrieving collections by User: " + e.getMessage());
+            AlertManager.getInstance().showAlert("Error: ", "Failed to retrieve Collections from the Database.", Alert.AlertType.ERROR);
         }
         return collections;
     }

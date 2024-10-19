@@ -1,8 +1,9 @@
 package com.example.cab302assessment10b0101.controllers;
 
+import com.example.cab302assessment10b0101.Utility.AlertManager;
 import com.example.cab302assessment10b0101.model.*;
 import com.example.cab302assessment10b0101.views.MenuOptions;
-
+import javafx.scene.control.Alert;
 import java.sql.SQLException;
 
 /**
@@ -31,13 +32,13 @@ public class DeleteBookController {
      * @param book The Book object to be deleted. It must not be null.
      */
     public void deleteBook(Book book) {
-        System.out.println("Attempting to delete book with id: " +book.getId());
+
         try {
             BookDAO.getInstance().deleteBook(book.getTitle());
-            System.out.println("Book deleted successfully.");
-            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS); //Return to My Books page after book deletion
-        } catch (SQLException e) {
-            System.out.println("Failed to delete the book: " + e.getMessage());
+
+            ViewManager.getInstance().getViewFactory().getUserSelectedMenuItem().set(MenuOptions.MYBOOKS);
+        } catch ( SQLException e ) {
+            AlertManager.getInstance().showAlert("Error: Deletion Failed", "Failed to delete the selected book.", Alert.AlertType.ERROR);
         }
     }
 }
