@@ -150,7 +150,7 @@ public class Book {
      * @return The book ID as an int.
      */
     public int getId() {
-        return bookId;
+        return BookDAO.getInstance().getBookByName(getTitle()).bookId;
     }
 
     /**
