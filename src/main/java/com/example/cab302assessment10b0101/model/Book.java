@@ -105,7 +105,6 @@ public class Book {
         this.readingStatus = new SimpleStringProperty(readingStatus);
     }
 
-
     /**
      * Constructs a new Book object without specifying a book ID, typically used for new entries.
      *
@@ -136,7 +135,6 @@ public class Book {
     }
 
     // Getters for program functions
-
     /**
      * Gets the title of the book.
      * @return The title as a String.
