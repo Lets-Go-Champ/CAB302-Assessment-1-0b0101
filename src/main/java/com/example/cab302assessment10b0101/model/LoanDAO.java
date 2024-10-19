@@ -129,6 +129,7 @@ public class LoanDAO {
      * Deletes a loan record from the Loans table.
      *
      * @param loan The Loan object to be deleted.
+     * @throws SQLException If a database access error occurs, or the SQL statement fails to execute.
      */
     public void deleteLoan(Loan loan) throws SQLException{
         String sql = "DELETE FROM Loans WHERE userId = ? AND bookId = ?";
