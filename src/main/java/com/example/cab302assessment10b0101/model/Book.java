@@ -145,7 +145,7 @@ public class Book {
 
     /**
      * Gets the unique identifier of the book.
-     * @return The book ID as an int.
+     * @return The book ID as an int from the database.
      */
     public int getId() {
         return BookDAO.getInstance().getBookByName(getTitle()).bookId;

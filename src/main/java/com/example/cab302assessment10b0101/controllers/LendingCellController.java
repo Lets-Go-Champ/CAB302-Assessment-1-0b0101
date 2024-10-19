@@ -102,6 +102,5 @@ public class LendingCellController implements Initializable {
      */
     private void handleRescindLoan(Loan loan) throws SQLException {
         loanService.removeLoan(loan);
-        System.out.println("rescindLoanBtn pressed. Calling handleRecindLoan...");
     }
 }

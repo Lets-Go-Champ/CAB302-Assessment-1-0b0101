@@ -44,7 +44,6 @@ public class LoanViewController implements Initializable {
     private void loadLoans() {
         loanListView.setItems(loanService.getLoans());
         setupBindings();
-        System.out.println("Loading loans method called...");
     }
 
     /**
