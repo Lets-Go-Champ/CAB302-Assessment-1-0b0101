@@ -152,6 +152,15 @@ public class Book {
     }
 
     /**
+     * Gets the unique identifier of the book.
+     * @return The book ID as an int from the database.
+     */
+    public int getBookId() {
+        return bookId;
+    }
+
+
+    /**
      * Gets the ISBN of the book.
      * @return The ISBN as an int.
      */
