@@ -87,7 +87,8 @@ public class LendingCellController implements Initializable {
             try {
                 handleRescindLoan(loan);
             } catch ( SQLException e ) {
-                AlertManager.getInstance().showAlert("Initialization Error: ", "Error initializing the Lending view controller.", Alert.AlertType.ERROR);
+                System.out.println("ERROR WITH LOAN" + e.getMessage());
+                //AlertManager.getInstance().showAlert("Initialization Error: ", "Error initializing the Lending view controller.", Alert.AlertType.ERROR);
             }
         });
     }

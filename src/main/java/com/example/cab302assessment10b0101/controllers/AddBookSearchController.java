@@ -170,7 +170,7 @@ public class AddBookSearchController {
                     searchButton.setDisable(false);
                 });
             } catch (IOException e) {
-                Platform.runLater(() -> AlertManager.getInstance().showAlert("Error", "Failed to retrieve search results.", Alert.AlertType.ERROR));
+                Platform.runLater(() -> AlertManager.getInstance().showAlert("Error", "Failed to retrieve search results. Please try again.", Alert.AlertType.ERROR));
                 progressIndicator.setVisible(false);  // Stop progress indicator in case of error
             }
             searchButton.setDisable(false);
@@ -281,7 +281,7 @@ public class AddBookSearchController {
         boolean isDuplicate = booksInCollection.stream().anyMatch(book -> book.getISBN().equals(isbnStr));
 
         if (isDuplicate) {
-            AlertManager.getInstance().showAlert("Error", "A collection with this name already exists.", Alert.AlertType.ERROR);
+            AlertManager.getInstance().showAlert("Error", "A Book with this name already exists in this collection.", Alert.AlertType.ERROR);
             return;  // Stop the process if duplicate is found
         }
 
@@ -291,10 +291,13 @@ public class AddBookSearchController {
         String description = bookDetails.get("Description");
         String publicationDate = bookDetails.get("Publication Date");
         String publisher = bookDetails.get("Publisher");
-        String pageCountStr = bookDetails.get("Page Count");
+        String pageCountStr = bookDetails.get("Page Count").trim().replace(",", "");         // Trim the input to remove whitespace and remove commas from page number if any
 
         // Retrieve the preloaded image bytes from the Scraper (instead of downloading it again)
         byte[] imageBytes = scraper.imageBytesList.get(currentIndex);  // Use cached image bytes
+
+        // Retrieve notes from the TextArea
+        String notes = notesTextArea.getText().trim();  // Get the entered notes
 
         // Create the book object and insert it into the database
         Book newBook = new Book(
@@ -306,7 +309,7 @@ public class AddBookSearchController {
                 publicationDate,
                 publisher,
                 Integer.parseInt(pageCountStr),
-                "", // Notes
+                notes,
                 imageBytes,
                 "" // Reading status
         );

@@ -105,7 +105,6 @@ public class Book {
         this.readingStatus = new SimpleStringProperty(readingStatus);
     }
 
-
     /**
      * Constructs a new Book object without specifying a book ID, typically used for new entries.
      *
@@ -136,7 +135,6 @@ public class Book {
     }
 
     // Getters for program functions
-
     /**
      * Gets the title of the book.
      * @return The title as a String.
@@ -147,11 +145,20 @@ public class Book {
 
     /**
      * Gets the unique identifier of the book.
-     * @return The book ID as an int.
+     * @return The book ID as an int from the database.
      */
     public int getId() {
+        return BookDAO.getInstance().getBookByName(getTitle()).bookId;
+    }
+
+    /**
+     * Gets the unique identifier of the book.
+     * @return The book ID as an int from the database.
+     */
+    public int getBookId() {
         return bookId;
     }
+
 
     /**
      * Gets the ISBN of the book.

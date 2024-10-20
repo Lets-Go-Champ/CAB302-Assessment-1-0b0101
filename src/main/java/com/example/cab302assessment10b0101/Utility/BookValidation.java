@@ -37,7 +37,7 @@ public class BookValidation {
     final String noTitleErrorMessage = "Please enter a Title.";
     final String titleExistsMessage = "A book with the given title in your collections already exists. Please enter a unique title.";
     final String noISBNMessage = "Please enter an ISBN.";
-    final String invalidISBNMessage = "The ISBN must be 10 digits long and only contain digits 0-9.";
+    final String invalidISBNMessage = "The ISBN must be either 10 or 13 digits long and only contain digits 0-9.";
     final String noAuthorErrorMessage = "Please enter an Author.";
     final String noDescriptionMessage = "Please enter a description";
     final String noPublisherMessage = "Please enter a publisher.";
