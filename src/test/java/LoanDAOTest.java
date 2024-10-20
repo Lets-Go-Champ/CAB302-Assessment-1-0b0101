@@ -75,7 +75,7 @@ public class LoanDAOTest {
         Loan loan = new Loan(1, "John Doe", "1234567890", book1, LocalDate.now());
         loanDAO.insertLoan(loan);
 
-        int loanId = loanDAO.getLoanIdByUserAndBook(1, book1.getId());
+        int loanId = loanDAO.getLoanIdByUserAndBook(1, book1.getBookId());
         assertEquals(loan.getId(), loanId);
     }
 
@@ -88,7 +88,7 @@ public class LoanDAOTest {
         Loan loan = new Loan(1, "John Doe", "1234567890", book1, LocalDate.now());
         loanDAO.insertLoan(loan);
 
-        int loanId = loanDAO.getLoanIdByUserAndBook(2, book2.getId());
+        int loanId = loanDAO.getLoanIdByUserAndBook(2, book2.getBookId());
         assertEquals(-1, loanId);
     }
 
