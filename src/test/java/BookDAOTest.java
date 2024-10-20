@@ -206,9 +206,9 @@ public class BookDAOTest {
         mockBookDAO.insert(book);
 
         // Retrieve the book by its ID
-        Book retrievedBook = mockBookDAO.getBookById(book.getId());
+        Book retrievedBook = mockBookDAO.getBookById(book.getBookId());
         assertNotNull(retrievedBook);
-        assertEquals(book.getId(), retrievedBook.getId());
+        assertEquals(book.getBookId(), retrievedBook.getBookId());
         assertEquals("Test Title", retrievedBook.getTitle());
     }
 

@@ -1,5 +1,5 @@
 package com.example.cab302assessment10b0101.model;
-
+import com.example.cab302assessment10b0101.model.MockLoanDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.stream.Collectors;
@@ -49,7 +49,7 @@ public class MockLoanDAO implements LoanDAOInterface {
     public void deleteLoan(Loan loan) {
         loans.removeIf(existingLoan ->
                 existingLoan.getUserId() == loan.getUserId() &&
-                        existingLoan.getBook().getId() == loan.getBook().getId());
+                        existingLoan.getBook().getBookId() == loan.getBook().getBookId());
     }
 
     /**
@@ -62,9 +62,10 @@ public class MockLoanDAO implements LoanDAOInterface {
     @Override
     public int getLoanIdByUserAndBook(int userId, int bookId) {
         return loans.stream()
-                .filter(loan -> loan.getUserId() == userId && loan.getBook().getId() == bookId)
+                .filter(loan -> loan.getUserId() == userId && loan.getBook().getBookId() == bookId)  // Use getBookId() here
                 .map(Loan::getId)
                 .findFirst()
                 .orElse(-1);
     }
+
 }

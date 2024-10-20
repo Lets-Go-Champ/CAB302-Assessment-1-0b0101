@@ -68,7 +68,7 @@ public class MockBookDAO implements BookDAOInterface {
         // Find the book by its id and update its details
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
-            if (book.getId() == updatedBook.getId()) {
+            if (book.getBookId() == updatedBook.getBookId()) {
                 books.set(i, updatedBook);  // Replace with the updated book
                 break;
             }
@@ -85,11 +85,27 @@ public class MockBookDAO implements BookDAOInterface {
     @Override
     public Book getBookById(int bookId) {
         for (Book book : books) {
-            if (book.getId() == bookId) {
+            if (book.getBookId() == bookId) {
                 return book; // Return the book if found
             }
         }
         return null; // Return null if no book is found with the given ID
+    }
+
+    /**
+     * Retrieves a book by its ID from the mock data store.
+     * If the book is found, it is returned; otherwise, null is returned.
+     *
+     * @param title The title of the book to retrieve.
+     * @return The Book ID, or -1 if not found.
+     */
+    public int getBookIdByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle() == title) {
+                return book.getBookId(); // Return the book if found
+            }
+        }
+        return -1; // Return null if no book is found with the given ID
     }
 
     /**

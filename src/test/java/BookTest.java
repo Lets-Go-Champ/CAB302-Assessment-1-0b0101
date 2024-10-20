@@ -52,7 +52,7 @@ public class BookTest {
      */
     @Test
     public void testGetId() {
-        assertEquals(1, book.getId());
+        assertEquals(1, book.getBookId());
     }
 
     /**
@@ -61,7 +61,7 @@ public class BookTest {
     @Test
     public void testSetId() {
         book.setId(2);
-        assertEquals(2, book.getId());
+        assertEquals(2, book.getBookId());
     }
 
     /**
